@@ -1,17 +1,20 @@
 # Framework de Documentação para Claude Code
 
-Guia para aplicar o sistema de specs, skills e verificação em qualquer projeto.
+Sistema de specs, skills, verificação e documentação para projetos com Claude Code.
 
 ---
 
 ## Visão geral
 
-Este framework organiza o trabalho com Claude Code em 6 camadas:
+Este framework organiza o trabalho com Claude Code em 7 camadas:
 
 ```
 ┌─────────────────────────────────────────────┐
 │  CLAUDE.md                                  │  ← Regras, convenções, contexto
 │  (cérebro do projeto)                       │
+├─────────────────────────────────────────────┤
+│  PROJECT_CONTEXT.md                         │  ← Briefing para qualquer LLM
+│  (contexto portátil)                        │
 ├─────────────────────────────────────────────┤
 │  SPECS_INDEX.md + .claude/specs/            │  ← O que fazer e por quê
 │  (specs + backlog)                          │
@@ -20,13 +23,13 @@ Este framework organiza o trabalho com Claude Code em 6 camadas:
 │  (checklists por domínio)                   │
 ├─────────────────────────────────────────────┤
 │  scripts/verify.sh                          │  ← Validação automatizada
-│  (checks evolutivos)                        │
+│  (checks evolutivos + OWASP)               │
 ├─────────────────────────────────────────────┤
 │  Slash commands (SKILL.md)                  │  ← Automação de processos
 │  (/backlog-update, /spec)                   │
 ├─────────────────────────────────────────────┤
-│  docs/GIT_CONVENTIONS.md                    │  ← Padrões de commit e PR
-│  (conventional commits)                     │
+│  docs/                                      │  ← Documentação expandida
+│  (git, guias, arquitetura, segurança)       │
 └─────────────────────────────────────────────┘
 ```
 
@@ -37,6 +40,8 @@ Este framework organiza o trabalho com Claude Code em 6 camadas:
 3. **verify.sh evolui com o projeto** — cada regra nova vira um check automatizado
 4. **Backlog como fonte de verdade** — tudo que precisa ser feito está num lugar só
 5. **Definition of Done** — nenhuma entrega passa sem verificação contra a spec
+6. **PROJECT_CONTEXT.md** — qualquer LLM (não só Claude Code) recebe contexto completo
+7. **docs/** — documentação expandida que o CLAUDE.md referencia mas não repete
 
 ---
 
@@ -45,12 +50,14 @@ Este framework organiza o trabalho com Claude Code em 6 camadas:
 ```
 {projeto}/
 ├── CLAUDE.md                    # Regras e contexto do projeto
+├── PROJECT_CONTEXT.md           # Briefing para qualquer LLM
 ├── SPECS_INDEX.md               # Índice de todas as specs
 ├── scripts/
 │   └── verify.sh                # Verificação pré-commit
 ├── docs/
-│   ├── GIT_CONVENTIONS.md       # Padrão de commits
-│   └── {outros docs}
+│   ├── README.md                # Índice da documentação
+│   ├── GIT_CONVENTIONS.md       # Commits, branches, PRs
+│   └── {outros docs do domínio}
 └── .claude/
     ├── skills/                  # Skills (checklists por domínio)
     │   ├── testing/README.md
@@ -59,6 +66,10 @@ Este framework organiza o trabalho com Claude Code em 6 camadas:
     │   ├── docs-sync/README.md
     │   ├── logging/README.md
     │   ├── code-quality/README.md
+    │   ├── ux-review/README.md
+    │   ├── dba-review/README.md
+    │   ├── mock-mode/README.md
+    │   ├── syntax-check/README.md
     │   ├── backlog-update/SKILL.md      # Slash command
     │   └── spec-creator/SKILL.md        # Slash command
     └── specs/                   # Specs de features
@@ -97,7 +108,30 @@ O CLAUDE.md é a **primeira coisa que o Claude lê** em cada sessão. É o "cér
 
 **Dica:** comece com as obrigatórias e vá adicionando conforme o projeto cresce. CLAUDE.md evolui — não precisa ficar perfeito no dia 1.
 
-### 2. Specs e Backlog
+### 2. PROJECT_CONTEXT.md (contexto portátil)
+
+Briefing completo e autossuficiente para usar com **qualquer LLM**.
+
+**Template:** `PROJECT_CONTEXT.md`
+
+**Diferença do CLAUDE.md:**
+- `CLAUDE.md` → regras internas do Claude Code (skills, verify.sh, specs)
+- `PROJECT_CONTEXT.md` → contexto do projeto para qualquer ferramenta de IA
+
+**Seções:**
+- O que é o projeto
+- Stack técnica
+- Estrutura de arquivos
+- Decisões arquiteturais já tomadas
+- Regras de negócio
+- Segurança — pontos críticos
+- Estado atual (implementado + dívida técnica)
+- Convenções de código
+- O que o projeto NÃO faz
+
+**Quando atualizar:** toda vez que uma decisão arquitetural for tomada, uma feature significativa for implementada, ou o estado do projeto mudar.
+
+### 3. Specs e Backlog
 
 **O fluxo é:**
 
@@ -134,11 +168,11 @@ Ideia → Backlog → Spec → Implementação → Testes → Docs → Verifica�
 - Não fazer (fora do escopo)
 - Verificação pós-implementação
 
-### 3. Skills (checklists)
+### 4. Skills (checklists)
 
 Skills são **checklists especializados por domínio**. Vivem em `.claude/skills/{nome}/README.md`.
 
-**Skills essenciais (recomendo começar com estas):**
+**Skills essenciais (começar com estas):**
 
 | Skill | Arquivo | Quando usar | Destaques |
 |---|---|---|---|
@@ -149,16 +183,16 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 | Logging | `logging/README.md` | Ao adicionar logs ou error handling | Níveis, prefixos [MODULE], patterns de try/catch/finally |
 | Code Quality | `code-quality/README.md` | Ao criar módulos ou refatorar | Code smells, thresholds, componentização |
 
-**Skills específicas do domínio (criar conforme necessidade):**
+**Skills de domínio (adicionar conforme necessidade):**
 
-| Domínio | Exemplo de skill |
-|---|---|
-| Regras de domínio / compliance | `domain-rules/README.md`, `compliance/README.md` |
-| UX / Design | `ux-review/README.md` |
-| Banco de dados | `dba-review/README.md` |
-| IA / LLM | `ai-prompts/README.md` |
-| Mock mode / Dev tools | `mock-mode/README.md` |
-| Syntax check | `syntax-check/README.md` |
+| Skill | Arquivo | Quando usar | Destaques |
+|---|---|---|---|
+| UX Review | `ux-review/README.md` | Ao criar/modificar telas e fluxos | Design system, mobile first, acessibilidade WCAG, anti-patterns |
+| DBA Review | `dba-review/README.md` | Ao mexer em schema, queries, índices | Tipos, constraints, migrations, N+1, pool exhaustion |
+| Mock Mode | `mock-mode/README.md` | Ao adicionar integração externa | Cobertura mock, seed data, fixtures, smoke test |
+| Syntax Check | `syntax-check/README.md` | Antes de commitar código | Padrões suspeitos, imports quebrados, CJS/ESM |
+| {Regras de domínio} | `{domain-rules}/README.md` | {Quando mexer no domínio} | {Regras específicas do negócio} |
+| {IA / LLM} | `{ai-prompts}/README.md` | {Quando mexer em prompts} | {Prompt engineering, injection, guardrails} |
 
 **Anatomia de uma skill:**
 
@@ -186,7 +220,7 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 {Situações que precisam de atenção especial}
 ```
 
-### 4. verify.sh (verificação automatizada)
+### 5. verify.sh (verificação automatizada)
 
 O verify.sh roda **antes de cada commit** e valida automaticamente o que a atenção humana pode falhar.
 
@@ -216,7 +250,7 @@ else
 fi
 ```
 
-### 5. Slash commands (SKILL.md com frontmatter)
+### 6. Slash commands (SKILL.md com frontmatter)
 
 Slash commands são skills invocáveis pelo usuário com `/nome`.
 
@@ -233,35 +267,29 @@ Slash commands são skills invocáveis pelo usuário com `/nome`.
 - `/backlog-update` — adicionar, concluir ou editar itens no backlog
 - `/spec` — criar nova spec a partir do template
 
-**Como criar um slash command:**
+### 7. docs/ (documentação expandida)
 
-```markdown
----
-name: {nome-kebab}
-description: {Descrição curta da ação}
-user_invocable: true
----
+Documentação mais detalhada que não cabe no CLAUDE.md.
 
-# /{nome} — {Título}
+**Templates incluídos (com conteúdo pronto para adaptar):**
 
-{Descrição do que faz.}
+| Documento | Descrição |
+|---|---|
+| `docs/README.md` | Índice da documentação com tabela de docs + público-alvo |
+| `docs/GIT_CONVENTIONS.md` | Conventional commits, micro commits, branches, PRs, tags |
+| `docs/ACCESS_CONTROL.md` | Auth, sessões, tokens, refresh, roles, RBAC, rate limit, anti-enumeração |
+| `docs/ARCHITECTURE.md` | Decisões arquiteturais (ADR), integrações, schema, diagramas, env vars |
+| `docs/SECURITY_AUDIT.md` | Checklist OWASP Top 10 + API Security Top 10 + LLM Top 10 |
 
-## Uso
+**Docs adicionais sugeridos (criar conforme necessidade):**
 
-\`\`\`
-/{nome} {argumentos}
-\`\`\`
-
-## Instruções
-
-{Passo a passo que o Claude segue ao executar.}
-
-## Regras
-
-{Invariantes que devem ser respeitados.}
-```
-
-**Registrar no CLAUDE.md:** adicionar na seção "Skills" para que o Claude saiba que existe.
+| Documento | Quando criar |
+|---|---|
+| `GUIA_USUARIO.md` | Quando tiver interface de usuário final |
+| `GUIA_ADMIN.md` | Quando tiver painel admin |
+| `API.md` | Quando tiver API REST/GraphQL pública |
+| `TERMS_OF_SERVICE.md` | Quando tiver termos de uso / privacidade |
+| `EMAIL_SERVICE.md` | Quando tiver templates transacionais de e-mail |
 
 ---
 
@@ -275,7 +303,7 @@ user_invocable: true
      ├─ Sim → lê spec, valida contra código atual
      └─ Não → /spec {ID} {Título} (cria spec + backlog)
      │
-3. Claude lê skills relevantes (testing, security, etc.)
+3. Claude lê skills relevantes (testing, security, ux, etc.)
      │
 4. Implementa seguindo spec
      │
@@ -286,7 +314,7 @@ user_invocable: true
      │  - Marca checkboxes da spec
      │  - Atualiza docs (docs-sync)
      │
-7. Commit (conventional commits)
+7. Commit (conventional commits — ver docs/GIT_CONVENTIONS.md)
      │
 8. /backlog-update {ID} done
      │  - Move spec para done/
@@ -301,32 +329,184 @@ user_invocable: true
 ### Começando do zero
 
 1. Crie o `CLAUDE.md` com seções obrigatórias
-2. Crie `.claude/specs/TEMPLATE.md` e `backlog.md`
-3. Crie `SPECS_INDEX.md`
-4. Adicione a skill `definition-of-done`
-5. Crie o `verify.sh` básico (testes + build)
-6. Adicione skills conforme a necessidade surgir
+2. Crie o `PROJECT_CONTEXT.md` com contexto do projeto
+3. Crie `.claude/specs/TEMPLATE.md` e `backlog.md`
+4. Crie `SPECS_INDEX.md`
+5. Adicione a skill `definition-of-done`
+6. Crie o `verify.sh` básico (testes + build)
+7. Crie `docs/README.md` + `docs/GIT_CONVENTIONS.md`
+8. Adicione skills conforme a necessidade surgir
 
 ### Projeto existente
 
 1. Comece pelo `CLAUDE.md` — documente o que já existe
-2. Mova itens pendentes para o `backlog.md`
-3. Crie specs retroativas para features complexas em andamento
-4. Adicione `verify.sh` com checks do que já é regra
-5. Crie skills para os domínios onde mais ocorrem erros
+2. Crie o `PROJECT_CONTEXT.md` — consolide o conhecimento existente
+3. Mova itens pendentes para o `backlog.md`
+4. Crie specs retroativas para features complexas em andamento
+5. Adicione `verify.sh` com checks do que já é regra
+6. Crie skills para os domínios onde mais ocorrem erros
+7. Organize docs existentes na pasta `docs/`
 
 ### Evolução progressiva
 
 O framework não precisa ser completo no dia 1. A ideia é:
 
-- **Semana 1:** CLAUDE.md + backlog + verify.sh básico
-- **Semana 2:** 2-3 skills essenciais (DoD, testing, security)
-- **Semana 3+:** Skills de domínio, slash commands, checks evolutivos
+- **Semana 1:** CLAUDE.md + PROJECT_CONTEXT.md + backlog + verify.sh básico
+- **Semana 2:** 2-3 skills essenciais (DoD, testing, security) + docs/GIT_CONVENTIONS.md
+- **Semana 3+:** Skills de domínio (UX, DBA, mock-mode), slash commands, checks evolutivos
+- **Contínuo:** a cada falha ou esquecimento, adicionar check no verify.sh + item na skill
 
-Cada vez que algo falha ou é esquecido:
-1. Adicione um check no `verify.sh`
-2. Adicione um item na skill relevante
-3. Documente a regra no `CLAUDE.md`
+---
+
+## CLAUDE.md hierárquico (projetos grandes e mono-repos)
+
+O Claude Code suporta múltiplos `CLAUDE.md` — ele carrega **todos** que encontrar na hierarquia do diretório de trabalho. Isso permite especializar regras por módulo sem poluir o CLAUDE.md raiz.
+
+### Quando usar múltiplos CLAUDE.md
+
+| Situação | Abordagem |
+|---|---|
+| **Projeto pequeno** (1 app, <50 arquivos) | 1 CLAUDE.md na raiz — suficiente |
+| **Projeto médio** (frontend + backend + DB) | 1 CLAUDE.md raiz + 1 por módulo se regras divergem muito |
+| **Projeto grande** (CLAUDE.md > 500 linhas) | Dividir: raiz (regras globais) + subpastas (regras locais) |
+| **Mono-repo** (múltiplos apps/packages) | 1 CLAUDE.md raiz (convenções globais) + 1 por package/app |
+
+### Como funciona a hierarquia
+
+```
+meu-projeto/
+├── CLAUDE.md                    # Regras GLOBAIS — carregado sempre
+├── backend/
+│   ├── CLAUDE.md                # Regras do backend — carregado quando CWD está em backend/
+│   └── src/
+├── frontend/
+│   ├── CLAUDE.md                # Regras do frontend — carregado quando CWD está em frontend/
+│   └── src/
+└── packages/
+    ├── shared/
+    │   └── CLAUDE.md            # Regras do package shared — carregado quando CWD está aqui
+    └── auth/
+        └── CLAUDE.md            # Regras do package auth
+```
+
+**Comportamento do Claude Code:**
+- Ao abrir sessão em `backend/`, carrega: `CLAUDE.md` (raiz) + `backend/CLAUDE.md`
+- Ao abrir sessão na raiz, carrega: apenas `CLAUDE.md` (raiz)
+- **Não há override** — os conteúdos são **concatenados** (raiz primeiro, depois subpastas)
+
+### O que colocar em cada nível
+
+**CLAUDE.md raiz (regras globais):**
+- O que é o projeto (visão geral)
+- Convenções de código compartilhadas (commits, branches, formatação)
+- Regras de segurança universais
+- Estrutura de diretórios do mono-repo
+- Mapa de skills: "vai mexer em X? leia skill Y"
+- Fluxo de specs e backlog (compartilhado)
+- verify.sh e antes de commitar
+
+**CLAUDE.md por módulo/package (regras locais):**
+- Stack específica do módulo (ex: React 18, Next.js 14, Fastify)
+- Comandos de dev/test/build do módulo
+- Regras de código específicas (ex: frontend não pode usar `fs`, backend não importa React)
+- Estrutura de diretórios do módulo
+- Testes — suites, contagem, coverage threshold daquele módulo
+- Skills específicas (ex: frontend tem `ux-review`, backend tem `dba-review`)
+- Dependências internas (ex: "este package depende de `@myorg/shared`")
+
+### Exemplo: mono-repo com 2 apps
+
+**`CLAUDE.md` (raiz):**
+```markdown
+# MyOrg Mono-repo
+
+Mono-repo com 2 apps: web (Next.js) e api (Fastify + PostgreSQL).
+
+## Convenções globais
+- Conventional Commits
+- ESLint + Prettier compartilhados
+- TypeScript strict em todos os packages
+
+## Estrutura
+packages/web/    → Frontend Next.js
+packages/api/    → Backend Fastify
+packages/shared/ → Tipos e utils compartilhados
+
+## Skills
+- Vai mexer em frontend? → leia .claude/skills/ux-review/README.md
+- Vai mexer em backend? → leia .claude/skills/security-review/README.md
+- Vai mexer em shared? → atenção: mudanças afetam web E api
+```
+
+**`packages/api/CLAUDE.md`:**
+```markdown
+# API — Fastify + PostgreSQL
+
+## Comandos
+npm run dev     → Fastify dev server (porta 3001)
+npm test        → Vitest (120 testes, 8 suites)
+npm run migrate → Rodar migrations
+
+## Regras
+- asyncHandler em toda rota
+- Prepared statements sempre ($1, $2)
+- Todo endpoint novo precisa de teste de integração
+
+## Testes
+100% obrigatório: auth, payments, permissions
+80% mínimo: CRUD routes, adapters
+```
+
+**`packages/web/CLAUDE.md`:**
+```markdown
+# Web — Next.js 14
+
+## Comandos
+npm run dev   → Next dev server (porta 3000)
+npm run build → Build de produção
+npm run test  → Vitest (45 testes, 6 suites)
+
+## Regras
+- Componentes server-first (RSC)
+- Client components marcados com 'use client'
+- Nenhum dado sensível em client components
+```
+
+### Quando dividir (regra de ouro)
+
+**Dividir quando:**
+- CLAUDE.md raiz passou de ~400 linhas
+- Módulos têm stacks diferentes (ex: frontend React + backend Python)
+- Regras de um módulo conflitam com outro
+- Equipes diferentes trabalham em módulos diferentes
+- O Claude está aplicando regra de frontend no backend (ou vice-versa)
+
+**NÃO dividir quando:**
+- Projeto tem uma stack só (backend ou frontend, não ambos)
+- CLAUDE.md raiz tem < 300 linhas
+- As regras se aplicam uniformemente a todo o código
+
+### Skills e specs em mono-repo
+
+Skills e specs podem ficar centralizadas na raiz ou distribuídas:
+
+```
+# Opção A: centralizado (mais simples, recomendado para começar)
+.claude/
+├── skills/          # Skills globais
+└── specs/           # Specs de todos os packages
+
+# Opção B: distribuído (quando packages são muito independentes)
+.claude/
+├── skills/          # Skills globais
+└── specs/           # Specs globais
+packages/api/
+└── .claude/specs/   # Specs só do api
+packages/web/
+└── .claude/specs/   # Specs só do web
+```
+
+**Recomendação:** comece centralizado. Só distribua se o volume de specs ficar ingerenciável (>20 specs ativas).
 
 ---
 
@@ -334,23 +514,34 @@ Cada vez que algo falha ou é esquecido:
 
 ```
 claude-code-framework/
-├── README.md                          # Esta documentação
-├── CLAUDE.template.md               # Template do CLAUDE.md
-├── SPECS_INDEX.template.md          # Template do índice de specs
+├── README.md                              # Esta documentação
+├── CLAUDE.template.md                     # Template do CLAUDE.md
+├── PROJECT_CONTEXT.md                     # Template do PROJECT_CONTEXT.md
+├── SPECS_INDEX.template.md                # Template do índice de specs
 ├── specs/
-│   ├── TEMPLATE.md                  # Template de spec
-│   └── backlog.md                   # Template de backlog
+│   ├── TEMPLATE.md                        # Template de spec
+│   └── backlog.md                         # Template de backlog
 ├── scripts/
-│   └── verify.sh                    # Template do verify.sh
+│   └── verify.sh                          # Template do verify.sh (checks OWASP A01-A10)
+├── docs/
+│   ├── README.md                          # Índice de documentação
+│   ├── GIT_CONVENTIONS.md                 # Conventional commits, branches, PRs, tags
+│   ├── ACCESS_CONTROL.md                  # Auth, sessões, tokens, roles, RBAC
+│   ├── ARCHITECTURE.md                    # Decisões arquiteturais, integrações, env vars
+│   └── SECURITY_AUDIT.md                  # Checklist OWASP Top 10 + API + LLM
 └── skills/
-    ├── definition-of-done/README.md # Skill: Definition of Done
-    ├── testing/README.md            # Skill: Testing
-    ├── security-review/README.md    # Skill: Security Review
-    ├── docs-sync/README.md          # Skill: Docs Sync
-    ├── logging/README.md            # Skill: Logging & Error Handling
-    ├── code-quality/README.md       # Skill: Code Quality
-    ├── backlog-update/SKILL.md      # Slash command: /backlog-update
-    └── spec-creator/SKILL.md        # Slash command: /spec
+    ├── definition-of-done/README.md       # Skill: Definition of Done
+    ├── testing/README.md                  # Skill: Testing (pirâmide, cobertura, anti-patterns)
+    ├── security-review/README.md          # Skill: Security Review (OWASP Top 10)
+    ├── docs-sync/README.md               # Skill: Docs Sync
+    ├── logging/README.md                  # Skill: Logging & Error Handling
+    ├── code-quality/README.md             # Skill: Code Quality
+    ├── ux-review/README.md               # Skill: UX Review (design system, mobile, a11y)
+    ├── dba-review/README.md              # Skill: DBA Review (schema, queries, migrations)
+    ├── mock-mode/README.md               # Skill: Mock Mode (integrações externas)
+    ├── syntax-check/README.md            # Skill: Syntax Check (pré-commit)
+    ├── backlog-update/SKILL.md            # Slash command: /backlog-update
+    └── spec-creator/SKILL.md              # Slash command: /spec
 ```
 
 Para usar: copiar para o novo projeto, substituir os `{placeholders}` pelos valores reais, e ir evoluindo.
