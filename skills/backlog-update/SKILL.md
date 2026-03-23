@@ -1,0 +1,77 @@
+---
+name: backlog-update
+description: Atualiza o backlog — adiciona, conclui ou edita itens seguindo o padrão do projeto
+user_invocable: true
+---
+
+# /backlog-update — Atualizar backlog
+
+Atualiza o backlog do projeto seguindo o padrão de classificações e regras definidos no CLAUDE.md.
+
+## Uso
+
+```
+/backlog-update {ID} {ação}
+```
+
+Ações disponíveis:
+- `add` — Adicionar novo item pendente
+- `done` — Marcar como concluído (mover de Pendentes -> Concluídos)
+- `update` — Editar campos de um item existente
+
+Exemplos:
+- `/backlog-update FEAT2 add`
+- `/backlog-update SEC7 done`
+- `/backlog-update T1 update`
+
+## Instruções
+
+### Ação: `add`
+
+1. Verificar se o ID já existe no backlog — se sim, avisar e perguntar
+2. Perguntar ao usuário (usando AskUserQuestion quando possível):
+   - **Item:** descrição curta (1 frase, máx 2 linhas)
+   - **Fase:** F1 | F2 | F3 | T
+   - **Severidade:** 🔴 Crítico | 🟠 Alto | 🟡 Médio | ⚪ Baixo
+   - **Impacto:** 👤 Usuário | 🛡️ Segurança | 💰 Negócio | 🔧 Interno
+   - **Tipo:** Feature | Bug | Segurança | Regra de Negócio | Refatoração | Testes | Docs | Análise | Infra
+   - **Camadas:** `FE` `BE` `DB` `IA` `DOC` `INF` (múltiplas)
+   - **Complexidade:** 🟢 Baixa | 🟡 Média | 🔴 Alta
+   - **Estimativa:** 15min | 30min | 1h | 2h | 4h | 1d | 2d | 1sem
+   - **Dependências:** IDs ou `—`
+   - **Spec:** nome do arquivo se existir, ou `—`
+3. Ler `.claude/specs/backlog.md`
+4. Inserir nova linha na seção da fase correta, ordenado por severidade (🔴 > 🟠 > 🟡 > ⚪)
+5. Atualizar `Última atualização` no header
+
+### Ação: `done`
+
+1. Ler `.claude/specs/backlog.md`
+2. Encontrar o item com o ID informado na tabela Pendentes
+3. Se não encontrar, avisar e abortar
+4. Remover a linha da tabela Pendentes
+5. Adicionar na tabela Concluídos (topo, mais recente primeiro):
+   ```
+   | {ID} | {descrição resumida} | {data de hoje YYYY-MM-DD} |
+   ```
+6. Se existir spec associada:
+   - Mover arquivo de `.claude/specs/` para `.claude/specs/done/`
+   - Atualizar status da spec para `concluída`
+   - Atualizar path no `SPECS_INDEX.md`
+7. Atualizar `Última atualização`
+
+### Ação: `update`
+
+1. Ler `.claude/specs/backlog.md`
+2. Encontrar o item com o ID informado
+3. Perguntar quais campos alterar
+4. Aplicar mantendo ordem por severidade
+5. Atualizar `Última atualização`
+
+## Regras
+
+- **Nunca** riscar itens — sempre mover de Pendentes para Concluídos
+- **Nunca** deixar item em Pendentes e Concluídos ao mesmo tempo
+- Descrição em Concluídos: 1 linha, suficiente para identificar
+- Seguir classificações do CLAUDE.md seção "Classificações do backlog"
+- Ao concluir item com spec, sempre mover a spec e atualizar SPECS_INDEX
