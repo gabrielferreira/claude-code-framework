@@ -83,7 +83,7 @@
 | Serviço | {Provedor de IA} |
 | Tipo | {API REST} |
 | Auth | {API Key em header / OAuth / etc.} |
-| Arquivo | {services/ai-provider.js} |
+| Arquivo | {services/external-provider.js} |
 | Mock mode | {Sim — resposta fixa quando MOCK_MODE=true} |
 
 **Fluxo:**

@@ -16,8 +16,8 @@ Todo limite, permissão e verificação de acesso é feito server-side.
 
 | Domínio | Tabela | Tipo de auth | JWT issuer |
 |---|---|---|---|
-| {Usuários} | {users} | {Passwordless OTP / Email+Senha / OAuth} | {`iss: "meu-app"`} |
-| {Admins} | {admin_users} | {OTP / Email+Senha} | {`iss: "meu-app-admin"`} |
+| {Usuários} | {users} | {Passwordless / Email+Senha / OAuth} | {`iss: "meu-app"`} |
+| {Admins} | {admin_users} | {Email+Senha / MFA} | {`iss: "meu-app-admin"`} |
 
 **Regra:** tokens de domínios diferentes são REJEITADOS se usados no domínio errado.
 
@@ -25,7 +25,7 @@ Todo limite, permissão e verificação de acesso é feito server-side.
 
 ## Fluxo de autenticação
 
-### {Fluxo 1 — ex: Passwordless OTP}
+### {Fluxo 1 — ex: Passwordless com código por e-mail}
 
 ```
 1. Usuário informa e-mail
@@ -34,11 +34,11 @@ Todo limite, permissão e verificação de acesso é feito server-side.
      │  ├─ Não existe → cria conta (auto-register) OU rejeita
      │  └─ Existe → continua
      │
-3. Gera código OTP (6 dígitos) → hash SHA-256 → salva no banco
+3. Gera código de verificação (6 dígitos) → hash → salva no banco
      │  └─ TTL: {10 minutos}
      │  └─ Max tentativas: {5}
      │
-4. Envia OTP por e-mail
+4. Envia código por e-mail
      │
 5. Usuário informa código
      │
@@ -128,8 +128,8 @@ Todo limite, permissão e verificação de acesso é feito server-side.
 | {`userAuth`} | {Valida JWT de usuário, extrai user_id} | {middleware/auth.js} |
 | {`adminAuth`} | {Valida JWT de admin, verifica role} | {middleware/auth.js} |
 | {`requireRole(roles)`} | {Verifica se admin tem role necessário} | {middleware/auth.js} |
-| {`generateOTP(email)`} | {Gera e envia código OTP} | {middleware/auth.js} |
-| {`verifyOTP(email, code)`} | {Valida código timing-safe} | {middleware/auth.js} |
+| {`generateCode(email)`} | {Gera e envia código de verificação} | {middleware/auth.js} |
+| {`verifyCode(email, code)`} | {Valida código timing-safe} | {middleware/auth.js} |
 
 ### Fluxo do middleware
 
@@ -167,7 +167,7 @@ Todas as respostas de auth retornam a **mesma mensagem genérica**, independente
 
 ### Timing-safe comparison
 
-Toda comparação de secret (OTP, token, hash) usa `crypto.timingSafeEqual`:
+Toda comparação de secret (código de verificação, token, hash) usa comparação timing-safe:
 
 ```javascript
 const a = Buffer.from(String(userInput));
@@ -235,7 +235,7 @@ CREATE TABLE {refresh_tokens} (
 |---|---|
 | {POST /auth/register} | {Cadastro — usuário ainda não tem token} |
 | {POST /auth/login} | {Login — usuário precisa se autenticar} |
-| {POST /auth/verify-code} | {Validação de OTP — pré-autenticação} |
+| {POST /auth/verify-code} | {Validação de código — pré-autenticação} |
 | {GET /api/public/*} | {Informações públicas da plataforma} |
 
 **Regra:** todo endpoint sem auth DEVE ter justificativa documentada. Se não tem justificativa, precisa de auth.

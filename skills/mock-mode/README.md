@@ -33,7 +33,7 @@
 {ENV_VAR}=true {comando para iniciar backend}
 
 # 4. Credenciais de teste
-# {email e senha/OTP de demo}
+# {credenciais de teste para demo}
 ```
 
 ## Checklist de cobertura mock
@@ -44,7 +44,7 @@
 |---|---|---|---|
 | {Pagamento} | {payments.js} | `if (MOCK_MODE)` → {simula sucesso} | — |
 | {Email} | {email-service.js} | `if (MOCK_MODE)` → {log + skip envio} | — |
-| {IA/LLM} | {ai-provider.js} | `if (MOCK_MODE)` → {resposta fixa} | — |
+| {IA/LLM} | {external-provider.js} | `if (MOCK_MODE)` → {resposta fixa} | — |
 | {Auth externo} | {auth.js} | `if (MOCK_MODE)` → {aceita credencial fixa} | {contas seedadas} |
 
 ### Ao adicionar nova integração

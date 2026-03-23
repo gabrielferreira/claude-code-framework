@@ -42,6 +42,7 @@ A base é larga (unitários) e o topo é estreito (E2E). Cada camada cobre o que
 - Sem I/O (banco, rede, filesystem são mockados)
 - Quebram se a lógica interna mudar — e é isso que queremos
 
+**JavaScript (Jest):**
 ```javascript
 // ✅ Bom teste unitário — testa lógica real
 test("should reject expired token", () => {
@@ -54,6 +55,22 @@ test("should format name", () => {
   const expected = `${firstName} ${lastName}`;  // isso é testar o JS, não o código
   expect(formatName(firstName, lastName)).toBe(expected);
 });
+```
+
+**Go:**
+```go
+// ✅ Bom teste unitário — testa lógica real
+func TestValidateToken_Expired(t *testing.T) {
+    token := createToken(time.Now().Add(-1 * time.Hour))
+    err := ValidateToken(token)
+    assert.ErrorIs(t, err, ErrTokenExpired)
+}
+
+// ❌ Ruim — reimplementa a lógica no teste
+func TestFormatName(t *testing.T) {
+    expected := firstName + " " + lastName  // isso é testar o Go, não o código
+    assert.Equal(t, expected, FormatName(firstName, lastName))
+}
 ```
 
 ### Integração — a cola
@@ -73,6 +90,7 @@ test("should format name", () => {
 - Podem usar banco em memória, mock-pool, ou testcontainers
 - Capturam bugs que unitários não veem (ex: query SQL errada com mocks sempre retornando OK)
 
+**JavaScript (supertest):**
 ```javascript
 // ✅ Bom teste de integração — testa rota + auth + DB juntos
 test("GET /api/resource returns 401 without token", async () => {
@@ -88,6 +106,35 @@ test("POST /api/resource creates and returns resource", async () => {
   expect(res.status).toBe(201);
   expect(res.body.name).toBe("test");
 });
+```
+
+**Go (net/http/httptest):**
+```go
+func TestGetResource_Unauthorized(t *testing.T) {
+    router := setupRouter()
+    req := httptest.NewRequest(http.MethodGet, "/api/resource", nil)
+    w := httptest.NewRecorder()
+
+    router.ServeHTTP(w, req)
+
+    assert.Equal(t, http.StatusUnauthorized, w.Code)
+}
+
+func TestPostResource_Created(t *testing.T) {
+    router := setupRouter()
+    body := `{"name":"test"}`
+    req := httptest.NewRequest(http.MethodPost, "/api/resource", strings.NewReader(body))
+    req.Header.Set("Authorization", "Bearer "+validToken)
+    req.Header.Set("Content-Type", "application/json")
+    w := httptest.NewRecorder()
+
+    router.ServeHTTP(w, req)
+
+    assert.Equal(t, http.StatusCreated, w.Code)
+    var resp map[string]string
+    json.Unmarshal(w.Body.Bytes(), &resp)
+    assert.Equal(t, "test", resp["name"])
+}
 ```
 
 ### E2E (End-to-End) — a prova final
@@ -112,7 +159,7 @@ test("user can login with valid credentials", async ({ page }) => {
   await page.goto("/login");
   await page.fill('[name="email"]', "user@example.com");
   await page.click('button[type="submit"]');
-  // ... OTP flow ...
+  // ... auth flow ...
   await expect(page.locator('[data-testid="dashboard"]')).toBeVisible();
 });
 ```
@@ -182,7 +229,7 @@ test("API response matches golden", () => {
 | Suite | Tipo | Testes | Cobertura alvo |
 |---|---|---|---|
 | {security.test.js} | Unitário | {117} | 100% |
-| {business-rules.test.js} | Unitário | {75} | 100% |
+| {domain-rules.test.js} | Unitário | {75} | 100% |
 | {auth.test.js} | Integração | {49} | 100% |
 | {routes.test.js} | Integração | {29} | 80% |
 | {utils.test.js} | Unitário | {15} | 80% |
@@ -228,39 +275,379 @@ Cobertura NÃO é um número para atingir — é uma ferramenta para encontrar c
 
 ## Padrões de mock
 
+### Regras fundamentais de mock
+
+1. **Mocks ANTES dos imports (JS).** No Jest, `jest.mock()` é hoisted, mas a declaração deve aparecer antes dos `require`/`import` do módulo testado. Em Go, use interfaces — a injeção acontece na construção do struct.
+2. **Cleanup entre testes.** JS: `beforeEach(() => jest.clearAllMocks())`. Go: cada teste cria suas próprias instâncias (table-driven tests). Sem isso, estado de um teste vaza para o próximo.
+3. **Mock o mínimo necessário.** Mocks demais = testes que passam com código quebrado. Se pode testar com implementação real (in-memory, testcontainers), preferir.
+4. **Mock fiel ao contrato.** O mock deve respeitar o mesmo formato de retorno da implementação real. Mock que retorna `{ data: "ok" }` quando o real retorna `{ rows: [...] }` gera falsa confiança. Em Go, o mock implementa a mesma interface que a dependência real.
+
+### Abordagem de mock por linguagem
+
+**JavaScript:** `jest.mock()` substitui módulos inteiros. Flexível mas frágil — se o módulo real muda a API, o mock não quebra (falsa confiança).
+
+**Go:** interfaces + injeção de dependência. O mock implementa a mesma interface, então se a interface muda, o mock não compila. Mais seguro por design.
+
+```go
+// Interface que a dependência real e o mock implementam
+type UserRepository interface {
+    FindByID(ctx context.Context, id string) (*User, error)
+    Create(ctx context.Context, user *User) error
+}
+
+// Mock
+type mockUserRepo struct {
+    findByIDFn func(ctx context.Context, id string) (*User, error)
+    createFn   func(ctx context.Context, user *User) error
+}
+
+func (m *mockUserRepo) FindByID(ctx context.Context, id string) (*User, error) {
+    return m.findByIDFn(ctx, id)
+}
+func (m *mockUserRepo) Create(ctx context.Context, user *User) error {
+    return m.createFn(ctx, user)
+}
+
+// Uso no teste
+func TestGetUser(t *testing.T) {
+    repo := &mockUserRepo{
+        findByIDFn: func(ctx context.Context, id string) (*User, error) {
+            return &User{ID: id, Name: "Test"}, nil
+        },
+    }
+    svc := NewUserService(repo)  // injeção de dependência
+
+    user, err := svc.GetUser(context.Background(), "uuid-1")
+    assert.NoError(t, err)
+    assert.Equal(t, "Test", user.Name)
+}
+```
+
+### Mock básico de banco de dados
+
 ```javascript
 // {ADAPTAR à stack}
 
-// Mock de banco de dados
+// Mocks ANTES dos imports
 jest.mock("../../db", () => ({
   query: jest.fn(),
-  connect: jest.fn(() => ({
-    query: jest.fn(),
+  connect: jest.fn(),
+  on: jest.fn(),
+}));
+
+const db = require("../../db");
+const { myFunction } = require("../../services/my-service");
+
+beforeEach(() => {
+  jest.clearAllMocks();
+  db.query.mockReset();
+});
+
+test("should return user by ID", async () => {
+  db.query.mockResolvedValueOnce({ rows: [{ id: "uuid-1", name: "Test" }] });
+  const result = await myFunction("uuid-1");
+  expect(result.name).toBe("Test");
+  expect(db.query).toHaveBeenCalledWith(
+    expect.stringContaining("WHERE id = $1"),
+    ["uuid-1"]
+  );
+});
+```
+
+### Mock de transactions (connect → client)
+
+Operações que usam `BEGIN/COMMIT/ROLLBACK` precisam de mock mais elaborado — simular o client com `query`, `release`, e tracking de chamadas:
+
+```javascript
+// {ADAPTAR à stack}
+function createMockClient(queryResponses = []) {
+  let callIndex = 0;
+  const queries = [];
+  const client = {
+    query: jest.fn(async (sql, params) => {
+      queries.push({ sql, params });
+      return queryResponses[callIndex++] || { rows: [] };
+    }),
     release: jest.fn(),
-  })),
-}));
+  };
+  return { client, queries };
+}
 
-// Mock de serviço externo
-jest.mock("../../services/external-service", () => ({
-  call: jest.fn(),
-}));
+// Uso no teste
+test("should rollback on error", async () => {
+  const { client, queries } = createMockClient([
+    { rows: [] },  // BEGIN
+    { rows: [{ id: "1" }] },  // SELECT
+    // INSERT vai falhar — simulamos no teste
+  ]);
+  client.query.mockRejectedValueOnce(new Error("constraint_violation"));
+  db.connect.mockResolvedValueOnce(client);
 
-// Supertest para rotas
+  await expect(myTransactionalFunction()).rejects.toThrow();
+
+  // Verificar que ROLLBACK foi chamado
+  expect(queries.some(q => q.sql === "ROLLBACK")).toBe(true);
+  expect(client.release).toHaveBeenCalled();
+});
+```
+
+**Go (sqlx/pgx):**
+```go
+// Interface de transaction
+type TxBeginner interface {
+    BeginTx(ctx context.Context, opts *sql.TxOptions) (*sql.Tx, error)
+}
+
+type mockTxBeginner struct {
+    tx     *mockTx
+    begErr error
+}
+
+type mockTx struct {
+    queries  []string
+    commitFn func() error
+    rollback bool
+}
+
+func (m *mockTx) ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error) {
+    m.queries = append(m.queries, query)
+    return nil, nil
+}
+func (m *mockTx) Commit() error   { return m.commitFn() }
+func (m *mockTx) Rollback() error { m.rollback = true; return nil }
+
+func TestTransferFunds_RollbackOnError(t *testing.T) {
+    tx := &mockTx{
+        commitFn: func() error { return errors.New("constraint_violation") },
+    }
+    db := &mockTxBeginner{tx: tx}
+    svc := NewPaymentService(db)
+
+    err := svc.TransferFunds(context.Background(), "from", "to", 100)
+
+    assert.Error(t, err)
+    assert.True(t, tx.rollback, "expected ROLLBACK on error")
+}
+```
+
+### Mock de JWT para testes de rota
+
+Testes de endpoint precisam simular autenticação. Gerar token real com a lib de JWT, usando o mesmo secret do ambiente de teste:
+
+```javascript
+// {ADAPTAR à stack}
+const jwt = require("jsonwebtoken");
 const request = require("supertest");
 const app = require("../../app");
+
+function generateTestToken(payload = {}) {
+  return jwt.sign(
+    { id: "test-uuid", email: "test@test.com", ...payload },
+    process.env.JWT_SECRET || "test-secret",
+    { expiresIn: "1h", issuer: "{your-issuer}" }
+  );
+}
+
+test("should return 200 with valid token", async () => {
+  const token = generateTestToken();
+  db.query.mockResolvedValueOnce({ rows: [{ id: "test-uuid" }] });
+
+  const res = await request(app)
+    .get("/api/protected-resource")
+    .set("Authorization", `Bearer ${token}`)
+    .expect(200);
+});
+
+test("should return 401 without token", async () => {
+  await request(app)
+    .get("/api/protected-resource")
+    .expect(401);
+});
+
+test("should return 403 with wrong role", async () => {
+  const token = generateTestToken({ role: "viewer" });  // precisa de "admin"
+  await request(app)
+    .get("/api/admin/users")
+    .set("Authorization", `Bearer ${token}`)
+    .expect(403);
+});
+```
+
+**Go (golang-jwt):**
+```go
+func generateTestToken(t *testing.T, claims jwt.MapClaims) string {
+    t.Helper()
+    defaults := jwt.MapClaims{
+        "sub":   "test-uuid",
+        "email": "test@test.com",
+        "exp":   time.Now().Add(1 * time.Hour).Unix(),
+        "iss":   "{your-issuer}",
+    }
+    for k, v := range claims {
+        defaults[k] = v
+    }
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, defaults)
+    signed, err := token.SignedString([]byte("test-secret"))
+    require.NoError(t, err)
+    return signed
+}
+
+func TestProtectedRoute_200(t *testing.T) {
+    router := setupRouter()
+    token := generateTestToken(t, nil)
+
+    req := httptest.NewRequest(http.MethodGet, "/api/protected-resource", nil)
+    req.Header.Set("Authorization", "Bearer "+token)
+    w := httptest.NewRecorder()
+
+    router.ServeHTTP(w, req)
+    assert.Equal(t, http.StatusOK, w.Code)
+}
+
+func TestProtectedRoute_401(t *testing.T) {
+    router := setupRouter()
+    req := httptest.NewRequest(http.MethodGet, "/api/protected-resource", nil)
+    w := httptest.NewRecorder()
+
+    router.ServeHTTP(w, req)
+    assert.Equal(t, http.StatusUnauthorized, w.Code)
+}
+
+func TestAdminRoute_403_WrongRole(t *testing.T) {
+    router := setupRouter()
+    token := generateTestToken(t, jwt.MapClaims{"role": "viewer"})
+
+    req := httptest.NewRequest(http.MethodGet, "/api/admin/users", nil)
+    req.Header.Set("Authorization", "Bearer "+token)
+    w := httptest.NewRecorder()
+
+    router.ServeHTTP(w, req)
+    assert.Equal(t, http.StatusForbidden, w.Code)
+}
+```
+
+### Mock de serviços compostos (webhook = externo + DB + email)
+
+Webhooks e fluxos complexos precisam mockar múltiplas dependências de uma vez. Organizar por "cenário", não por "dependência":
+
+```javascript
+// {ADAPTAR à stack}
+jest.mock("../../db", () => ({ query: jest.fn(), connect: jest.fn() }));
+jest.mock("../../services/email-service", () => ({ send: jest.fn() }));
+jest.mock("../../services/external-service", () => ({ verify: jest.fn() }));
+
+const db = require("../../db");
+const email = require("../../services/email-service");
+const external = require("../../services/external-service");
+
+function setupHappyPath() {
+  external.verify.mockResolvedValueOnce({ valid: true, eventId: "evt_123" });
+  db.query
+    .mockResolvedValueOnce({ rows: [] })           // check duplicata
+    .mockResolvedValueOnce({ rows: [{ id: "1" }] }) // INSERT
+    ;
+  email.send.mockResolvedValueOnce({ success: true });
+}
+
+test("webhook happy path — processes event", async () => {
+  setupHappyPath();
+  const res = await request(app)
+    .post("/api/webhook")
+    .set("x-signature", "valid-sig")
+    .send({ type: "payment.completed", data: { id: "pay_1" } })
+    .expect(200);
+});
+
+test("webhook duplicate — returns 200 without processing", async () => {
+  external.verify.mockResolvedValueOnce({ valid: true });
+  db.query.mockResolvedValueOnce({ rows: [{ id: "existing" }] });  // já existe
+
+  const res = await request(app)
+    .post("/api/webhook")
+    .set("x-signature", "valid-sig")
+    .send({ type: "payment.completed", data: { id: "pay_1" } })
+    .expect(200);
+
+  expect(email.send).not.toHaveBeenCalled();  // não reprocessou
+});
+```
+
+**Go (interfaces + injeção):**
+```go
+// Interfaces para cada dependência
+type SignatureVerifier interface {
+    Verify(payload []byte, signature string) (*WebhookEvent, error)
+}
+type EventStore interface {
+    Exists(ctx context.Context, eventID string) (bool, error)
+    Save(ctx context.Context, event *WebhookEvent) error
+}
+type Notifier interface {
+    Send(ctx context.Context, to string, msg string) error
+}
+
+// Setup para testes — injetar mocks
+func setupWebhookHandler(verifier SignatureVerifier, store EventStore, notifier Notifier) http.Handler {
+    svc := NewWebhookService(verifier, store, notifier)
+    return NewWebhookHandler(svc)
+}
+
+func TestWebhook_HappyPath(t *testing.T) {
+    verifier := &mockVerifier{event: &WebhookEvent{ID: "evt_1", Type: "payment.completed"}}
+    store := &mockEventStore{exists: false}
+    notifier := &mockNotifier{}
+
+    handler := setupWebhookHandler(verifier, store, notifier)
+    body := `{"type":"payment.completed","data":{"id":"pay_1"}}`
+    req := httptest.NewRequest(http.MethodPost, "/api/webhook", strings.NewReader(body))
+    req.Header.Set("X-Signature", "valid-sig")
+    w := httptest.NewRecorder()
+
+    handler.ServeHTTP(w, req)
+
+    assert.Equal(t, http.StatusOK, w.Code)
+    assert.True(t, notifier.sent, "expected notification to be sent")
+}
+
+func TestWebhook_Duplicate(t *testing.T) {
+    verifier := &mockVerifier{event: &WebhookEvent{ID: "evt_1"}}
+    store := &mockEventStore{exists: true}  // já existe
+    notifier := &mockNotifier{}
+
+    handler := setupWebhookHandler(verifier, store, notifier)
+    // ... mesmo setup de request ...
+
+    assert.Equal(t, http.StatusOK, w.Code)
+    assert.False(t, notifier.sent, "should NOT re-notify on duplicate")
+}
 ```
 
 ### Quando mockar vs quando usar real
 
-| Dependência | Mock | Real | Decisão |
-|---|---|---|---|
-| Banco de dados | Mock-pool, jest.mock | SQLite in-memory, testcontainers | **Real** se testar queries SQL; **Mock** se testar lógica que usa o resultado |
-| Serviço externo (API) | jest.mock, nock, MSW | Sandbox do serviço | **Mock** quase sempre; **Real** apenas em E2E ou smoke tests |
-| Filesystem | memfs, jest.mock | tmpdir | **Mock** para unitários; **Real** para integração |
-| Clock/Date | jest.useFakeTimers | — | **Mock** sempre que testar expiração, TTL, scheduling |
-| Randomness | jest.spyOn(Math, 'random') | — | **Mock** quando determinismo importa |
+| Dependência | Mock (JS) | Mock (Go) | Real | Decisão |
+|---|---|---|---|---|
+| Banco de dados | jest.mock, mock-pool | interface + struct | SQLite in-memory, testcontainers | **Real** se testar queries SQL; **Mock** se testar lógica que usa o resultado |
+| Serviço externo (API) | jest.mock, nock, MSW | interface + struct | Sandbox do serviço | **Mock** quase sempre; **Real** apenas em E2E ou smoke tests |
+| JWT / Auth | Token com lib real | Token com lib real | Auth real | **Real** (gerar token) — nunca skip auth no teste |
+| Filesystem | memfs, jest.mock | afero, interface | tmpdir | **Mock** para unitários; **Real** para integração |
+| Clock/Date | jest.useFakeTimers | clock interface | — | **Mock** sempre que testar expiração, TTL, scheduling |
+| Randomness | jest.spyOn(Math, 'random') | rand source injection | — | **Mock** quando determinismo importa |
+| E-mail | jest.mock | interface + struct | Mailhog, Ethereal | **Mock** quase sempre; **Real** em E2E com mail catcher |
+| HTTP client | jest.mock, nock | interface + httptest | — | **Mock** quase sempre; injetar `http.Client` ou interface |
 
-**Regra:** mock o mínimo necessário. Mocks demais = testes que passam com código quebrado.
+### Erros comuns de mock
+
+| Erro | Linguagem | Consequência | Correção |
+|---|---|---|---|
+| Mock depois do import | JS | Módulo carrega implementação real | `jest.mock()` antes de `require()` |
+| Sem `clearAllMocks` no beforeEach | JS | Estado vaza entre testes, flakes | `beforeEach(() => jest.clearAllMocks())` |
+| Mock retorna formato errado | JS/Go | Teste passa, produção quebra | Verificar formato de retorno real |
+| Mock de auth com skip em vez de token | JS/Go | Não testa middleware de auth | Gerar token real com test secret |
+| Mock permanente (sem mockReset) | JS | Teste N vê mock de teste 1 | `mockReset()` ou `clearAllMocks()` |
+| Mock de tudo num teste de integração | JS/Go | Não testa nada real | Mockar só I/O externo, deixar lógica real |
+| Struct mock sem implementar interface | Go | Compila mas não garante contrato | `var _ Interface = (*MockStruct)(nil)` para check em compile-time |
+| Mock com estado compartilhado entre testes | Go | Flakes em `t.Parallel()` | Criar instância nova de mock em cada teste |
+| Usar `httptest.Server` quando `httptest.NewRequest` basta | Go | Teste mais lento sem necessidade | Server só quando precisa testar client HTTP real |
 
 ---
 

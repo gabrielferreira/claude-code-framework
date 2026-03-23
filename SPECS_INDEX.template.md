@@ -16,7 +16,7 @@
 
 | ID | Spec | Status | Resumo |
 |---|---|---|---|
-| {AUTH1} | `.claude/specs/{auth-login.md}` | `concluída` | {Login e OTP} |
+| {AUTH1} | `.claude/specs/{auth-login.md}` | `concluída` | {Login e autenticação} |
 | {AUTH2} | `.claude/specs/{auth-roles.md}` | `em andamento` | {Sistema de roles} |
 
 ## {Domínio 2 — ex: Pagamentos}

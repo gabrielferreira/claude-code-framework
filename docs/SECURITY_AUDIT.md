@@ -56,7 +56,7 @@ Cada item classificado como: ✅ COBERTO | ⚠️ PARCIAL | ❌ PENDENTE
 
 | # | Verificação | Status | Evidência |
 |---|---|---|---|
-| 1 | Rate limit em auth (login, register, OTP) | {status} | {Limites configurados} |
+| 1 | Rate limit em auth (login, register, verify code) | {status} | {Limites configurados} |
 | 2 | Limites de negócio enforced server-side | {status} | {Max calls, max items, etc.} |
 | 3 | Dados sensíveis não persistidos (se aplicável) | {status} | {Schema não tem coluna X} |
 | 4 | Compensação automática em falhas parciais | {status} | {Try/catch com rollback} |

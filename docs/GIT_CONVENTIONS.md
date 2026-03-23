@@ -27,7 +27,7 @@ Todo commit segue o formato: `<type>(<scope>): <description>`
 ### Exemplos
 
 ```
-feat(auth): add OTP code generation and verification
+feat(auth): add verification code generation and validation
 fix(payments): handle edge case when discount >= price
 test(security): add injection scan scenarios for unicode evasion
 security(auth): add ownership check in /api/resource
@@ -86,7 +86,7 @@ security/<nome>   ← correções de segurança (tratadas como urgentes)
 
 ## Pull Requests
 
-**Título:** segue conventional commits (`feat(auth): implement OTP login flow`)
+**Título:** segue conventional commits (`feat(auth): implement passwordless login flow`)
 
 **Descrição obrigatória:**
 ```markdown

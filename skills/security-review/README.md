@@ -80,13 +80,25 @@ const JWT_SECRET = process.env.JWT_SECRET || (
 - [ ] Nenhum `eval()`, `Function()`, ou template literal com input do usuário
 - [ ] Comandos OS (`exec`, `spawn`) NUNCA recebem input do usuário sem escaping
 
+**JavaScript:**
 ```javascript
 // ❌ SQL Injection
 db.query(`SELECT * FROM users WHERE email = '${req.body.email}'`);
 
 // ✅ Prepared statement
 db.query("SELECT id, email FROM users WHERE email = $1", [sanitize(req.body.email)]);
+```
 
+**Go:**
+```go
+// ❌ SQL Injection
+db.Query("SELECT * FROM users WHERE email = '" + email + "'")
+
+// ✅ Prepared statement
+db.QueryRow("SELECT id, email FROM users WHERE email = $1", sanitize(email))
+```
+
+```javascript
 // ❌ Prompt injection — dados misturados com instruções
 const prompt = `Analise: ${userData}`;
 
@@ -98,7 +110,7 @@ const prompt = `Analise os dados abaixo.\n<user_data>\n${userData}\n</user_data>
 
 **O problema:** falhas de arquitetura, não de implementação.
 
-- [ ] Rate limit em endpoints de autenticação (login, signup, OTP, reset)
+- [ ] Rate limit em endpoints de autenticação (login, signup, reset password, verify code)
 - [ ] Rate limit em endpoints públicos (busca, validação, API aberta)
 - [ ] Bloqueio progressivo após falhas de auth (3, 5, 10 tentativas -> delay crescente)
 - [ ] Fluxos financeiros validam server-side — frontend é UX, backend é verdade
@@ -154,6 +166,7 @@ app.use((err, req, res, next) => {
 - [ ] Força de senha validada (ou usar passwordless/MFA)
 - [ ] Logout invalida tokens server-side (não só no client)
 
+**JavaScript:**
 ```javascript
 // ❌ Timing attack — comparação curto-circuita no primeiro byte diferente
 if (userToken === storedToken) { grant(); }
@@ -162,6 +175,15 @@ if (userToken === storedToken) { grant(); }
 const a = Buffer.from(userToken);
 const b = Buffer.from(storedToken);
 if (a.length === b.length && crypto.timingSafeEqual(a, b)) { grant(); }
+```
+
+**Go:**
+```go
+// ❌ Timing attack
+if userToken == storedToken { grant() }
+
+// ✅ Timing-safe
+if subtle.ConstantTimeCompare([]byte(userToken), []byte(storedToken)) == 1 { grant() }
 ```
 
 ### A08: Software and Data Integrity Failures
@@ -273,18 +295,36 @@ console.warn("[AUTH] Login failed:", {
 - [ ] Nunca confiar em validação feita em request anterior (re-validar no webhook/callback)
 - [ ] Contadores atômicos: `UPDATE ... SET count = count + 1 WHERE count < max RETURNING`
 
+**JavaScript:**
 ```javascript
-// ❌ TOCTOU — entre o SELECT e o INSERT, outro request pode usar o cupom
-const coupon = await db.query("SELECT * FROM coupons WHERE uses < max_uses AND id = $1", [id]);
+// ❌ TOCTOU — entre o SELECT e o UPDATE, outro request pode consumir o recurso
+const item = await db.query("SELECT * FROM resources WHERE uses < max_uses AND id = $1", [id]);
 // ... tempo passa ...
-await db.query("UPDATE coupons SET uses = uses + 1 WHERE id = $1", [id]);
+await db.query("UPDATE resources SET uses = uses + 1 WHERE id = $1", [id]);
 
 // ✅ Atômico — check e update na mesma query
 const result = await db.query(
-  "UPDATE coupons SET uses = uses + 1 WHERE id = $1 AND uses < max_uses RETURNING *",
+  "UPDATE resources SET uses = uses + 1 WHERE id = $1 AND uses < max_uses RETURNING *",
   [id]
 );
-if (result.rows.length === 0) throw new Error("coupon_exhausted");
+if (result.rows.length === 0) throw new Error("resource_exhausted");
+```
+
+**Go:**
+```go
+// ❌ TOCTOU
+var uses int
+err := db.QueryRow("SELECT uses FROM resources WHERE id = $1", id).Scan(&uses)
+if uses >= maxUses { return ErrExhausted }
+// ... outro goroutine pode incrementar aqui ...
+_, err = db.Exec("UPDATE resources SET uses = uses + 1 WHERE id = $1", id)
+
+// ✅ Atômico
+result, err := db.Exec(
+    "UPDATE resources SET uses = uses + 1 WHERE id = $1 AND uses < max_uses", id,
+)
+rows, _ := result.RowsAffected()
+if rows == 0 { return ErrExhausted }
 ```
 
 ### Redirect e URLs
