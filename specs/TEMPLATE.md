@@ -1,6 +1,6 @@
 # {ID} — {Título}
 
-> Status: `rascunho` | `aprovada` | `em andamento` | `parcial — {detalhe}` | `concluída`
+> Status: `rascunho` | `aprovada` | `em andamento` | `parcial — {detalhe}` | `concluída` | `descontinuada — ver {SPEC_SUBSTITUTA}`
 > Prioridade: `crítica` | `alta` | `média` | `baixa`
 > Criada em: YYYY-MM-DD
 
@@ -20,6 +20,7 @@ Por que essa mudança é necessária? Qual problema resolve ou qual oportunidade
 ## Requisitos Funcionais
 
 Lista numerada dos requisitos. IDs permitem rastreabilidade bidirecional entre código e spec.
+Ao implementar, referenciar o ID no código: `// Implements RF-001 from {ID}`
 
 - RF-001: ...
 - RF-002: ...

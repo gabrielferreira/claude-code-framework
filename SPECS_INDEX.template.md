@@ -8,7 +8,9 @@
 1. Identificar o domínio da mudança
 2. Localizar a spec pelo ID ou palavras-chave
 3. Abrir APENAS a spec identificada
-4. Se status é `rascunho` — perguntar antes de implementar
+4. Verificar status antes de implementar:
+   - `rascunho` → perguntar antes de implementar (pode estar incompleta)
+   - `descontinuada` → NÃO implementar. Verificar qual spec a substituiu
 
 ## {Domínio 1 — ex: Autenticação & Acesso}
 
@@ -69,5 +71,7 @@
 
 - **Nova spec criada:** adicionar linha no domínio correto
 - **Spec concluída:** atualizar status para `concluída`, mover path para `done/`
+- **Spec descontinuada:** atualizar status para `descontinuada`, adicionar nota sobre qual spec a substituiu
 - **Spec removida:** remover linha
 - **Mudança de domínio:** mover linha para domínio correto
+- **Dependência adicionada:** atualizar tabela "Dependências entre specs" E seção "Dependências" dentro da spec

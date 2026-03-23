@@ -51,8 +51,10 @@ Antes de implementar qualquer feature ou corrigir comportamento de negócio:
 1. **Consultar `SPECS_INDEX.md`** na raiz do projeto para localizar a spec relevante ao domínio.
 2. **Abrir APENAS a spec identificada** no índice. Não ler todas as specs.
 3. **Dentro da spec, focar na seção relevante** (ex: se é endpoint novo, ler "Critérios de aceitação" e "Arquivos afetados").
-4. **Se a spec tem status `rascunho`:** perguntar antes de implementar — pode estar incompleta.
-5. **Spec antes de código — sem exceção.** Toda implementação DEVE ter entrada no backlog (`.claude/specs/backlog.md`). Spec completa (`.claude/specs/TEMPLATE.md`) obrigatória quando qualquer um destes critérios se aplica: **(a)** altera mais de 1 arquivo, **(b)** muda regra de negócio, **(c)** mudança significativa num mesmo arquivo, **(d)** tópico de segurança, **(e)** visível ao usuário. Fluxo: backlog -> spec -> implementação -> testes -> docs -> **verificação** -> mover spec para `done/`.
+4. **Verificar status da spec:**
+   - `rascunho` → perguntar antes de implementar — pode estar incompleta.
+   - `descontinuada` → NÃO implementar. Verificar qual spec a substituiu.
+5. **Spec antes de código — sem exceção.** Toda implementação DEVE ter entrada no backlog (`.claude/specs/backlog.md`). Spec completa (`.claude/specs/TEMPLATE.md`) obrigatória quando qualquer um destes critérios se aplica: **(a)** altera mais de 1 arquivo, **(b)** muda regra de negócio, **(c)** mudança significativa num mesmo arquivo, **(d)** tópico de segurança, **(e)** visível ao usuário. Fluxo: backlog → spec → **testes (red)** → **implementação (green)** → **refactor** → docs → **verificação** → mover spec para `done/`. Abordagem TDD: escrever os testes ANTES de implementar, baseado nos critérios de aceitação da spec. Validar que os cenários fazem sentido, depois implementar o mínimo para passar.
 6. **Ao criar spec nova:** adicionar entrada no `SPECS_INDEX.md` no domínio correto.
 7. **Dependências entre specs:** Após identificar a spec primária, consultar a seção "Dependências entre specs" no final do `SPECS_INDEX.md`. Limite: máximo 2 specs dependentes por tarefa.
 
