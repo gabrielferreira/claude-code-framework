@@ -333,8 +333,8 @@ Cada vez que algo falha ou é esquecido:
 ## Arquivos incluídos neste framework
 
 ```
-templates/claude-code-framework/
-├── GUIA.md                          # Esta documentação
+claude-code-framework/
+├── README.md                          # Esta documentação
 ├── CLAUDE.template.md               # Template do CLAUDE.md
 ├── SPECS_INDEX.template.md          # Template do índice de specs
 ├── specs/
