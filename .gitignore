@@ -1,0 +1,21 @@
+node_modules/
+coverage/
+.env
+.env.local
+.env.production
+# NÃO ignorar .env.preview — é arquivo de conveniência com valores dummy (sem segredos)
+deploy/.deploy.env
+*.log
+dist/
+dist-assistant/
+build/
+.DS_Store
+apply-changes.sh
+# Claude Code worktrees
+.claude/worktrees/
+.claude/projects/
+.claude/plans/
+# Playwright
+e2e-report/
+test-results/
+playwright-report/
