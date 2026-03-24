@@ -119,6 +119,19 @@ O backlog tem **4 seções fixas**, nesta ordem:
 - `Última atualização` no header sempre reflete a data real.
 - **Decisões futuras ≠ Pendentes.** Item que depende de contexto externo vai para "Decisões futuras".
 
+## ⛔ TDD obrigatório — testes ANTES de implementar
+
+**Esta é a regra mais importante do projeto.** Toda implementação segue TDD rigoroso:
+
+1. **Ler a spec** — critérios de aceitação definem os cenários de teste.
+2. **Escrever os testes PRIMEIRO** — baseados nos critérios. Rodar. Todos devem FALHAR (red).
+3. **Implementar o MÍNIMO** para os testes passarem (green).
+4. **Refatorar** se necessário (testes continuam passando).
+
+**Nunca implementar código e depois criar testes para cobrir.** Isso é test-after, não TDD. A ordem importa: testes que falham ANTES da implementação garantem que os testes realmente testam algo. Testes escritos depois tendem a testar a implementação, não o comportamento.
+
+**Exceção única:** fix de bug urgente em produção (<30 min). Mesmo assim, o teste de regressão é criado ANTES do fix.
+
 ## Skills — ler ANTES de codificar
 
 {Mapear skills por ação. Adicionar/remover conforme o projeto precisa.}
