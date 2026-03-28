@@ -18,18 +18,16 @@ Executar na raiz do repositorio onde o framework sera implantado.
 
 ### Instalacao da skill
 
-Existem 3 formas de disponibilizar esta skill:
+Existem 3 formas de disponibilizar esta skill. Em todas elas, copiar o diretorio **inteiro** `skills/setup-framework/` (incluindo `templates/`), nao apenas o SKILL.md.
 
 **A. Por projeto (mais simples):**
 ```bash
-mkdir -p .claude/skills/setup-framework
-cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md .claude/skills/setup-framework/SKILL.md
+cp -r /caminho/do/claude-code-framework/skills/setup-framework .claude/skills/setup-framework
 ```
 
 **B. Personal — disponivel em todos os seus projetos:**
 ```bash
-mkdir -p ~/.claude/skills/setup-framework
-cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md ~/.claude/skills/setup-framework/SKILL.md
+cp -r /caminho/do/claude-code-framework/skills/setup-framework ~/.claude/skills/setup-framework
 ```
 
 **C. Via plugin — compartilhada com o time (Claude Code Team):**
@@ -41,12 +39,13 @@ Ver secao "Distribuicao para times" no `docs/SETUP_GUIDE.md`.
 
 Antes de qualquer coisa:
 
-1. **Localizar o framework de referencia:**
-   - Verificar se a variavel `${CLAUDE_SKILL_DIR}` aponta para um diretorio que contem os templates (util quando a skill e instalada como personal ou plugin)
-   - Caso contrario, perguntar ao usuario: "Onde esta o clone do claude-code-framework? (path absoluto)"
-   - Validar que o path informado contem `CLAUDE.template.md` na raiz — se nao: avisar e pedir novamente
-   - Guardar o path como `FRAMEWORK_PATH` para uso nas fases seguintes
-   - **Dica para o usuario:** se nao tem o framework clonado, clonar com `git clone <url> /tmp/claude-code-framework` e informar `/tmp/claude-code-framework`
+1. **Localizar os templates do framework:**
+   - **Primeiro:** verificar se existem templates embutidos em `${CLAUDE_SKILL_DIR}/templates/CLAUDE.template.md`
+     - Se sim: usar `${CLAUDE_SKILL_DIR}/templates` como `FRAMEWORK_PATH` — nenhuma pergunta necessaria
+   - **Fallback:** se os templates embutidos nao existirem, perguntar ao usuario: "Onde esta o clone do claude-code-framework? (path absoluto)"
+     - Validar que o path informado contem `CLAUDE.template.md` na raiz — se nao: avisar e pedir novamente
+     - Guardar o path como `FRAMEWORK_PATH` para uso nas fases seguintes
+     - **Dica para o usuario:** se nao tem o framework clonado, clonar com `git clone <url> /tmp/claude-code-framework` e informar `/tmp/claude-code-framework`
 
 2. **Verificar se esta na raiz do repositorio:**
    - Confirmar que existe `.git/` no diretorio atual

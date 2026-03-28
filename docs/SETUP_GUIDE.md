@@ -19,7 +19,7 @@ O `/setup-framework` e um slash command (skill invocavel) que automatiza a impla
 
 1. **Repositorio git inicializado** — o wizard precisa estar na raiz de um repo git
 2. **Claude Code instalado** — com suporte a slash commands (skills com `user_invocable: true`)
-3. **Framework clonado localmente** — o wizard vai perguntar o path na Fase 0 para ler os templates (CLAUDE.template.md, SPECS_INDEX.template.md, etc.)
+3. **Templates acessiveis** — se a skill foi instalada com `templates/` (recomendado), tudo funciona automaticamente. Caso contrario, o wizard pergunta o path de um clone local do framework
 
 ---
 
@@ -29,28 +29,24 @@ Existem 3 formas de tornar o `/setup-framework` disponivel. Escolha a que faz ma
 
 ### Opcao A — Por projeto (mais simples, uso pontual)
 
-Copiar a skill diretamente para o projeto onde vai rodar:
+Copiar o diretorio inteiro da skill (incluindo templates) para o projeto:
 
 ```bash
 cd /caminho/do/meu-projeto
-mkdir -p .claude/skills/setup-framework
-cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md \
-   .claude/skills/setup-framework/SKILL.md
+cp -r /caminho/do/claude-code-framework/skills/setup-framework .claude/skills/setup-framework
 ```
 
-A skill fica disponivel apenas neste projeto. Util para uso unico — apos o setup, voce pode remover a pasta `setup-framework/` se quiser.
+A skill fica disponivel apenas neste projeto, com todos os templates embutidos. Nao precisa ter o framework clonado em outro lugar. Apos o setup, voce pode remover a pasta `setup-framework/` se quiser.
 
 ### Opcao B — Personal (disponivel em todos os seus projetos)
 
-Copiar a skill para o diretorio global do Claude Code:
+Copiar o diretorio inteiro da skill para o diretorio global do Claude Code:
 
 ```bash
-mkdir -p ~/.claude/skills/setup-framework
-cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md \
-   ~/.claude/skills/setup-framework/SKILL.md
+cp -r /caminho/do/claude-code-framework/skills/setup-framework ~/.claude/skills/setup-framework
 ```
 
-A skill fica disponivel em **qualquer projeto** que voce abrir com Claude Code. Basta digitar `/setup-framework` em qualquer repo.
+A skill fica disponivel em **qualquer projeto** que voce abrir com Claude Code. Basta digitar `/setup-framework` em qualquer repo. Templates embutidos, zero dependencia externa.
 
 ### Opcao C — Via plugin (compartilhada com o time)
 
@@ -63,8 +59,18 @@ claude-code-framework-plugin/
 ├── plugin.json
 └── skills/
     └── setup-framework/
-        └── SKILL.md
+        ├── SKILL.md
+        └── templates/          # Todos os templates viajam com o plugin
+            ├── CLAUDE.template.md
+            ├── PROJECT_CONTEXT.md
+            ├── SPECS_INDEX.template.md
+            ├── specs/
+            ├── scripts/
+            ├── skills/
+            └── docs/
 ```
+
+O diretorio `templates/` torna o plugin **self-contained** — nenhum membro do time precisa clonar o framework separadamente.
 
 **Passo 2 — Criar `plugin.json`:**
 
@@ -84,7 +90,7 @@ claude-code-framework-plugin/
 
 **Passo 3 — Publicar como repositorio Git:**
 
-Criar um repositorio Git (publico ou privado) com a estrutura acima. Pode ser o proprio `claude-code-framework` ou um repo separado so com o plugin.
+Criar um repositorio Git (publico ou privado) com a estrutura acima. Pode ser o proprio `claude-code-framework` ou um repo separado so com o plugin. O importante e que o diretorio `templates/` esteja incluido.
 
 **Passo 4 — Membros do time instalam o plugin:**
 
@@ -130,14 +136,16 @@ cd /caminho/do/seu/projeto
 /setup-framework
 ```
 
-O wizard vai perguntar onde esta o clone do framework (ex: `/home/user/claude-code-framework`) para ler os templates. Se nao tiver clonado, clone antes:
+Se a skill foi instalada com o diretorio `templates/` (opcoes A, B ou C), o wizard encontra os templates automaticamente — sem perguntas extras.
+
+Se voce copiou apenas o SKILL.md (sem `templates/`), o wizard vai perguntar onde esta o clone do framework. Nesse caso, clone antes:
 
 ```bash
 git clone <url-do-framework> /tmp/claude-code-framework
 ```
 
 O wizard vai:
-1. Perguntar onde esta o clone do framework (path absoluto)
+1. Localizar os templates (embutidos ou perguntar path do clone)
 2. Verificar que voce esta na raiz do repo
 3. Detectar a stack, estrutura e ferramentas
 4. Mostrar o resumo da analise e pedir confirmacao
@@ -188,7 +196,7 @@ Se o projeto ja tem `CLAUDE.md`:
 
 | O que | Por que |
 |---|---|
-| Path do framework | Precisa saber onde estao os templates |
+| Path do framework (se templates nao embutidos) | Precisa saber onde estao os templates |
 | Nome e descricao do projeto | Pode nao coincidir com nome do diretorio |
 | Dominio de negocio | Impacta mindset e regras de seguranca |
 | Modelo de specs | Decisao estrategica (repo, externo, hibrido) |
@@ -386,4 +394,6 @@ Tres caminhos:
 
 ### Preciso ter o framework clonado para rodar?
 
-Sim. O wizard pergunta o path do clone na Fase 0 para ler os templates. Se nao tiver clonado, basta rodar `git clone <url> /tmp/claude-code-framework` antes de executar `/setup-framework`. Apos o setup, os templates nao sao mais necessarios — tudo ja foi copiado e adaptado para o projeto.
+**Nao, se instalou a skill com o diretorio `templates/`.** O wizard detecta os templates embutidos automaticamente — zero dependencia externa.
+
+Se copiou apenas o SKILL.md (sem `templates/`), ai sim o wizard pergunta o path do clone. Nesse caso, basta rodar `git clone <url> /tmp/claude-code-framework` antes de executar.
