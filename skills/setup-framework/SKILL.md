@@ -14,7 +14,26 @@ Wizard que analisa o repositorio, faz perguntas inteligentes e estrutura o frame
 /setup-framework
 ```
 
-Executar na raiz do repositorio onde o framework sera implantado. O framework de referencia deve estar acessivel (clonado localmente ou com paths ajustados).
+Executar na raiz do repositorio onde o framework sera implantado.
+
+### Instalacao da skill
+
+Existem 3 formas de disponibilizar esta skill:
+
+**A. Por projeto (mais simples):**
+```bash
+mkdir -p .claude/skills/setup-framework
+cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md .claude/skills/setup-framework/SKILL.md
+```
+
+**B. Personal — disponivel em todos os seus projetos:**
+```bash
+mkdir -p ~/.claude/skills/setup-framework
+cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md ~/.claude/skills/setup-framework/SKILL.md
+```
+
+**C. Via plugin — compartilhada com o time (Claude Code Team):**
+Ver secao "Distribuicao para times" no `docs/SETUP_GUIDE.md`.
 
 ---
 
@@ -22,18 +41,25 @@ Executar na raiz do repositorio onde o framework sera implantado. O framework de
 
 Antes de qualquer coisa:
 
-1. **Verificar se esta na raiz do repositorio:**
+1. **Localizar o framework de referencia:**
+   - Verificar se a variavel `${CLAUDE_SKILL_DIR}` aponta para um diretorio que contem os templates (util quando a skill e instalada como personal ou plugin)
+   - Caso contrario, perguntar ao usuario: "Onde esta o clone do claude-code-framework? (path absoluto)"
+   - Validar que o path informado contem `CLAUDE.template.md` na raiz — se nao: avisar e pedir novamente
+   - Guardar o path como `FRAMEWORK_PATH` para uso nas fases seguintes
+   - **Dica para o usuario:** se nao tem o framework clonado, clonar com `git clone <url> /tmp/claude-code-framework` e informar `/tmp/claude-code-framework`
+
+2. **Verificar se esta na raiz do repositorio:**
    - Confirmar que existe `.git/` no diretorio atual
    - Se nao: avisar e abortar
 
-2. **Verificar se ja existe `.claude/` no repo (re-run vs primeira vez):**
+3. **Verificar se ja existe `.claude/` no repo (re-run vs primeira vez):**
    - Se `.claude/` **nao existe**: primeira execucao — seguir fluxo completo
    - Se `.claude/` **existe**: informar o que ja existe e perguntar ao usuario:
      - "Detectei que o framework ja foi parcialmente implantado. Quer complementar o que falta, ou recriar do zero?"
      - Se complementar: pular arquivos existentes, criar apenas os faltantes
      - Se recriar: criar backup de `.claude/` como `.claude.backup.{timestamp}/` e recriar
 
-3. **Verificar se `CLAUDE.md` ja existe:**
+4. **Verificar se `CLAUDE.md` ja existe:**
    - Se sim: ler conteudo, preservar informacoes uteis para merge posterior
 
 ---
@@ -242,7 +268,7 @@ mkdir -p docs
 
 ### 3.2 CLAUDE.md
 
-Usar `CLAUDE.template.md` do framework como base. Preencher com dados coletados:
+Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados coletados:
 
 - `{NOME_DO_PROJETO}` → nome do projeto
 - `{stack backend}` / `{stack frontend}` / `{DB}` → stacks detectadas
@@ -266,7 +292,7 @@ Usar `CLAUDE.template.md` do framework como base. Preencher com dados coletados:
 
 ### 3.3 PROJECT_CONTEXT.md
 
-Usar `PROJECT_CONTEXT.md` do framework como base. Preencher com dados coletados:
+Usar `${FRAMEWORK_PATH}/PROJECT_CONTEXT.md` como base. Preencher com dados coletados:
 
 - Stack tecnica real
 - Estrutura de arquivos real
@@ -276,7 +302,7 @@ Usar `PROJECT_CONTEXT.md` do framework como base. Preencher com dados coletados:
 
 ### 3.4 SPECS_INDEX.md
 
-Usar `SPECS_INDEX.template.md` como base:
+Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
 
 - Se **modelo repo ou hibrido:**
   - Criar com dominios relevantes ao projeto (ex: se nao tem pagamentos, nao criar dominio "Pagamentos")
@@ -289,8 +315,8 @@ Usar `SPECS_INDEX.template.md` como base:
 ### 3.5 Specs e backlog
 
 - Se **modelo repo ou hibrido:**
-  - Copiar `specs/TEMPLATE.md` para `.claude/specs/TEMPLATE.md`
-  - Copiar `specs/backlog.md` para `.claude/specs/backlog.md`
+  - Copiar `${FRAMEWORK_PATH}/specs/TEMPLATE.md` para `.claude/specs/TEMPLATE.md`
+  - Copiar `${FRAMEWORK_PATH}/specs/backlog.md` para `.claude/specs/backlog.md`
   - Preencher fases do backlog com as definidas no Bloco 3
   - Criar `.claude/specs/done/` (diretorio vazio)
 - Se **modelo externo:**
@@ -300,7 +326,7 @@ Usar `SPECS_INDEX.template.md` como base:
 ### 3.6 Skills
 
 Para cada skill selecionada no Bloco 4:
-- Copiar o diretorio inteiro de `skills/{nome}/` do framework para `.claude/skills/{nome}/`
+- Copiar o diretorio inteiro de `${FRAMEWORK_PATH}/skills/{nome}/` para `.claude/skills/{nome}/`
 - Incluir tanto README.md (skills de referencia) quanto SKILL.md (slash commands)
 
 **Sempre copiar:**
@@ -311,7 +337,7 @@ Para cada skill selecionada no Bloco 4:
 
 ### 3.7 scripts/verify.sh
 
-Copiar `scripts/verify.sh` do framework e adaptar:
+Copiar `${FRAMEWORK_PATH}/scripts/verify.sh` e adaptar:
 
 - Substituir `{backend}` pelo diretorio real de backend
 - Substituir `{frontend}` pelo diretorio real de frontend
@@ -324,7 +350,7 @@ Copiar `scripts/verify.sh` do framework e adaptar:
 ### 3.8 docs/
 
 Para cada doc selecionado no Bloco 6:
-- Copiar do framework para `docs/` do projeto
+- Copiar de `${FRAMEWORK_PATH}/docs/` para `docs/` do projeto
 - NAO preencher conteudo detalhado — deixar como template para evolucao
 
 ### 3.9 Slash commands adaptados ao modelo spec-driven

@@ -19,7 +19,102 @@ O `/setup-framework` e um slash command (skill invocavel) que automatiza a impla
 
 1. **Repositorio git inicializado** — o wizard precisa estar na raiz de um repo git
 2. **Claude Code instalado** — com suporte a slash commands (skills com `user_invocable: true`)
-3. **Framework de referencia acessivel** — o skill referencia templates do framework (CLAUDE.template.md, SPECS_INDEX.template.md, etc.). O framework deve estar clonado localmente ou os templates devem ser copiados para `.claude/skills/setup-framework/` antes da execucao
+3. **Framework clonado localmente** — o wizard vai perguntar o path na Fase 0 para ler os templates (CLAUDE.template.md, SPECS_INDEX.template.md, etc.)
+
+---
+
+## Instalacao da skill
+
+Existem 3 formas de tornar o `/setup-framework` disponivel. Escolha a que faz mais sentido para o seu caso.
+
+### Opcao A — Por projeto (mais simples, uso pontual)
+
+Copiar a skill diretamente para o projeto onde vai rodar:
+
+```bash
+cd /caminho/do/meu-projeto
+mkdir -p .claude/skills/setup-framework
+cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md \
+   .claude/skills/setup-framework/SKILL.md
+```
+
+A skill fica disponivel apenas neste projeto. Util para uso unico — apos o setup, voce pode remover a pasta `setup-framework/` se quiser.
+
+### Opcao B — Personal (disponivel em todos os seus projetos)
+
+Copiar a skill para o diretorio global do Claude Code:
+
+```bash
+mkdir -p ~/.claude/skills/setup-framework
+cp /caminho/do/claude-code-framework/skills/setup-framework/SKILL.md \
+   ~/.claude/skills/setup-framework/SKILL.md
+```
+
+A skill fica disponivel em **qualquer projeto** que voce abrir com Claude Code. Basta digitar `/setup-framework` em qualquer repo.
+
+### Opcao C — Via plugin (compartilhada com o time)
+
+Para times com assinatura Claude Code Team, a melhor forma de distribuir a skill e empacota-la como plugin. Assim qualquer membro do time pode usar `/setup-framework` sem instalar nada localmente.
+
+**Passo 1 — Criar estrutura do plugin:**
+
+```
+claude-code-framework-plugin/
+├── plugin.json
+└── skills/
+    └── setup-framework/
+        └── SKILL.md
+```
+
+**Passo 2 — Criar `plugin.json`:**
+
+```json
+{
+  "name": "claude-code-framework",
+  "version": "1.0.0",
+  "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
+  "skills": [
+    {
+      "name": "setup-framework",
+      "path": "skills/setup-framework/SKILL.md"
+    }
+  ]
+}
+```
+
+**Passo 3 — Publicar como repositorio Git:**
+
+Criar um repositorio Git (publico ou privado) com a estrutura acima. Pode ser o proprio `claude-code-framework` ou um repo separado so com o plugin.
+
+**Passo 4 — Membros do time instalam o plugin:**
+
+Cada membro do time roda uma vez:
+
+```bash
+claude plugin add <url-do-repositorio>
+```
+
+Apos isso, `/setup-framework` fica disponivel em todos os projetos daquele usuario. Quando o plugin e atualizado no repositorio, os membros recebem a versao nova automaticamente.
+
+**Passo 5 (opcional) — Marketplace privado:**
+
+Para organizacoes maiores, o time admin pode configurar um marketplace privado (repositorio Git com indice de plugins) e distribuir via:
+
+```bash
+claude plugin marketplace add <url-do-marketplace>
+claude plugin install claude-code-framework
+```
+
+> **Nota:** ao usar como plugin, a skill e invocada com namespace: `claude-code-framework:setup-framework`. Para simplificar, o usuario pode digitar `/setup-framework` diretamente — o Claude Code resolve o namespace se nao houver ambiguidade.
+
+### Qual opcao escolher?
+
+| Cenario | Opcao recomendada |
+|---|---|
+| Vai usar uma vez num projeto | A (por projeto) |
+| Quer ter disponivel em todos os seus repos | B (personal) |
+| Time inteiro precisa usar | C (plugin) |
+| Empresa com muitos times | C (plugin + marketplace) |
 
 ---
 
@@ -35,14 +130,21 @@ cd /caminho/do/seu/projeto
 /setup-framework
 ```
 
+O wizard vai perguntar onde esta o clone do framework (ex: `/home/user/claude-code-framework`) para ler os templates. Se nao tiver clonado, clone antes:
+
+```bash
+git clone <url-do-framework> /tmp/claude-code-framework
+```
+
 O wizard vai:
-1. Verificar que voce esta na raiz do repo
-2. Detectar a stack, estrutura e ferramentas
-3. Mostrar o resumo da analise e pedir confirmacao
-4. Fazer perguntas sobre nome, dominio, modelo de specs, fases, etc.
-5. Gerar todos os arquivos do framework
-6. Sugerir skills customizadas baseadas no projeto
-7. Gerar relatorio final com pendencias
+1. Perguntar onde esta o clone do framework (path absoluto)
+2. Verificar que voce esta na raiz do repo
+3. Detectar a stack, estrutura e ferramentas
+4. Mostrar o resumo da analise e pedir confirmacao
+5. Fazer perguntas sobre nome, dominio, modelo de specs, fases, etc.
+6. Gerar todos os arquivos do framework
+7. Sugerir skills customizadas baseadas no projeto
+8. Gerar relatorio final com pendencias
 
 ### Re-execucao (complementar)
 
@@ -86,6 +188,7 @@ Se o projeto ja tem `CLAUDE.md`:
 
 | O que | Por que |
 |---|---|
+| Path do framework | Precisa saber onde estao os templates |
 | Nome e descricao do projeto | Pode nao coincidir com nome do diretorio |
 | Dominio de negocio | Impacta mindset e regras de seguranca |
 | Modelo de specs | Decisao estrategica (repo, externo, hibrido) |
@@ -272,3 +375,15 @@ O wizard cria o framework na raiz. Para CLAUDE.md hierarquico (por package/app),
 ### O que sao "skills customizadas sugeridas"?
 
 Sao skills que nao existem no framework padrao mas fazem sentido para o projeto (ex: `payments-compliance` para projetos com Stripe). O wizard cria um esqueleto basico que deve ser preenchido pela equipe.
+
+### Como distribuir para o time inteiro?
+
+Tres caminhos:
+
+1. **Commitar no repo do projeto:** copiar a skill para `.claude/skills/setup-framework/` e commitar. Todos que clonarem o repo tem acesso.
+2. **Plugin compartilhado:** empacotar como plugin e distribuir via `claude plugin add <url>`. Ver secao "Opcao C — Via plugin" acima.
+3. **Marketplace privado:** para empresas maiores, configurar um marketplace Git interno.
+
+### Preciso ter o framework clonado para rodar?
+
+Sim. O wizard pergunta o path do clone na Fase 0 para ler os templates. Se nao tiver clonado, basta rodar `git clone <url> /tmp/claude-code-framework` antes de executar `/setup-framework`. Apos o setup, os templates nao sao mais necessarios — tudo ja foi copiado e adaptado para o projeto.
