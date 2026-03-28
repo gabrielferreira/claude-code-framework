@@ -26,7 +26,7 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 │  (checks evolutivos + OWASP)               │
 ├─────────────────────────────────────────────┤
 │  Slash commands (SKILL.md)                  │  ← Automação de processos
-│  (/backlog-update, /spec)                   │
+│  (/backlog-update, /spec, /setup-framework) │
 ├─────────────────────────────────────────────┤
 │  docs/                                      │  ← Documentação expandida
 │  (git, guias, arquitetura, segurança)       │
@@ -274,6 +274,7 @@ Slash commands são skills invocáveis pelo usuário com `/nome`.
 **Templates incluídos:**
 - `/backlog-update` — adicionar, concluir ou editar itens no backlog
 - `/spec` — criar nova spec a partir do template
+- `/setup-framework` — wizard interativo para implantar o framework em um repo
 
 ### 7. docs/ (documentação expandida)
 
@@ -363,6 +364,33 @@ O framework não precisa ser completo no dia 1. A ideia é:
 - **Semana 2:** 2-3 skills essenciais (DoD, testing, security) + docs/GIT_CONVENTIONS.md
 - **Semana 3+:** Skills de domínio (UX, DBA, mock-mode), slash commands, checks evolutivos
 - **Contínuo:** a cada falha ou esquecimento, adicionar check no verify.sh + item na skill
+
+### Setup automatico
+
+Em vez de copiar e adaptar manualmente, use o slash command `/setup-framework` para implantar o framework de forma interativa:
+
+```
+/setup-framework
+```
+
+O wizard:
+1. **Analisa o repositorio** automaticamente (stack, estrutura, ferramentas, comandos)
+2. **Faz perguntas inteligentes** sobre o que nao conseguiu detectar (nome, dominio, modelo de specs, fases, skills)
+3. **Gera todos os arquivos** do framework preenchidos com dados reais do projeto
+4. **Sugere skills customizadas** baseadas no que detectou (ex: pagamentos, IA, real-time)
+5. **Produz um relatorio** (`.claude/SETUP_REPORT.md`) com o que foi feito e pendencias
+
+**Funciona para:**
+- Projetos novos (bootstrap completo)
+- Projetos existentes (detecta o que ja tem)
+- Re-execucao (complementa sem sobrescrever)
+
+**Modelos de spec-driven suportados:**
+- **Specs no repo** (padrao) — tudo local em `.claude/specs/`
+- **Specs externas** — Jira, Linear, Notion, GitHub Issues como fonte de verdade
+- **Hibrido** — specs tecnicas no repo, specs de produto na ferramenta externa
+
+Detalhes completos: [`docs/SETUP_GUIDE.md`](docs/SETUP_GUIDE.md) | Skill: [`skills/setup-framework/SKILL.md`](skills/setup-framework/SKILL.md)
 
 ---
 
@@ -588,7 +616,8 @@ claude-code-framework/
 │   ├── GIT_CONVENTIONS.md                 # Conventional commits, branches, PRs, tags
 │   ├── ACCESS_CONTROL.md                  # Auth, sessões, tokens, roles, RBAC
 │   ├── ARCHITECTURE.md                    # Decisões arquiteturais, integrações, env vars
-│   └── SECURITY_AUDIT.md                  # Checklist OWASP Top 10 + API + LLM
+│   ├── SECURITY_AUDIT.md                  # Checklist OWASP Top 10 + API + LLM
+│   └── SETUP_GUIDE.md                     # Guia de uso do /setup-framework
 └── skills/
     ├── definition-of-done/README.md       # Skill: Definition of Done
     ├── testing/README.md                  # Skill: Testing (pirâmide, cobertura, anti-patterns)
@@ -601,7 +630,8 @@ claude-code-framework/
     ├── mock-mode/README.md               # Skill: Mock Mode (integrações externas)
     ├── syntax-check/README.md            # Skill: Syntax Check (pré-commit)
     ├── backlog-update/SKILL.md            # Slash command: /backlog-update
-    └── spec-creator/SKILL.md              # Slash command: /spec
+    ├── spec-creator/SKILL.md              # Slash command: /spec
+    └── setup-framework/SKILL.md           # Slash command: /setup-framework (wizard)
 ```
 
-Para usar: copiar para o novo projeto, substituir os `{placeholders}` pelos valores reais, e ir evoluindo.
+Para usar: executar `/setup-framework` no repo alvo (recomendado), ou copiar manualmente e substituir os `{placeholders}` pelos valores reais. Ir evoluindo progressivamente.
