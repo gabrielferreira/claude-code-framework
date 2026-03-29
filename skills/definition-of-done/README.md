@@ -87,6 +87,17 @@ Tudo do checklist universal, mais:
 - [ ] Timeout configurado
 - [ ] Testes: happy path, assinatura inválida, evento duplicado, payload inválido
 
+### Feature grande ou complexa (com breakdown de tasks)
+
+Tudo do checklist universal, mais:
+- [ ] Design doc existe e tem status `implementado` (se classificada como Grande/Complexo)
+- [ ] Decisões arquiteturais registradas no `STATE.md` (AD-NNN)
+- [ ] Todas as tasks do breakdown concluídas e marcadas
+- [ ] Tasks `[P]` integradas e testadas em conjunto (não só isoladamente)
+- [ ] `STATE.md` atualizado: lições, blockers resolvidos, ideias adiadas registradas
+- [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
+- [ ] Design doc movido junto com spec para `done/` (se aplicável)
+
 ### {Tipo específico do domínio — ex: Regras fiscais, Compliance, etc.}
 
 Tudo do checklist universal, mais:

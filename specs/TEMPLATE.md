@@ -48,6 +48,34 @@ Condições que DEVEM ser verdadeiras para considerar a spec concluída. Escrito
 |---|---|
 | `path/to/file.js` | Criar / Modificar / Remover |
 
+## Breakdown de tasks
+
+> Obrigatório para Grande/Complexo. Opcional para Médio. Se ao listar tasks aparecem >5 steps ou dependências complexas, reclassificar como Grande.
+
+### Ordem de execução
+
+```
+Fase 1 (sequencial): T1 → T2 → T3
+Fase 2 (paralela):   T4 [P] | T5 [P] | T6 [P]
+Fase 3 (integração):  T7 → T8
+```
+
+### T1: {título}
+- **O que:** {1 frase — o que entregar}
+- **Onde:** `path/to/file`
+- **Depende de:** — (primeiro)
+- **Reutiliza:** {módulo/padrão existente ou —}
+- **Pronto quando:** {critério testável — referenciar RF-XXX}
+
+### T2: {título} [P]
+- **O que:** {1 frase}
+- **Onde:** `path/to/file`
+- **Depende de:** T1
+- **Reutiliza:** —
+- **Pronto quando:** {critério testável}
+
+{Adicionar mais tasks conforme necessário. Marcador `[P]` = pode rodar em paralelo via sub-agent.}
+
 ## Não fazer
 
 O que está explicitamente FORA do escopo desta spec.

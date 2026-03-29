@@ -316,6 +316,8 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
 - Se **modelo repo ou hibrido:**
   - Copiar `${FRAMEWORK_PATH}/specs/TEMPLATE.md` para `.claude/specs/TEMPLATE.md`
   - Copiar `${FRAMEWORK_PATH}/specs/backlog.md` para `.claude/specs/backlog.md`
+  - Copiar `${FRAMEWORK_PATH}/specs/STATE.md` para `.claude/specs/STATE.md`
+  - Copiar `${FRAMEWORK_PATH}/specs/DESIGN_TEMPLATE.md` para `.claude/specs/DESIGN_TEMPLATE.md`
   - Preencher fases do backlog com as definidas no Bloco 3
   - Criar `.claude/specs/done/` (diretorio vazio)
 - Se **modelo externo:**
@@ -432,6 +434,8 @@ Salvar como `.claude/SETUP_REPORT.md`:
 | `SPECS_INDEX.md` | Indice de specs | {status} |
 | `.claude/specs/TEMPLATE.md` | Template de spec | {status} |
 | `.claude/specs/backlog.md` | Backlog unificado | {status} |
+| `.claude/specs/STATE.md` | Memoria persistente entre sessoes | {status} |
+| `.claude/specs/DESIGN_TEMPLATE.md` | Template de design doc | {status} |
 | `scripts/verify.sh` | Verificacao pre-commit | {status} |
 | `docs/README.md` | Indice de docs | {status} |
 | `docs/GIT_CONVENTIONS.md` | Convencoes de git | {status} |

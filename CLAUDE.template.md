@@ -54,7 +54,20 @@ Antes de implementar qualquer feature ou corrigir comportamento de negócio:
 4. **Verificar status da spec:**
    - `rascunho` → perguntar antes de implementar — pode estar incompleta.
    - `descontinuada` → NÃO implementar. Verificar qual spec a substituiu.
-5. **Spec antes de código — sem exceção.** Toda implementação DEVE ter entrada no backlog (`.claude/specs/backlog.md`). Spec completa (`.claude/specs/TEMPLATE.md`) obrigatória quando qualquer um destes critérios se aplica: **(a)** altera mais de 1 arquivo, **(b)** muda regra de negócio, **(c)** mudança significativa num mesmo arquivo, **(d)** tópico de segurança, **(e)** visível ao usuário. Fluxo: backlog → spec → **testes (red)** → **implementação (green)** → **refactor** → docs → **verificação** → mover spec para `done/`. Abordagem TDD: escrever os testes ANTES de implementar, baseado nos critérios de aceitação da spec. Validar que os cenários fazem sentido, depois implementar o mínimo para passar.
+5. **Classificar complexidade ANTES de começar.** Toda implementação DEVE ter entrada no backlog. O nível de cerimônia depende do tamanho:
+
+| Tamanho | Critério | O que criar | Fluxo |
+|---|---|---|---|
+| **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog | Backlog → implementa → testa → commit |
+| **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → TDD → commit |
+| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → tasks → TDD → commit |
+| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → tasks → sub-agents → commit |
+
+   Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
+
+   **Fluxo TDD (Médio, Grande, Complexo):** backlog → spec → **testes (red)** → **implementação (green)** → **refactor** → docs → **verificação** → mover spec para `done/`. Escrever os testes ANTES de implementar, baseado nos critérios de aceitação da spec.
+
+   **Design doc** (`.claude/specs/{id}-design.md`): obrigatório para Complexo, recomendado para Grande. Template em `.claude/specs/DESIGN_TEMPLATE.md`. Separa decisões arquiteturais da spec para evitar repetição nas tasks.
 6. **Ao criar spec nova:** adicionar entrada no `SPECS_INDEX.md` no domínio correto.
 7. **Dependências entre specs:** Após identificar a spec primária, consultar a seção "Dependências entre specs" no final do `SPECS_INDEX.md`. Limite: máximo 2 specs dependentes por tarefa.
 
@@ -130,7 +143,54 @@ O backlog tem **4 seções fixas**, nesta ordem:
 
 **Nunca implementar código e depois criar testes para cobrir.** Isso é test-after, não TDD. A ordem importa: testes que falham ANTES da implementação garantem que os testes realmente testam algo. Testes escritos depois tendem a testar a implementação, não o comportamento.
 
-**Exceção única:** fix de bug urgente em produção (<30 min). Mesmo assim, o teste de regressão é criado ANTES do fix.
+**Exceção para Pequeno:** mudanças classificadas como Pequeno (≤3 arquivos, <30min, sem regra de negócio) não precisam de spec formal, mas o teste de regressão é criado ANTES do fix e a entrada no backlog é obrigatória.
+
+## Fluxo RPI — Research, Plan, Implement (Grande/Complexo)
+
+Para features classificadas como **Grande** ou **Complexo**, separar o trabalho em fases com sessões/janelas distintas:
+
+**Research (sessão 1 — exploratória):**
+- Abrir sessão separada para explorar codebase, ler docs, pesquisar APIs, entender o domínio
+- Salvar achados em `.claude/specs/{id}-research.md` (arquivo descartável, só para referência)
+- Esta sessão vai consumir muitos tokens explorando — é esperado
+
+**Plan (mesma sessão ou nova):**
+- Criar spec, design doc e breakdown de tasks a partir do research
+- Salvar como arquivos permanentes (spec.md, design.md)
+- Atualizar `STATE.md` com decisões tomadas
+
+**Implement (sessão nova — limpa):**
+- Abrir sessão/janela LIMPA. Carregar APENAS: spec + design doc + STATE.md
+- Implementar tasks na ordem definida no breakdown
+- Tasks marcadas `[P]` podem ser delegadas a **sub-agents paralelos**:
+  - Cada sub-agent recebe: a task + spec + design doc (se existe) + STATE.md
+  - Sub-agent NÃO pesquisa codebase de novo — já tem tudo no breakdown
+  - Manter main context lean: orquestrar e integrar, não implementar
+  - Após sub-agents concluírem: integrar, rodar testes, verificar conflitos
+
+**Princípio:** contexto de implementação recebe APENAS o necessário para executar. Sessão curta e focada > sessão longa e poluída.
+
+### Context budget
+
+Manter sessões de implementação abaixo de **~200k tokens**. Quanto maior a janela de contexto, maior a chance de alucinação e erro.
+
+- **Pequeno/Médio:** cabe numa sessão só
+- **Grande:** considerar 1 sessão por grupo de tasks
+- **Complexo:** 1 sessão por fase (research, plan, implement) + sub-sessões por grupo de tasks `[P]`
+- Usar `STATE.md` para continuidade entre sessões
+- Ao perceber que a sessão está ficando longa: parar, registrar estado no `STATE.md` (seção TODOs), e sugerir "abrir nova sessão e continuar de onde parou"
+
+## Scope guardrail — não sair do escopo
+
+Regra: **"Está na definição da minha task? Se não, não toco."**
+
+Durante a implementação, ideias de melhoria e descobertas vão surgir. Não agir sobre elas. Em vez disso:
+
+1. **Melhoria ou ideia** → registrar em `STATE.md` seção "Ideias adiadas" + continuar task atual
+2. **Bug real encontrado** → registrar em `STATE.md` seção "Blockers ativos" ou resolver como Pequeno (se ≤3 arquivos, <30min)
+3. **Tentação de scope creep** → criar entrada no backlog como novo item. Não misturar com a task atual
+
+O heurístico: "Se não está nos critérios de aceitação da minha task, não entra neste commit."
 
 ## Skills — ler ANTES de codificar
 
@@ -142,7 +202,8 @@ O backlog tem **4 seções fixas**, nesta ordem:
 4. **Vai commitar?** -> `.claude/skills/docs-sync/README.md`
 5. **Vai adicionar log ou try/catch?** -> `.claude/skills/logging/README.md`
 6. **Vai refatorar ou criar módulo novo?** -> `.claude/skills/code-quality/README.md`
-{7+. Skills específicas do domínio do projeto}
+7. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
+{8+. Skills específicas do domínio do projeto}
 
 ## Antes de commitar (obrigatório)
 
@@ -175,6 +236,8 @@ O backlog tem **4 seções fixas**, nesta ordem:
 └── .claude/
     ├── skills/           # Checklists por domínio
     └── specs/            # Specs ativas + backlog + done/
+        ├── STATE.md      # Memória persistente entre sessões
+        └── {id}-design.md # Design docs (Grande/Complexo)
 ```
 
 ## Regras absolutas de segurança

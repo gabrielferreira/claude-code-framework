@@ -59,6 +59,11 @@ Exemplos:
    - Atualizar status da spec para `concluída`
    - Atualizar path no `SPECS_INDEX.md`
 7. Atualizar `Última atualização`
+8. Se `STATE.md` existir (`.claude/specs/STATE.md`):
+   - Remover blockers (B-NNN) relacionados ao item concluído
+   - Verificar se alguma "Ideia adiada" pode ser promovida a item no backlog
+   - Sugerir registrar lição aprendida (L-NNN) se houve algo não óbvio durante a implementação
+   - Se existir design doc associado (`.claude/specs/{id}-design.md`): atualizar status para `implementado`
 
 ### Ação: `update`
 

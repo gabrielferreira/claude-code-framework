@@ -245,9 +245,34 @@ fi
 #   grep -l 'Status:.*rascunho' .claude/specs/done/*.md 2>/dev/null
 # fi
 
+# 16. Specs com breakdown de tasks têm STATE.md
+# {DESCOMENTAR quando tiver specs com breakdown}
+# HAS_BREAKDOWN=$(grep -rl "Breakdown de tasks" .claude/specs/*.md 2>/dev/null | grep -v TEMPLATE | wc -l | tr -d ' ')
+# if [ "$HAS_BREAKDOWN" != "0" ] && [ ! -f .claude/specs/STATE.md ]; then
+#   warn "Specs com breakdown de tasks encontradas mas STATE.md não existe — criar .claude/specs/STATE.md"
+# else
+#   pass "STATE.md consistente com specs"
+# fi
+
+# 17. Design docs referenciados nas specs existem no disco
+# {DESCOMENTAR quando tiver design docs}
+# MISSING_DESIGNS=0
+# for spec in .claude/specs/*.md; do
+#   basename=$(basename "$spec")
+#   case "$basename" in backlog.md|TEMPLATE.md|DESIGN_TEMPLATE.md|STATE.md|README.md|*-design.md|*-research.md) continue ;; esac
+#   DESIGN_REF=$(grep -o '[a-z0-9-]*-design\.md' "$spec" 2>/dev/null | head -1)
+#   if [ -n "$DESIGN_REF" ] && [ ! -f ".claude/specs/$DESIGN_REF" ]; then
+#     warn "Spec '$basename' referencia design '$DESIGN_REF' que não existe"
+#     MISSING_DESIGNS=$((MISSING_DESIGNS + 1))
+#   fi
+# done
+# if [ "$MISSING_DESIGNS" = "0" ]; then
+#   pass "Design docs referenciados existem"
+# fi
+
 # {ADICIONAR: checks específicos do projeto}
-# 16. ...
-# 17. ...
+# 18. ...
+# 19. ...
 
 # ═══════════════════════════════════════════════════════════
 #  RESULTADO
