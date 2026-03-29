@@ -284,6 +284,8 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
 - Secao "Fases do roadmap" → fases do Bloco 3
 - Secao "Estrutura" → estrutura real do projeto detectada
 - Secao "Contexto de negocio" → baseado no dominio do Bloco 1
+- Secao "Context budget" → manter tabela por modelo (Opus/Sonnet/Haiku com variantes de context window). Alertar o usuario que os valores mudam entre versoes dos modelos
+- Item 8 "Validacao pre-implementacao" → manter como esta no template (validar arquivos mencionados na spec antes de codificar)
 - **Modelo spec-driven** → configurar conforme Bloco 2:
   - Se **repo**: manter secao "Specs e Requisitos" padrao
   - Se **externo**: adaptar caminhos para referenciar IDs externos (ex: `PROJ-123` em vez de `.claude/specs/auth.md`), adicionar instrucao de como consultar specs externas via MCP ou link direto
@@ -306,10 +308,12 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
 - Se **modelo repo ou hibrido:**
   - Criar com dominios relevantes ao projeto (ex: se nao tem pagamentos, nao criar dominio "Pagamentos")
   - Adaptar nomes de dominio ao projeto real
+  - Manter coluna `Owner` (opcional — util para times onde specs têm responsaveis diferentes)
 - Se **modelo externo:**
-  - Criar versao adaptada com colunas: `ID | Link externo | Status | Resumo`
+  - Usar a variante external comentada no template (descomentar e remover a variante local)
+  - Colunas: `ID | Título na ferramenta | External ID | Status | Owner | Resumo`
+  - Preencher regras de acesso com a ferramenta escolhida no Bloco 2
   - Adicionar instrucao: "Specs completas vivem em {ferramenta}. Este indice serve como ponte."
-  - Adicionar URL base para links
 
 ### 3.5 Specs e backlog
 

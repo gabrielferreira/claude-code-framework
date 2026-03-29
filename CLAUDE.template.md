@@ -70,6 +70,11 @@ Antes de implementar qualquer feature ou corrigir comportamento de negócio:
    **Design doc** (`.claude/specs/{id}-design.md`): obrigatório para Complexo, recomendado para Grande. Template em `.claude/specs/DESIGN_TEMPLATE.md`. Separa decisões arquiteturais da spec para evitar repetição nas tasks.
 6. **Ao criar spec nova:** adicionar entrada no `SPECS_INDEX.md` no domínio correto.
 7. **Dependências entre specs:** Após identificar a spec primária, consultar a seção "Dependências entre specs" no final do `SPECS_INDEX.md`. Limite: máximo 2 specs dependentes por tarefa.
+8. **Validação pré-implementação:** Após ler a spec e ANTES de escrever código:
+   - Abrir cada arquivo, função ou tabela mencionados na spec.
+   - Confirmar que existem e se comportam como a spec assume.
+   - Se algo mudou (renomeado, movido, removido, comportamento diferente), PARAR e reportar: "A spec assume X, mas o código atual mostra Y".
+   - Aguardar decisão do SWE antes de prosseguir.
 
 Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 
@@ -172,7 +177,16 @@ Para features classificadas como **Grande** ou **Complexo**, separar o trabalho 
 
 ### Context budget
 
-Manter sessões de implementação abaixo de **~200k tokens**. Quanto maior a janela de contexto, maior a chance de alucinação e erro.
+Manter sessões de implementação abaixo de **~60-70% do context window** do modelo em uso. Quanto maior a janela de contexto consumida, maior a chance de alucinação e erro.
+
+| Modelo | Context window | Budget seguro (~60-70%) |
+|---|---|---|
+| Opus 4.6 (1M) | 1M tokens | ~600-700k |
+| Opus 4.6 (200k) | 200k tokens | ~120-140k |
+| Sonnet 4.6 | 200k tokens | ~120-140k |
+| Haiku 4.5 | 200k tokens | ~120-140k |
+
+> **Atenção:** Os context windows mudam entre versões dos modelos e um mesmo modelo pode ter variantes com janelas diferentes. O budget deve ser recalculado como ~60-70% do context window atual do modelo em uso. Verificar a documentação do modelo e a variante contratada antes de confiar nos valores desta tabela.
 
 - **Pequeno/Médio:** cabe numa sessão só
 - **Grande:** considerar 1 sessão por grupo de tasks

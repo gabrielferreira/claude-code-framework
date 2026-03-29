@@ -227,12 +227,12 @@ Se o projeto ja tem `CLAUDE.md`:
 - `.claude/specs/TEMPLATE.md`
 - `.claude/specs/backlog.md`
 - `.claude/specs/done/`
-- `SPECS_INDEX.md` com dominios locais
+- `SPECS_INDEX.md` com dominios locais e coluna `Owner` (opcional — util quando specs têm responsaveis diferentes)
 
 ### Specs externas (Jira/Notion/Linear)
 
 - Specs vivem na ferramenta externa
-- Repo so tem `SPECS_INDEX.md` como ponte com links externos
+- Repo so tem `SPECS_INDEX.md` como ponte com IDs/links externos
 - NAO cria TEMPLATE.md nem backlog.md locais
 
 **Quando usar:**
@@ -241,7 +241,8 @@ Se o projeto ja tem `CLAUDE.md`:
 - Quer evitar duplicacao
 
 **O que e criado:**
-- `SPECS_INDEX.md` adaptado com colunas `ID | Link externo | Status | Resumo`
+- `SPECS_INDEX.md` adaptado com colunas `ID | Título na ferramenta | External ID | Status | Owner | Resumo`
+- Regras de acesso à ferramenta externa (buscar por External ID, nunca search aberto no workspace)
 - `.claude/specs/README.md` com instrucoes de referencia
 - `/spec` e `/backlog-update` adaptados para IDs externos
 
@@ -258,6 +259,14 @@ Se o projeto ja tem `CLAUDE.md`:
 - Estrutura local completa (TEMPLATE.md, backlog.md, done/)
 - `SPECS_INDEX.md` com secao local E secao de referencias externas
 - Separacao clara por dominio
+
+### Context budget
+
+O `CLAUDE.md` gerado inclui uma tabela de context budget por modelo (Opus/Sonnet/Haiku com variantes de context window). O budget recomendado e ~60-70% do context window para evitar degradacao de qualidade. Os valores mudam entre versoes dos modelos — verificar documentacao do modelo em uso.
+
+### Validacao pre-implementacao
+
+O `CLAUDE.md` gerado inclui a regra de validacao pre-implementacao (item 8): antes de escrever codigo, o modelo deve abrir os arquivos mencionados na spec e confirmar que existem e se comportam como a spec assume. Se algo mudou, parar e reportar.
 
 ---
 

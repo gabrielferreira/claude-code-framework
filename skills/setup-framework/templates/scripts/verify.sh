@@ -235,6 +235,20 @@ if [ "$MISSING_SPECS" = "0" ]; then
   pass "Todas as specs têm entrada no SPECS_INDEX.md"
 fi
 
+# 14b. Toda entrada no SPECS_INDEX aponta para arquivo que existe
+MISSING_FILES=0
+if [ -f SPECS_INDEX.md ]; then
+  grep -oP '`\.claude/specs/[^`]+`' SPECS_INDEX.md 2>/dev/null | tr -d '`' | while read spec_path; do
+    if [ ! -f "$spec_path" ]; then
+      warn "SPECS_INDEX referencia '$spec_path' mas arquivo não existe"
+      MISSING_FILES=$((MISSING_FILES + 1))
+    fi
+  done
+  if [ "$MISSING_FILES" = "0" ]; then
+    pass "Todas as entradas do SPECS_INDEX apontam para arquivos existentes"
+  fi
+fi
+
 # 15. Specs em done/ têm status concluída (não rascunho)
 # {DESCOMENTAR quando tiver specs em done/}
 # DRAFT_IN_DONE=$(grep -l 'Status:.*rascunho' .claude/specs/done/*.md 2>/dev/null | wc -l | tr -d ' ')

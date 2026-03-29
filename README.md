@@ -330,7 +330,7 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
      │
 5. Implementa seguindo spec (tasks [P] podem usar sub-agents)
      │  ⚠ Scope guardrail: só o que está na task. Ideias → STATE.md
-     │  ⚠ Context budget: manter sessão < ~200k tokens
+     │  ⚠ Context budget: manter sessão < ~60-70% do context window do modelo
      │
 6. Roda testes + verify.sh
      │
