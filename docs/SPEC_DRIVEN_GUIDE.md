@@ -1,4 +1,4 @@
-# [DRAFT] Spec-Driven Development com AI: a prática do SPECS_INDEX
+# Spec-Driven Development com AI: a prática do SPECS_INDEX
 
 ## O problema
 
