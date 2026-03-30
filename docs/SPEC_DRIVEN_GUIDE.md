@@ -650,6 +650,33 @@ Sinais de que a spec está pequena demais:
 
 Nesse caso, não precisa de spec — cai na categoria "Pequeno" do auto-sizing.
 
+### Nível de prescrição — o que a spec deve (e não deve) definir
+
+Uma crítica comum a specs detalhadas é que elas **tiram a liberdade do agente** de se adaptar ao que encontra no código. Se a spec diz "criar função `validateToken()` no arquivo `auth.js` na linha 42", o agente segue cegamente mesmo que o código tenha evoluído e exista uma forma melhor.
+
+O princípio é: **specs definem O QUE e POR QUÊ, não COMO.**
+
+| A spec deve definir | A spec NÃO deve definir |
+|---|---|
+| O que o sistema deve fazer (RF-001, RF-002) | Qual função criar, em qual linha |
+| Critérios de aceitação testáveis | Detalhes de implementação |
+| O que está fora do escopo ("Não fazer") | Qual padrão de código usar (o agente vê no código) |
+| Restrições de segurança/negócio | Nomes de variáveis ou estrutura interna |
+| Arquivos afetados (quais, não como) | Step-by-step de como modificar cada arquivo |
+
+**A seção "Arquivos afetados" lista onde vai mudar, não como.** Dizer "Modificar `auth.js`" é útil (escopo). Dizer "Na linha 42 do `auth.js`, adicionar `if (token.expired)`" é over-prescritivo — o agente vai encontrar que a linha 42 agora é outra coisa.
+
+**Critérios de aceitação são o contrato.** Se o critério diz "token expirado retorna 401", o agente tem liberdade para implementar da forma que fizer mais sentido no código atual — pode ser middleware, pode ser decorator, pode ser check inline. O critério valida o resultado, não o caminho.
+
+**O breakdown de tasks (Grande/Complexo) é exceção parcial.** Tasks precisam de mais detalhe porque coordenam trabalho paralelo. Mesmo assim, cada task define "O que" + "Pronto quando" — não "Como implementar".
+
+**Quando o agente encontra algo melhor:** se durante a implementação o agente descobre que o código já tem um padrão que resolve o requisito de forma diferente da esperada, ele deve:
+1. Implementar usando o padrão existente (não inventar um novo)
+2. Registrar a divergência: "A spec assume X, mas o código já tem Y que resolve melhor"
+3. O critério de aceitação continua valendo — só o caminho muda
+
+Isso equilibra **disciplina** (specs garantem que nada é esquecido) com **autonomia** (o agente se adapta ao código real).
+
 ### Automação da criação de specs
 
 A fricção de "criar arquivo, copiar template, preencher header, adicionar no índice" mata adoção. Se o custo de criar uma spec é 5 minutos de setup burocrático, o dev não cria. Se é 5 segundos, cria até para itens menores.
