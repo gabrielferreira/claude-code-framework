@@ -617,6 +617,55 @@ Nem toda spec precisa estar completa desde o primeiro dia:
 
 **Sem spec** — Existe como item no backlog (1 frase). Spec será criada quando o item entrar em pipeline. Não aparece no SPECS_INDEX até ter pelo menos uma spec light.
 
+### Da demanda à spec — processo colaborativo
+
+Specs não nascem do nada. Antes de abrir o editor e rodar `/spec`, existe um processo de descoberta que envolve o time. Um fluxo comum em times de produto + engenharia:
+
+```
+Problema identificado
+     │
+     ├─ Causas mapeadas (o que está gerando o problema)
+     │    └─ Evidências (dados, reclamações, métricas, incidentes)
+     │
+     ├─ Porquês (por que as causas existem — análise de raiz)
+     │
+     └─ Como resolver (ações concretas)
+          └─ Cada ação vira item no backlog → spec quando priorizada
+```
+
+**Exemplo hipotético:**
+
+```
+Problema: Tempo de resposta do suporte está alto
+
+Causas:
+  - Falta de documentação interna
+  - Fluxo de troubleshooting não padronizado
+  - Informações espalhadas em vários sistemas
+
+Evidências:
+  - Ticket médio leva 3 dias pra resolver
+  - 60% dos tickets são re-abertos por falta de contexto
+
+Porquês:
+  - Base de conhecimento nunca foi priorizada
+  - Cada dev resolve de um jeito diferente
+
+Como resolver:
+  1. Criar base de conhecimento interna        → backlog item FEAT-10
+  2. Padronizar fluxo de troubleshooting        → backlog item FEAT-11
+  3. Centralizar informações em um lugar        → backlog item FEAT-12
+```
+
+Cada "Como" vira um item no backlog. Quando priorizado, vira spec. A spec herda o contexto do exercício:
+
+- **Seção "Contexto"** ← problema + causas + evidências + porquês
+- **Seção "Requisitos Funcionais"** ← detalhamento do "como"
+- **Seção "Critérios de aceitação"** ← como saber que resolveu (métricas, comportamento esperado)
+- **Seção "Não fazer"** ← o que ficou de fora nesta spec mas pode virar outra
+
+**O framework não substitui o processo de descoberta do time.** Ele recebe o output e estrutura para que o Claude (ou qualquer dev) implemente com contexto completo. Times que fazem análise de causa raiz, design sprints, ou qualquer exercício colaborativo antes de codar alimentam specs melhores.
+
 ### De onde vem a spec — backlog como pipeline
 
 O fluxo completo de uma spec, do nascimento ao código:
