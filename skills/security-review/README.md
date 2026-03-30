@@ -1,7 +1,7 @@
 # Skill: Security Review — {NOME_DO_PROJETO}
 
-> Use esta skill ao implementar novas features, endpoints ou modificar lógica existente.
-> Rode este checklist ANTES de commitar código que toca em rotas, middleware ou services.
+> Use esta skill ao implementar novas features, endpoints, comandos ou modificar lógica existente.
+> Rode este checklist ANTES de commitar código que toca em rotas, middleware, services, CLI handlers ou módulos de infra.
 
 ## Regras absolutas do projeto
 
@@ -14,9 +14,25 @@
 
 ---
 
+## Nota para projetos não-web
+
+O OWASP Top 10 abaixo é focado em aplicações web. Para outros tipos de projeto, adaptar:
+
+| Tipo de projeto | Preocupações principais |
+|---|---|
+| **CLI / Tool** | Input injection (args, stdin, env vars), path traversal, privilege escalation, secrets em logs/history |
+| **Mobile** | Armazenamento inseguro (keychain/keystore), certificate pinning, deep link hijacking, dados em background snapshot |
+| **Infra / IaC** | State file com secrets, blast radius excessivo, IAM over-permissive, drift de segurança, módulos não auditados |
+| **Library** | Supply-chain (dependências comprometidas), API surface expondo internals, prototype pollution, regex DoS |
+| **Desktop** | Auto-update sem verificação de assinatura, IPC inseguro, file system access sem sandbox |
+
+As regras absolutas (acima) e os checks de A01-A10 se aplicam a todos — apenas os exemplos mudam por tipo.
+
+---
+
 ## OWASP Top 10 — checklist prático
 
-Os 10 riscos mais comuns em aplicações web. Cada item tem o que verificar no código.
+Os 10 riscos mais comuns em aplicações web. Cada item tem o que verificar no código. Para projetos não-web, ver tabela acima.
 
 ### A01: Broken Access Control
 

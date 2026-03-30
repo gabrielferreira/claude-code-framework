@@ -708,6 +708,38 @@ func TestWebhook_Duplicate(t *testing.T) {
 - [ ] Overflow / underflow
 - [ ] Concorrência (se aplicável)
 
+### CLI / Tool
+
+- [ ] Help text (`--help`) renderiza corretamente
+- [ ] Exit code 0 em sucesso, 1 em erro, 2 em uso incorreto
+- [ ] stdout contém output esperado, stderr contém erros
+- [ ] Flags obrigatórias ausentes → mensagem clara + exit code 2
+- [ ] Stdin pipe funciona (se aplicável)
+- [ ] Output sem cores quando piped (`NO_COLOR` ou detecção de TTY)
+
+### Mobile
+
+- [ ] Render sem crash nos tamanhos de tela comuns
+- [ ] Permissões negadas → fallback graceful
+- [ ] Offline → comportamento esperado (cache, fila, mensagem)
+- [ ] Deep link resolve para a tela correta
+- [ ] Push notification → ação correta ao abrir
+
+### Infra / IaC
+
+- [ ] `plan` sem erros em estado limpo
+- [ ] Mudança esperada aparece no diff do plan
+- [ ] Mudança destrutiva marcada como tal no plan
+- [ ] Módulo reutilizável aceita variáveis obrigatórias
+- [ ] State lock funciona (se remoto)
+
+### Library / Package
+
+- [ ] API pública retorna tipos esperados
+- [ ] Breaking change: versão anterior falha, nova passa
+- [ ] Tree-shaking: import parcial não traz o bundle inteiro
+- [ ] Tipos/typings corretos (se TypeScript/typed)
+
 ---
 
 ## Regras
@@ -731,10 +763,13 @@ func TestWebhook_Duplicate(t *testing.T) {
 | Bugfix | Unitário (ou Integração) | Teste que reproduz o bug (TDD reverso) |
 | Novo endpoint | Integração | Todos os cenários de "Rota/Endpoint" |
 | Novo webhook | Integração | Todos os cenários de "Webhook" |
-| Fluxo crítico novo | E2E | Fluxo completo do usuário |
+| Novo comando CLI | Unitário + Integração | Todos os cenários de "CLI / Tool" |
+| Novo módulo IaC | Integração (Terratest/plan) | Todos os cenários de "Infra / IaC" |
+| Nova API de library | Unitário | Todos os cenários de "Library / Package" |
+| Fluxo crítico novo | E2E | Fluxo completo do usuário (web/mobile) |
 | Refator | — | Testes existentes devem continuar passando |
 | Mudança de regra de negócio | Unitário | Atualizar + novo cenário |
-| Antes de lançamento | Carga | Endpoints críticos sob volume |
+| Antes de lançamento | Carga | Endpoints/comandos críticos sob volume |
 | Output estável que não pode mudar | Golden | Snapshot do output esperado |
 
 ## Anti-patterns

@@ -102,6 +102,33 @@ Tudo do checklist universal, mais:
 - [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
 - [ ] Design doc movido junto com spec para `done/` (se aplicável)
 
+### Novo comando CLI
+
+Tudo do checklist universal, mais:
+- [ ] `--help` mostra usage correto
+- [ ] Exit codes: 0 (sucesso), 1 (erro), 2 (uso incorreto)
+- [ ] stdout para output, stderr para erros/logs
+- [ ] Flags obrigatórias ausentes geram mensagem clara
+- [ ] Testes cobrem todos os cenários de "CLI / Tool" (skill `testing`)
+
+### Mudança em infraestrutura (IaC)
+
+Tudo do checklist universal, mais:
+- [ ] `plan` mostra apenas as mudanças esperadas (sem drift acidental)
+- [ ] Mudanças destrutivas identificadas e justificadas
+- [ ] Secrets via variáveis/vault — zero hardcoded
+- [ ] Rollback plan documentado (como reverter se der errado)
+- [ ] State lock testado (se state remoto)
+
+### Publicação de library / package
+
+Tudo do checklist universal, mais:
+- [ ] Versão bumped seguindo semver (major se breaking, minor se feature, patch se fix)
+- [ ] CHANGELOG atualizado com mudanças desta versão
+- [ ] Breaking changes documentados com guia de migração
+- [ ] API pública tipada e documentada
+- [ ] Testes cobrem cenários de "Library / Package" (skill `testing`)
+
 ### {Tipo específico do domínio — ex: Regras fiscais, Compliance, etc.}
 
 Tudo do checklist universal, mais:
