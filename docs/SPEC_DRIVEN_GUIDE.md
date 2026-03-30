@@ -425,6 +425,8 @@ Para AI coding isso é especialmente crítico: o modelo não tem julgamento sobr
 
 ### Fluxo RPI — Research, Plan, Implement (Grande/Complexo)
 
+O padrão RPI surgiu na comunidade de AI coding, popularizado pela [HumanLayer](https://linearb.io/blog/dex-horthy-humanlayer-rpi-methodology-ralph-loop) e adotado pelo time do [Goose (Block/Square)](https://block.github.io/goose/docs/tutorials/rpi/). O problema que resolve: em codebases existentes (brownfield), pedir ao agente que pesquise, decida e implemente tudo de uma vez resulta em decisões arquiteturais inventadas e padrões existentes ignorados. O RPI força o agente a **alinhar nas decisões antes de escrever código**, com cada fase rodando em sessão separada.
+
 Para tarefas grandes ou complexas, dividir em sessões separadas:
 
 1. **Research:** investigar código, dependências, padrões existentes. Output: lista de achados + riscos.
@@ -656,13 +658,17 @@ Sem esta seção, a única defesa é a instrução genérica de "não sair do es
 
 ### Scope guardrail — 3 regras para não sair do escopo
 
+Em desenvolvimento humano, scope creep é um problema de gestão — o dev resolve mais do que foi pedido e atrasa a entrega. Em AI coding, scope creep é um problema **técnico**: cada desvio de escopo degrada a qualidade de tudo que vem depois na mesma sessão.
+
+A razão é mecânica. Quando o agente encontra um bug não relacionado e decide corrigir, ele precisa: ler arquivos adicionais, entender o contexto do bug, gerar diffs, rodar testes. Todo esse output (file reads, análises, diffs) **permanece na janela de contexto** pelo resto da sessão, competindo com a task original. Pesquisa sobre [context rot](https://www.morphllm.com/context-rot) mostra que coding agents são particularmente vulneráveis a isso porque cada tool output é acumulativo e irreversível (não dá pra "esquecer" um file read). E pesquisa sobre [task interference (EMNLP 2024)](https://arxiv.org/html/2402.18216v2) confirma que trocar de tarefa na mesma sessão degrada performance — o agente precisa navegar entre o contexto da task original e o contexto do desvio, perdendo precisão nos dois.
+
 Complementando o "Não fazer" da spec, o CLAUDE.md contém 3 regras de scope guardrail:
 
 1. **"Isso está na minha task/spec?"** → Se não: não fazer.
 2. **"Encontrei um bug não relacionado"** → Registrar no backlog, não corrigir agora.
 3. **"Tive uma ideia de melhoria"** → Registrar em STATE.md (seção "Ideias adiadas"), não implementar agora.
 
-Na prática, o scope guardrail previne o cenário mais comum de desperdício: o modelo encontra algo "errado" durante a implementação e decide consertar, saindo do escopo original e potencialmente quebrando outras coisas. Além do desperdício, cada desvio de escopo **acumula contexto irrelevante** na sessão — o fix do bug não relacionado, seus file reads, seus diffs, tudo fica na janela de contexto competindo com a task original. Pesquisa sobre *context rot* mostra que coding agents são particularmente vulneráveis porque cada tool output (grep, read, diff) fica na janela pelo resto da sessão, aumentando o ruído progressivamente.
+As regras parecem óbvias, mas sem elas a tendência natural do agente é "ser prestativo" e resolver tudo que encontra. O guardrail transforma uma diretriz vaga ("não saia do escopo") em decisões concretas com destinos claros (backlog para bugs, STATE.md para ideias).
 
 ### TDD integrado ao fluxo de specs
 
