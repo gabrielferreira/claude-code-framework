@@ -364,6 +364,8 @@ Copiar `${FRAMEWORK_PATH}/scripts/reports.sh` (orquestrador genérico com auto-d
 
 Copiar `${FRAMEWORK_PATH}/scripts/backlog-report.cjs` (sempre — todo projeto com backlog se beneficia).
 
+Copiar `${FRAMEWORK_PATH}/scripts/reports-index.js` (sempre — agrega todos os reports numa página consolidada).
+
 **Reports condicionais — criar apenas se detectados na Fase 1:**
 
 | Detecção | Script a criar | Baseado em |
@@ -478,6 +480,7 @@ Salvar como `.claude/SETUP_REPORT.md`:
 | `.claude/specs/DESIGN_TEMPLATE.md` | Template de design doc | {status} |
 | `scripts/verify.sh` | Verificacao pre-commit | {status} |
 | `scripts/reports.sh` | Orquestrador de reports (auto-deteccao) | {status} |
+| `scripts/reports-index.js` | Pagina consolidada de reports | {status} |
 | `scripts/backlog-report.cjs` | Report HTML do backlog | {status} |
 | `docs/README.md` | Indice de docs | {status} |
 | `docs/GIT_CONVENTIONS.md` | Convencoes de git | {status} |
