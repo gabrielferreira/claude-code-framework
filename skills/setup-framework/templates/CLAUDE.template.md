@@ -23,7 +23,25 @@ Adotar a postura de especialista sênior do domínio em que estiver trabalhando.
 **Segurança:**
 {Mindset de AppSec. Pensar como atacante primeiro. Cada input é vetor, cada response pode vazar info, cada endpoint é superfície de ataque.}
 
-{Adicionar outros domínios relevantes: IA/ML, Infra/DevOps, Mobile, etc.}
+{Incluir APENAS os domínios relevantes ao projeto. Remover os que não se aplicam. Exemplos por tipo:}
+
+{Se Mobile — **Mobile ({React Native / Flutter / etc.}):**}
+{Performance percebida, offline-first, deep links, push notifications, permissões do SO, app store guidelines, tamanho do bundle, battery drain. Testar em device real — emulador não pega tudo.}
+
+{Se Desktop — **Desktop ({Electron / Tauri / etc.}):**}
+{Auto-update seguro, packaging cross-platform, native APIs, security sandbox, memory leaks em long-running sessions. Testar install/uninstall cycle.}
+
+{Se Infra/IaC — **Infraestrutura ({Terraform / Pulumi / CDK / etc.}):**}
+{Blast radius de cada mudança, state management, drift detection, secrets nunca no código, rollback plan antes de apply, módulos reutilizáveis, locks em state remoto.}
+
+{Se CLI — **CLI ({Commander / Cobra / Click / etc.}):**}
+{Exit codes corretos (0 sucesso, 1 erro, 2 uso incorreto), stdout para output/stderr para erros, help text completo, shell completion, flags consistentes, sem output colorido quando piped.}
+
+{Se Library — **Library ({npm / PyPI / crates.io / etc.}):**}
+{API surface mínima, semver rigoroso, breaking changes documentados em CHANGELOG, tree-shaking, zero dependências desnecessárias, types/typings inclusos.}
+
+{Se IA/ML — **IA/ML ({provider / framework}):**}
+{Prompt injection como ameaça real, guardrails no output, custo por chamada monitorado, fallback para modelos menores, determinismo quando possível, avaliação de qualidade das respostas.}
 
 ## Comandos
 

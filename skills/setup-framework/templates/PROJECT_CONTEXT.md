@@ -22,14 +22,19 @@
 
 | Camada | Tecnologia |
 |---|---|
-| Frontend | {React 18 + Vite / Next.js / Vue / etc.} |
-| Backend | {Node.js 20 + Express / FastAPI / Django / etc.} |
-| Banco | {PostgreSQL 16 / MySQL / MongoDB / etc.} |
-| Auth | {JWT / OAuth / Passwordless / etc.} |
-| Pagamentos | {Gateway de pagamento — se aplicável} |
-| E-mail | {Serviço de e-mail transacional — se aplicável} |
+| Frontend | {React 18 + Vite / Next.js / Vue / etc. — remover se não aplicável} |
+| Backend | {Node.js 20 + Express / FastAPI / Django / etc. — remover se não aplicável} |
+| Banco | {PostgreSQL 16 / MySQL / MongoDB / etc. — remover se não aplicável} |
+| Auth | {JWT / OAuth / Passwordless / etc. — remover se não aplicável} |
+| Pagamentos | {Gateway de pagamento — remover se não aplicável} |
+| E-mail | {Serviço de e-mail transacional — remover se não aplicável} |
+| Mobile | {React Native / Flutter / Swift / Kotlin — remover se não aplicável} |
+| Infra/IaC | {Terraform / Pulumi / CDK / Ansible — remover se não aplicável} |
+| CLI | {Commander / Cobra / Click / Clap — remover se não aplicável} |
 | Testes | {Jest / Vitest / Pytest / etc. — contagem atual: ver CLAUDE.md} |
 | Deploy | {Docker / Vercel / AWS / etc.} |
+
+{Manter apenas as linhas relevantes ao projeto. Remover as que não se aplicam.}
 
 ---
 
