@@ -386,6 +386,26 @@ Criar arquivos na seguinte ordem. **REGRA: NUNCA sobrescrever arquivo existente 
 
 Se arquivo existe: perguntar "Ja existe {arquivo}. Quer fazer merge (preservar existente + adicionar novo), backup + recriar, ou pular?"
 
+**Arquivos obrigatórios vs opcionais:**
+
+Alguns arquivos são essenciais para o framework funcionar. Se o usuario pular um obrigatório, avisar e continuar — mas registrar como pendência no relatório final (Fase 5).
+
+| Arquivo | Obrigatório? | Se pular |
+|---|---|---|
+| `CLAUDE.md` | **Sim** — sem ele o Claude não tem regras | Avisar: "Sem CLAUDE.md o framework não funciona." Registrar pendência. |
+| `.claude/specs/TEMPLATE.md` | **Sim** — `/spec` depende dele | Avisar e registrar pendência. |
+| `.claude/specs/backlog.md` | **Sim** — `/backlog-update` depende dele | Avisar e registrar pendência. |
+| `SPECS_INDEX.md` | **Sim** — `/spec` e `/backlog-update` dependem dele | Avisar e registrar pendência. |
+| `scripts/verify.sh` | **Sim** — DoD depende dele | Avisar e registrar pendência. |
+| `.claude/specs/STATE.md` | Opcional — útil mas não bloqueia | Pular sem aviso. |
+| `.claude/specs/DESIGN_TEMPLATE.md` | Opcional — só pra Grande/Complexo | Pular sem aviso. |
+| `PROJECT_CONTEXT.md` | Opcional — útil pra outros LLMs | Pular sem aviso. |
+| `scripts/reports.sh` | Opcional — reports não bloqueiam | Pular sem aviso. |
+| `docs/*` | Opcional — referência humana | Pular sem aviso. |
+| Skills | Opcional individualmente — mas `definition-of-done` é recomendada | Se pular DoD, avisar que pré-commit fica sem checklist. |
+
+**O setup nunca para por causa de um "não".** Continua criando o resto, avisa sobre obrigatórios pulados, e lista tudo no relatório final como pendências de prioridade alta.
+
 ### 3.1 Estrutura de diretorios
 
 ```bash
