@@ -45,6 +45,32 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 
 ---
 
+## Quem usa o quê
+
+Nem tudo no framework é para o Claude. Alguns artefatos são para humanos, alguns para o Claude, e alguns para ambos.
+
+| Artefato | Público | Por quê |
+|---|---|---|
+| **CLAUDE.md** | Claude (primário), humanos (referência) | Claude lê automaticamente a cada sessão. Humanos consultam para entender as regras. |
+| **PROJECT_CONTEXT.md** | Qualquer LLM, humanos | Briefing portátil — usar com ChatGPT, Gemini, Copilot, ou qualquer ferramenta de IA. |
+| **Skills (`.claude/skills/`)** | Claude (primário) | Checklists que o Claude consulta antes de agir. Humanos podem ler para entender o que o Claude verifica. |
+| **Specs (`.claude/specs/`)** | Claude e humanos igualmente | Claude lê para implementar. Humanos leem para entender requisitos e validar entregas. |
+| **STATE.md** | Claude e humanos igualmente | Memória entre sessões — Claude lê para continuar de onde parou, humanos leem para entender estado. |
+| **Backlog** | Claude e humanos igualmente | Claude consulta para priorizar. Humanos consultam para ver o que falta. |
+| **verify.sh** | Claude (executa), humanos (consultam) | Claude roda antes de commit. Humanos leem para entender o que é validado. |
+| **reports.sh + reports HTML** | Humanos (primário) | Dashboards visuais de coverage, golden tests, backlog. Claude gera, humanos consultam. |
+| **docs/GIT_CONVENTIONS.md** | Humanos (primário) | Referência expandida sobre convenções de git. Claude já segue via CLAUDE.md. |
+| **docs/ACCESS_CONTROL.md** | Humanos (primário) | Documentação de auth/sessões para devs. Claude segue as regras via CLAUDE.md + skills. |
+| **docs/ARCHITECTURE.md** | Humanos (primário) | Visão macro (diagramas, integrações, fluxos entre serviços). Claude lê código direto — não precisa deste doc para codar. Útil para onboarding de devs. |
+| **docs/SECURITY_AUDIT.md** | Humanos (primário), Claude (referência) | Checklist de auditoria. Humanos fazem a auditoria. Claude consulta se solicitado. |
+| **docs/SETUP_GUIDE.md** | Humanos | Como usar o `/setup-framework`. |
+| **docs/SPEC_DRIVEN_GUIDE.md** | Humanos | Fundamentação da metodologia (RPI, context budget, scope guardrail). |
+| **SPECS_INDEX.md** | Claude e humanos igualmente | Mapa central de specs — Claude consulta para encontrar a spec certa, humanos para visão geral. |
+
+**Regra prática:** se o Claude precisa da informação para **agir** (codar, testar, commitar) → vai no CLAUDE.md ou skill. Se é referência para **entender** (onboarding, convenções, arquitetura) → vai em docs/. Se ambos precisam → specs, backlog, STATE.md.
+
+---
+
 ## Estrutura de diretórios
 
 ```
@@ -313,7 +339,7 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
 | `docs/SPEC_DRIVEN_GUIDE.md` | Spec-driven development, context budget, RPI, scope guardrail | Referência do framework |
 | `docs/ARCHITECTURE.md` | Decisões arquiteturais (ADR), integrações, diagramas | **Opcional** — ver nota abaixo |
 
-**Sobre `ARCHITECTURE.md`:** o Claude lê código direto — não precisa de um doc descrevendo o que o código já mostra. O ARCHITECTURE.md é útil apenas quando o projeto precisa de **visão macro** que nenhum arquivo de código mostra sozinho (diagramas de fluxo entre serviços, integrações externas, decisões de trade-off). Para decisões arquiteturais pontuais, o `STATE.md` (seção AD-NNN) já cobre. Para projetos pequenos/médios, ARCHITECTURE.md é dispensável.
+**Sobre `ARCHITECTURE.md`:** é um doc **para humanos** — onboarding de devs, visão macro de como as peças se encaixam. O Claude lê código direto e não precisa deste doc para codar. Para decisões arquiteturais pontuais, o `STATE.md` (seção AD-NNN) já cobre. O ARCHITECTURE.md vale quando o projeto é grande o suficiente para precisar de diagramas de fluxo entre serviços, integrações externas, ou visão macro que nenhum arquivo mostra sozinho. Para projetos pequenos/médios, é dispensável.
 
 **Docs adicionais sugeridos (criar conforme necessidade):**
 
