@@ -653,16 +653,28 @@ Porquês:
 
 Como resolver:
   1. Criar base de conhecimento interna        → backlog item FEAT-10
+     ├─ Definir estrutura de categorias
+     ├─ Migrar FAQs existentes do Slack
+     └─ Criar template de artigo padrão
   2. Padronizar fluxo de troubleshooting        → backlog item FEAT-11
+     ├─ Mapear os 10 tipos de ticket mais comuns
+     ├─ Criar fluxograma de decisão por tipo
+     └─ Treinar time no novo fluxo
   3. Centralizar informações em um lugar        → backlog item FEAT-12
+     ├─ Escolher ferramenta (wiki, notion, repo)
+     └─ Integrar com sistema de tickets
 ```
 
-Cada "Como" vira um item no backlog. Quando priorizado, vira spec. A spec herda o contexto do exercício:
+Cada "Como" vira um item no backlog. As **sub-ações** de cada "Como" viram detalhes dentro da spec:
 
-- **Seção "Contexto"** ← problema + causas + evidências + porquês
-- **Seção "Requisitos Funcionais"** ← detalhamento do "como"
-- **Seção "Critérios de aceitação"** ← como saber que resolveu (métricas, comportamento esperado)
-- **Seção "Não fazer"** ← o que ficou de fora nesta spec mas pode virar outra
+| Nível do exercício | Vira na spec |
+|---|---|
+| Problema + causas + evidências + porquês | **Contexto** (por que é necessário) |
+| Ação ("Como") | **Item no backlog** → spec quando priorizada |
+| Sub-ações | **Requisitos Funcionais** (RF-001, RF-002) ou **checkboxes do Escopo** |
+| Sub-ações com dependências entre si | **Breakdown de tasks** (T1 → T2 → T3, com `[P]` para paralelas) |
+| Métricas de sucesso | **Critérios de aceitação** (como saber que resolveu) |
+| O que ficou de fora | **Não fazer** (pode virar outra spec no futuro) |
 
 **O framework não substitui o processo de descoberta do time.** Ele recebe o output e estrutura para que o Claude (ou qualquer dev) implemente com contexto completo. Times que fazem análise de causa raiz, design sprints, ou qualquer exercício colaborativo antes de codar alimentam specs melhores.
 
