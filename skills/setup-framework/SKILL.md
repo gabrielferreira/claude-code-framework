@@ -129,7 +129,9 @@ Para cada stack detectada, extrair:
 
 ### 1.2 Deteccao de estrutura
 
-| Indicador | Conclusao |
+Indicadores usados como **sugestao** (nunca como conclusao final):
+
+| Indicador | Sugere |
 |---|---|
 | `workspaces` em package.json, `lerna.json`, `turbo.json`, `nx.json`, `pnpm-workspace.yaml` | Monorepo |
 | `packages/`, `apps/`, `modules/` com multiplos package.json | Monorepo |
@@ -138,7 +140,23 @@ Para cada stack detectada, extrair:
 | Presenca de `routes/`, `controllers/`, `services/`, `middleware/` | Backend |
 | Ambos frontend e backend | Fullstack |
 
-**Se monorepo detectado:** escanear sub-diretorios (1 nivel) e classificar cada um:
+**Confirmacao obrigatoria com o usuario — SEMPRE:**
+
+A auto-deteccao pode errar nos dois sentidos:
+- **Falso positivo:** repo com `packages/` que nao e monorepo (organizacao de pastas)
+- **Falso negativo:** monorepo com estrutura custom sem turbo/lerna/workspaces
+
+Regra: **sempre apresentar o que foi detectado e pedir confirmacao antes de prosseguir.**
+
+Se indicadores sugerem monorepo:
+> "Detectei indicadores de monorepo: {indicadores encontrados}. Sub-diretorios com projeto: {lista}. Isso e um monorepo? Se sim, quais sub-diretorios sao projetos independentes?"
+
+Se indicadores NAO sugerem monorepo:
+> "Nao detectei indicadores de monorepo. Isso e um single repo ou tem uma estrutura de monorepo diferente?"
+
+O usuario pode corrigir em ambos os casos. Se corrigir, pedir que indique quais sub-diretorios sao projetos. O setup se adapta a qualquer estrutura — os indicadores sao ponto de partida, nao regra.
+
+**Apos confirmacao, se monorepo:** escanear sub-diretorios confirmados e classificar cada um:
 
 | Sub-diretorio tem... | Classificacao |
 |---|---|
