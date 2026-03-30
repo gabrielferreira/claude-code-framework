@@ -433,7 +433,30 @@ Para tarefas grandes ou complexas, dividir em sessões separadas:
 2. **Plan:** escrever spec, design doc, breakdown de tasks. Output: spec aprovada + tasks priorizadas.
 3. **Implement:** executar tasks em ordem (sequenciais → paralelas → integração). Output: código + testes.
 
-Cada fase roda numa sessão separada com context limpo. Isso não é preferência — é necessidade: pesquisa sobre *task interference* (EMNLP 2024) mostrou que **trocar de tipo de tarefa na mesma sessão degrada performance significativamente**, mesmo em modelos frontier como GPT-4 e Claude. Research acumula muitos file reads (alta densidade de distratores), Plan toma decisões arquiteturais, e Implement precisa de foco em código. Misturar as três na mesma sessão força o modelo a navegar entre contextos conflitantes. Tasks marcadas com `[P]` podem ser executadas em paralelo por sub-agents (que rodam em context windows isolados, evitando o problema).
+Cada fase roda numa sessão separada com context limpo. A fundamentação: pesquisa sobre *task interference* (EMNLP 2024) mostrou que **trocar de tipo de tarefa na mesma sessão degrada performance significativamente**, mesmo em modelos frontier. Research acumula muitos file reads (alta densidade de distratores), Plan toma decisões arquiteturais, e Implement precisa de foco em código. Misturar as três numa mesma sessão força o modelo a navegar entre contextos conflitantes.
+
+### RPI vs Sub-agents — quando usar cada um
+
+Sub-agents rodam em **context windows isolados** com seus próprios tokens. Isso significa que o problema de context mixing é resolvido de duas formas:
+
+| Abordagem | Como funciona | Trade-off |
+|---|---|---|
+| **Sessões separadas (RPI clássico)** | Cada fase em sessão nova. STATE.md preserva continuidade. | Context 100% limpo, mas perde continuidade. Precisa de STATE.md. |
+| **Sub-agents na mesma sessão** | Research e tasks `[P]` delegados a sub-agents. Sessão principal mantém contexto. | Continuidade mantida, mas [usa 4-7x mais tokens](https://dev.to/onlineeric/claude-code-sub-agents-burn-out-your-tokens-4cd8). Sessão principal ainda acumula os summaries. |
+
+**Quando usar sessões separadas (RPI):**
+- Feature Complexa (>20 tasks, domínio novo, ambiguidade)
+- Research pesada que vai ler dezenas de arquivos
+- Sessão principal já está em >50% do context window
+- Orçamento de tokens é uma preocupação
+
+**Quando usar sub-agents (mesma sessão):**
+- Feature Grande mas com escopo claro (tasks bem definidas)
+- Tasks `[P]` independentes que podem rodar em paralelo
+- Continuidade entre research e implementação é importante
+- Context window do modelo é grande (1M) e orçamento de tokens não é limitante
+
+**Na prática:** muitos projetos usam uma abordagem híbrida — Research em sub-agent (evita poluir a sessão principal com dezenas de file reads), Plan na sessão principal (decisões ficam no contexto), Implement com tasks `[P]` em sub-agents paralelos.
 
 ## Context budget — evitar alucinação por excesso de contexto
 
@@ -480,6 +503,9 @@ A combinação de **sessões focadas** (1 assunto por sessão), **fluxo RPI** (r
 | Práticas de uso do Claude Code | [Best Practices for Claude Code (Anthropic)](https://code.claude.com/docs/en/best-practices) |
 | Context window 1M — o que muda | [Claude Code 1M Context Window Guide (2026)](https://claudefa.st/blog/guide/mechanics/1m-context-ga) |
 | Buffer interno e compactação | [Claude Code Context Buffer Management](https://claudefa.st/blog/guide/mechanics/context-buffer-management) |
+| Sub-agents e isolamento de contexto | [Subagents & Context Isolation (ClaudeWorld)](https://claude-world.com/tutorials/s04-subagents-and-context-isolation/) |
+| Sub-agents — custo de tokens (4-7x) | [Claude Code Sub Agents: Burn Out Your Tokens (DEV Community)](https://dev.to/onlineeric/claude-code-sub-agents-burn-out-your-tokens-4cd8) |
+| Sub-agents — documentação oficial | [Create custom subagents (Anthropic)](https://code.claude.com/docs/en/sub-agents) |
 
 Na prática:
 - **Pequeno/Médio:** cabe numa sessão só
@@ -623,6 +649,33 @@ Sinais de que a spec está pequena demais:
 - O tempo de escrever a spec é maior que o tempo de implementar
 
 Nesse caso, não precisa de spec — cai na categoria "Pequeno" do auto-sizing.
+
+### Nível de prescrição — o que a spec deve (e não deve) definir
+
+Uma crítica comum a specs detalhadas é que elas **tiram a liberdade do agente** de se adaptar ao que encontra no código. Se a spec diz "criar função `validateToken()` no arquivo `auth.js` na linha 42", o agente segue cegamente mesmo que o código tenha evoluído e exista uma forma melhor.
+
+O princípio é: **specs definem O QUE e POR QUÊ, não COMO.**
+
+| A spec deve definir | A spec NÃO deve definir |
+|---|---|
+| O que o sistema deve fazer (RF-001, RF-002) | Qual função criar, em qual linha |
+| Critérios de aceitação testáveis | Detalhes de implementação |
+| O que está fora do escopo ("Não fazer") | Qual padrão de código usar (o agente vê no código) |
+| Restrições de segurança/negócio | Nomes de variáveis ou estrutura interna |
+| Arquivos afetados (quais, não como) | Step-by-step de como modificar cada arquivo |
+
+**A seção "Arquivos afetados" lista onde vai mudar, não como.** Dizer "Modificar `auth.js`" é útil (escopo). Dizer "Na linha 42 do `auth.js`, adicionar `if (token.expired)`" é over-prescritivo — o agente vai encontrar que a linha 42 agora é outra coisa.
+
+**Critérios de aceitação são o contrato.** Se o critério diz "token expirado retorna 401", o agente tem liberdade para implementar da forma que fizer mais sentido no código atual — pode ser middleware, pode ser decorator, pode ser check inline. O critério valida o resultado, não o caminho.
+
+**O breakdown de tasks (Grande/Complexo) é exceção parcial.** Tasks precisam de mais detalhe porque coordenam trabalho paralelo. Mesmo assim, cada task define "O que" + "Pronto quando" — não "Como implementar".
+
+**Quando o agente encontra algo melhor:** se durante a implementação o agente descobre que o código já tem um padrão que resolve o requisito de forma diferente da esperada, ele deve:
+1. Implementar usando o padrão existente (não inventar um novo)
+2. Registrar a divergência: "A spec assume X, mas o código já tem Y que resolve melhor"
+3. O critério de aceitação continua valendo — só o caminho muda
+
+Isso equilibra **disciplina** (specs garantem que nada é esquecido) com **autonomia** (o agente se adapta ao código real).
 
 ### Automação da criação de specs
 
