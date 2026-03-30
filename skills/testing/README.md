@@ -271,6 +271,19 @@ Cobertura NÃO é um número para atingir — é uma ferramenta para encontrar c
 - Testes de template literal (`expect("Hello " + name).toBe("Hello John")`)
 - Snapshot tests sem review (atualizados automaticamente)
 
+### Cobertura que o Istanbul NÃO mede (mas existe)
+
+Istanbul/c8 só instrumenta arquivos carregados via `require`/`import` dentro do processo de teste. **Routes testadas via supertest (HTTP) aparecem 0% no Istanbul**, mesmo sendo exercitadas pelos testes de integração e golden tests.
+
+**Solução recomendada:**
+1. Excluir `routes/` do `collectCoverageFrom` — Istanbul não consegue medir, então o 0% é noise
+2. Medir cobertura de routes via golden tests (snapshots de endpoints) — report separado
+3. No report consolidado, mostrar as duas métricas lado a lado:
+   - "Services & Middleware" → Istanbul (import direto, medição precisa)
+   - "Routes & Endpoints" → Golden tests (supertest, medição por endpoint)
+
+**Não incluir routes no Istanbul e interpretar 0% como "não testado"** — isso gera falsa urgência sobre código que está coberto por outro tipo de teste.
+
 ---
 
 ## Padrões de mock
