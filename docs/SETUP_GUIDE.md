@@ -344,17 +344,28 @@ Resultado:
 
 Analise:
   Stack: TypeScript, Next.js 14, Fastify, PostgreSQL
-  Tipo: monorepo (turborepo) / fullstack
-  Packages: apps/web, apps/api, packages/shared, packages/ui
-  Sub-projetos: 4 detectados, 0 com framework
+  Tipo sugerido: monorepo (turborepo detectado)
   Teste: Vitest
   Comandos: turbo dev, turbo test, turbo build
+
+Confirmacao:
+  "Detectei indicadores de monorepo: workspaces em package.json, turbo.json.
+   Sub-diretorios com projeto: apps/web, apps/api, packages/shared, packages/ui.
+   Isso e um monorepo? Quais desses sao sub-projetos independentes?"
+  → Sim, todos os 4
+
+  "Mapa do monorepo:
+   apps/web     — Next.js 14  — sem framework — tipo: frontend
+   apps/api     — Fastify     — sem framework — tipo: backend
+   packages/shared — TypeScript — sem framework — tipo: lib
+   packages/ui  — React       — sem framework — tipo: lib
+   Correto?"
+  → Sim
 
 Perguntas:
   Nome: minha-plataforma
   Descricao: Plataforma SaaS de gestao financeira
   Dominio: Fintech
-  Modelo specs: Specs no repo
   Specs: centralizadas na raiz ou distribuidas? → centralizadas
   Skills: todas + ux-review
 
@@ -373,14 +384,22 @@ Resultado:
 /setup-framework
 
 Analise:
-  Tipo: monorepo / fullstack
-  Sub-projetos:
-    apps/api — framework detectado (.claude/, CLAUDE.md, specs, skills)
-    apps/web — sem framework (projeto novo)
-    packages/shared — sem framework (projeto novo)
+  Tipo sugerido: monorepo (multiplos package.json detectados)
+
+Confirmacao:
+  "Detectei indicadores de monorepo. Sub-diretorios com projeto:
+   apps/api, apps/web, packages/shared. Confirma?"
+  → Sim
+
+  "Mapa do monorepo:
+   apps/api     — Express  — COM framework (.claude/, CLAUDE.md) — tipo: backend
+   apps/web     — Next.js  — sem framework — tipo: frontend
+   packages/shared — TypeScript — sem framework — tipo: lib
+   Correto?"
+  → Sim
 
 Perguntas:
-  "apps/api ja tem framework configurado. Quer promover para L2 (recomendado) ou manter independente?"
+  "apps/api ja tem framework configurado. Promover para L2 (recomendado) ou manter independente?"
   → Promover para L2
   "apps/web e packages/shared nao tem framework. Configurar como L2?"
   → Sim
@@ -401,10 +420,14 @@ Resultado:
 
 Analise:
   Raiz: framework configurado (L0) ✓
-  Sub-projetos:
-    apps/api — L2 configurado ✓
-    apps/web — L2 configurado ✓
-    apps/mobile — sem framework (NOVO)
+
+Confirmacao:
+  "Mapa do monorepo:
+   apps/api    — L2 configurado ✓
+   apps/web    — L2 configurado ✓
+   apps/mobile — React Native — sem framework (NOVO)
+   Correto?"
+  → Sim, configurar apps/mobile
 
 Resultado:
   apps/mobile/CLAUDE.md L2 criado (React Native detectado)
@@ -437,7 +460,7 @@ Sim. O SPECS_INDEX.md e o CLAUDE.md podem ser editados manualmente para trocar d
 
 ### Como funciona em monorepo?
 
-O wizard cria o framework na raiz. Para CLAUDE.md hierarquico (por package/app), ele sugere a criacao mas nao cria automaticamente — isso fica como pendencia no relatorio para ser feito manualmente seguindo o guia do README.md.
+O wizard detecta indicadores de monorepo, confirma com o usuario, e pede que indique quais sub-diretorios sao projetos. Apos confirmacao, cria CLAUDE.md L0 na raiz (convencoes globais) e CLAUDE.md L2 em cada sub-projeto (stack, comandos, testes). Tambem detecta sub-projetos que ja tinham framework (ex: repo solo migrado) e oferece promover para L2. Ver exemplos acima.
 
 ### O que sao "skills customizadas sugeridas"?
 

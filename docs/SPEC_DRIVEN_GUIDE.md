@@ -658,7 +658,7 @@ Em monorepos, a decisão principal é: **specs centralizadas na raiz ou distribu
 
 **Referência cruzada entre módulos:** se uma spec de `apps/api` afeta `packages/shared`, a seção "Dependências" da spec deve referenciar o módulo: `packages/shared — RF-003 de SHARED-AUTH`. O `SPECS_INDEX.md` centralizado torna isso natural; o distribuído requer disciplina de cross-reference.
 
-O `/setup-framework` pergunta qual modelo usar ao detectar monorepo e configura a estrutura correspondente. Ver cenários de monorepo em [`SETUP_GUIDE.md`](SETUP_GUIDE.md).
+O `/setup-framework` detecta indicadores de monorepo, confirma com o usuário (nunca assume), pergunta quais sub-diretórios são projetos, apresenta mapa para aprovação, e só então pergunta qual modelo de specs usar e configura a estrutura. Ver cenários em [`SETUP_GUIDE.md`](SETUP_GUIDE.md).
 
 ---
 

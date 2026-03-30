@@ -373,7 +373,7 @@ O wizard:
 - Projetos novos (bootstrap completo)
 - Projetos existentes (detecta o que já tem)
 - Re-execução (complementa sem sobrescrever)
-- Monorepos — detecta sub-projetos, cria CLAUDE.md hierárquico (L0 raiz + L2 por módulo)
+- Monorepos — detecta indicadores, confirma com o usuário, cria CLAUDE.md hierárquico (L0 + L2) após confirmação
 - Sub-projeto migrado de repo solo — promove CLAUDE.md existente para L2
 - Re-run em monorepo — detecta sub-projetos novos e oferece configurar
 
