@@ -156,15 +156,47 @@ Se indicadores NAO sugerem monorepo:
 
 O usuario pode corrigir em ambos os casos. Se corrigir, pedir que indique quais sub-diretorios sao projetos. O setup se adapta a qualquer estrutura — os indicadores sao ponto de partida, nao regra.
 
-**Apos confirmacao, se monorepo:** escanear sub-diretorios confirmados e classificar cada um:
+**Apos confirmacao, se monorepo — mapear sub-projetos:**
+
+1. **Identificar onde estao os sub-projetos.** Nao assumir `packages/`, `apps/`, `modules/` — perguntar:
+   > "Quais diretorios contem sub-projetos? Detectei: {lista de diretorios com package.json/go.mod/etc.}. Tem mais algum? Algum desses NAO e sub-projeto?"
+
+   O usuario pode ter qualquer estrutura:
+   ```
+   # Convencional          # Custom               # Flat
+   apps/                   services/              frontend/
+     web/                    auth-api/            backend/
+     api/                    gateway/             shared/
+   packages/               libs/
+     shared/                 common/
+   ```
+
+   Aceitar qualquer combinacao. O que define sub-projeto e a confirmacao do usuario, nao a convencao de nomes.
+
+2. **Para cada sub-projeto confirmado, detectar:**
+   - Stack (ler package.json/go.mod/etc. de dentro do sub-diretorio)
+   - Se ja tem framework (`.claude/` + `CLAUDE.md`)
+   - Tipo (frontend/backend/lib/shared) — inferir pela stack ou perguntar
+
+3. **Apresentar mapa e confirmar antes de prosseguir:**
+   > "Mapa do monorepo:"
+   > ```
+   > {dir1}/ — {stack} — {com/sem framework} — tipo: {frontend/backend/lib}
+   > {dir2}/ — {stack} — {com/sem framework} — tipo: {backend}
+   > {dir3}/ — {stack} — {com/sem framework} — tipo: {lib}
+   > ```
+   > "Isso esta correto? Quer ajustar algo antes de prosseguir?"
+
+4. **So avancar para geracao (Fase 3) apos confirmacao do mapa.** Qualquer ajuste do usuario atualiza o mapa e re-apresenta.
+
+**Classificacao de cada sub-projeto (apos mapa confirmado):**
 
 | Sub-diretorio tem... | Classificacao |
 |---|---|
 | `.claude/` + `CLAUDE.md` | Sub-projeto com framework (ja configurado) |
-| `package.json` / `go.mod` / `pyproject.toml` / `Cargo.toml` sem `.claude/` | Sub-projeto novo (precisa de configuracao) |
-| Nenhum dos anteriores | Nao e projeto (ignorar) |
+| Arquivo de projeto (package.json, go.mod, etc.) sem `.claude/` | Sub-projeto novo (precisa de configuracao) |
 
-Apresentar resumo ao usuario: "Encontrei N sub-projetos: X com framework, Y sem framework." Seguir cenarios B/C/D da Fase 0 step 5.
+Seguir cenarios B/C/D da Fase 0 step 5 conforme classificacao.
 
 ### 1.3 Deteccao de ferramentas
 
