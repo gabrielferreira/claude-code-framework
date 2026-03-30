@@ -373,6 +373,9 @@ O wizard:
 - Projetos novos (bootstrap completo)
 - Projetos existentes (detecta o que já tem)
 - Re-execução (complementa sem sobrescrever)
+- Monorepos — detecta sub-projetos, cria CLAUDE.md hierárquico (L0 raiz + L2 por módulo)
+- Sub-projeto migrado de repo solo — promove CLAUDE.md existente para L2
+- Re-run em monorepo — detecta sub-projetos novos e oferece configurar
 
 **Modelos de spec-driven suportados:**
 - **Specs no repo** (padrão) — tudo local em `.claude/specs/`
@@ -409,6 +412,8 @@ O framework não precisa ser completo no dia 1:
 ## CLAUDE.md hierárquico (projetos grandes e mono-repos)
 
 O Claude Code suporta múltiplos `CLAUDE.md` — ele carrega **todos** que encontrar na hierarquia do diretório de trabalho. Isso permite especializar regras por módulo sem poluir o CLAUDE.md raiz.
+
+> **Dica:** o `/setup-framework` automatiza a criação de CLAUDE.md hierárquico em monorepos. Ele detecta sub-projetos (com ou sem framework), oferece criar L0 na raiz e L2 por módulo, e lida com migração de repos solo que viraram sub-pastas. Ver [cenários de monorepo](#como-implantar) e [`skills/setup-framework/SKILL.md`](skills/setup-framework/SKILL.md) Fase 0 step 5.
 
 ### Quando usar múltiplos CLAUDE.md
 

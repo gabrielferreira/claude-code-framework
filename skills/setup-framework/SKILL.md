@@ -556,6 +556,22 @@ Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
 - **Modelo spec-driven:** {modelo} — {detalhes}
 - **Fases do roadmap:** {lista}
 - **Dominio:** {dominio}
+
+## Monorepo (se aplicavel)
+
+- **Tipo:** {monorepo novo | sub-projeto migrado | re-run}
+- **CLAUDE.md L0 (raiz):** {Criado | Ja existia | N/A}
+- **Sub-projetos configurados:**
+
+| Sub-projeto | Stack detectada | CLAUDE.md L2 | Status |
+|---|---|---|---|
+| {apps/web} | {Next.js} | {Criado} | {Novo} |
+| {apps/api} | {Fastify} | {Migrado de solo para L2} | {Promovido} |
+| {packages/shared} | {TypeScript} | {Criado} | {Novo} |
+
+- **Specs:** {Centralizadas na raiz | Distribuidas por sub-projeto}
+- **verify.sh:** {Orquestrador L0 + verify.sh por sub-projeto | Unico na raiz}
+- **reports.sh:** {Orquestrador L0 | Unico na raiz}
 ```
 
 ### 5b. Plano de acao (pendencias)

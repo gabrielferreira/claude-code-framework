@@ -639,6 +639,27 @@ No framework, a skill `/spec-creator` (slash command do Claude Code) automatiza 
 
 A implementação pode ser também um script bash, Make target, ou GitHub Action — o que importa é a barreira de entrada próxima de zero.
 
+### Specs em monorepos
+
+Em monorepos, a decisão principal é: **specs centralizadas na raiz ou distribuídas por sub-projeto?**
+
+| Modelo | Quando usar | Como funciona |
+|---|---|---|
+| **Centralizado** (recomendado para começar) | Sub-projetos compartilham domínio, time único, <20 specs ativas | `.claude/specs/` e `SPECS_INDEX.md` na raiz. Specs de todos os módulos num lugar só. |
+| **Distribuído** | Sub-projetos independentes, times diferentes, >20 specs ativas | Cada sub-projeto tem seu `.claude/specs/` e `SPECS_INDEX.md`. Raiz tem backlog unificado. |
+| **Híbrido** | Specs cross-module na raiz, specs internas por módulo | Raiz: specs que afetam >1 módulo. Sub-projeto: specs internas. |
+
+**Na prática:**
+
+- `backlog.md` — geralmente centralizado na raiz (visão única do que falta fazer)
+- `STATE.md` — pode ser na raiz (decisões transversais) ou por módulo (estado local). Se distribuído, o L0 tem um STATE.md com decisões arquiteturais do monorepo
+- `SPECS_INDEX.md` — segue o modelo escolhido. Se centralizado, domínios do índice incluem o nome do módulo (ex: "api/Auth", "web/UX"). Se distribuído, cada módulo tem seu próprio índice
+- `DESIGN_TEMPLATE.md` e `TEMPLATE.md` — sempre centralizados (são templates, não specs)
+
+**Referência cruzada entre módulos:** se uma spec de `apps/api` afeta `packages/shared`, a seção "Dependências" da spec deve referenciar o módulo: `packages/shared — RF-003 de SHARED-AUTH`. O `SPECS_INDEX.md` centralizado torna isso natural; o distribuído requer disciplina de cross-reference.
+
+O `/setup-framework` pergunta qual modelo usar ao detectar monorepo e configura a estrutura correspondente. Ver cenários de monorepo em [`SETUP_GUIDE.md`](SETUP_GUIDE.md).
+
 ---
 
 ## Durante a implementação: da spec ao código

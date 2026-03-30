@@ -337,7 +337,7 @@ Resultado:
   Regras de seguranca incluem HIPAA/LGPD
 ```
 
-### Monorepo (Next.js + Fastify + shared packages)
+### Monorepo novo (Next.js + Fastify + shared packages)
 
 ```
 /setup-framework
@@ -346,6 +346,7 @@ Analise:
   Stack: TypeScript, Next.js 14, Fastify, PostgreSQL
   Tipo: monorepo (turborepo) / fullstack
   Packages: apps/web, apps/api, packages/shared, packages/ui
+  Sub-projetos: 4 detectados, 0 com framework
   Teste: Vitest
   Comandos: turbo dev, turbo test, turbo build
 
@@ -354,13 +355,60 @@ Perguntas:
   Descricao: Plataforma SaaS de gestao financeira
   Dominio: Fintech
   Modelo specs: Specs no repo
+  Specs: centralizadas na raiz ou distribuidas? → centralizadas
   Skills: todas + ux-review
 
 Resultado:
-  16 arquivos criados
-  CLAUDE.md com nota sobre hierarquia (sugestao de CLAUDE.md por package)
-  verify.sh adaptado para Vitest + turbo
+  20 arquivos criados
+  CLAUDE.md L0 (raiz) com convencoes globais
+  CLAUDE.md L2 criado em apps/web, apps/api, packages/shared, packages/ui
+  verify.sh raiz (orquestrador) + verify.sh por sub-projeto
+  reports.sh + backlog-report.cjs + reports-index.js
   Sugestao: criar skill payments-compliance
+```
+
+### Monorepo com sub-projeto migrado de repo solo
+
+```
+/setup-framework
+
+Analise:
+  Tipo: monorepo / fullstack
+  Sub-projetos:
+    apps/api — framework detectado (.claude/, CLAUDE.md, specs, skills)
+    apps/web — sem framework (projeto novo)
+    packages/shared — sem framework (projeto novo)
+
+Perguntas:
+  "apps/api ja tem framework configurado. Quer promover para L2 (recomendado) ou manter independente?"
+  → Promover para L2
+  "apps/web e packages/shared nao tem framework. Configurar como L2?"
+  → Sim
+
+Resultado:
+  CLAUDE.md L0 criado na raiz (convencoes globais extraidas do apps/api)
+  apps/api/CLAUDE.md adaptado para L2 (removidas secoes globais, mantidas regras do modulo)
+  apps/web/CLAUDE.md L2 criado (Next.js detectado)
+  packages/shared/CLAUDE.md L2 criado
+  Specs mantidas em apps/api/.claude/specs/ (distribuidas)
+  verify.sh raiz criado (orquestrador)
+```
+
+### Re-run em monorepo com sub-projeto novo
+
+```
+/setup-framework
+
+Analise:
+  Raiz: framework configurado (L0) ✓
+  Sub-projetos:
+    apps/api — L2 configurado ✓
+    apps/web — L2 configurado ✓
+    apps/mobile — sem framework (NOVO)
+
+Resultado:
+  apps/mobile/CLAUDE.md L2 criado (React Native detectado)
+  Demais arquivos mantidos (complementar, nao sobrescrever)
 ```
 
 ---
