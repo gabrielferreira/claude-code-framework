@@ -275,7 +275,16 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 
 ### 5. verify.sh + reports (verificação e relatórios)
 
-O verify.sh roda **antes de cada commit** e valida automaticamente o que a atenção humana pode falhar.
+O framework tem **duas camadas de verificação** que se complementam:
+
+| | verify.sh (script) | Definition of Done (skill) |
+|---|---|---|
+| **Quem executa** | Bash — CI, pre-commit hook, ou manualmente | Claude — antes de commitar |
+| **O que verifica** | Patterns determinísticos: grep, contagens, regex | Contexto que precisa de inteligência: critérios da spec, docs atualizados, scope |
+| **Funciona sem Claude?** | Sim — roda em qualquer ambiente | Não — precisa do Claude ativo |
+| **Exemplos** | console.log em prod, test.skip, secrets hardcoded, prepared statements | "Cada critério de aceitação verificado no código", "docs-sync aplicado" |
+
+**Por que dois?** O verify.sh pega o que é mecânico (grep encontra `console.log` em produção). O DoD pega o que é semântico (o Claude lê a spec e confirma que o critério de aceitação foi implementado). Nenhum substitui o outro.
 
 O reports.sh gera relatórios HTML (coverage, golden tests, backlog) e é chamado automaticamente pelas skills testing e definition-of-done quando testes são modificados.
 
