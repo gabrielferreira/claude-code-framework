@@ -101,6 +101,7 @@ for report in "${FOUND[@]}"; do
     coverage-be)
       echo "▶ [$STEP/$TOTAL] Gerando coverage backend..."
       cd "$ROOT/backend"
+      rm -rf coverage/
       npm run test:cov --silent 2>/dev/null || npx jest --coverage --silent 2>/dev/null || true
       echo "  ✓ Coverage gerado em backend/coverage/"
       ;;
@@ -108,6 +109,7 @@ for report in "${FOUND[@]}"; do
     coverage-fe)
       echo "▶ [$STEP/$TOTAL] Gerando coverage frontend..."
       cd "$ROOT/frontend"
+      rm -rf coverage/
       npm run test:cov --silent 2>/dev/null || npx vitest run --coverage --silent 2>/dev/null || true
       echo "  ✓ Coverage gerado em frontend/coverage/"
       ;;
