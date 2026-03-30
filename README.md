@@ -316,13 +316,13 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
 ```
 1. Usuário pede feature/fix
      │
-2. Classificar complexidade (Pequeno/Médio/Grande/Complexo)
-     ├─ Pequeno (≤3 arquivos, <30min) → backlog + implementa + testa + commit
-     └─ Médio+ → continua ↓
+2. /spec {ID} {Título} — classifica complexidade automaticamente
+     ├─ Pequeno (≤3 arquivos, <30min) → só backlog, sem spec. Implementa + testa + commit
+     ├─ Médio → spec breve (contexto + requisitos + critérios)
+     ├─ Grande → spec completa + oferece design doc
+     └─ Complexo → spec + design doc + sugere fluxo RPI
      │
-3. Consultar ou criar spec
-     ├─ SPECS_INDEX.md → spec existe? → ler e validar contra código atual
-     └─ Não existe? → /spec {ID} {Título} (classifica + cria + backlog)
+3. Se spec já existe: ler e validar contra código atual
      │
 4. Se Grande/Complexo:
      ├─ Criar design doc (decisões arquiteturais)
