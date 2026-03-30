@@ -72,8 +72,9 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
     │   ├── dba-review/README.md
     │   ├── mock-mode/README.md
     │   ├── syntax-check/README.md
-    │   ├── backlog-update/SKILL.md      # Slash command
-    │   └── spec-creator/SKILL.md        # Slash command
+    │   ├── backlog-update/SKILL.md      # Slash command: /backlog-update
+    │   ├── spec-creator/SKILL.md        # Slash command: /spec
+    │   └── setup-framework/SKILL.md     # Slash command: /setup-framework (wizard)
     └── specs/                   # Specs de features
         ├── TEMPLATE.md          # Template de spec
         ├── DESIGN_TEMPLATE.md   # Template de design doc (Grande/Complexo)
@@ -316,103 +317,92 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
 1. Usuário pede feature/fix
      │
 2. Classificar complexidade (Pequeno/Médio/Grande/Complexo)
-     │  ↓ Pequeno?
-     ├─ Sim → backlog + implementa + testa + commit (pular steps 3-4)
-     └─ Não → continua
+     ├─ Pequeno (≤3 arquivos, <30min) → backlog + implementa + testa + commit
+     └─ Médio+ → continua ↓
      │
-3. Claude consulta SPECS_INDEX.md
-     │  ↓ spec encontrada?
-     ├─ Sim → lê spec, valida contra código atual
-     └─ Não → /spec {ID} {Título} (classifica + cria spec + backlog)
+3. Consultar ou criar spec
+     ├─ SPECS_INDEX.md → spec existe? → ler e validar contra código atual
+     └─ Não existe? → /spec {ID} {Título} (classifica + cria + backlog)
      │
-3b. Se Grande/Complexo:
-     │  ├─ Criar design doc (decisões arquiteturais)
-     │  ├─ Criar breakdown de tasks (auto-contidos + [P])
-     │  └─ Se Complexo: usar fluxo RPI (research → plan → implement em sessões separadas)
+4. Se Grande/Complexo:
+     ├─ Criar design doc (decisões arquiteturais)
+     ├─ Criar breakdown de tasks (auto-contidos + [P] para paralelismo)
+     └─ Se Complexo: fluxo RPI — research, plan, implement em sessões separadas
      │
-4. Claude lê skills relevantes + STATE.md (se existir)
+5. Ler skills relevantes + STATE.md
      │
-5. Implementa seguindo spec (tasks [P] podem usar sub-agents)
-     │  ⚠ Scope guardrail: só o que está na task. Ideias → STATE.md
-     │  ⚠ Context budget: manter sessão < ~60-70% do context window do modelo
+6. TDD: escrever testes ANTES de implementar (red → green → refactor)
+     ├─ Critérios de aceitação da spec → cenários de teste
+     ├─ Testes falham (red) → implementar mínimo para passar (green) → refatorar
+     └─ Scope guardrail: só o que está na task. Ideias → STATE.md
+     │  ⚠ Context budget: manter sessão < ~60-70% do context window
      │
-6. Roda testes + verify.sh + reports (se testes mudaram: `bash scripts/reports.sh`)
-     │
-7. Aplica Definition of Done:
-     │  - Verifica cada critério de aceitação no código
-     │  - Marca checkboxes da spec
-     │  - Atualiza docs (docs-sync)
-     │  - Se Grande/Complexo: checklist adicional (design, STATE.md, scope)
+7. Verificação
+     ├─ Testes passam + verify.sh sem erros
+     ├─ Reports (se testes mudaram): bash scripts/reports.sh
+     └─ Definition of Done: critérios no código, checkboxes na spec, docs atualizados
      │
 8. Commit (conventional commits — ver docs/GIT_CONVENTIONS.md)
      │
 9. /backlog-update {ID} done
-     │  - Move spec para done/
-     │  - Atualiza SPECS_INDEX
-     │  - Atualiza backlog
-     │  - Atualiza STATE.md (blockers, lições, ideias)
+     ├─ Move spec para done/, atualiza SPECS_INDEX e backlog
+     ├─ Regenera backlog-report.html
+     └─ Atualiza STATE.md (remove blockers, promove ideias, registra lições)
 ```
 
 ---
 
-## Dicas de implantação
+## Como implantar
 
-### Começando do zero
+### Setup automático (recomendado)
 
-1. Crie o `CLAUDE.md` com seções obrigatórias
-2. Crie o `PROJECT_CONTEXT.md` com contexto do projeto
-3. Crie `.claude/specs/TEMPLATE.md` e `backlog.md`
-4. Crie `SPECS_INDEX.md`
-5. Adicione a skill `definition-of-done`
-6. Crie o `verify.sh` básico (testes + build)
-7. Crie `docs/README.md` + `docs/GIT_CONVENTIONS.md`
-8. Adicione skills conforme a necessidade surgir
-
-### Projeto existente
-
-1. Comece pelo `CLAUDE.md` — documente o que já existe
-2. Crie o `PROJECT_CONTEXT.md` — consolide o conhecimento existente
-3. Mova itens pendentes para o `backlog.md`
-4. Crie specs retroativas para features complexas em andamento
-5. Adicione `verify.sh` com checks do que já é regra
-6. Crie skills para os domínios onde mais ocorrem erros
-7. Organize docs existentes na pasta `docs/`
-
-### Evolução progressiva
-
-O framework não precisa ser completo no dia 1. A ideia é:
-
-- **Semana 1:** CLAUDE.md + PROJECT_CONTEXT.md + backlog + verify.sh básico
-- **Semana 2:** 2-3 skills essenciais (DoD, testing, security) + docs/GIT_CONVENTIONS.md
-- **Semana 3+:** Skills de domínio (UX, DBA, mock-mode), slash commands, checks evolutivos
-- **Contínuo:** a cada falha ou esquecimento, adicionar check no verify.sh + item na skill
-
-### Setup automatico
-
-Em vez de copiar e adaptar manualmente, use o slash command `/setup-framework` para implantar o framework de forma interativa:
+Use o slash command `/setup-framework` para implantar o framework de forma interativa:
 
 ```
 /setup-framework
 ```
 
 O wizard:
-1. **Analisa o repositorio** automaticamente (stack, estrutura, ferramentas, comandos)
-2. **Faz perguntas inteligentes** sobre o que nao conseguiu detectar (nome, dominio, modelo de specs, fases, skills)
+1. **Analisa o repositório** automaticamente (stack, estrutura, ferramentas, comandos)
+2. **Faz perguntas inteligentes** sobre o que não conseguiu detectar (nome, domínio, modelo de specs, fases, skills)
 3. **Gera todos os arquivos** do framework preenchidos com dados reais do projeto
 4. **Sugere skills customizadas** baseadas no que detectou (ex: pagamentos, IA, real-time)
-5. **Produz um relatorio** (`.claude/SETUP_REPORT.md`) com o que foi feito e pendencias
+5. **Produz um relatório** (`.claude/SETUP_REPORT.md`) com o que foi feito e pendências
 
 **Funciona para:**
 - Projetos novos (bootstrap completo)
-- Projetos existentes (detecta o que ja tem)
-- Re-execucao (complementa sem sobrescrever)
+- Projetos existentes (detecta o que já tem)
+- Re-execução (complementa sem sobrescrever)
 
 **Modelos de spec-driven suportados:**
-- **Specs no repo** (padrao) — tudo local em `.claude/specs/`
+- **Specs no repo** (padrão) — tudo local em `.claude/specs/`
 - **Specs externas** — Jira, Linear, Notion, GitHub Issues como fonte de verdade
-- **Hibrido** — specs tecnicas no repo, specs de produto na ferramenta externa
+- **Híbrido** — specs técnicas no repo, specs de produto na ferramenta externa
 
 Detalhes completos: [`docs/SETUP_GUIDE.md`](docs/SETUP_GUIDE.md) | Skill: [`skills/setup-framework/SKILL.md`](skills/setup-framework/SKILL.md)
+
+### Setup manual (se preferir controle total)
+
+Se preferir implantar manualmente em vez de usar o wizard:
+
+1. Copie `CLAUDE.template.md` → `CLAUDE.md` e preencha com dados do projeto
+2. Copie `PROJECT_CONTEXT.md` e preencha
+3. Copie `SPECS_INDEX.template.md` → `SPECS_INDEX.md`
+4. Copie `specs/` para `.claude/specs/` (TEMPLATE, DESIGN_TEMPLATE, STATE, backlog)
+5. Copie skills desejadas de `skills/` para `.claude/skills/`
+6. Copie `scripts/` (verify.sh, reports.sh, backlog-report.cjs, reports-index.js)
+7. Copie docs desejados de `docs/` para `docs/`
+
+Depois substitua os `{placeholders}` pelos valores reais do projeto.
+
+### Evolução progressiva
+
+O framework não precisa ser completo no dia 1:
+
+- **Semana 1:** CLAUDE.md + PROJECT_CONTEXT.md + backlog + verify.sh básico
+- **Semana 2:** 2-3 skills essenciais (DoD, testing, security) + docs/GIT_CONVENTIONS.md
+- **Semana 3+:** Skills de domínio (UX, DBA, mock-mode), checks evolutivos, reports
+- **Contínuo:** a cada falha ou esquecimento, adicionar check no verify.sh + item na skill
 
 ---
 
@@ -636,6 +626,7 @@ claude-code-framework/
 ├── scripts/
 │   ├── verify.sh                          # Template do verify.sh (checks OWASP A01-A10)
 │   ├── reports.sh                         # Orquestrador de reports (auto-detecção)
+│   ├── reports-index.js                   # Página consolidada que agrega reports individuais
 │   └── backlog-report.cjs                 # Report HTML do backlog (genérico)
 ├── docs/
 │   ├── README.md                          # Índice de documentação
@@ -643,7 +634,8 @@ claude-code-framework/
 │   ├── ACCESS_CONTROL.md                  # Auth, sessões, tokens, roles, RBAC
 │   ├── ARCHITECTURE.md                    # Decisões arquiteturais, integrações, env vars
 │   ├── SECURITY_AUDIT.md                  # Checklist OWASP Top 10 + API + LLM
-│   └── SETUP_GUIDE.md                     # Guia de uso do /setup-framework
+│   ├── SETUP_GUIDE.md                     # Guia de uso do /setup-framework
+│   └── SPEC_DRIVEN_GUIDE.md              # Guia completo de spec-driven development
 └── skills/
     ├── definition-of-done/README.md       # Skill: Definition of Done
     ├── testing/README.md                  # Skill: Testing (pirâmide, cobertura, anti-patterns)

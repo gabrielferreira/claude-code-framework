@@ -247,7 +247,8 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 ├── scripts/
 │   ├── verify.sh                # Verificação pré-commit
 │   ├── reports.sh               # Orquestrador de reports (auto-detecção)
-│   └── backlog-report.cjs       # Report HTML do backlog
+│   ├── backlog-report.cjs       # Report HTML do backlog
+│   └── reports-index.js         # Página consolidada de reports
 ├── docs/
 │   └── ...
 └── .claude/
