@@ -291,9 +291,14 @@ Se o wizard fez backup (re-run com recriar), o backup fica em `.claude.backup.{t
 
 Analise:
   Stack: Node.js 20, Express 4, PostgreSQL 15
-  Tipo: single repo / backend
+  Tipo sugerido: single repo / backend
   Teste: Jest
   Comandos: npm run dev, npm test, npm run migrate
+
+Confirmacao:
+  "Nao detectei indicadores de monorepo. Isso e um single repo
+   ou tem uma estrutura de monorepo diferente?"
+  → Single repo
 
 Perguntas:
   Nome: meu-api
@@ -318,9 +323,14 @@ Resultado:
 
 Analise:
   Stack: Python 3.12, FastAPI, SQLAlchemy, Alembic
-  Tipo: single repo / backend
+  Tipo sugerido: single repo / backend
   Teste: Pytest
   Comandos: uvicorn main:app, pytest, alembic upgrade head
+
+Confirmacao:
+  "Nao detectei indicadores de monorepo. Isso e um single repo
+   ou tem uma estrutura de monorepo diferente?"
+  → Single repo
 
 Perguntas:
   Nome: health-api

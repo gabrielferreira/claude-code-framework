@@ -156,6 +156,12 @@ Se indicadores NAO sugerem monorepo:
 
 O usuario pode corrigir em ambos os casos. Se corrigir, pedir que indique quais sub-diretorios sao projetos. O setup se adapta a qualquer estrutura — os indicadores sao ponto de partida, nao regra.
 
+**Apos confirmacao, se single repo:**
+- Nao perguntar sobre sub-projetos
+- Prosseguir direto para Fase 2 (questionario)
+- Na Fase 3, gerar arquivos na raiz (sem hierarquia L0/L2)
+- Na Fase 5, omitir secao "Monorepo" do relatorio
+
 **Apos confirmacao, se monorepo — mapear sub-projetos:**
 
 1. **Identificar onde estao os sub-projetos.** Nao assumir `packages/`, `apps/`, `modules/` — perguntar:
@@ -453,6 +459,15 @@ Copiar `${FRAMEWORK_PATH}/scripts/verify.sh` e adaptar:
 - Descomentar checks relevantes baseados no que foi detectado
 - Comentar checks que nao se aplicam ao stack
 
+**Se single repo sem separacao backend/frontend** (tudo em `src/` ou na raiz):
+- Usar paths reais direto (ex: `npm test` em vez de `cd backend && npm test`)
+- Remover checks de orquestracao multi-camada
+- Manter checks de testes, lint, seguranca relevantes ao stack
+
+**Se monorepo:**
+- Criar verify.sh orquestrador na raiz que chama verify.sh de cada sub-projeto
+- Cada sub-projeto pode ter seu proprio verify.sh com checks especificos
+
 ### 3.8 docs/
 
 Para cada doc selecionado no Bloco 6:
@@ -607,21 +622,25 @@ Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
 - **Fases do roadmap:** {lista}
 - **Dominio:** {dominio}
 
-## Monorepo (se aplicavel)
+## Estrutura do projeto
 
-- **Tipo:** {monorepo novo | sub-projeto migrado | re-run}
-- **CLAUDE.md L0 (raiz):** {Criado | Ja existia | N/A}
+- **Tipo:** {single repo | monorepo}
+
+{SE SINGLE REPO: omitir o restante desta secao.}
+
+{SE MONOREPO: incluir abaixo.}
+
+- **Cenario:** {monorepo novo | sub-projeto migrado | re-run}
+- **CLAUDE.md L0 (raiz):** {Criado | Ja existia}
 - **Sub-projetos configurados:**
 
 | Sub-projeto | Stack detectada | CLAUDE.md L2 | Status |
 |---|---|---|---|
-| {apps/web} | {Next.js} | {Criado} | {Novo} |
-| {apps/api} | {Fastify} | {Migrado de solo para L2} | {Promovido} |
-| {packages/shared} | {TypeScript} | {Criado} | {Novo} |
+| {dir} | {stack} | {Criado | Migrado para L2} | {Novo | Promovido} |
 
 - **Specs:** {Centralizadas na raiz | Distribuidas por sub-projeto}
-- **verify.sh:** {Orquestrador L0 + verify.sh por sub-projeto | Unico na raiz}
-- **reports.sh:** {Orquestrador L0 | Unico na raiz}
+- **verify.sh:** {Orquestrador L0 + verify.sh por sub-projeto}
+- **reports.sh:** {Orquestrador L0}
 ```
 
 ### 5b. Plano de acao (pendencias)
