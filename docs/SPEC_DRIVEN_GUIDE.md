@@ -472,6 +472,10 @@ A combinação de **sessões focadas** (1 assunto por sessão), **fluxo RPI** (r
 | Degradação por tamanho de input | [Context Rot: Why LLMs Degrade as Context Grows (Morph)](https://www.morphllm.com/context-rot) |
 | Tamanho de contexto prejudica mesmo com recuperação perfeita | [Context Length Alone Hurts LLM Performance (2025)](https://arxiv.org/html/2510.05381v1) |
 | Degradação por troca de tarefa na mesma sessão | [LLM Task Interference: Impact of Task-Switch in Conversational History (EMNLP 2024)](https://arxiv.org/html/2402.18216v2) |
+| RPI — origem e metodologia | [Ralph Loops: RPI Methodology (HumanLayer/LinearB)](https://linearb.io/blog/dex-horthy-humanlayer-rpi-methodology-ralph-loop) |
+| RPI — tutorial e implementação | [Research → Plan → Implement Pattern (Goose/Block)](https://block.github.io/goose/docs/tutorials/rpi/) |
+| RPI — documentação e estratégia | [Introducing the RPI Strategy (Patrick Robinson)](https://patrickarobinson.com/blog/introducing-rpi-strategy/) |
+| RPI — evolução do padrão em 2026 | [The Necessary Evolution of RPI (BetterQuestions)](https://betterquestions.ai/the-necessary-evolution-of-research-plan-implement-as-an-agentic-practice-in-2026/) |
 | Práticas de gestão de contexto para coding agents | [Best Practices for Context Management (DigitalOcean)](https://docs.digitalocean.com/products/gradient-ai-platform/concepts/context-management/) |
 | Práticas de uso do Claude Code | [Best Practices for Claude Code (Anthropic)](https://code.claude.com/docs/en/best-practices) |
 | Context window 1M — o que muda | [Claude Code 1M Context Window Guide (2026)](https://claudefa.st/blog/guide/mechanics/1m-context-ga) |
