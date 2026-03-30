@@ -275,16 +275,19 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 
 ### 5. verify.sh + reports (verificação e relatórios)
 
-O framework tem **duas camadas de verificação** que se complementam:
+O framework tem **duas camadas de verificação** sem duplicação — cada item existe em **um lugar só**:
 
 | | verify.sh (script) | Definition of Done (skill) |
 |---|---|---|
-| **Quem executa** | Bash — CI, pre-commit hook, ou manualmente | Claude — antes de commitar |
-| **O que verifica** | Patterns determinísticos: grep, contagens, regex | Contexto que precisa de inteligência: critérios da spec, docs atualizados, scope |
+| **Quem executa** | Bash — CI, pre-commit hook, ou Claude | Claude — antes de commitar |
+| **O que verifica** | Mecânico: grep, contagens, regex | Inteligência: julgamento, contexto, semântica |
 | **Funciona sem Claude?** | Sim — roda em qualquer ambiente | Não — precisa do Claude ativo |
-| **Exemplos** | console.log em prod, test.skip, secrets hardcoded, prepared statements | "Cada critério de aceitação verificado no código", "docs-sync aplicado" |
+| **Exemplos** | console.log, test.skip, secrets hardcoded, SQL concat, contagens nos docs, specs indexadas | "Testes certos existem?", "Branches de erro cobertos?", "Auth middleware no endpoint novo?", "Docs atualizados?" |
+| **Se falhar** | Exit code 1 — bloqueia commit | Claude corrige antes de prosseguir |
 
-**Por que dois?** O verify.sh pega o que é mecânico (grep encontra `console.log` em produção). O DoD pega o que é semântico (o Claude lê a spec e confirma que o critério de aceitação foi implementado). Nenhum substitui o outro.
+**Como se relacionam:** o DoD inclui o item `verify.sh passa`. Se o verify.sh passa, o Claude não precisa re-verificar console.log, test.skip, etc. — já estão ok. O DoD foca no que o verify.sh **não consegue**: avaliar se os testes certos existem, se decisões de segurança fazem sentido, se docs refletem a mudança.
+
+**Regra: nunca duplicar.** Se um check pode ser grep/regex → verify.sh. Se precisa de julgamento → DoD. Se está nos dois → remover de um.
 
 O reports.sh gera relatórios HTML (coverage, golden tests, backlog) e é chamado automaticamente pelas skills testing e definition-of-done quando testes são modificados.
 
