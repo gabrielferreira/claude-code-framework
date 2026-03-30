@@ -241,7 +241,7 @@ O verify.sh roda **antes de cada commit** e valida automaticamente o que a aten�
 
 O reports.sh gera relatórios HTML (coverage, golden tests, backlog) e é chamado automaticamente pelas skills testing e definition-of-done quando testes são modificados.
 
-**Templates:** `scripts/verify.sh`, `scripts/reports.sh`, `scripts/backlog-report.cjs`
+**Templates:** `scripts/verify.sh`, `scripts/reports.sh`, `scripts/reports-index.js`, `scripts/backlog-report.cjs`
 
 **Seções do script:**
 

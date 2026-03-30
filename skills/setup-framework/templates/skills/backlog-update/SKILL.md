@@ -73,6 +73,14 @@ Exemplos:
 4. Aplicar mantendo ordem por severidade
 5. Atualizar `Última atualização`
 
+### Após qualquer ação (add, done, update)
+
+Se existir `scripts/backlog-report.cjs`, regenerar o relatório HTML:
+```bash
+node scripts/backlog-report.cjs
+```
+Isso atualiza `docs/backlog-report.html` com as métricas e tabelas atualizadas.
+
 ## Regras
 
 - **Nunca** riscar itens — sempre mover de Pendentes para Concluídos
@@ -80,3 +88,4 @@ Exemplos:
 - Descrição em Concluídos: 1 linha, suficiente para identificar
 - Seguir classificações do CLAUDE.md seção "Classificações do backlog"
 - Ao concluir item com spec, sempre mover a spec e atualizar SPECS_INDEX
+- **Sempre** regenerar `docs/backlog-report.html` ao final (se script existir)

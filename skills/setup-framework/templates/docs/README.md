@@ -41,6 +41,7 @@
 | Regras de código e segurança | [`../CLAUDE.md`](../CLAUDE.md) |
 | Specs de features | [`../.claude/specs/`](../.claude/specs/) + [`../SPECS_INDEX.md`](../SPECS_INDEX.md) |
 | Backlog (o que falta fazer) | [`../.claude/specs/backlog.md`](../.claude/specs/backlog.md) |
+| Estado entre sessões (decisões, blockers, lições) | [`../.claude/specs/STATE.md`](../.claude/specs/STATE.md) |
 | Skills de desenvolvimento | [`../.claude/skills/`](../.claude/skills/) |
 | Convenções de git | [`GIT_CONVENTIONS.md`](GIT_CONVENTIONS.md) |
 
