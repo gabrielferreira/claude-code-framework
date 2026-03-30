@@ -224,10 +224,11 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 1. **Testes passando** — zero falhas.
 2. **Coverage** — rodar coverage e verificar que branches global ≥80% e módulos críticos no threshold definido. Se adicionou/modificou rota ou service, confirmar que o arquivo não caiu abaixo do threshold. **Não pular este passo.** Testes passando NÃO garante cobertura — é possível ter 100% dos testes passando com 0% de cobertura no código novo.
 3. **`bash scripts/verify.sh`** — zero ❌. Se falhar, corrigir antes de commitar.
-3. **Verificação de código** — além do verify.sh, verificar NO CÓDIGO se o que a spec mandava foi implementado. Ler critérios de aceitação e confirmar contra o código real.
-4. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
-5. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
-6. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
+4. **Verificação de código** — além do verify.sh, verificar NO CÓDIGO se o que a spec mandava foi implementado. Ler critérios de aceitação e confirmar contra o código real.
+5. **Reports** — se testes foram adicionados/modificados, regenerar reports: `bash scripts/reports.sh`. O script auto-detecta quais reports existem.
+6. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
+7. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
+8. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
 
 ## Estrutura
 
@@ -244,7 +245,9 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 │   ├── schema.sql
 │   └── migrations/
 ├── scripts/
-│   └── verify.sh
+│   ├── verify.sh                # Verificação pré-commit
+│   ├── reports.sh               # Orquestrador de reports (auto-detecção)
+│   └── backlog-report.cjs       # Report HTML do backlog
 ├── docs/
 │   └── ...
 └── .claude/

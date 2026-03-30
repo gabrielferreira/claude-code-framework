@@ -305,8 +305,9 @@ Perguntas:
   Coverage: 80% global, 100% para services/ e middleware/auth/
 
 Resultado:
-  14 arquivos criados
+  15 arquivos criados
   verify.sh adaptado para Jest + PostgreSQL
+  reports.sh + backlog-report.cjs instalados
   Sugestao: criar skill payments-compliance (Stripe detectado)
 ```
 
@@ -329,8 +330,9 @@ Perguntas:
   Skills: core + dba-review + security-review
 
 Resultado:
-  15 arquivos criados
+  16 arquivos criados
   verify.sh adaptado para Pytest + SQLAlchemy
+  reports.sh + backlog-report.cjs instalados
   SPECS_INDEX.md com secao Jira + secao local
   Regras de seguranca incluem HIPAA/LGPD
 ```

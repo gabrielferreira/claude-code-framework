@@ -735,3 +735,18 @@ func TestWebhook_Duplicate(t *testing.T) {
 | Dados aleatórios | Flakes, difícil reproduzir falha | Fixtures determinísticas |
 | E2E para tudo | Suite lenta, frágil, cara de manter | E2E só para fluxos que exigem browser |
 | Snapshot sem review | Aceita regressão sem perceber | Ler diff antes de atualizar golden |
+
+## Regenerar reports ao modificar testes
+
+Quando testes são adicionados, removidos ou modificados, regenerar os relatórios HTML (se `scripts/reports.sh` existir):
+
+```bash
+bash scripts/reports.sh
+```
+
+O script auto-detecta quais reports existem e só roda os encontrados (coverage, golden tests, backlog, index).
+
+Para pular re-execução de testes (só regenerar golden reports a partir de snapshots existentes):
+```bash
+bash scripts/reports.sh --skip-tests
+```

@@ -53,7 +53,9 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 ├── PROJECT_CONTEXT.md           # Briefing para qualquer LLM
 ├── SPECS_INDEX.md               # Índice de todas as specs
 ├── scripts/
-│   └── verify.sh                # Verificação pré-commit
+│   ├── verify.sh                # Verificação pré-commit
+│   ├── reports.sh               # Orquestrador de reports (auto-detecção)
+│   └── backlog-report.cjs       # Report HTML do backlog
 ├── docs/
 │   ├── README.md                # Índice da documentação
 │   ├── GIT_CONVENTIONS.md       # Commits, branches, PRs
@@ -232,11 +234,13 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 {Situações que precisam de atenção especial}
 ```
 
-### 5. verify.sh (verificação automatizada)
+### 5. verify.sh + reports (verificação e relatórios)
 
 O verify.sh roda **antes de cada commit** e valida automaticamente o que a atenção humana pode falhar.
 
-**Template:** `scripts/verify.sh`
+O reports.sh gera relatórios HTML (coverage, golden tests, backlog) e é chamado automaticamente pelas skills testing e definition-of-done quando testes são modificados.
+
+**Templates:** `scripts/verify.sh`, `scripts/reports.sh`, `scripts/backlog-report.cjs`
 
 **Seções do script:**
 
@@ -332,7 +336,7 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
      │  ⚠ Scope guardrail: só o que está na task. Ideias → STATE.md
      │  ⚠ Context budget: manter sessão < ~60-70% do context window do modelo
      │
-6. Roda testes + verify.sh
+6. Roda testes + verify.sh + reports (se testes mudaram: `bash scripts/reports.sh`)
      │
 7. Aplica Definition of Done:
      │  - Verifica cada critério de aceitação no código
@@ -630,7 +634,9 @@ claude-code-framework/
 │   ├── STATE.md                           # Template de memória persistente
 │   └── backlog.md                         # Template de backlog
 ├── scripts/
-│   └── verify.sh                          # Template do verify.sh (checks OWASP A01-A10)
+│   ├── verify.sh                          # Template do verify.sh (checks OWASP A01-A10)
+│   ├── reports.sh                         # Orquestrador de reports (auto-detecção)
+│   └── backlog-report.cjs                 # Report HTML do backlog (genérico)
 ├── docs/
 │   ├── README.md                          # Índice de documentação
 │   ├── GIT_CONVENTIONS.md                 # Conventional commits, branches, PRs, tags
