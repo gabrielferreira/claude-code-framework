@@ -358,7 +358,43 @@ Para cada doc selecionado no Bloco 6:
 - Copiar de `${FRAMEWORK_PATH}/docs/` para `docs/` do projeto
 - NAO preencher conteudo detalhado — deixar como template para evolucao
 
-### 3.9 Slash commands adaptados ao modelo spec-driven
+### 3.9 scripts/reports.sh e scripts de report
+
+Copiar `${FRAMEWORK_PATH}/scripts/reports.sh` (orquestrador genérico com auto-detecção).
+
+Copiar `${FRAMEWORK_PATH}/scripts/backlog-report.cjs` (sempre — todo projeto com backlog se beneficia).
+
+**Reports condicionais — criar apenas se detectados na Fase 1:**
+
+| Detecção | Script a criar | Baseado em |
+|---|---|---|
+| Backend com `routes/` (Express, Fastify, etc.) e golden tests | `backend/scripts/golden-report.js` | Template: gera HTML com endpoints cobertos vs faltando |
+| Frontend com `components/` ou `hooks/` e golden tests | `frontend/scripts/golden-report.cjs` | Template: gera HTML com componentes/hooks cobertos vs faltando |
+| Ambos golden reports OU coverage + golden | `scripts/reports-index.js` | Template: página consolidada que agrega reports individuais |
+
+**Se nenhum golden test for detectado:** informar o usuario que os scripts de golden report podem ser criados depois quando golden tests forem adicionados. O `reports.sh` já detecta automaticamente o que existe.
+
+**Reports extras detectados na Fase 1:** se o projeto usa ferramentas que geram reports adicionais (k6 para carga, Lighthouse para performance, axe-core para acessibilidade, etc.), perguntar ao usuario se quer integrá-los. Para cada report extra aceito, adicionar um bloco ao `reports.sh`:
+
+```bash
+# N. {nome do report}
+if [ -f "{path do script}" ]; then
+  FOUND+=("{id}")
+  TOTAL=$((TOTAL + 1))
+fi
+# ... e no case:
+{id})
+  echo "▶ [$STEP/$TOTAL] Gerando {nome}..."
+  {comando}
+  echo "  ✓ {nome} gerado"
+  ;;
+```
+
+**Trigger nas skills:** os scripts são chamados automaticamente via:
+- `scripts/reports.sh` (completo) — referenciado na skill `testing` e `definition-of-done`
+- `scripts/backlog-report.cjs` — referenciado na skill `backlog-update`
+
+### 3.10 Slash commands adaptados ao modelo spec-driven
 
 Se modelo **externo ou hibrido**, adaptar os SKILL.md de `/spec` e `/backlog-update`:
 
@@ -441,6 +477,8 @@ Salvar como `.claude/SETUP_REPORT.md`:
 | `.claude/specs/STATE.md` | Memoria persistente entre sessoes | {status} |
 | `.claude/specs/DESIGN_TEMPLATE.md` | Template de design doc | {status} |
 | `scripts/verify.sh` | Verificacao pre-commit | {status} |
+| `scripts/reports.sh` | Orquestrador de reports (auto-deteccao) | {status} |
+| `scripts/backlog-report.cjs` | Report HTML do backlog | {status} |
 | `docs/README.md` | Indice de docs | {status} |
 | `docs/GIT_CONVENTIONS.md` | Convencoes de git | {status} |
 | ... | ... | ... |
