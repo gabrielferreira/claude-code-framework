@@ -191,9 +191,9 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 
 | Skill | Arquivo | Quando usar | Destaques |
 |---|---|---|---|
-| Definition of Done | `definition-of-done/README.md` | Antes de finalizar QUALQUER entrega | Checklists por tipo (feature, bugfix, endpoint, webhook, auth) |
-| Testing | `testing/README.md` | Ao escrever/modificar testes | Pirâmide (unitário/integração/E2E/carga/golden), cobertura por risco, anti-patterns |
-| Security Review | `security-review/README.md` | Ao criar/modificar endpoints | OWASP Top 10 com exemplos de código, TOCTOU, sanitização |
+| Definition of Done | `definition-of-done/README.md` | Antes de finalizar QUALQUER entrega | Checklists por tipo (feature, bugfix, endpoint, CLI command, infra change, etc.) |
+| Testing | `testing/README.md` | Ao escrever/modificar testes | Pirâmide (unitário/integração/E2E/carga/golden), patterns por tipo de projeto (web, CLI, mobile, infra) |
+| Security Review | `security-review/README.md` | Ao criar/modificar código exposto | OWASP Top 10 (web), supply-chain (lib), state integrity (infra), input injection (CLI) |
 | Docs Sync | `docs-sync/README.md` | Antes de commitar | Matriz feature->docs, contagens sincronizadas |
 | Logging | `logging/README.md` | Ao adicionar logs ou error handling | Níveis, prefixos [MODULE], patterns de try/catch/finally |
 | Code Quality | `code-quality/README.md` | Ao criar módulos ou refatorar | Code smells, thresholds, componentização |

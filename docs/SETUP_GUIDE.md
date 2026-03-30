@@ -347,6 +347,65 @@ Resultado:
   Regras de seguranca incluem HIPAA/LGPD
 ```
 
+### CLI tool (Go + Cobra)
+
+```
+/setup-framework
+
+Analise:
+  Stack: Go 1.22, Cobra CLI
+  Tipo sugerido: single repo / CLI
+  Teste: go test
+  Comandos: go run main.go, go test ./..., go build -o bin/mytool
+
+Confirmacao:
+  "Nao detectei indicadores de monorepo. Single repo?"
+  → Sim
+
+Perguntas:
+  Nome: mytool
+  Descricao: CLI para geracao de relatorios a partir de CSV
+  Dominio: Data processing
+  Skills: core + cli-review (sugerida)
+  Coverage: 80% global, 100% para cmd/ e internal/
+
+Resultado:
+  14 arquivos criados
+  CLAUDE.md com mindset CLI (exit codes, stdout/stderr, flags)
+  verify.sh adaptado para Go (go test, go vet, staticcheck)
+  reports.sh + backlog-report.cjs instalados
+```
+
+### Infra/IaC (Terraform + AWS)
+
+```
+/setup-framework
+
+Analise:
+  Stack: Terraform 1.8, AWS provider
+  Tipo sugerido: single repo / Infra/IaC
+  Teste: nenhum detectado
+  Comandos: terraform plan, terraform apply
+
+Confirmacao:
+  "Nao detectei indicadores de monorepo. Single repo?"
+  → Sim
+
+Perguntas:
+  Nome: platform-infra
+  Descricao: Infraestrutura AWS da plataforma (VPC, ECS, RDS, CloudFront)
+  Dominio: Cloud infrastructure
+  Skills: core + infra-review (sugerida)
+  Testes: "Nao detectei framework de teste. Quer adicionar Terratest?"
+  → Sim, adicionar como pendencia
+
+Resultado:
+  13 arquivos criados
+  CLAUDE.md com mindset Infra (blast radius, state, drift, secrets)
+  verify.sh adaptado para Terraform (fmt, validate, tflint)
+  Pendencia: configurar Terratest para validacao automatizada
+```
+
 ### Monorepo novo (Next.js + Fastify + shared packages)
 
 ```
