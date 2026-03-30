@@ -121,6 +121,11 @@ Analisar automaticamente (sem perguntar nada). Usar Glob e Read para detectar:
 | `composer.json` | PHP — ler frameworks (Laravel, Symfony, etc.) |
 | `pubspec.yaml` | Dart/Flutter |
 | `*.csproj` / `*.sln` | C# / .NET |
+| `*.tf` / `*.hcl` | Terraform/OpenTofu |
+| `Pulumi.yaml` | Pulumi |
+| `cdk.json` | AWS CDK |
+| `Makefile` + `Dockerfile` (sem app code) | DevOps/Infra |
+| `CMakeLists.txt` / `Makefile` + `src/*.c` ou `*.cpp` | C/C++ |
 
 Para cada stack detectada, extrair:
 - **Frameworks** (Express, Next.js, Django, FastAPI, Rails, etc.)
@@ -131,14 +136,33 @@ Para cada stack detectada, extrair:
 
 Indicadores usados como **sugestao** (nunca como conclusao final):
 
+**Monorepo vs single repo:**
+
 | Indicador | Sugere |
 |---|---|
 | `workspaces` em package.json, `lerna.json`, `turbo.json`, `nx.json`, `pnpm-workspace.yaml` | Monorepo |
-| `packages/`, `apps/`, `modules/` com multiplos package.json | Monorepo |
-| Diretorio unico com src/ ou app/ | Single repo |
-| Presenca de `src/` + `public/` ou `pages/` ou `app/` (Next.js) | Frontend |
-| Presenca de `routes/`, `controllers/`, `services/`, `middleware/` | Backend |
+| `packages/`, `apps/`, `modules/` com multiplos package.json/go.mod/etc. | Monorepo |
+| Nenhum dos anteriores | Single repo |
+
+**Tipo de projeto:**
+
+| Indicador | Sugere |
+|---|---|
+| `routes/`, `controllers/`, `services/`, `middleware/`, `api/` | Backend / API |
+| `src/` + `public/` ou `pages/` ou `app/` (Next.js, Vite) | Frontend web |
+| `react-native`, `expo`, `capacitor` em deps; ou `ios/`, `android/` | Mobile |
+| `electron`, `tauri` em deps; ou estrutura desktop | Desktop |
+| `terraform/`, `pulumi/`, `cdk/`, `cloudformation/`, `ansible/`, `k8s/`, `helm/` | Infra / IaC |
+| `bin/`, `cmd/`, CLI frameworks (commander, cobra, click, clap) em deps | CLI / Tool |
+| `lib/`, `src/` sem server/routes, publicado como package (npm, PyPI, crates) | Library / Package |
+| `Dockerfile` + `docker-compose.yml` sem app code | DevOps / Config |
 | Ambos frontend e backend | Fullstack |
+
+O tipo de projeto afeta:
+- Quais secoes do CLAUDE.md fazem sentido (ex: mobile nao tem middleware, infra nao tem routes)
+- Quais skills sao relevantes (ex: infra nao precisa de ux-review, mobile precisa de mobile-review)
+- Como o verify.sh e estruturado (ex: CLI testa com `./bin/tool --help`, infra valida com `terraform plan`)
+- Quais docs sao criados (ex: infra pode ter `RUNBOOK.md` em vez de `GUIA_USUARIO.md`)
 
 **Confirmacao obrigatoria com o usuario — SEMPRE:**
 
@@ -379,11 +403,17 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
 - `{NOME_DO_PROJETO}` → nome do projeto
 - `{stack backend}` / `{stack frontend}` / `{DB}` → stacks detectadas
 - Secao "O que e este projeto" → descricao fornecida
-- Secao "Mindset por dominio" → adaptar ao stack real:
-  - Se nao tem frontend: remover secao Frontend e UX
+- Secao "Mindset por dominio" → adaptar ao tipo de projeto detectado:
+  - **Backend/API:** manter Backend, Seguranca. Remover Frontend e UX se nao aplicavel
+  - **Frontend web:** manter Frontend, UX. Remover Backend se nao aplicavel
+  - **Fullstack:** manter todos
+  - **Mobile:** adicionar secao Mobile (performance, offline, deep links). Remover Backend se nao aplicavel
+  - **Desktop:** adicionar secao Desktop (native APIs, packaging, auto-update)
+  - **Infra/IaC:** substituir Backend/Frontend por Infra (state management, drift, blast radius, secrets). Remover UX
+  - **CLI/Tool:** substituir Backend/Frontend por CLI (arg parsing, exit codes, UX de terminal). Manter Seguranca
+  - **Library:** substituir Backend/Frontend por Library (API surface, semver, breaking changes). Manter Testes
   - Se nao tem DB: remover secao Banco de dados
   - Se tem IA/ML: adicionar secao IA/ML
-  - Se tem mobile: adicionar secao Mobile
 - Secao "Comandos" → comandos detectados na Fase 1
 - Secao "Skills" → mapeamento baseado na selecao do Bloco 4
 - Secao "Testes" → coverage configurado no Bloco 5
@@ -534,10 +564,14 @@ Baseado na analise do repo, sugerir skills que NAO existem no framework:
 | Uso de IA/ML (tensorflow, pytorch, openai, anthropic, langchain, etc.) | Criar skill `ai-ml-review`: revisao de prompts, modelos, pipelines de dados, guardrails |
 | Pagamentos (stripe, mercadopago, paypal, etc.) | Criar skill `payments-compliance`: PCI-DSS, reconciliacao, idempotencia |
 | Real-time (socket.io, ws, websockets, ActionCable, channels) | Criar skill `realtime-review`: connection handling, reconnection, estado distribuido |
-| Mobile (react-native, flutter, expo, capacitor) | Criar skill `mobile-review`: performance, offline-first, deep links, push notifications |
+| Mobile (react-native, flutter, expo, capacitor) | Criar skill `mobile-review`: performance, offline-first, deep links, push notifications, app store guidelines |
+| Desktop (electron, tauri) | Criar skill `desktop-review`: auto-update, native APIs, packaging, cross-platform, security sandbox |
 | Emails transacionais (nodemailer, sendgrid, ses, resend) | Criar skill `email-review`: templates, deliverability, bounce handling |
 | Filas/workers (bull, celery, sidekiq, rabbitmq, sqs) | Criar skill `queue-review`: idempotencia, retry, dead letter, ordering |
 | Multi-tenancy | Criar skill `tenancy-review`: isolamento de dados, tenant context, migrations |
+| Infra/IaC (terraform, pulumi, cdk, cloudformation, ansible) | Criar skill `infra-review`: drift detection, state management, blast radius, rollback, secrets |
+| CLI/tools (commander, cobra, click, clap, bin/) | Criar skill `cli-review`: arg parsing, exit codes, stdout/stderr, help text, man pages, shell completion |
+| Library/package (publicado em npm, PyPI, crates.io, etc.) | Criar skill `lib-review`: semver, breaking changes, API surface, tree-shaking, bundling, docs |
 
 Para cada sugestao aceita pelo usuario, criar esqueleto:
 
