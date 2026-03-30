@@ -187,6 +187,18 @@ Se as specs vivem fora do repo, o `SPECS_INDEX.md` funciona como ponte. Em vez d
 
 Skills são **checklists especializados por domínio**. Vivem em `.claude/skills/{nome}/README.md`.
 
+**Skill vs Doc — quando usar cada um:**
+
+| | Skill (`.claude/skills/`) | Doc (`docs/`) |
+|---|---|---|
+| **Propósito** | Checklist — o que fazer/verificar ANTES de uma ação | Referência — entender convenções, decisões, contexto |
+| **Quem consulta** | Claude (automaticamente, antes de codar) | Humanos e Claude (sob demanda) |
+| **Formato** | Checklists `- [ ]`, regras absolutas, patterns ✅/❌ | Prosa, tabelas, diagramas, exemplos |
+| **Exemplo** | `testing/README.md` — "antes de escrever teste, verificar pirâmide, cenários, coverage" | `GIT_CONVENTIONS.md` — "por que usamos Conventional Commits, como nomear branch, formato de PR" |
+| **Quando criar** | Quando há ações repetitivas que falham sem checklist | Quando há conhecimento que precisa ser consultado mas não é um checklist |
+
+**Regra prática:** se a informação é "faça X antes de Y" → skill. Se é "entenda como Z funciona" → doc.
+
 **Skills essenciais (começar com estas):**
 
 | Skill | Arquivo | Quando usar | Destaques |
@@ -291,13 +303,17 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
 
 **Templates incluídos (com conteúdo pronto para adaptar):**
 
-| Documento | Descrição |
-|---|---|
-| `docs/README.md` | Índice da documentação com tabela de docs + público-alvo |
-| `docs/GIT_CONVENTIONS.md` | Conventional commits, micro commits, branches, PRs, tags |
-| `docs/ACCESS_CONTROL.md` | Auth, sessões, tokens, refresh, roles, RBAC, rate limit, anti-enumeração |
-| `docs/ARCHITECTURE.md` | Decisões arquiteturais (ADR), integrações, schema, diagramas, env vars |
-| `docs/SECURITY_AUDIT.md` | Checklist OWASP Top 10 + API Security Top 10 + LLM Top 10 |
+| Documento | Descrição | Quando usar |
+|---|---|---|
+| `docs/README.md` | Índice da documentação com tabela de docs + público-alvo | Sempre |
+| `docs/GIT_CONVENTIONS.md` | Conventional commits, micro commits, branches, PRs, tags | Sempre |
+| `docs/ACCESS_CONTROL.md` | Auth, sessões, tokens, refresh, roles, RBAC, rate limit | Projetos com auth |
+| `docs/SECURITY_AUDIT.md` | Checklist OWASP Top 10 + API Security Top 10 + LLM Top 10 | Projetos expostos (API, web, mobile) |
+| `docs/SETUP_GUIDE.md` | Guia de uso do /setup-framework | Referência do framework |
+| `docs/SPEC_DRIVEN_GUIDE.md` | Spec-driven development, context budget, RPI, scope guardrail | Referência do framework |
+| `docs/ARCHITECTURE.md` | Decisões arquiteturais (ADR), integrações, diagramas | **Opcional** — ver nota abaixo |
+
+**Sobre `ARCHITECTURE.md`:** o Claude lê código direto — não precisa de um doc descrevendo o que o código já mostra. O ARCHITECTURE.md é útil apenas quando o projeto precisa de **visão macro** que nenhum arquivo de código mostra sozinho (diagramas de fluxo entre serviços, integrações externas, decisões de trade-off). Para decisões arquiteturais pontuais, o `STATE.md` (seção AD-NNN) já cobre. Para projetos pequenos/médios, ARCHITECTURE.md é dispensável.
 
 **Docs adicionais sugeridos (criar conforme necessidade):**
 
