@@ -5,48 +5,40 @@
 
 ## Checklist universal (toda entrega)
 
-### Código
-- [ ] Testes passam sem erros (unitários + integração)
-- [ ] Coverage respeita thresholds ({X}% módulos críticos, {Y}% global)
-- [ ] Nenhum `console.log` de debug (usar logger estruturado)
-- [ ] Nenhum `test.skip` ou `test.only` esquecido
-- [ ] Nenhum TODO/FIXME sem issue vinculada
+O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que precisa de **inteligência** (Claude). Sem duplicação — cada item existe em um lugar só.
 
-### Segurança (ver skill `security-review` para detalhes OWASP)
-- [ ] Endpoints têm auth middleware — sem auth = justificativa documentada
-- [ ] Inputs sanitizados antes de uso
-- [ ] Queries SQL usam prepared statements (se aplicável)
-- [ ] Dados sensíveis removidos das respostas (ver `FORBIDDEN_RESPONSE_FIELDS`)
-- [ ] Ownership check: ID do recurso vem do JWT/session, não do body (IDOR)
-- [ ] Secrets vêm de env vars — zero hardcoded no código
-- [ ] {Checks específicos do projeto}
+### Verificação automatizada (máquina)
+- [ ] `bash scripts/verify.sh` passa sem erros
 
-### Testes (ver skill `testing` para pirâmide e cenários)
-- [ ] Toda nova feature tem testes (unitário + integração)
+> O verify.sh cobre: testes passam, console.log, test.skip/only, contagens nos docs, prepared statements, secrets hardcoded, OWASP checks mecânicos, specs indexadas. Se o verify.sh passa, esses itens estão ok — não precisa verificar manualmente.
+
+### Testes — cobertura e qualidade (inteligência)
+
+O verify.sh confirma que testes passam, mas não sabe se os **testes certos** existem. Isso precisa de julgamento:
+
+- [ ] Toda nova feature tem testes (tipo correto — ver skill `testing` para pirâmide)
 - [ ] Todo bugfix tem teste que reproduz o bug (TDD reverso)
 - [ ] Branches de erro cobertos (não só happy path)
-- [ ] Tipo de teste correto para o contexto (ver pirâmide):
-  - Lógica isolada -> unitário
-  - Endpoint / interação entre módulos -> integração
-  - Fluxo crítico completo -> E2E (somente se necessário)
-- [ ] Webhook: happy path + assinatura inválida + duplicata + payload inválido
-- [ ] Testes chamam código de produção real — NUNCA testar template literals ou construções da linguagem
 - [ ] Golden tests atualizados com review do diff (se aplicável)
 
-### Documentação
+### Segurança — decisões de design (inteligência)
+
+O verify.sh pega patterns mecânicos (secrets, SQL concat), mas não avalia **decisões de segurança**:
+
+- [ ] Endpoints novos têm auth middleware — sem auth = justificativa documentada
+- [ ] Ownership check: ID do recurso vem do JWT/session, não do body (IDOR)
+- [ ] Dados sensíveis removidos das respostas
+- [ ] Se mudança tocou em segurança: consultar skill `security-review`
+
+### Documentação (inteligência)
 - [ ] `CLAUDE.md` atualizado se houve mudança de regra, convenção ou estrutura
 - [ ] Docs específicos atualizados se a feature os afeta (ver skill `docs-sync`)
-- [ ] Contagem de testes nos docs ainda está correta
 
-### Verificação automatizada
-- [ ] `bash scripts/verify.sh` passa sem erros (se existir)
-
-### Reports (se testes foram adicionados/modificados e `scripts/reports.sh` existe)
-- [ ] `bash scripts/reports.sh` executado (regenera coverage + golden reports + backlog)
-- [ ] Reports HTML atualizados
+### Reports (se testes foram adicionados/modificados)
+- [ ] `bash scripts/reports.sh` executado (se existir)
 
 ### Commits
-- [ ] Commits seguem Conventional Commits (`feat`, `fix`, `security`, `test`, `docs`, `chore`, `refactor`)
+- [ ] Commits seguem Conventional Commits
 - [ ] Commits atômicos — cada commit faz exatamente uma coisa
 
 ## Checklists específicos por tipo
