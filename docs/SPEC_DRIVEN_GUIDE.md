@@ -448,6 +448,31 @@ A regra é manter sessões de implementação abaixo de **~60-70% do context win
 
 > **Atenção:** Os context windows mudam entre versões dos modelos e um mesmo modelo pode ter variantes com janelas diferentes. O budget deve ser recalculado como ~60-70% do context window atual do modelo em uso. Verificar a documentação do modelo e a variante contratada antes de confiar nos valores desta tabela.
 
+### Por que ~60-70% e não 100%?
+
+O limit de 60-70% não é um achado de um paper específico — é uma heurística prática derivada de três problemas bem documentados:
+
+1. **"Lost in the Middle"** — pesquisa de Stanford mostrou que LLMs têm performance em curva U: lembram bem do início e do fim do contexto, mas perdem até **30% de precisão** em informações no meio. Em sessões longas de coding, as decisões tomadas no início ficam "enterradas" sob camadas de código, diffs, e tool outputs.
+
+2. **Context rot** — pesquisa da Chroma testou 18 modelos frontier e **todos** degradam conforme o input cresce. Não é questão de "se", é "quanto". Mais contexto = mais ruído = mais chances de o modelo seguir um caminho errado.
+
+3. **Mistura de assuntos** — o problema prático mais comum. Uma sessão que começa com pesquisa de codebase, passa por decisões arquiteturais, implementa feature A, corrige bug B, e refatora módulo C acumula contextos conflitantes. O modelo precisa navegar entre todos eles para cada resposta, e a qualidade cai progressivamente.
+
+O auto-compaction do Claude Code (~95% do window) evita crash, mas não evita degradação. Quando compacta, perde nuances. O budget de 60-70% é o ponto onde **ainda há espaço para raciocínio de qualidade** sem depender de compactação.
+
+A combinação de **sessões focadas** (1 assunto por sessão), **fluxo RPI** (research → plan → implement separados), e **STATE.md** (memória entre sessões) é mais eficaz do que simplesmente ter um context window maior.
+
+### Referências e leitura recomendada
+
+| Tema | Referência |
+|---|---|
+| Degradação no meio do contexto | [Lost in the Middle: How Language Models Use Long Contexts (Stanford, 2023)](https://arxiv.org/abs/2307.03172) |
+| Degradação por tamanho de input | [Context Rot: Why LLMs Degrade as Context Grows (Morph)](https://www.morphllm.com/context-rot) |
+| Tamanho de contexto prejudica mesmo com recuperação perfeita | [Context Length Alone Hurts LLM Performance (2025)](https://arxiv.org/html/2510.05381v1) |
+| Práticas de uso do Claude Code | [Best Practices for Claude Code (Anthropic)](https://code.claude.com/docs/en/best-practices) |
+| Context window 1M — o que muda | [Claude Code 1M Context Window Guide (2026)](https://claudefa.st/blog/guide/mechanics/1m-context-ga) |
+| Buffer interno e compactação | [Claude Code Context Buffer Management](https://claudefa.st/blog/guide/mechanics/context-buffer-management) |
+
 Na prática:
 - **Pequeno/Médio:** cabe numa sessão só
 - **Grande:** considerar 1 sessão por grupo de tasks
