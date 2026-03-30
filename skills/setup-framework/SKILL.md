@@ -61,6 +61,47 @@ Antes de qualquer coisa:
 4. **Verificar se `CLAUDE.md` ja existe:**
    - Se sim: ler conteudo, preservar informacoes uteis para merge posterior
 
+5. **Detectar cenario de monorepo com sub-projetos:**
+
+   Escanear sub-diretorios (1 nivel de profundidade) procurando sinais de projetos com framework ja configurado ou projetos novos sem framework:
+
+   | Sinal | Classificacao |
+   |---|---|
+   | Sub-dir com `.claude/` + `CLAUDE.md` | **Sub-projeto com framework** (ja configurado) |
+   | Sub-dir com `package.json` ou `go.mod` ou `pyproject.toml` mas SEM `.claude/` | **Sub-projeto novo** (precisa de configuracao) |
+   | Sub-dir sem nenhum dos anteriores | Ignorar (nao e projeto) |
+
+   **Cenarios possíveis:**
+
+   **A. Monorepo novo (raiz sem framework, sub-projetos sem framework):**
+   - Fluxo normal — Fase 1 detecta monorepo, gera L0 na raiz + oferece L2 por sub-projeto
+
+   **B. Monorepo com sub-projeto que ja tinha framework (migrou de repo solo):**
+   - Informar: "Detectei que {dir} ja tem framework configurado (.claude/, CLAUDE.md, specs, skills)."
+   - Oferecer:
+     1. **Promover para L2** (recomendado): manter CLAUDE.md do sub-projeto como L2 (regras do modulo), criar L0 na raiz com regras globais. Mover para raiz apenas o que e compartilhado (verify.sh raiz que chama verify.sh de cada sub-projeto, specs/backlog unificado ou por modulo — perguntar).
+     2. **Manter independente**: nao criar L0, cada sub-projeto continua com seu proprio framework isolado.
+   - Se promover: adaptar o CLAUDE.md existente removendo secoes que serao cobertas pelo L0 (commits, seguranca global, estrutura do monorepo) e mantendo apenas regras especificas do modulo (stack, comandos, testes, coverage).
+
+   **C. Re-run no monorepo — sub-projeto novo detectado:**
+   - Raiz ja tem L0 (CLAUDE.md global, .claude/ na raiz).
+   - Escanear sub-diretorios e comparar com o estado anterior:
+     - Sub-dir com framework → OK, pular
+     - Sub-dir com projeto mas SEM framework → informar: "Detectei novo sub-projeto em {dir} sem configuracao."
+     - Oferecer configurar como L2: criar `{dir}/CLAUDE.md` com stack/comandos/testes do sub-projeto, vinculado ao L0 da raiz.
+   - Para cada sub-projeto novo aceito, rodar a analise da Fase 1 focada naquele diretorio (detectar stack, testes, comandos) e gerar o CLAUDE.md L2 especifico.
+
+   **D. Sub-projeto com framework parcial (tem .claude/ mas incompleto):**
+   - Tratar como re-run: complementar o que falta sem sobrescrever o que existe.
+
+   **Regras para monorepo:**
+   - L0 (raiz): convencoes globais (commits, seguranca universal, estrutura do monorepo, mapa de skills)
+   - L2 (sub-projeto): stack, comandos, testes, coverage, regras especificas
+   - Specs: perguntar se unificadas na raiz ou distribuidas por sub-projeto
+   - Skills: compartilhadas na raiz (`.claude/skills/`), a menos que sub-projetos tenham dominios muito diferentes
+   - verify.sh raiz: orquestrador que chama verify.sh de cada sub-projeto
+   - reports.sh raiz: orquestrador que chama reports de cada sub-projeto
+
 ---
 
 ## Fase 1 — Analise automatica do repositorio
@@ -96,6 +137,16 @@ Para cada stack detectada, extrair:
 | Presenca de `src/` + `public/` ou `pages/` ou `app/` (Next.js) | Frontend |
 | Presenca de `routes/`, `controllers/`, `services/`, `middleware/` | Backend |
 | Ambos frontend e backend | Fullstack |
+
+**Se monorepo detectado:** escanear sub-diretorios (1 nivel) e classificar cada um:
+
+| Sub-diretorio tem... | Classificacao |
+|---|---|
+| `.claude/` + `CLAUDE.md` | Sub-projeto com framework (ja configurado) |
+| `package.json` / `go.mod` / `pyproject.toml` / `Cargo.toml` sem `.claude/` | Sub-projeto novo (precisa de configuracao) |
+| Nenhum dos anteriores | Nao e projeto (ignorar) |
+
+Apresentar resumo ao usuario: "Encontrei N sub-projetos: X com framework, Y sem framework." Seguir cenarios B/C/D da Fase 0 step 5.
 
 ### 1.3 Deteccao de ferramentas
 
