@@ -431,7 +431,7 @@ Para tarefas grandes ou complexas, dividir em sessões separadas:
 2. **Plan:** escrever spec, design doc, breakdown de tasks. Output: spec aprovada + tasks priorizadas.
 3. **Implement:** executar tasks em ordem (sequenciais → paralelas → integração). Output: código + testes.
 
-Cada fase roda numa sessão separada com context limpo, evitando acumular contexto desnecessário. Tasks marcadas com `[P]` podem ser executadas em paralelo por sub-agents.
+Cada fase roda numa sessão separada com context limpo. Isso não é preferência — é necessidade: pesquisa sobre *task interference* (EMNLP 2024) mostrou que **trocar de tipo de tarefa na mesma sessão degrada performance significativamente**, mesmo em modelos frontier como GPT-4 e Claude. Research acumula muitos file reads (alta densidade de distratores), Plan toma decisões arquiteturais, e Implement precisa de foco em código. Misturar as três na mesma sessão força o modelo a navegar entre contextos conflitantes. Tasks marcadas com `[P]` podem ser executadas em paralelo por sub-agents (que rodam em context windows isolados, evitando o problema).
 
 ## Context budget — evitar alucinação por excesso de contexto
 
@@ -469,6 +469,8 @@ A combinação de **sessões focadas** (1 assunto por sessão), **fluxo RPI** (r
 | Degradação no meio do contexto | [Lost in the Middle: How Language Models Use Long Contexts (Stanford, 2023)](https://arxiv.org/abs/2307.03172) |
 | Degradação por tamanho de input | [Context Rot: Why LLMs Degrade as Context Grows (Morph)](https://www.morphllm.com/context-rot) |
 | Tamanho de contexto prejudica mesmo com recuperação perfeita | [Context Length Alone Hurts LLM Performance (2025)](https://arxiv.org/html/2510.05381v1) |
+| Degradação por troca de tarefa na mesma sessão | [LLM Task Interference: Impact of Task-Switch in Conversational History (EMNLP 2024)](https://arxiv.org/html/2402.18216v2) |
+| Práticas de gestão de contexto para coding agents | [Best Practices for Context Management (DigitalOcean)](https://docs.digitalocean.com/products/gradient-ai-platform/concepts/context-management/) |
 | Práticas de uso do Claude Code | [Best Practices for Claude Code (Anthropic)](https://code.claude.com/docs/en/best-practices) |
 | Context window 1M — o que muda | [Claude Code 1M Context Window Guide (2026)](https://claudefa.st/blog/guide/mechanics/1m-context-ga) |
 | Buffer interno e compactação | [Claude Code Context Buffer Management](https://claudefa.st/blog/guide/mechanics/context-buffer-management) |
@@ -660,7 +662,7 @@ Complementando o "Não fazer" da spec, o CLAUDE.md contém 3 regras de scope gua
 2. **"Encontrei um bug não relacionado"** → Registrar no backlog, não corrigir agora.
 3. **"Tive uma ideia de melhoria"** → Registrar em STATE.md (seção "Ideias adiadas"), não implementar agora.
 
-Na prática, o scope guardrail previne o cenário mais comum de desperdício: o modelo encontra algo "errado" durante a implementação e decide consertar, saindo do escopo original e potencialmente quebrando outras coisas.
+Na prática, o scope guardrail previne o cenário mais comum de desperdício: o modelo encontra algo "errado" durante a implementação e decide consertar, saindo do escopo original e potencialmente quebrando outras coisas. Além do desperdício, cada desvio de escopo **acumula contexto irrelevante** na sessão — o fix do bug não relacionado, seus file reads, seus diffs, tudo fica na janela de contexto competindo com a task original. Pesquisa sobre *context rot* mostra que coding agents são particularmente vulneráveis porque cada tool output (grep, read, diff) fica na janela pelo resto da sessão, aumentando o ruído progressivamente.
 
 ### TDD integrado ao fluxo de specs
 
@@ -744,7 +746,7 @@ Em tarefas que envolvem múltiplas subtarefas ou mais de 3 arquivos:
 - Se não lembrar se uma decisão foi aprovada, pergunte em vez de assumir.
 ```
 
-O overhead é mínimo (reler 10-20 linhas da spec) que previne o custo alto de reverter implementação incorreta.
+O overhead é mínimo (reler 10-20 linhas da spec) e previne o custo alto de reverter implementação incorreta. A fundamentação é o efeito *"lost in the middle"* (Stanford, 2023): informações no meio do contexto perdem até 30% de precisão. Numa sessão com muitas subtarefas, as decisões das primeiras subtarefas ficam literalmente "no meio" — enterradas sob camadas de código, diffs, e tool outputs das subtarefas seguintes. Reler a spec trás essas decisões de volta para o final do contexto, onde o modelo as processa com mais precisão.
 
 Combinado com o context budget, isso forma uma proteção dupla: o budget previne sessões longas demais, e a recalibração previne drift nas sessões que existem.
 
