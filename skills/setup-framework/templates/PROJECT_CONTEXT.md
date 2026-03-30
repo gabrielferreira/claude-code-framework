@@ -54,10 +54,36 @@
 │   ├── GIT_CONVENTIONS.md        # Commits, branches, PRs
 │   └── {outros docs}
 ├── scripts/
-│   └── verify.sh                 # Verificação pré-commit
+│   ├── verify.sh                 # Verificação pré-commit
+│   ├── reports.sh                # Orquestrador de reports (auto-detecção)
+│   ├── reports-index.js          # Página consolidada de reports
+│   └── backlog-report.cjs        # Report HTML do backlog
 └── .claude/
     ├── skills/                   # {N} skills
     └── specs/                    # Specs ativas + backlog + done/
+        ├── STATE.md              # Memória persistente entre sessões
+        └── {id}-design.md        # Design docs (Grande/Complexo)
+```
+
+{Se monorepo: adaptar a estrutura acima para mostrar sub-projetos com CLAUDE.md L2 em cada um. Exemplo:}
+
+```
+{projeto}/
+├── CLAUDE.md                     # L0 — regras globais
+├── SPECS_INDEX.md
+├── apps/
+│   ├── web/
+│   │   ├── CLAUDE.md             # L2 — regras do frontend
+│   │   └── ...
+│   └── api/
+│       ├── CLAUDE.md             # L2 — regras do backend
+│       └── ...
+├── packages/
+│   └── shared/
+│       └── CLAUDE.md             # L2 — regras do package
+└── .claude/
+    ├── skills/                   # Skills compartilhadas
+    └── specs/                    # Specs centralizadas ou distribuídas por módulo
 ```
 
 ---
