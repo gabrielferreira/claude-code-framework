@@ -239,14 +239,13 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 
 ## Antes de commitar (obrigatório)
 
-1. **Testes passando** — zero falhas.
-2. **Coverage** — rodar coverage e verificar que branches global ≥80% e módulos críticos no threshold definido. Se adicionou/modificou rota ou service, confirmar que o arquivo não caiu abaixo do threshold. **Não pular este passo.** Testes passando NÃO garante cobertura — é possível ter 100% dos testes passando com 0% de cobertura no código novo.
-3. **`bash scripts/verify.sh`** — zero ❌. Se falhar, corrigir antes de commitar.
-4. **Verificação de código** — além do verify.sh, verificar NO CÓDIGO se o que a spec mandava foi implementado. Ler critérios de aceitação e confirmar contra o código real.
-5. **Reports** — se testes foram adicionados/modificados, regenerar reports: `bash scripts/reports.sh`. O script auto-detecta quais reports existem.
-6. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
-7. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
-8. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
+Aplicar a skill **Definition of Done** (`.claude/skills/definition-of-done/README.md`). Ela cobre tudo: testes, coverage, verify.sh, verificação da spec, reports, docs. Não precisa duplicar aqui — o DoD é o checklist único.
+
+Além do DoD, 2 regras que não são checklist mas processo:
+
+1. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
+2. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
+3. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
 
 ## Estrutura
 

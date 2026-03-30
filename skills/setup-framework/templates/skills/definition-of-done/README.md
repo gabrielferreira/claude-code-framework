@@ -38,6 +38,9 @@
 - [ ] Docs específicos atualizados se a feature os afeta (ver skill `docs-sync`)
 - [ ] Contagem de testes nos docs ainda está correta
 
+### Verificação automatizada
+- [ ] `bash scripts/verify.sh` passa sem erros (se existir)
+
 ### Reports (se testes foram adicionados/modificados e `scripts/reports.sh` existe)
 - [ ] `bash scripts/reports.sh` executado (regenera coverage + golden reports + backlog)
 - [ ] Reports HTML atualizados
