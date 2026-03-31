@@ -156,6 +156,23 @@ Detalhes -> `.claude/skills/testing/README.md`
 - **Git:** Conventional Commits, micro commits atômicos. Detalhes em `docs/GIT_CONVENTIONS.md`
 - **Segurança:** Regras absolutas acima + agent `security-audit` para auditorias
 
+## Worktrees e subagents
+
+{Descomentar e ajustar conforme a preferência do time. Remover esta seção se não quiser usar worktrees.}
+
+<!-- SUGESTÃO: Worktree por sessão
+Cada sessão de trabalho deve rodar numa worktree isolada para não interferir no working directory principal.
+Worktrees ficam em `.claude/worktrees/` (já no .gitignore).
+-->
+
+<!-- SUGESTÃO: Subagents e isolamento
+Subagents que APENAS LEEM (auditoria, validação, report) NÃO devem usar worktree — rodam no mesmo working directory para ser mais rápido e ver o estado atual do código.
+
+Subagents que ESCREVEM de forma exploratória (refactor, spike, prototipagem) DEVEM usar worktree (isolation: "worktree") para não poluir o working directory. Se as mudanças forem boas, o merge traz de volta.
+
+Regra simples: agent read-only → sem worktree. Agent que edita código → worktree.
+-->
+
 ## Contexto de negócio
 
 {Informações de negócio que impactam decisões técnicas:}
