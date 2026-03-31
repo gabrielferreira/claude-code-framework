@@ -319,8 +319,36 @@ Perguntar qual modelo de specs sera usado:
 
 **Se "Specs externas" ou "Hibrido":**
 - Perguntar qual ferramenta: Jira, Linear, Notion, GitHub Issues, Confluence, outro
-- Perguntar formato de referencia: URL base (ex: `https://empresa.atlassian.net/browse/`) e prefixo de IDs (ex: `PROJ-`)
 - Se hibrido: perguntar criterio de separacao (ex: "specs de produto no Jira, specs tecnicas/refatoracao no repo")
+
+**Se ferramenta = Notion (com MCP conectado):**
+
+O framework se integra nativamente com Notion via MCP. O setup detecta templates e configura tudo automaticamente.
+
+1. **Perguntar URL da database de specs no Notion** (ex: `https://www.notion.so/empresa/1cd1112ab3214e28bed8c09a71806d3f`)
+2. **Fazer `notion-fetch` na URL** para obter:
+   - `data_source_id` (collection ID) — necessario para criar paginas
+   - Schema da database (propriedades e opcoes)
+   - Templates existentes (IDs e nomes)
+3. **Apresentar os templates encontrados** e pedir para o usuario mapear cada complexidade:
+   ```
+   Templates encontrados na database:
+   1. [TEMPLATE] Spec Pequena
+   2. [TEMPLATE] Spec Média
+   3. [TEMPLATE] Spec Grande/Complexa
+   4. [TEMPLATE] Design Doc
+
+   Mapeamento sugerido (confirme ou ajuste):
+   - Pequeno  → 1. [TEMPLATE] Spec Pequena
+   - Médio    → 2. [TEMPLATE] Spec Média
+   - Grande   → 3. [TEMPLATE] Spec Grande/Complexa + 4. Design Doc (opcional)
+   - Complexo → 3. [TEMPLATE] Spec Grande/Complexa + 4. Design Doc (obrigatório)
+   ```
+4. **Se nao encontrar templates:** avisar e perguntar se quer criar specs sem template (so propriedades)
+5. **Guardar configuracao** para uso pelo `/spec` e `/backlog-update` (ver secao 3.2)
+
+**Se ferramenta != Notion:**
+- Perguntar formato de referencia: URL base (ex: `https://empresa.atlassian.net/browse/`) e prefixo de IDs (ex: `PROJ-`)
 
 ### Bloco 3 — Fases do roadmap
 
@@ -456,6 +484,27 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
   - Se **repo**: manter secao "Specs e Requisitos" padrao
   - Se **externo**: adaptar caminhos para referenciar IDs externos (ex: `PROJ-123` em vez de `.claude/specs/auth.md`), adicionar instrucao de como consultar specs externas via MCP ou link direto
   - Se **hibrido**: manter estrutura local para specs tecnicas + adicionar secao de referencia externa para specs de produto
+  - Se **Notion com MCP**: adicionar secao "Integracao Notion" no CLAUDE.md com a configuracao coletada:
+    ```markdown
+    ## Integracao Notion (specs)
+
+    - **Database URL:** {url}
+    - **Data source ID:** {data_source_id}
+    - **Templates por complexidade:**
+      | Complexidade | Template | Template ID | Design Doc |
+      |---|---|---|---|
+      | Pequeno | {nome} | {id} | — |
+      | Médio | {nome} | {id} | — |
+      | Grande | {nome} | {id} | {id} (opcional) |
+      | Complexo | {nome} | {id} | {id} (obrigatório) |
+
+    ### Regras de integracao
+    - `/spec` cria pagina no Notion usando `notion-create-pages` com o template correto
+    - `/backlog-update done` atualiza Status no Notion via `notion-update-page`
+    - Para ler uma spec: usar `notion-fetch` com o URL da pagina
+    - Nunca criar specs locais em `.claude/specs/` — Notion e a fonte de verdade
+    - SPECS_INDEX.md serve como indice local com links para o Notion
+    ```
 
 ### 3.3 PROJECT_CONTEXT.md
 
@@ -575,12 +624,15 @@ fi
 
 Se modelo **externo ou hibrido**, adaptar os SKILL.md de `/spec` e `/backlog-update`:
 
-**`/spec` adaptado para externo:**
-- Em vez de criar arquivo local, instrucao para registrar no SPECS_INDEX.md com link externo
-- Sugerir formato de ID consistente com a ferramenta (ex: `PROJ-123`)
+**Se ferramenta = Notion (com MCP):**
+Os SKILL.md de `/spec` e `/backlog-update` ja suportam Notion nativamente — basta que a secao "Integracao Notion" exista no CLAUDE.md (gerada na secao 3.2). As skills detectam essa secao e usam os MCP tools do Notion automaticamente:
+- `/spec` cria pagina no Notion com template correto e preenche propriedades
+- `/backlog-update` le e atualiza propriedades direto no Notion
 
-**`/backlog-update` adaptado para externo:**
-- Acao `done`: atualizar SPECS_INDEX.md com status, sem mover arquivo local
+**Se ferramenta != Notion (sem MCP):**
+- `/spec` adaptado: em vez de criar arquivo local, instrucao para registrar no SPECS_INDEX.md com link externo
+- Sugerir formato de ID consistente com a ferramenta (ex: `PROJ-123`)
+- `/backlog-update` adaptado: acao `done` atualiza SPECS_INDEX.md com status, sem mover arquivo local
 
 ### 3.11 Agents
 
