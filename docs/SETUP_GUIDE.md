@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: docs/SETUP_GUIDE.md -->
 # Guia de Setup — /setup-framework
 
 > Como usar o wizard interativo para implantar o claude-code-framework em um repositorio existente.
@@ -58,16 +59,18 @@ Para times com assinatura Claude Code Team, a melhor forma de distribuir a skill
 claude-code-framework-plugin/
 ├── plugin.json
 └── skills/
-    └── setup-framework/
-        ├── SKILL.md
-        └── templates/          # Todos os templates viajam com o plugin
-            ├── CLAUDE.template.md
-            ├── PROJECT_CONTEXT.md
-            ├── SPECS_INDEX.template.md
-            ├── specs/
-            ├── scripts/
-            ├── skills/
-            └── docs/
+    ├── setup-framework/
+    │   ├── SKILL.md
+    │   └── templates/          # Todos os templates viajam com o plugin
+    │       ├── CLAUDE.template.md
+    │       ├── PROJECT_CONTEXT.md
+    │       ├── SPECS_INDEX.template.md
+    │       ├── specs/
+    │       ├── scripts/
+    │       ├── skills/
+    │       └── docs/
+    └── update-framework/
+        └── SKILL.md
 ```
 
 O diretorio `templates/` torna o plugin **self-contained** — nenhum membro do time precisa clonar o framework separadamente.
@@ -77,12 +80,16 @@ O diretorio `templates/` torna o plugin **self-contained** — nenhum membro do 
 ```json
 {
   "name": "claude-code-framework",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
   "skills": [
     {
       "name": "setup-framework",
       "path": "skills/setup-framework/SKILL.md"
+    },
+    {
+      "name": "update-framework",
+      "path": "skills/update-framework/SKILL.md"
     }
   ]
 }
@@ -505,6 +512,82 @@ Resultado:
 
 ---
 
+## Atualizando o framework — /update-framework
+
+Apos o setup inicial, o framework vai evoluir (novos agents, skills atualizadas, templates melhorados). Para propagar essas mudancas para repos que ja usam o framework, use o `/update-framework`.
+
+### Instalacao da skill de update
+
+Mesmas 3 opcoes do `/setup-framework`:
+
+**A. Por projeto:**
+```bash
+cp -r /caminho/do/claude-code-framework/skills/update-framework .claude/skills/update-framework
+```
+
+**B. Personal (todos os seus projetos):**
+```bash
+cp -r /caminho/do/claude-code-framework/skills/update-framework ~/.claude/skills/update-framework
+```
+
+**C. Via plugin:** adicionar ao `plugin.json` existente:
+```json
+{
+  "skills": [
+    { "name": "setup-framework", "path": "skills/setup-framework/SKILL.md" },
+    { "name": "update-framework", "path": "skills/update-framework/SKILL.md" }
+  ]
+}
+```
+
+> **Nota:** diferente do `/setup-framework`, o `/update-framework` nao precisa do diretorio `templates/` embutido. Ele usa o clone do framework source (ou pergunta o path) para comparar versoes via `git diff`.
+
+### Como usar
+
+```bash
+# Na raiz do projeto com framework instalado
+/update-framework                   # Analisa e aplica atualizacoes
+/update-framework --dry-run         # So mostra o que mudaria, sem aplicar
+/update-framework --scope agents    # Atualiza so agents
+/update-framework --scope skills    # Atualiza so skills
+```
+
+### Como funciona
+
+1. **Detecta versao instalada** — le os headers `<!-- framework-tag: vX.Y.Z -->` nos arquivos do projeto
+2. **Compara com framework source** — usa `git diff` entre a tag instalada e a tag atual
+3. **Classifica cada mudanca** pelo [`MANIFEST.md`](../MANIFEST.md):
+   - **overwrite** → substitui direto (agents, templates genericos)
+   - **structural** → preserva customizacoes, adiciona secoes novas (skills, docs)
+   - **manual** → mostra diff, pede confirmacao (CLAUDE.md, scripts)
+   - **skip** → nunca toca (specs, backlog, STATE)
+4. **Aplica com backup** — salva versao anterior em `.claude/.update-backup/{tag}/`
+5. **Gera relatorio** — salva em `.claude/UPDATE_REPORT.md`
+
+### Versionamento
+
+Cada arquivo do framework tem um header HTML invisivel:
+```html
+<!-- framework-tag: v2.0.0 framework-file: skills/testing/README.md -->
+```
+
+O `/update-framework` usa esse header para saber:
+- Qual versao esta instalada em cada arquivo
+- Qual arquivo no framework source corresponde
+- Se o arquivo esta desatualizado
+
+### Monorepo
+
+O `/update-framework` detecta sub-projetos automaticamente:
+- Sub-projetos com framework → verifica versao e oferece atualizar
+- Sub-projetos novos (sem `.claude/`) → oferece rodar `/setup-framework`
+
+### Detalhes completos
+
+Ver [`skills/update-framework/SKILL.md`](../skills/update-framework/SKILL.md) para o fluxo completo (5 fases).
+
+---
+
 ## FAQ
 
 ### Posso rodar em um projeto sem nenhum codigo ainda?
@@ -548,3 +631,11 @@ Tres caminhos:
 **Nao, se instalou a skill com o diretorio `templates/`.** O wizard detecta os templates embutidos automaticamente — zero dependencia externa.
 
 Se copiou apenas o SKILL.md (sem `templates/`), ai sim o wizard pergunta o path do clone. Nesse caso, basta rodar `git clone <url> /tmp/claude-code-framework` antes de executar.
+
+### Como atualizo o framework depois de instalado?
+
+Use o `/update-framework`. Ver secao "Atualizando o framework" acima. Ele detecta o que mudou entre a versao instalada e a versao atual do framework source, e aplica as mudancas respeitando suas customizacoes.
+
+### Preciso instalar a skill de update separadamente?
+
+Sim. O `/setup-framework` instala o framework no projeto, mas o `/update-framework` e uma skill separada que precisa ser copiada para `.claude/skills/` ou `~/.claude/skills/`. Ver instrucoes na secao "Atualizando o framework" acima.

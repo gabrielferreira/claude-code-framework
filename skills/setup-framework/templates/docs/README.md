@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: docs/README.md -->
 # {NOME_DO_PROJETO} — Índice de Documentação
 
 > Para setup e execução do projeto, veja o [`README.md`](../README.md) na raiz.
@@ -16,6 +17,8 @@
 | [`ACCESS_CONTROL.md`](ACCESS_CONTROL.md) | Auth, sessões, tokens, refresh, roles, RBAC, rate limit | Dev |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Decisões arquiteturais, integrações, schema, env vars | Dev |
 | [`SECURITY_AUDIT.md`](SECURITY_AUDIT.md) | Checklist OWASP Top 10 + API Security + LLM Top 10 | Dev/Sec |
+| [`SETUP_GUIDE.md`](SETUP_GUIDE.md) | Guia de uso do /setup-framework (wizard interativo) | Dev |
+| [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) | Spec-driven development: padrões, context budget, RPI, scope guardrail | Dev |
 
 ### Docs adicionais sugeridos (criar conforme necessidade)
 
@@ -43,7 +46,9 @@
 | Backlog (o que falta fazer) | [`../.claude/specs/backlog.md`](../.claude/specs/backlog.md) |
 | Estado entre sessões (decisões, blockers, lições) | [`../.claude/specs/STATE.md`](../.claude/specs/STATE.md) |
 | Skills de desenvolvimento | [`../.claude/skills/`](../.claude/skills/) |
+| Spec-driven development (guia completo) | [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) |
 | Convenções de git | [`GIT_CONVENTIONS.md`](GIT_CONVENTIONS.md) |
+| Setup do framework | [`SETUP_GUIDE.md`](SETUP_GUIDE.md) |
 
 ---
 

@@ -55,6 +55,9 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/ACCESS_CONTROL.md` | `docs/ACCESS_CONTROL.md` | structural |
 | `docs/ARCHITECTURE.md` | `docs/ARCHITECTURE.md` | structural |
 | `docs/SECURITY_AUDIT.md` | `docs/SECURITY_AUDIT.md` | structural |
+| `docs/README.md` | `docs/README.md` | structural |
+| `docs/SETUP_GUIDE.md` | `docs/SETUP_GUIDE.md` | structural |
+| `docs/SPEC_DRIVEN_GUIDE.md` | `docs/SPEC_DRIVEN_GUIDE.md` | structural |
 
 ### Scripts (manual)
 
@@ -73,8 +76,8 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 
 | Path no projeto | Estratégia |
 |---|---|
-| `CLAUDE.md` | manual (mostrar diff do template, nunca aplicar) |
-| `PROJECT_CONTEXT.md` | skip |
+| `CLAUDE.md` | manual (mostrar diff do template, nunca aplicar automaticamente) |
+| `PROJECT_CONTEXT.md` | manual (mostrar diff do template, perguntar) |
 | `SPECS_INDEX.md` | skip |
 | `.claude/specs/backlog.md` | skip |
 | `.claude/specs/STATE.md` | skip |

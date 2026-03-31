@@ -418,6 +418,7 @@ Alguns arquivos são essenciais para o framework funcionar. Se o usuario pular u
 
 ```bash
 # Criar estrutura base
+mkdir -p .claude/agents
 mkdir -p .claude/skills
 mkdir -p .claude/specs/done
 mkdir -p scripts
@@ -580,6 +581,25 @@ Se modelo **externo ou hibrido**, adaptar os SKILL.md de `/spec` e `/backlog-upd
 
 **`/backlog-update` adaptado para externo:**
 - Acao `done`: atualizar SPECS_INDEX.md com status, sem mover arquivo local
+
+### 3.11 Agents
+
+Copiar **todos** os agents do framework — sao genericos e nao tem customizacao de projeto:
+
+```bash
+cp ${FRAMEWORK_PATH}/agents/*.md .claude/agents/
+```
+
+| Agent | Descricao | Sempre |
+|---|---|---|
+| `security-audit.md` | Auditoria OWASP Top 10 | Sim |
+| `spec-validator.md` | Valida spec contra codigo | Sim |
+| `coverage-check.md` | Identifica gaps de cobertura | Sim |
+| `backlog-report.md` | Relatorio consolidado do backlog | Sim |
+| `code-review.md` | Revisao de qualidade de codigo | Sim |
+| `component-audit.md` | Auditoria de arquitetura de componentes | Sim |
+
+Todos sao `overwrite` — nao tem conteudo customizado do projeto.
 
 ---
 
