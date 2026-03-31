@@ -2,7 +2,7 @@
 description: Analisa qualidade do código — duplicação, complexidade, dead code e inconsistências
 worktree: false
 ---
-<!-- framework-tag: v2.2.0 framework-file: agents/code-review.md -->
+<!-- framework-tag: v2.3.0 framework-file: agents/code-review.md -->
 # Agent: Code Review
 
 > Sub-agente autônomo que analisa qualidade do código e identifica problemas.

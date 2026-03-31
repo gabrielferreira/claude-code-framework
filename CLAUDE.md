@@ -83,7 +83,7 @@ Todos os commits seguem Conventional Commits. O processo de release depende diss
 
 ## Versionamento e release
 
-Quando o usuario pedir para publicar uma nova versao, seguir este processo:
+Quando o usuario pedir para publicar, criar tag, fazer release, ou qualquer variacao disso — executar este processo automaticamente. Nao perguntar "quer que eu faca release?" — ja fazer. Mostrar a analise e o bump sugerido, e so pausar para confirmacao se houver ambiguidade real (ex: commit que pode ser minor ou major).
 
 ### 1. Validar pre-release
 
@@ -105,11 +105,9 @@ Analisar **semanticamente** (nao so por prefixo):
 - Algum commit adiciona funcionalidade nova (skill, agent, campo, secao de template)? → **minor**
 - Todos os commits sao correcoes, ajustes de docs, refatoracao interna? → **patch**
 
-Apresentar a analise ao usuario: listar os commits, explicar o raciocinio, sugerir o bump. Aguardar confirmacao.
+Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for claro, aplicar direto. So pausar se houver duvida real entre niveis.
 
 ### 3. Aplicar o bump
-
-Apos confirmacao:
 
 1. **VERSION** — atualizar com a nova versao
 2. **plugin.json** — atualizar campo `version`

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.2.0 framework-file: skills/testing/README.md -->
+<!-- framework-tag: v2.3.0 framework-file: skills/testing/README.md -->
 # Skill: Testing — {NOME_DO_PROJETO}
 
 > Use esta skill ao escrever, modificar ou revisar testes.
