@@ -422,6 +422,30 @@ Criar arquivos na seguinte ordem. **REGRA: NUNCA sobrescrever arquivo existente 
 
 Se arquivo existe: perguntar "Ja existe {arquivo}. Quer fazer merge (preservar existente + adicionar novo), backup + recriar, ou pular?"
 
+**Auditoria de secoes obrigatorias no CLAUDE.md existente:**
+
+Quando o CLAUDE.md ja existe (merge ou pular), verificar se as seguintes secoes estao presentes. Se alguma faltar, **adicionar ao CLAUDE.md existente** sem alterar as demais secoes. Informar o usuario sobre cada secao adicionada.
+
+| Secao | Quando e obrigatoria | Skills que dependem |
+|---|---|---|
+| Mindset por dominio | Sempre | Todas (contexto geral) |
+| Comandos | Sempre | verify.sh, testing |
+| Skills (mapeamento) | Sempre | Todas as skills |
+| Testes / Coverage | Sempre | testing, definition-of-done, coverage-check |
+| Regras de seguranca | Sempre | security-audit |
+| Fases do roadmap | Sempre | backlog-update, spec-creator |
+| Estrutura | Sempre | Todas |
+| Context budget | Sempre | Todas |
+| Specs e Requisitos | Sempre (varia por modelo) | spec-creator, backlog-update |
+| Integracao Notion (specs) | Se Notion no Bloco 2 | spec-creator, backlog-update |
+
+**Fluxo de auditoria:**
+1. Ler o CLAUDE.md existente e listar secoes H2 presentes
+2. Comparar com a tabela acima
+3. Para cada secao faltante: gerar o conteudo usando os dados coletados nas Fases 1 e 2, e adicionar ao CLAUDE.md
+4. Informar: "O CLAUDE.md existente nao tinha as secoes: {lista}. Adicionei {N} secoes necessarias para o framework funcionar."
+5. Se o usuario escolheu "pular" o CLAUDE.md inteiro mas faltam secoes criticas: avisar que sem elas o framework nao funciona e perguntar se pode adicionar apenas as faltantes
+
 **Arquivos obrigatórios vs opcionais:**
 
 Alguns arquivos são essenciais para o framework funcionar. Se o usuario pular um obrigatório, avisar e continuar — mas registrar como pendência no relatório final (Fase 5).
