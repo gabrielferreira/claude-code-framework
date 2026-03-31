@@ -41,13 +41,22 @@ A skill fica disponivel apenas neste projeto, com todos os templates embutidos. 
 
 ### Opcao B — Personal (disponivel em todos os seus projetos)
 
-Copiar o diretorio inteiro da skill para o diretorio global do Claude Code:
+Usar o script de instalacao que copia todas as skills de uma vez:
 
 ```bash
-cp -r /caminho/do/claude-code-framework/skills/setup-framework ~/.claude/skills/setup-framework
+git clone git@github.com:estrategiahq/claude-code-framework.git /tmp/claude-code-framework
+/tmp/claude-code-framework/scripts/install-skills.sh
 ```
 
-A skill fica disponivel em **qualquer projeto** que voce abrir com Claude Code. Basta digitar `/setup-framework` em qualquer repo. Templates embutidos, zero dependencia externa.
+Ou se ja tem o clone:
+
+```bash
+cd /caminho/do/claude-code-framework && git pull && scripts/install-skills.sh
+```
+
+O script instala `/setup-framework`, `/update-framework`, `/spec` e `/backlog-update` em `~/.claude/skills/`. Ficam disponiveis em **qualquer projeto** que voce abrir com Claude Code.
+
+> **Para atualizar:** rode o mesmo script novamente apos `git pull`. Ele sobrescreve as skills com a versao mais recente.
 
 ### Opcao C — Via plugin (compartilhada com o time)
 
