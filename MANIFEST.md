@@ -76,7 +76,6 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 
 | Path no framework | Propósito |
 |---|---|
-| `scripts/release.sh` | Gera nova versão (bump + tags + push) |
 | `scripts/install-skills.sh` | Instala skills no ~/.claude/skills/ |
 
 ### Projeto-específicos (skip)
