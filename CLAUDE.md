@@ -72,7 +72,7 @@ Documentados no MANIFEST na secao "Scripts do framework (nao copiados)".
 
 ## Conventional Commits (obrigatorio)
 
-Todos os commits seguem Conventional Commits. O `release.sh auto` depende disso para detectar o bump correto.
+Todos os commits seguem Conventional Commits. O processo de release depende disso para detectar o bump correto.
 
 | Prefixo | Quando | Bump |
 |---|---|---|
@@ -80,34 +80,66 @@ Todos os commits seguem Conventional Commits. O `release.sh auto` depende disso 
 | `fix:` | Correcao de bug ou instrucao errada | patch |
 | `docs:` | Documentacao (README, SETUP_GUIDE, etc.) | patch |
 | `refactor:` | Reestruturacao sem mudar comportamento | patch |
-| `release:` | Gerado pelo release.sh | — |
+| `release:` | Commit gerado pelo processo de release | — |
 | `feat!:` ou `BREAKING CHANGE` | Mudanca incompativel | major |
 
 ## Versionamento e release
 
-```bash
-# Publicar nova versao (detecta bump automaticamente)
-./scripts/release.sh auto
+Quando o usuario pedir para publicar uma nova versao, seguir este processo:
 
-# Ou especificar
-./scripts/release.sh patch   # fix/docs
-./scripts/release.sh minor   # feat
-./scripts/release.sh major   # breaking change
+### 1. Validar pre-release
+
+Antes de qualquer bump:
+
+- **Working directory limpo?** Se nao, commitar ou pedir pro usuario decidir.
+- **Source e templates em sincronia?** Comparar cada source com seu template (`diff source template`). Se divergirem, sincronizar e commitar antes.
+- **MANIFEST atualizado?** Se adicionou/removeu arquivo desde a ultima release, verificar se o MANIFEST reflete isso.
+
+### 2. Determinar o bump
+
+Ler os commits desde a ultima tag:
+```bash
+git log $(git describe --tags --abbrev=0)..HEAD --oneline --format="%s"
 ```
 
-O script faz tudo: VERSION, plugin.json, framework-tags, commit, tag, push.
+Analisar **semanticamente** (nao so por prefixo):
+- Algum commit quebra compatibilidade com projetos que ja usam o framework? → **major**
+- Algum commit adiciona funcionalidade nova (skill, agent, campo, secao de template)? → **minor**
+- Todos os commits sao correcoes, ajustes de docs, refatoracao interna? → **patch**
 
-**Framework-tags:** todo arquivo .md que vai pro projeto tem `<!-- framework-tag: vX.Y.Z framework-file: path -->`. O release.sh atualiza todos via grep. Nao manter lista hardcoded.
+Apresentar a analise ao usuario: listar os commits, explicar o raciocinio, sugerir o bump. Aguardar confirmacao.
+
+### 3. Aplicar o bump
+
+Apos confirmacao:
+
+1. **VERSION** — atualizar com a nova versao
+2. **plugin.json** — atualizar campo `version`
+3. **Framework-tags** — atualizar todos os `<!-- framework-tag: vX.Y.Z -->` nos .md:
+   ```bash
+   grep -rl "framework-tag: v" --include="*.md" . | xargs sed -i '' "s/framework-tag: v[0-9]*\.[0-9]*\.[0-9]*/framework-tag: vNOVA/g"
+   ```
+4. **Commit** com mensagem `release: vX.Y.Z`
+5. **Tag** — `git tag vX.Y.Z`
+6. **Push** — perguntar ao usuario antes de `git push && git push --tags`
+
+### Fallback sem Claude
+
+O script `scripts/release.sh` faz o mesmo processo mecanicamente:
+```bash
+./scripts/release.sh auto    # detecta bump via prefixos de commit
+./scripts/release.sh patch   # bump explicito
+```
 
 ## Fluxo de desenvolvimento
 
 1. Criar worktree para a sessao
 2. Fazer as mudancas nos sources
-3. Sincronizar com templates (`cp source → templates/`)
+3. Sincronizar com templates — **sempre** copiar source → template correspondente
 4. Atualizar MANIFEST se adicionou/removeu arquivo
 5. Commitar com Conventional Commits
 6. Merge na main
-7. `./scripts/release.sh auto`
+7. Release (processo acima ou `./scripts/release.sh auto`)
 
 ## Regras
 
