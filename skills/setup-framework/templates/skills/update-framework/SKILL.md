@@ -250,9 +250,11 @@ Detectar se o projeto usa Notion para specs. Sinais:
 Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O CLAUDE.md foi gerado antes da integração nativa existir.
 
 1. Informar: "O projeto usa specs no Notion mas o CLAUDE.md não tem a configuração de integração nativa. Sem ela, `/spec` e `/backlog-update` não conseguem criar/atualizar specs no Notion automaticamente."
-2. Perguntar URL da database de specs no Notion
-3. Fazer `notion-fetch` na URL → detectar data_source_id, schema e templates
-4. Apresentar templates encontrados e pedir mapeamento por complexidade (mesmo fluxo do `/setup-framework` Bloco 2)
+2. Perguntar a **URL completa** da database de specs no Notion (como aparece no browser)
+3. Fazer `notion-fetch` com a **URL completa** (NÃO extrair database_id para usar APIs diretas — sempre usar `notion-fetch` com URL)
+   - Se retornar 401/403: a database precisa ser compartilhada com a conexão "Claude" no Notion (menu "..." → "Connections")
+4. Detectar data_source_id, schema e templates
+5. Apresentar templates encontrados e pedir mapeamento por complexidade (mesmo fluxo do `/setup-framework` Bloco 2)
 5. **Inserir a seção `## Integracao Notion (specs)` no CLAUDE.md existente** — adicionar antes da última seção, sem alterar o restante do arquivo
 6. Confirmar com o usuário que a seção foi adicionada
 
@@ -260,7 +262,7 @@ Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O 
 
 ### Cenário B — Já tem a seção `## Integracao Notion (specs)`
 
-1. Fazer `notion-fetch` na database URL configurada no CLAUDE.md
+1. Fazer `notion-fetch` com a **URL completa** da database configurada no CLAUDE.md (não extrair database_id)
 2. Comparar template IDs configurados com os templates que existem na database
 3. Se algum template foi removido/renomeado → avisar e sugerir atualizar a tabela
 4. Se há templates novos na database que não estão mapeados → informar
