@@ -67,11 +67,13 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - `data_source_id` — ID da collection no Notion
    - Tabela de templates por complexidade (template IDs + Design Doc IDs)
 
-2. **Classificar complexidade** (mesma lógica do modo repo):
+2. **Classificar complexidade:**
    - **Pequeno** (≤3 arquivos, <30min): usar template Pequeno
    - **Médio** (<10 tasks, escopo claro): usar template Médio
    - **Grande** (>10 tasks): usar template Grande/Complexa + oferecer Design Doc
    - **Complexo** (>20 tasks, domínio novo): usar template Grande/Complexa + Design Doc obrigatório + sugerir RPI
+
+   > **Diferença do modo repo:** no Notion, **todas as complexidades criam página** (incluindo Pequeno). O template da database define o nível de detalhe — não pular a criação.
 
 3. **Coletar informações** (perguntar ao usuário):
    - Título da spec
@@ -125,7 +127,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 - **Modo repo:** nomes de arquivo `{id-kebab-case}.md`
 - **Modo Notion:** criar via `notion-create-pages` com template correto — nunca criar arquivo local
 - Seções obrigatórias do template devem ser mantidas (podem ficar com placeholder)
-- Pequeno = spec mínima (só propriedades básicas no Notion, ou só backlog no modo repo)
+- Pequeno: **modo repo** = só backlog (sem spec). **Modo Notion** = cria página com template Pequeno
 - Grande/Complexo = oferecer design doc
 - Complexo = sugerir fluxo RPI (research → plan → implement em sessões separadas)
 - Na dúvida sobre complexidade, classificar para cima
