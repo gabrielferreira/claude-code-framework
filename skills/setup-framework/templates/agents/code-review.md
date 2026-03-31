@@ -1,3 +1,6 @@
+---
+description: Analisa qualidade do código — duplicação, complexidade, dead code e inconsistências
+---
 <!-- framework-tag: v2.0.0 framework-file: agents/code-review.md -->
 # Agent: Code Review
 
