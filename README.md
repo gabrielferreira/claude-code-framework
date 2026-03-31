@@ -459,6 +459,13 @@ O wizard:
 - **Specs no repo** (padrão) — tudo local em `.claude/specs/`
 - **Specs externas** — Jira, Linear, Notion, GitHub Issues como fonte de verdade
 - **Híbrido** — specs técnicas no repo, specs de produto na ferramenta externa
+- **Notion nativo (via MCP)** — `/spec` cria páginas no Notion com template correto, `/backlog-update` atualiza propriedades direto na database
+
+**Instalação para times (plugin):**
+```bash
+claude plugin marketplace add <url-do-repo>
+claude plugin install claude-code-framework
+```
 
 Detalhes completos: [`docs/SETUP_GUIDE.md`](docs/SETUP_GUIDE.md) | Skill: [`skills/setup-framework/SKILL.md`](skills/setup-framework/SKILL.md)
 

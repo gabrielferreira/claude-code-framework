@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.0.0 framework-file: skills/logging/README.md -->
+<!-- framework-tag: v2.1.0 framework-file: skills/logging/README.md -->
 # Skill: Logging & Error Handling — {NOME_DO_PROJETO}
 
 > Use esta skill ao adicionar logs, tratar erros, ou escrever try/catch.
