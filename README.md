@@ -461,6 +461,12 @@ O wizard:
 - **Híbrido** — specs técnicas no repo, specs de produto na ferramenta externa
 - **Notion nativo (via MCP)** — `/spec` cria páginas no Notion com template correto, `/backlog-update` atualiza propriedades direto na database
 
+**Instalação pessoal (todas as skills de uma vez):**
+```bash
+git clone git@github.com:estrategiahq/claude-code-framework.git /tmp/claude-code-framework
+/tmp/claude-code-framework/scripts/install-skills.sh
+```
+
 **Instalação para times (plugin):**
 ```bash
 claude plugin marketplace add <url-do-repo>
