@@ -31,7 +31,6 @@ claude-code-framework/
 └── scripts/
     ├── verify.sh              ← Copiado pro projeto (manual)
     ├── reports.sh             ← Copiado pro projeto (manual)
-    ├── release.sh             ← NAO copiado — uso exclusivo do framework
     └── install-skills.sh      ← NAO copiado — instalacao pessoal
 ```
 
@@ -64,7 +63,6 @@ Consultar o MANIFEST antes de adicionar qualquer arquivo novo ao framework.
 |---|---|
 | `CLAUDE.md` (este) | Dev do framework |
 | `README.md` | Documentacao do repo |
-| `scripts/release.sh` | Automacao de versao |
 | `scripts/install-skills.sh` | Instalacao pessoal |
 | `.claude-plugin/plugin.json` | Vai como overwrite (e do framework, nao do projeto) |
 
@@ -123,14 +121,6 @@ Apos confirmacao:
 5. **Tag** — `git tag vX.Y.Z`
 6. **Push** — perguntar ao usuario antes de `git push && git push --tags`
 
-### Fallback sem Claude
-
-O script `scripts/release.sh` faz o mesmo processo mecanicamente:
-```bash
-./scripts/release.sh auto    # detecta bump via prefixos de commit
-./scripts/release.sh patch   # bump explicito
-```
-
 ## Fluxo de desenvolvimento
 
 1. Criar worktree para a sessao
@@ -139,7 +129,7 @@ O script `scripts/release.sh` faz o mesmo processo mecanicamente:
 4. Atualizar MANIFEST se adicionou/removeu arquivo
 5. Commitar com Conventional Commits
 6. Merge na main
-7. Release (processo acima ou `./scripts/release.sh auto`)
+7. Release (processo acima)
 
 ## Regras
 
