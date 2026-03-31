@@ -91,6 +91,7 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 ## Agents — executar sob demanda
 
 {Agents são sub-agentes autônomos que rodam e devolvem relatório.}
+{Cada agent define `worktree: false` (roda no working directory atual) ou `worktree: true` (roda em worktree isolada) no frontmatter. Agents read-only (auditoria, report, validação) = false. Agents que editam código = true.}
 
 1. **Auditar segurança do repo** -> `.claude/agents/security-audit.md`
 2. **Validar spec antes de implementar** -> `.claude/agents/spec-validator.md`

@@ -1,5 +1,6 @@
 ---
 description: Compara specs com o código atual e identifica divergências antes da implementação
+worktree: false
 ---
 <!-- framework-tag: v2.2.0 framework-file: agents/spec-validator.md -->
 # Agent: Spec Validator

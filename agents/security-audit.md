@@ -1,5 +1,6 @@
 ---
 description: Varre o repositório em busca de vulnerabilidades de segurança e gera relatório estruturado
+worktree: false
 ---
 <!-- framework-tag: v2.2.0 framework-file: agents/security-audit.md -->
 # Agent: Security Audit
