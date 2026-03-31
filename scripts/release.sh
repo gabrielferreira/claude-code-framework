@@ -3,10 +3,17 @@
 # USO EXCLUSIVO no repo do framework. NAO e copiado para projetos.
 #
 # Uso:
+#   ./scripts/release.sh auto    # detecta via Conventional Commits
 #   ./scripts/release.sh patch   # 2.2.1 → 2.2.2
 #   ./scripts/release.sh minor   # 2.2.1 → 2.3.0
 #   ./scripts/release.sh major   # 2.2.1 → 3.0.0
 #   ./scripts/release.sh 2.5.0   # versão explícita
+#
+# Detecção automática (auto):
+#   Lê commits desde a última tag e aplica Conventional Commits:
+#   - BREAKING CHANGE ou feat!:/fix!: → major
+#   - feat: → minor
+#   - fix:/docs:/refactor:/chore:/release: → patch
 #
 # O que faz:
 #   1. Calcula a nova versão (ou usa a informada)
@@ -37,11 +44,50 @@ echo "Versão atual: v${CURRENT}"
 BUMP="${1:-}"
 
 if [ -z "$BUMP" ]; then
-  echo "Uso: ./scripts/release.sh [patch|minor|major|X.Y.Z]"
+  echo "Uso: ./scripts/release.sh [auto|patch|minor|major|X.Y.Z]"
   exit 1
 fi
 
 IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+
+# --- Modo auto: detectar via Conventional Commits ---
+if [ "$BUMP" = "auto" ]; then
+  LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+  if [ -z "$LAST_TAG" ]; then
+    COMMITS=$(git log --oneline --format="%s")
+  else
+    COMMITS=$(git log "${LAST_TAG}..HEAD" --oneline --format="%s")
+  fi
+
+  if [ -z "$COMMITS" ]; then
+    echo "Nenhum commit novo desde ${LAST_TAG:-início}. Nada a fazer."
+    exit 0
+  fi
+
+  echo "Commits desde ${LAST_TAG:-início}:"
+  echo "$COMMITS" | sed 's/^/  /'
+  echo ""
+
+  # Detectar nível do bump
+  if echo "$COMMITS" | grep -qiE 'BREAKING CHANGE|^[a-z]+!:'; then
+    BUMP="major"
+    echo "Detectado: BREAKING CHANGE → major"
+  elif echo "$COMMITS" | grep -qE '^feat(\(.+\))?:'; then
+    BUMP="minor"
+    echo "Detectado: feat → minor"
+  else
+    BUMP="patch"
+    echo "Detectado: fix/docs/refactor → patch"
+  fi
+
+  echo ""
+  read -p "Confirma bump ${BUMP} (v${CURRENT} → próxima)? [Y/n] " CONFIRM
+  if [[ "$CONFIRM" =~ ^[nN]$ ]]; then
+    echo "Cancelado."
+    exit 0
+  fi
+fi
 
 case "$BUMP" in
   patch)
