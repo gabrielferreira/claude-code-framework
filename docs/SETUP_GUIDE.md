@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.0.0 framework-file: docs/SETUP_GUIDE.md -->
+<!-- framework-tag: v2.1.0 framework-file: docs/SETUP_GUIDE.md -->
 # Guia de Setup — /setup-framework
 
 > Como usar o wizard interativo para implantar o claude-code-framework em um repositorio existente.
@@ -53,72 +53,36 @@ A skill fica disponivel em **qualquer projeto** que voce abrir com Claude Code. 
 
 Para times com assinatura Claude Code Team, a melhor forma de distribuir a skill e empacota-la como plugin. Assim qualquer membro do time pode usar `/setup-framework` sem instalar nada localmente.
 
-**Passo 1 — Criar estrutura do plugin:**
+O `claude-code-framework` ja inclui o manifesto de plugin em `.claude-plugin/plugin.json`. Nao e necessario criar nada — o repo e o plugin.
 
-```
-claude-code-framework-plugin/
-├── plugin.json
-└── skills/
-    ├── setup-framework/
-    │   ├── SKILL.md
-    │   └── templates/          # Todos os templates viajam com o plugin
-    │       ├── CLAUDE.template.md
-    │       ├── PROJECT_CONTEXT.md
-    │       ├── SPECS_INDEX.template.md
-    │       ├── specs/
-    │       ├── scripts/
-    │       ├── skills/
-    │       └── docs/
-    └── update-framework/
-        └── SKILL.md
-```
+**Passo 1 — Admin adiciona o repo como marketplace:**
 
-O diretorio `templates/` torna o plugin **self-contained** — nenhum membro do time precisa clonar o framework separadamente.
-
-**Passo 2 — Criar `plugin.json`:**
+O admin da organizacao precisa liberar o repo no `strictKnownMarketplaces` das managed settings (painel admin do Claude.ai ou `managed-settings.json`):
 
 ```json
 {
-  "name": "claude-code-framework",
-  "version": "2.0.0",
-  "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
-  "skills": [
-    {
-      "name": "setup-framework",
-      "path": "skills/setup-framework/SKILL.md"
-    },
-    {
-      "name": "update-framework",
-      "path": "skills/update-framework/SKILL.md"
-    }
+  "strictKnownMarketplaces": [
+    { "source": "github", "repo": "anthropics/claude-plugins-official" },
+    { "source": "github", "repo": "anthropics/claude-code" },
+    { "source": "github", "repo": "sua-org/claude-code-framework" }
   ]
 }
 ```
 
-**Passo 3 — Publicar como repositorio Git:**
-
-Criar um repositorio Git (publico ou privado) com a estrutura acima. Pode ser o proprio `claude-code-framework` ou um repo separado so com o plugin. O importante e que o diretorio `templates/` esteja incluido.
-
-**Passo 4 — Membros do time instalam o plugin:**
+**Passo 2 — Membros do time instalam o plugin:**
 
 Cada membro do time roda uma vez:
 
 ```bash
-claude plugin add <url-do-repositorio>
-```
-
-Apos isso, `/setup-framework` fica disponivel em todos os projetos daquele usuario. Quando o plugin e atualizado no repositorio, os membros recebem a versao nova automaticamente.
-
-**Passo 5 (opcional) — Marketplace privado:**
-
-Para organizacoes maiores, o time admin pode configurar um marketplace privado (repositorio Git com indice de plugins) e distribuir via:
-
-```bash
-claude plugin marketplace add <url-do-marketplace>
+claude plugin marketplace add <url-do-repositorio>
 claude plugin install claude-code-framework
 ```
 
+Apos isso, `/setup-framework`, `/update-framework`, `/spec` e `/backlog-update` ficam disponiveis em todos os projetos. Quando o plugin e atualizado no repositorio, os membros recebem a versao nova automaticamente via `claude plugin update`.
+
 > **Nota:** ao usar como plugin, a skill e invocada com namespace: `claude-code-framework:setup-framework`. Para simplificar, o usuario pode digitar `/setup-framework` diretamente — o Claude Code resolve o namespace se nao houver ambiguidade.
+
+> **Nota 2:** se a organizacao nao usa managed settings (sem `strictKnownMarketplaces`), qualquer membro pode adicionar o marketplace sem intervencao do admin.
 
 ### Qual opcao escolher?
 
@@ -252,6 +216,22 @@ Se o projeto ja tem `CLAUDE.md`:
 - Regras de acesso à ferramenta externa (buscar por External ID, nunca search aberto no workspace)
 - `.claude/specs/README.md` com instrucoes de referencia
 - `/spec` e `/backlog-update` adaptados para IDs externos
+
+**Integracao nativa com Notion (via MCP):**
+
+Quando a ferramenta e Notion e o MCP do Notion esta conectado, o framework se integra nativamente:
+
+1. O `/setup-framework` faz `notion-fetch` na URL da database e detecta os templates automaticamente
+2. O usuario mapeia cada complexidade (Pequeno/Medio/Grande/Complexo) para um template do Notion
+3. Uma secao `## Integracao Notion (specs)` e gerada no CLAUDE.md com:
+   - URL e data source ID da database
+   - Tabela de templates por complexidade (com IDs)
+   - Regras de integracao
+4. O `/spec` cria paginas diretamente no Notion usando `notion-create-pages` com o template correto
+5. O `/backlog-update` le e atualiza propriedades no Notion via `notion-update-page`
+6. Para ler uma spec, o Claude usa `notion-fetch` com o URL da pagina
+
+> **Requisito:** o MCP connector do Notion deve estar configurado na organizacao (painel admin do Claude.ai > Conectores).
 
 ### Hibrido
 
@@ -568,7 +548,7 @@ cp -r /caminho/do/claude-code-framework/skills/update-framework ~/.claude/skills
 
 Cada arquivo do framework tem um header HTML invisivel:
 ```html
-<!-- framework-tag: v2.0.0 framework-file: skills/testing/README.md -->
+<!-- framework-tag: v2.1.0 framework-file: skills/testing/README.md -->
 ```
 
 O `/update-framework` usa esse header para saber:
@@ -639,3 +619,62 @@ Use o `/update-framework`. Ver secao "Atualizando o framework" acima. Ele detect
 ### Preciso instalar a skill de update separadamente?
 
 Sim. O `/setup-framework` instala o framework no projeto, mas o `/update-framework` e uma skill separada que precisa ser copiada para `.claude/skills/` ou `~/.claude/skills/`. Ver instrucoes na secao "Atualizando o framework" acima.
+
+### Como configuro a integracao com Notion?
+
+Durante o `/setup-framework`, ao escolher "Specs externas" e selecionar "Notion":
+
+1. O wizard pede a **URL da database de specs** no Notion (ex: `https://www.notion.so/empresa/1cd1112ab3214e28bed8c09a71806d3f`)
+2. Faz `notion-fetch` para detectar o schema e os templates da database automaticamente
+3. Apresenta os templates encontrados e pede para mapear cada complexidade (Pequeno/Medio/Grande/Complexo) para um template
+4. Gera a secao `## Integracao Notion (specs)` no CLAUDE.md com:
+   - URL e data source ID da database
+   - Tabela de templates por complexidade (com template IDs)
+   - Regras de integracao (como criar, ler e atualizar)
+
+**Requisitos:**
+- MCP connector do Notion configurado na organizacao (painel admin do Claude.ai > Conectores)
+- Database de specs com templates criados (Spec Pequena, Media, Grande, Design Doc, etc.)
+- Propriedades na database alinhadas com o framework (Status, Severidade, Fase, Camadas, etc.)
+
+**Configuracao manual (sem /setup-framework):**
+
+Se preferir configurar manualmente, adicione a secao abaixo no CLAUDE.md do projeto:
+
+```markdown
+## Integracao Notion (specs)
+
+- **Database URL:** https://www.notion.so/empresa/{database-id}
+- **Data source ID:** collection://{collection-id}
+- **Templates por complexidade:**
+  | Complexidade | Template | Template ID | Design Doc |
+  |---|---|---|---|
+  | Pequeno | [TEMPLATE] Spec Pequena | {template-id} | — |
+  | Médio | [TEMPLATE] Spec Média | {template-id} | — |
+  | Grande | [TEMPLATE] Spec Grande/Complexa | {template-id} | {design-doc-template-id} (opcional) |
+  | Complexo | [TEMPLATE] Spec Grande/Complexa | {template-id} | {design-doc-template-id} (obrigatório) |
+
+### Regras de integracao
+- `/spec` cria pagina no Notion usando `notion-create-pages` com o template correto
+- `/backlog-update done` atualiza Status no Notion via `notion-update-page`
+- Para ler uma spec: usar `notion-fetch` com o URL da pagina
+- Nunca criar specs locais em `.claude/specs/` — Notion e a fonte de verdade
+- SPECS_INDEX.md serve como indice local com links para o Notion
+```
+
+Para obter os IDs: faca `notion-fetch` na URL da database — os template IDs aparecem na secao `<templates>` do retorno.
+
+### A database do Notion precisa ter um schema especifico?
+
+Nao e obrigatorio, mas o framework funciona melhor quando as propriedades da database se alinham com as classificacoes do backlog. As propriedades recomendadas sao:
+
+- **Status:** rascunho, aprovada, em andamento, concluida, parcial, descontinuada
+- **Severidade:** Critico, Alto, Medio, Baixo
+- **Fase:** F1, F2, F3, T
+- **Complexidade:** Pequeno, Medio, Grande, Complexo
+- **Tipo:** Feature, Bug, Seguranca, Regra de Negocio, Refatoracao, Testes, Docs, Analise, Infra
+- **Camadas:** FE, BE, DB, IA, DOC, INF (multi-select)
+- **Impacto:** Usuario, Seguranca, Negocio, Interno
+- **Estimativa:** 15min, 30min, 1h, 2h, 4h, 1d, 2d, 1sem
+
+Se a database ja existir com nomes diferentes, o `/spec` e `/backlog-update` tentam mapear pelo nome mais proximo. Propriedades ausentes sao ignoradas.

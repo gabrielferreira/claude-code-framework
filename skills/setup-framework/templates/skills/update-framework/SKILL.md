@@ -238,6 +238,24 @@ Se detectou sub-projetos na Fase 0:
 
 ---
 
+## Fase 4b — Verificar integração Notion
+
+Se o projeto usa specs externas (detectar pela presença de `SPECS_INDEX.md` com colunas de External ID, ou menção a Notion no CLAUDE.md):
+
+1. **Verificar se já tem seção `## Integracao Notion (specs)` no CLAUDE.md:**
+   - Se sim → nada a fazer (já configurado)
+   - Se não → verificar se o MCP do Notion está conectado:
+     - Se sim → sugerir: "Detectei que o projeto usa specs no Notion mas não tem integração nativa configurada (disponível a partir da v2.1.0). Quer configurar? O `/spec` passa a criar páginas direto no Notion com templates."
+     - Se o usuário aceitar → perguntar URL da database, fazer `notion-fetch`, detectar templates, gerar a seção no CLAUDE.md (mesmo fluxo do `/setup-framework` Bloco 2)
+     - Se não → seguir sem configurar
+
+2. **Se já tem a seção, verificar se os template IDs ainda existem:**
+   - Fazer `notion-fetch` na database URL do CLAUDE.md
+   - Comparar template IDs configurados com os templates existentes
+   - Se algum template foi removido/renomeado → avisar e sugerir atualizar
+
+---
+
 ## Fase 5 — Relatório final
 
 Salvar em `.claude/UPDATE_REPORT.md` (append, não overwrite):

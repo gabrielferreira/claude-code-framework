@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.0.0 framework-file: docs/SPEC_DRIVEN_GUIDE.md -->
+<!-- framework-tag: v2.1.0 framework-file: docs/SPEC_DRIVEN_GUIDE.md -->
 # Spec-Driven Development com AI: a prática do SPECS_INDEX
 
 ## O problema
@@ -1018,6 +1018,16 @@ Se o time usa Notion como source of truth para specs, há riscos adicionais a co
 - **Descoberta.** Sem o índice, o modelo precisaria fazer search no workspace inteiro — lento, caro em tokens, e retorna resultados irrelevantes.
 
 O índice com External ID mitiga o problema de descoberta. Os demais riscos permanecem e devem ser aceitos conscientemente.
+
+### Integração nativa com Notion (v2.1.0+)
+
+A partir da v2.1.0, o framework suporta integração nativa com Notion via MCP. Quando configurada pelo `/setup-framework`, as skills `/spec` e `/backlog-update` operam diretamente na database do Notion:
+
+- **`/spec`** cria páginas no Notion usando os templates da database (Spec Pequena, Média, Grande/Complexa, Design Doc), preenche as propriedades automaticamente (Status, Fase, Severidade, Camadas, etc.) e registra no SPECS_INDEX.md local.
+- **`/backlog-update`** lê e atualiza propriedades (Status, Concluída em, etc.) diretamente na página do Notion.
+- **Leitura de specs** usa `notion-fetch` com o URL da página — o Claude lê o conteúdo completo incluindo o body preenchido pelo template.
+
+A configuração é armazenada na seção `## Integracao Notion (specs)` do CLAUDE.md, que inclui o data source ID da database e a tabela de mapeamento de templates por complexidade. Ver `docs/SETUP_GUIDE.md` para detalhes da configuração.
 
 ## Impacto no consumo de tokens
 

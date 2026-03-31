@@ -87,6 +87,14 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `.claude/specs/done/*.md` | skip |
 | `.claude/SETUP_REPORT.md` | skip |
 
+### Plugin (overwrite)
+
+Manifesto do plugin para instalação via `claude plugin`.
+
+| Path no projeto | Template source | Estratégia |
+|---|---|---|
+| `.claude-plugin/plugin.json` | `.claude-plugin/plugin.json` | overwrite |
+
 ### setup-framework (overwrite)
 
 O próprio setup-framework e seus templates são atualizados direto.
