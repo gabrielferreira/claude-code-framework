@@ -240,6 +240,9 @@ Se detectou sub-projetos na Fase 0:
 
 ## Fase 4b — Verificar integração Notion
 
+> **Nota:** o update nao configura autenticacao do MCP Notion — apenas usa o que ja esta configurado.
+> Se o MCP Notion nao estiver funcionando, orientar o usuario a configurar antes (ver docs do `/setup-framework`).
+
 Detectar se o projeto usa Notion para specs. Sinais:
 - CLAUDE.md menciona "Notion" ou "specs externas"
 - SPECS_INDEX.md tem colunas de External ID ou links notion.so
@@ -251,8 +254,8 @@ Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O 
 
 1. Informar: "O projeto usa specs no Notion mas o CLAUDE.md não tem a configuração de integração nativa. Sem ela, `/spec` e `/backlog-update` não conseguem criar/atualizar specs no Notion automaticamente."
 2. Perguntar a **URL completa** da database de specs no Notion (como aparece no browser)
-3. Fazer `notion-fetch` com a **URL completa** (NÃO extrair database_id para usar APIs diretas — sempre usar `notion-fetch` com URL)
-   - Se retornar 401/403: a database precisa ser compartilhada com a conexão "Claude" no Notion (menu "..." → "Connections")
+3. Fazer `notion-fetch` com a URL completa para obter dados da database
+   - **Se retornar erro 401/403:** o MCP Notion nao esta autenticado ou a database nao esta compartilhada com a integration. Orientar: (1) verificar token no settings.json (`NOTION_TOKEN`), (2) compartilhar database com a integration no Notion (menu "..." → "Connections")
 4. Detectar data_source_id, schema e templates
 5. Apresentar templates encontrados e pedir mapeamento por complexidade (mesmo fluxo do `/setup-framework` Bloco 2)
 5. **Inserir a seção `## Integracao Notion (specs)` no CLAUDE.md existente** — adicionar antes da última seção, sem alterar o restante do arquivo
