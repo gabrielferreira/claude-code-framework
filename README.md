@@ -29,7 +29,8 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 │  (checks evolutivos + OWASP)               │
 ├─────────────────────────────────────────────┤
 │  Slash commands (SKILL.md)                  │  ← Automação de processos
-│  (/backlog-update, /spec, /setup-framework) │
+│  (/backlog-update, /spec, /setup-framework, │
+│   /update-framework)                        │
 ├─────────────────────────────────────────────┤
 │  docs/                                      │  ← Documentação expandida
 │  (git, guias, arquitetura, segurança)       │
@@ -111,7 +112,8 @@ Nem tudo no framework é para o Claude. Alguns artefatos são para humanos, algu
     │   ├── mock-mode/README.md
     │   ├── backlog-update/SKILL.md      # Slash command: /backlog-update
     │   ├── spec-creator/SKILL.md        # Slash command: /spec
-    │   └── setup-framework/SKILL.md     # Slash command: /setup-framework (wizard)
+    │   ├── setup-framework/SKILL.md     # Slash command: /setup-framework (wizard)
+    │   └── update-framework/SKILL.md    # Slash command: /update-framework
     └── specs/                   # Specs de features
         ├── TEMPLATE.md          # Template de spec
         ├── DESIGN_TEMPLATE.md   # Template de design doc (Grande/Complexo)
@@ -355,6 +357,7 @@ Slash commands são skills invocáveis pelo usuário com `/nome`.
 - `/backlog-update` — adicionar, concluir ou editar itens no backlog
 - `/spec` — criar nova spec a partir do template
 - `/setup-framework` — wizard interativo para implantar o framework em um repo
+- `/update-framework` — atualizar framework em repo que já o utiliza (detecta diff, aplica por estratégia)
 
 ### 7. docs/ (documentação expandida)
 
@@ -458,6 +461,25 @@ O wizard:
 - **Híbrido** — specs técnicas no repo, specs de produto na ferramenta externa
 
 Detalhes completos: [`docs/SETUP_GUIDE.md`](docs/SETUP_GUIDE.md) | Skill: [`skills/setup-framework/SKILL.md`](skills/setup-framework/SKILL.md)
+
+### Atualização (repos existentes)
+
+Quando o framework evolui, use `/update-framework` no repo que já o utiliza:
+
+```
+/update-framework
+/update-framework --dry-run        # Só mostra o que mudaria
+/update-framework --scope agents   # Atualiza só agents
+```
+
+O comando:
+1. **Detecta a versão instalada** via headers `framework-tag` nos arquivos
+2. **Compara com o framework source** usando `git diff` entre tags
+3. **Classifica cada mudança** pela estratégia do [`MANIFEST.md`](MANIFEST.md) (overwrite, structural, manual, skip)
+4. **Aplica atualizações** preservando customizações do projeto
+5. **Detecta sub-projetos novos** em monorepos e oferece setup
+
+Detalhes completos: [`skills/update-framework/SKILL.md`](skills/update-framework/SKILL.md)
 
 ### Setup manual (se preferir controle total)
 
@@ -735,7 +757,8 @@ claude-code-framework/
     ├── mock-mode/README.md              # Skill: Mock Mode (integrações externas)
     ├── backlog-update/SKILL.md           # Slash command: /backlog-update
     ├── spec-creator/SKILL.md             # Slash command: /spec
-    └── setup-framework/SKILL.md          # Slash command: /setup-framework (wizard)
+    ├── setup-framework/SKILL.md          # Slash command: /setup-framework (wizard)
+    └── update-framework/SKILL.md         # Slash command: /update-framework
 ```
 
 Para usar: executar `/setup-framework` no repo alvo (recomendado), ou copiar manualmente e substituir os `{placeholders}` pelos valores reais. Ir evoluindo progressivamente.

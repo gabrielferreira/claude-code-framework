@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: skills/backlog-update/SKILL.md -->
 ---
 name: backlog-update
 description: Atualiza o backlog — adiciona, conclui ou edita itens seguindo o padrão do projeto

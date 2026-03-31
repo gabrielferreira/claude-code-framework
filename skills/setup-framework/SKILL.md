@@ -747,6 +747,7 @@ Adicionar ao final do SETUP_REPORT.md:
 2. **Semana 1:** criar backlog inicial, primeira spec, rodar verify.sh
 3. **Semana 2:** adicionar 2-3 skills de dominio, customizar checks
 4. **Semana 3+:** evoluir progressivamente conforme padroes do README.md do framework
+5. **Quando o framework atualizar:** usar `/update-framework` para aplicar mudanças
 ```
 
 ### 5c. Opcao de desfazer

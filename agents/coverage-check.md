@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: agents/coverage-check.md -->
 # Agent: Coverage Check
 
 > Sub-agente autônomo que identifica gaps de cobertura de testes e sugere cenários.

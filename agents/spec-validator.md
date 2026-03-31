@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: agents/spec-validator.md -->
 # Agent: Spec Validator
 
 > Sub-agente autônomo que compara specs com o código atual e identifica divergências.

@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: agents/security-audit.md -->
 # Agent: Security Audit
 
 > Sub-agente autônomo que varre o repositório em busca de vulnerabilidades de segurança.

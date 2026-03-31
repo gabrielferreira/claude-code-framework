@@ -1,3 +1,4 @@
+<!-- framework-tag: v2.0.0 framework-file: agents/backlog-report.md -->
 # Agent: Backlog Report
 
 > Sub-agente autônomo que analisa o backlog e gera relatório consolidado.
