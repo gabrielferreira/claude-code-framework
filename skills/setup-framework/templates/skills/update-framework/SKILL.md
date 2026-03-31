@@ -240,19 +240,66 @@ Se detectou sub-projetos na Fase 0:
 
 ## Fase 4b — Verificar integração Notion
 
-Se o projeto usa specs externas (detectar pela presença de `SPECS_INDEX.md` com colunas de External ID, ou menção a Notion no CLAUDE.md):
+Detectar se o projeto usa Notion para specs. Sinais:
+- CLAUDE.md menciona "Notion" ou "specs externas"
+- SPECS_INDEX.md tem colunas de External ID ou links notion.so
+- Existe `.claude/specs/README.md` com instruções de referência externa
 
-1. **Verificar se já tem seção `## Integracao Notion (specs)` no CLAUDE.md:**
-   - Se sim → nada a fazer (já configurado)
-   - Se não → verificar se o MCP do Notion está conectado:
-     - Se sim → sugerir: "Detectei que o projeto usa specs no Notion mas não tem integração nativa configurada (disponível a partir da v2.1.0). Quer configurar? O `/spec` passa a criar páginas direto no Notion com templates."
-     - Se o usuário aceitar → perguntar URL da database, fazer `notion-fetch`, detectar templates, gerar a seção no CLAUDE.md (mesmo fluxo do `/setup-framework` Bloco 2)
-     - Se não → seguir sem configurar
+### Cenário A — Usa Notion mas NÃO tem seção `## Integracao Notion (specs)` no CLAUDE.md
 
-2. **Se já tem a seção, verificar se os template IDs ainda existem:**
-   - Fazer `notion-fetch` na database URL do CLAUDE.md
-   - Comparar template IDs configurados com os templates existentes
-   - Se algum template foi removido/renomeado → avisar e sugerir atualizar
+Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O CLAUDE.md foi gerado antes da integração nativa existir.
+
+1. Informar: "O projeto usa specs no Notion mas o CLAUDE.md não tem a configuração de integração nativa. Sem ela, `/spec` e `/backlog-update` não conseguem criar/atualizar specs no Notion automaticamente."
+2. Perguntar URL da database de specs no Notion
+3. Fazer `notion-fetch` na URL → detectar data_source_id, schema e templates
+4. Apresentar templates encontrados e pedir mapeamento por complexidade (mesmo fluxo do `/setup-framework` Bloco 2)
+5. **Inserir a seção `## Integracao Notion (specs)` no CLAUDE.md existente** — adicionar antes da última seção, sem alterar o restante do arquivo
+6. Confirmar com o usuário que a seção foi adicionada
+
+> **Importante:** esta é a única situação em que o `/update-framework` modifica o CLAUDE.md sem ser por diff do template. A seção Notion é config do projeto, não conteúdo do framework.
+
+### Cenário B — Já tem a seção `## Integracao Notion (specs)`
+
+1. Fazer `notion-fetch` na database URL configurada no CLAUDE.md
+2. Comparar template IDs configurados com os templates que existem na database
+3. Se algum template foi removido/renomeado → avisar e sugerir atualizar a tabela
+4. Se há templates novos na database que não estão mapeados → informar
+
+### Cenário C — Não usa Notion
+
+Nada a fazer. Seguir para Fase 4c.
+
+---
+
+## Fase 4c — Auditar seções do CLAUDE.md
+
+O CLAUDE.md pode ter sido criado numa versão anterior do framework e estar faltando seções que versões mais recentes adicionaram. Esta fase verifica e complementa.
+
+1. **Ler o CLAUDE.md e listar seções H2 presentes**
+2. **Comparar com as seções esperadas pelo framework:**
+
+| Seção | Obrigatória | Skills/agents que dependem |
+|---|---|---|
+| Mindset por domínio | Sim | Todas |
+| Comandos | Sim | verify.sh, testing |
+| Skills (mapeamento) | Sim | Todas as skills |
+| Testes / Coverage | Sim | testing, definition-of-done, coverage-check |
+| Regras de segurança | Sim | security-audit |
+| Fases do roadmap | Sim | backlog-update, spec-creator |
+| Estrutura | Sim | Todas |
+| Context budget | Sim | Todas |
+| Specs e Requisitos | Sim | spec-creator, backlog-update |
+| Integracao Notion (specs) | Se usa Notion | spec-creator, backlog-update |
+
+3. **Para cada seção faltante:**
+   - Informar qual seção falta e quais skills ficam sem funcionar
+   - Gerar o conteúdo usando dados detectáveis do projeto (stack, comandos, estrutura)
+   - Perguntar ao usuário se pode adicionar ao CLAUDE.md
+   - Se sim: inserir a seção no local adequado (manter ordem do template)
+
+4. **Registrar no relatório** (Fase 5) quais seções foram adicionadas
+
+> O update nunca remove seções customizadas do CLAUDE.md. Apenas adiciona as que faltam.
 
 ---
 
