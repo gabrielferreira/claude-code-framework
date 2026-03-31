@@ -568,6 +568,122 @@ Ver [`skills/update-framework/SKILL.md`](../skills/update-framework/SKILL.md) pa
 
 ---
 
+## Depois do setup — fluxo do dia a dia
+
+O framework foi instalado. E agora? Este e o fluxo que o time segue no dia a dia.
+
+### Visao geral
+
+```
+Problema → /spec → Aprovar → Implementar → Verificar → /backlog-update done
+```
+
+### 1. Problema apareceu
+
+Alguem identificou um bug, oportunidade ou feedback.
+
+- **Se trivial** (≤3 arquivos, <30min): crie direto no backlog com `/backlog-update {ID} add`
+- **Se precisa de spec**: rode `/spec {ID} {Título}`. O comando classifica a complexidade e cria a spec (no repo ou no Notion, conforme configurado)
+
+### 2. Preencher e aprovar a spec
+
+- **Produto** preenche: Contexto, Requisitos, Criterios de aceitacao, Nao fazer
+- **Engenharia** preenche: Arquivos afetados, Breakdown de tasks, Complexidade, Estimativa
+- **Time aprova**: Status → `aprovada`
+
+> Spec `rascunho` nao pode ser implementada. O agente de IA vai parar e avisar se tentar.
+
+### 3. Antes de implementar
+
+Antes de escrever qualquer codigo:
+
+1. **Ler a spec** — se no Notion, o Claude usa `notion-fetch` automaticamente
+2. **Rodar o spec-validator** (agent) — compara a spec com o codigo atual e identifica divergencias
+3. **Ler a secao "Nao fazer"** — evita scope creep
+4. **Verificar dependencias** — specs que devem ser concluidas antes
+
+### 4. Implementar
+
+O agente de IA (ou o dev) segue a spec:
+
+- A spec diz **o que** fazer. O codigo diz **como**.
+- Cada requisito funcional implementado recebe comentario: `// Implements RF-XXX from SPEC-ID`
+- Escrever testes primeiro (TDD) baseados nos criterios de aceitacao
+
+### 5. Antes de commitar
+
+Rodar as verificacoes:
+
+```bash
+# Verificacao automatizada (se configurado)
+scripts/verify.sh
+
+# Agents sob demanda
+# security-audit  — antes de releases ou apos novo endpoint
+# coverage-check  — apos implementar feature
+# code-review     — antes de PR
+```
+
+### 6. Concluir
+
+```
+/backlog-update {ID} done
+```
+
+Isso atualiza o status para `concluida` (no backlog local ou no Notion), preenche a data de conclusao e move a spec para `done/` (modo repo).
+
+### 7. Manter o framework atualizado
+
+Periodicamente, rodar:
+
+```
+/update-framework
+```
+
+Detecta mudancas no framework source e aplica atualizacoes respeitando customizacoes do projeto.
+
+---
+
+### Comandos rapidos
+
+| Situacao | Comando |
+|---|---|
+| Criar spec | `/spec {ID} {Título}` |
+| Adicionar item ao backlog | `/backlog-update {ID} add` |
+| Concluir item | `/backlog-update {ID} done` |
+| Editar item | `/backlog-update {ID} update` |
+| Atualizar framework | `/update-framework` |
+| Verificar antes de commitar | `scripts/verify.sh` |
+
+### Agents disponiveis
+
+| Agent | Quando usar |
+|---|---|
+| `security-audit` | Antes de releases, apos novo endpoint ou fluxo de auth |
+| `spec-validator` | Antes de implementar qualquer spec (obrigatorio para Medio+) |
+| `coverage-check` | Apos implementar feature, antes do commit |
+| `code-review` | Antes de PR ou merge |
+| `component-audit` | Quando o codebase cresce e precisa de revisao de arquitetura |
+| `backlog-report` | Inicio de sprint ou revisao periodica |
+
+### Skills de referencia
+
+O Claude consulta automaticamente conforme o contexto (configurado no CLAUDE.md):
+
+| Skill | Quando e consultada |
+|---|---|
+| `spec-driven` | Ao implementar qualquer feature |
+| `definition-of-done` | Antes de marcar como concluido |
+| `testing` | Ao escrever ou revisar testes |
+| `code-quality` | Em refatoracoes ou code review |
+| `dba-review` | Ao mexer em queries, migrations ou schema |
+| `ux-review` | Ao mexer em UI/UX |
+| `logging` | Ao adicionar logs ou error handling |
+| `docs-sync` | Ao commitar mudancas que afetam docs |
+| `mock-mode` | Ao lidar com integracoes externas |
+
+---
+
 ## FAQ
 
 ### Posso rodar em um projeto sem nenhum codigo ainda?
