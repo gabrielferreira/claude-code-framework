@@ -325,11 +325,19 @@ Perguntar qual modelo de specs sera usado:
 
 O framework se integra nativamente com Notion via MCP. O setup detecta templates e configura tudo automaticamente.
 
-1. **Perguntar URL da database de specs no Notion** (ex: `https://www.notion.so/empresa/1cd1112ab3214e28bed8c09a71806d3f`)
-2. **Fazer `notion-fetch` na URL** para obter:
+> **Pre-requisitos do Notion MCP:**
+> - O connector "Notion" precisa estar configurado no Claude Code (aparece na lista de MCP tools como `notion-fetch`, `notion-create-pages`, etc.)
+> - A database precisa estar **compartilhada com a conexao do Claude** no Notion: abrir a database → "..." → "Connections" → adicionar "Claude"
+> - Se `notion-fetch` retornar 401/403: a database nao esta compartilhada com o connector. Pedir ao usuario para verificar as conexoes da database no Notion.
+
+1. **Perguntar a URL completa da database de specs no Notion**
+   - Exemplo: `https://www.notion.so/empresa/1cd1112ab3214e28bed8c09a71806d3f` ou `https://www.notion.so/1cd1112ab3214e28bed8c09a71806d3f?v=...`
+   - **Importante:** usar a URL como o usuario a ve no browser. NAO extrair o database_id para chamar APIs — usar `notion-fetch` com a URL completa.
+2. **Fazer `notion-fetch` com a URL completa** (nao usar `Retrieve A Database` com database_id isolado) para obter:
    - `data_source_id` (collection ID) — necessario para criar paginas
    - Schema da database (propriedades e opcoes)
    - Templates existentes (IDs e nomes)
+   - **Se retornar erro 401/403:** informar que a database precisa ser compartilhada com a conexao "Claude" no Notion (menu "..." → "Connections")
 3. **Apresentar os templates encontrados** e pedir para o usuario mapear cada complexidade:
    ```
    Templates encontrados na database:
