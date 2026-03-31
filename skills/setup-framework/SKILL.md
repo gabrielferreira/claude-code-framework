@@ -323,21 +323,40 @@ Perguntar qual modelo de specs sera usado:
 
 **Se ferramenta = Notion (com MCP conectado):**
 
-O framework se integra nativamente com Notion via MCP. O setup detecta templates e configura tudo automaticamente.
+O framework se integra nativamente com Notion via MCP. O setup nao configura autenticacao — apenas usa o MCP Notion que ja esta configurado no Claude Code do usuario.
 
-> **Pre-requisitos do Notion MCP:**
-> - O connector "Notion" precisa estar configurado no Claude Code (aparece na lista de MCP tools como `notion-fetch`, `notion-create-pages`, etc.)
-> - A database precisa estar **compartilhada com a conexao do Claude** no Notion: abrir a database → "..." → "Connections" → adicionar "Claude"
-> - Se `notion-fetch` retornar 401/403: a database nao esta compartilhada com o connector. Pedir ao usuario para verificar as conexoes da database no Notion.
+> **Pre-requisito:** o MCP Notion precisa estar funcionando ANTES de rodar o setup.
+> A configuracao do MCP e responsabilidade do usuario (token, OAuth, permissoes).
+> O setup apenas detecta e usa — nao autentica nem configura o MCP.
+>
+> **Como verificar:** as tools `notion-fetch`, `notion-create-pages`, etc. devem aparecer na lista de tools disponiveis do Claude Code. Se nao aparecem, o usuario precisa configurar o MCP Notion primeiro.
+>
+> **Configuracao do MCP Notion** (referencia para o usuario):
+> ```json
+> // Em ~/.claude/settings.json ou .claude/settings.local.json
+> {
+>   "mcpServers": {
+>     "notion": {
+>       "command": "npx",
+>       "args": ["-y", "@notionhq/notion-mcp-server"],
+>       "env": {
+>         "NOTION_TOKEN": "ntn_****"
+>       }
+>     }
+>   }
+> }
+> ```
+> Alternativa: usar `OPENAPI_MCP_HEADERS` com Bearer token (ver docs do `@notionhq/notion-mcp-server`).
+> A database tambem precisa estar **compartilhada com a integration** no Notion: abrir database → "..." → "Connections" → adicionar a integration.
 
 1. **Perguntar a URL completa da database de specs no Notion**
    - Exemplo: `https://www.notion.so/empresa/1cd1112ab3214e28bed8c09a71806d3f` ou `https://www.notion.so/1cd1112ab3214e28bed8c09a71806d3f?v=...`
-   - **Importante:** usar a URL como o usuario a ve no browser. NAO extrair o database_id para chamar APIs — usar `notion-fetch` com a URL completa.
-2. **Fazer `notion-fetch` com a URL completa** (nao usar `Retrieve A Database` com database_id isolado) para obter:
+   - A URL como o usuario a ve no browser.
+2. **Fazer `notion-fetch` com a URL completa** para obter:
    - `data_source_id` (collection ID) — necessario para criar paginas
    - Schema da database (propriedades e opcoes)
    - Templates existentes (IDs e nomes)
-   - **Se retornar erro 401/403:** informar que a database precisa ser compartilhada com a conexao "Claude" no Notion (menu "..." → "Connections")
+   - **Se retornar erro 401/403:** o MCP Notion nao esta autenticado ou a database nao esta compartilhada com a integration. Orientar o usuario a verificar: (1) o token no settings.json esta correto, (2) a database esta compartilhada com a integration no Notion (menu "..." → "Connections")
 3. **Apresentar os templates encontrados** e pedir para o usuario mapear cada complexidade:
    ```
    Templates encontrados na database:
