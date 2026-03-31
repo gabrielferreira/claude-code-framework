@@ -1,7 +1,7 @@
 ---
 description: Compara specs com o código atual e identifica divergências antes da implementação
 ---
-<!-- framework-tag: v2.1.0 framework-file: agents/spec-validator.md -->
+<!-- framework-tag: v2.2.0 framework-file: agents/spec-validator.md -->
 # Agent: Spec Validator
 
 > Sub-agente autônomo que compara specs com o código atual e identifica divergências.
