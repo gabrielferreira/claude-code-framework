@@ -70,6 +70,15 @@ Scripts podem ter checks evolutivos adicionados pelo projeto.
 | `scripts/reports-index.js` | `scripts/reports-index.js` | manual |
 | `scripts/backlog-report.cjs` | `scripts/backlog-report.cjs` | manual |
 
+### Scripts do framework (não copiados)
+
+Estes scripts existem apenas no repo do framework. NAO são copiados para projetos.
+
+| Path no framework | Propósito |
+|---|---|
+| `scripts/release.sh` | Gera nova versão (bump + tags + push) |
+| `scripts/install-skills.sh` | Instala skills no ~/.claude/skills/ |
+
 ### Projeto-específicos (skip)
 
 Nunca tocados pelo update — conteúdo 100% do projeto.
