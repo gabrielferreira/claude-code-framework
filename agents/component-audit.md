@@ -1,7 +1,7 @@
 ---
 description: Analisa arquitetura de componentes e módulos — estrutura, responsabilidades e oportunidades de extração
 ---
-<!-- framework-tag: v2.1.0 framework-file: agents/component-audit.md -->
+<!-- framework-tag: v2.2.0 framework-file: agents/component-audit.md -->
 # Agent: Component Audit
 
 > Sub-agente autônomo que analisa a arquitetura de componentes e módulos.

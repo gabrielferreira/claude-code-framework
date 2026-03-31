@@ -1,7 +1,7 @@
 ---
 description: Analisa o backlog e gera relatório consolidado com status do projeto
 ---
-<!-- framework-tag: v2.1.0 framework-file: agents/backlog-report.md -->
+<!-- framework-tag: v2.2.0 framework-file: agents/backlog-report.md -->
 # Agent: Backlog Report
 
 > Sub-agente autônomo que analisa o backlog e gera relatório consolidado.
