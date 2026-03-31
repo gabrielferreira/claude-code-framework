@@ -1,3 +1,6 @@
+---
+description: Identifica gaps de cobertura de testes e sugere cenários de teste faltantes
+---
 <!-- framework-tag: v2.0.0 framework-file: agents/coverage-check.md -->
 # Agent: Coverage Check
 

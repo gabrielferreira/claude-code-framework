@@ -1,3 +1,6 @@
+---
+description: Analisa arquitetura de componentes e módulos — estrutura, responsabilidades e oportunidades de extração
+---
 <!-- framework-tag: v2.0.0 framework-file: agents/component-audit.md -->
 # Agent: Component Audit
 
