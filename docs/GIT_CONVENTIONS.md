@@ -103,7 +103,7 @@ Passos para validar manualmente (se aplicável).
 - [ ] Testes passando (`{comando de teste}`)
 - [ ] Coverage nos módulos críticos (`{comando de coverage}`)
 - [ ] Sem secrets no código
-- [ ] Checklist de segurança aplicado (skill security-review)
+- [ ] Checklist de segurança aplicado (agent security-audit)
 - [ ] Conventional commit no título
 ```
 

@@ -28,7 +28,7 @@ O verify.sh pega patterns mecânicos (secrets, SQL concat), mas não avalia **de
 - [ ] Endpoints novos têm auth middleware — sem auth = justificativa documentada
 - [ ] Ownership check: ID do recurso vem do JWT/session, não do body (IDOR)
 - [ ] Dados sensíveis removidos das respostas
-- [ ] Se mudança tocou em segurança: consultar skill `security-review`
+- [ ] Se mudança tocou em segurança: consultar agent `security-audit`
 
 ### Documentação (inteligência)
 - [ ] `CLAUDE.md` atualizado se houve mudança de regra, convenção ou estrutura
@@ -57,13 +57,13 @@ Tudo do checklist universal, mais:
 Tudo do checklist universal, mais:
 - [ ] Teste reproduz o bug ANTES do fix (TDD reverso)
 - [ ] Root cause documentado no commit message
-- [ ] Se era bug de segurança: audit atualizado, verificar OWASP top 10 (skill `security-review`)
+- [ ] Se era bug de segurança: audit atualizado, verificar OWASP top 10 (agent `security-audit`)
 - [ ] Se afetava dados: verificar se há dados corrompidos a corrigir
 
 ### Novo endpoint / rota
 
 Tudo do checklist universal, mais:
-- [ ] Checklist OWASP aplicado (skill `security-review`, seção por tipo de mudança)
+- [ ] Checklist OWASP aplicado (agent `security-audit`, seção por tipo de mudança)
 - [ ] Testes de integração cobrem todos os status: 200, 400, 401, 403, 404, 500
 - [ ] Rate limit configurado
 - [ ] Docs de API atualizados

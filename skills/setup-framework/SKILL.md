@@ -337,11 +337,20 @@ Perguntar qual modelo de specs sera usado:
 Apresentar recomendacao baseada na analise:
 
 **Sempre incluidas (core):**
+- spec-driven
 - definition-of-done
 - testing
 - code-quality
 - logging
 - docs-sync
+
+**Agents (sempre incluidos):**
+- security-audit
+- spec-validator
+- coverage-check
+- backlog-report
+- code-review
+- component-audit
 
 **Recomendadas por deteccao:**
 
@@ -349,9 +358,8 @@ Apresentar recomendacao baseada na analise:
 |---|---|
 | Tem DB/ORM | dba-review |
 | Tem frontend / UI | ux-review |
-| Tem API/endpoints | security-review |
+| Tem API/endpoints | (agents: security-audit) |
 | Tem integracoes externas | mock-mode |
-| Tem pre-commit hooks | syntax-check |
 
 Perguntar: "Quer incluir todas as recomendadas ou selecionar?"
 
@@ -662,11 +670,23 @@ Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
 
 | Skill | Tipo | Motivo |
 |---|---|---|
+| spec-driven | Core | Sempre incluida |
 | definition-of-done | Core | Sempre incluida |
 | testing | Core | Sempre incluida |
-| security-review | Recomendada | API/endpoints detectados |
+| code-quality | Core | Sempre incluida |
 | dba-review | Recomendada | DB/ORM detectado |
 | ... | ... | ... |
+
+## Agents instalados
+
+| Agent | Motivo |
+|---|---|
+| security-audit | Sempre incluido |
+| spec-validator | Sempre incluido |
+| coverage-check | Sempre incluido |
+| backlog-report | Sempre incluido |
+| code-review | Sempre incluido |
+| component-audit | Sempre incluido |
 
 ## Configuracoes aplicadas
 

@@ -306,7 +306,7 @@ Perguntas:
   Dominio: E-commerce
   Modelo specs: Specs no repo
   Fases: F1 (MVP), F2 (Integracao), F3 (Otimizacao), T (Testes)
-  Skills: todas recomendadas (core + dba-review + security-review)
+  Skills: todas recomendadas (core + dba-review) + agents
   Coverage: 80% global, 100% para services/ e middleware/auth/
 
 Resultado:
@@ -337,7 +337,7 @@ Perguntas:
   Descricao: API para prontuario eletronico
   Dominio: Healthtech
   Modelo specs: Hibrido (produto no Jira, tecnico no repo)
-  Skills: core + dba-review + security-review
+  Skills: core + dba-review + agents
 
 Resultado:
   16 arquivos criados

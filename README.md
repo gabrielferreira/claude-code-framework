@@ -22,6 +22,9 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 │  .claude/skills/                            │  ← Como fazer (checklists)
 │  (checklists por domínio)                   │
 ├─────────────────────────────────────────────┤
+│  .claude/agents/                            │  ← Tarefas autônomas sob demanda
+│  (audit, review, validação)                 │
+├─────────────────────────────────────────────┤
 │  scripts/verify.sh                          │  ← Validação automatizada
 │  (checks evolutivos + OWASP)               │
 ├─────────────────────────────────────────────┤
@@ -37,11 +40,12 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 
 1. **Spec antes de código** — o Claude nunca implementa sem entender o contexto
 2. **Skills como checklists** — cada domínio tem sua lista de verificação, evitando esquecimentos
-3. **verify.sh evolui com o projeto** — cada regra nova vira um check automatizado
-4. **Backlog como fonte de verdade** — tudo que precisa ser feito está num lugar só
-5. **Definition of Done** — nenhuma entrega passa sem verificação contra a spec
-6. **PROJECT_CONTEXT.md** — qualquer LLM (não só Claude Code) recebe contexto completo
-7. **docs/** — documentação expandida que o CLAUDE.md referencia mas não repete
+3. **Agents como auditores** — sub-agentes autônomos que varrem, validam e reportam sob demanda
+4. **verify.sh evolui com o projeto** — cada regra nova vira um check automatizado
+5. **Backlog como fonte de verdade** — tudo que precisa ser feito está num lugar só
+6. **Definition of Done** — nenhuma entrega passa sem verificação contra a spec
+7. **PROJECT_CONTEXT.md** — qualquer LLM (não só Claude Code) recebe contexto completo
+8. **docs/** — documentação expandida que o CLAUDE.md referencia mas não repete
 
 ---
 
@@ -54,6 +58,7 @@ Nem tudo no framework é para o Claude. Alguns artefatos são para humanos, algu
 | **CLAUDE.md** | Claude (primário), humanos (referência) | Claude lê automaticamente a cada sessão. Humanos consultam para entender as regras. |
 | **PROJECT_CONTEXT.md** | Qualquer LLM, humanos | Briefing portátil — usar com ChatGPT, Gemini, Copilot, ou qualquer ferramenta de IA. |
 | **Skills (`.claude/skills/`)** | Claude (primário) | Checklists que o Claude consulta antes de agir. Humanos podem ler para entender o que o Claude verifica. |
+| **Agents (`.claude/agents/`)** | Claude (executa), humanos (leem relatório) | Sub-agentes autônomos que varrem o repo e devolvem relatório (segurança, coverage, qualidade, specs). |
 | **Specs (`.claude/specs/`)** | Claude e humanos igualmente | Claude lê para implementar. Humanos leem para entender requisitos e validar entregas. |
 | **STATE.md** | Claude e humanos igualmente | Memória entre sessões — Claude lê para continuar de onde parou, humanos leem para entender estado. |
 | **Backlog** | Claude e humanos igualmente | Claude consulta para priorizar. Humanos consultam para ver o que falta. |
@@ -87,17 +92,23 @@ Nem tudo no framework é para o Claude. Alguns artefatos são para humanos, algu
 │   ├── GIT_CONVENTIONS.md       # Commits, branches, PRs
 │   └── {outros docs do domínio}
 └── .claude/
+    ├── agents/                  # Sub-agentes autônomos (sob demanda)
+    │   ├── security-audit.md    # Varre repo com checklist OWASP
+    │   ├── spec-validator.md    # Compara spec vs código atual
+    │   ├── coverage-check.md    # Identifica gaps de cobertura
+    │   ├── backlog-report.md    # Relatório consolidado do backlog
+    │   ├── code-review.md       # Duplicação, complexidade, dead code
+    │   └── component-audit.md   # Arquitetura de componentes
     ├── skills/                  # Skills (checklists por domínio)
+    │   ├── spec-driven/README.md        # Fluxo de specs, TDD, RPI, backlog
     │   ├── testing/README.md
-    │   ├── security-review/README.md
     │   ├── definition-of-done/README.md
+    │   ├── code-quality/README.md       # Qualidade + verificação de sintaxe
     │   ├── docs-sync/README.md
     │   ├── logging/README.md
-    │   ├── code-quality/README.md
     │   ├── ux-review/README.md
     │   ├── dba-review/README.md
     │   ├── mock-mode/README.md
-    │   ├── syntax-check/README.md
     │   ├── backlog-update/SKILL.md      # Slash command: /backlog-update
     │   ├── spec-creator/SKILL.md        # Slash command: /spec
     │   └── setup-framework/SKILL.md     # Slash command: /setup-framework (wizard)
@@ -229,12 +240,12 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 
 | Skill | Arquivo | Quando usar | Destaques |
 |---|---|---|---|
+| Spec-Driven | `spec-driven/README.md` | Antes de implementar QUALQUER item | Fluxo de specs, TDD, RPI, backlog, scope guardrail |
 | Definition of Done | `definition-of-done/README.md` | Antes de finalizar QUALQUER entrega | Checklists por tipo (feature, bugfix, endpoint, CLI command, infra change, etc.) |
 | Testing | `testing/README.md` | Ao escrever/modificar testes | Pirâmide (unitário/integração/E2E/carga/golden), patterns por tipo de projeto (web, CLI, mobile, infra) |
-| Security Review | `security-review/README.md` | Ao criar/modificar código exposto | OWASP Top 10 (web), supply-chain (lib), state integrity (infra), input injection (CLI) |
 | Docs Sync | `docs-sync/README.md` | Antes de commitar | Matriz feature->docs, contagens sincronizadas |
 | Logging | `logging/README.md` | Ao adicionar logs ou error handling | Níveis, prefixos [MODULE], patterns de try/catch/finally |
-| Code Quality | `code-quality/README.md` | Ao criar módulos ou refatorar | Code smells, thresholds, componentização |
+| Code Quality | `code-quality/README.md` | Ao criar módulos ou refatorar | Code smells, thresholds, componentização, verificação de sintaxe |
 
 **Skills de domínio (adicionar conforme necessidade):**
 
@@ -243,9 +254,19 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 | UX Review | `ux-review/README.md` | Ao criar/modificar telas e fluxos | Design system, mobile first, acessibilidade WCAG, anti-patterns |
 | DBA Review | `dba-review/README.md` | Ao mexer em schema, queries, índices | Tipos, constraints, migrations, N+1, pool exhaustion |
 | Mock Mode | `mock-mode/README.md` | Ao adicionar integração externa | Cobertura mock, seed data, fixtures, smoke test |
-| Syntax Check | `syntax-check/README.md` | Antes de commitar código | Padrões suspeitos, imports quebrados, CJS/ESM |
 | {Regras de domínio} | `{domain-rules}/README.md` | {Quando mexer no domínio} | {Regras específicas do negócio} |
 | {IA / LLM} | `{ai-prompts}/README.md` | {Quando mexer em prompts} | {Prompt engineering, injection, guardrails} |
+
+**Agents (sub-agentes autônomos, sob demanda):**
+
+| Agent | Arquivo | Quando usar | Output |
+|---|---|---|---|
+| Security Audit | `agents/security-audit.md` | Antes de releases, periodicamente | Relatório OWASP com findings por severidade |
+| Spec Validator | `agents/spec-validator.md` | Antes de implementar spec (Médio+) | Divergências spec vs código |
+| Coverage Check | `agents/coverage-check.md` | Após implementar, antes de commit | Gaps de cobertura + cenários sugeridos |
+| Backlog Report | `agents/backlog-report.md` | Início de sprint, planejamento | Relatório consolidado do backlog |
+| Code Review | `agents/code-review.md` | Antes de PR, periodicamente | Duplicação, complexidade, dead code |
+| Component Audit | `agents/component-audit.md` | Quando codebase cresce | God components, props drilling, extração |
 
 **Anatomia de uma skill:**
 
@@ -541,7 +562,7 @@ packages/shared/ → Tipos e utils compartilhados
 
 ## Skills
 - Vai mexer em frontend? → leia .claude/skills/ux-review/README.md
-- Vai mexer em backend? → leia .claude/skills/security-review/README.md
+- Vai mexer em backend? → rode agent security-audit se for endpoint novo
 - Vai mexer em shared? → atenção: mudanças afetam web E api
 ```
 
@@ -695,20 +716,26 @@ claude-code-framework/
 │   ├── SECURITY_AUDIT.md                  # Checklist OWASP Top 10 + API + LLM
 │   ├── SETUP_GUIDE.md                     # Guia de uso do /setup-framework
 │   └── SPEC_DRIVEN_GUIDE.md              # Guia completo de spec-driven development
+├── agents/
+│   ├── security-audit.md                 # Agent: Security Audit (OWASP)
+│   ├── spec-validator.md                 # Agent: Spec Validator
+│   ├── coverage-check.md                # Agent: Coverage Check
+│   ├── backlog-report.md                # Agent: Backlog Report
+│   ├── code-review.md                   # Agent: Code Review
+│   └── component-audit.md               # Agent: Component Audit
 └── skills/
-    ├── definition-of-done/README.md       # Skill: Definition of Done
-    ├── testing/README.md                  # Skill: Testing (pirâmide, cobertura, anti-patterns)
-    ├── security-review/README.md          # Skill: Security Review (OWASP Top 10)
-    ├── docs-sync/README.md               # Skill: Docs Sync
-    ├── logging/README.md                  # Skill: Logging & Error Handling
-    ├── code-quality/README.md             # Skill: Code Quality
-    ├── ux-review/README.md               # Skill: UX Review (design system, mobile, a11y)
-    ├── dba-review/README.md              # Skill: DBA Review (schema, queries, migrations)
-    ├── mock-mode/README.md               # Skill: Mock Mode (integrações externas)
-    ├── syntax-check/README.md            # Skill: Syntax Check (pré-commit)
-    ├── backlog-update/SKILL.md            # Slash command: /backlog-update
-    ├── spec-creator/SKILL.md              # Slash command: /spec
-    └── setup-framework/SKILL.md           # Slash command: /setup-framework (wizard)
+    ├── spec-driven/README.md             # Skill: Spec-Driven Development (fluxo, TDD, RPI)
+    ├── definition-of-done/README.md      # Skill: Definition of Done
+    ├── testing/README.md                 # Skill: Testing (pirâmide, cobertura, anti-patterns)
+    ├── code-quality/README.md            # Skill: Code Quality + Syntax Check
+    ├── docs-sync/README.md              # Skill: Docs Sync
+    ├── logging/README.md                 # Skill: Logging & Error Handling
+    ├── ux-review/README.md              # Skill: UX Review (design system, mobile, a11y)
+    ├── dba-review/README.md             # Skill: DBA Review (schema, queries, migrations)
+    ├── mock-mode/README.md              # Skill: Mock Mode (integrações externas)
+    ├── backlog-update/SKILL.md           # Slash command: /backlog-update
+    ├── spec-creator/SKILL.md             # Slash command: /spec
+    └── setup-framework/SKILL.md          # Slash command: /setup-framework (wizard)
 ```
 
 Para usar: executar `/setup-framework` no repo alvo (recomendado), ou copiar manualmente e substituir os `{placeholders}` pelos valores reais. Ir evoluindo progressivamente.
