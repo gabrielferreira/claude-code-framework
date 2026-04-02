@@ -377,6 +377,29 @@ O framework se integra nativamente com Notion via MCP. O setup nao configura aut
 **Se ferramenta != Notion:**
 - Perguntar formato de referencia: URL base (ex: `https://empresa.atlassian.net/browse/`) e prefixo de IDs (ex: `PROJ-`)
 
+### Bloco 2b — PRD (opt-in)
+
+Perguntar: "O time usa analise de causa raiz / PRD antes de criar specs tecnicas?"
+
+- **Sim** → Perguntar onde PRDs vivem:
+  - **No repo** (padrao se specs sao locais): copiar `PRD_TEMPLATE.md` para `.claude/specs/`
+  - **No Notion** (se MCP configurado): verificar se a database de specs tem template de PRD. Se sim, mapear. Se nao, informar que PRDs podem ser criados na mesma database sem template
+  - **Em outra ferramenta** (Jira, Confluence, etc.): registrar URL base para referencias
+  - Em todos os casos de "Sim":
+    - Instalar skill `/prd` (copiar `skills/prd-creator/`)
+    - Instalar agent `product-review` (copiar `agents/product-review.md`)
+    - Adicionar secao "PRDs" no SPECS_INDEX.md
+    - Adicionar `/prd` na secao Skills do CLAUDE.md
+    - Adicionar `product-review` na secao Agents do CLAUDE.md
+
+- **Nao** → Nao copiar nenhum artefato de PRD. O fluxo segue Idea → Spec direto.
+  - NAO copiar `PRD_TEMPLATE.md`
+  - NAO instalar skill `prd-creator`
+  - NAO instalar agent `product-review`
+  - NAO adicionar secao PRDs no SPECS_INDEX
+
+> O PRD_TEMPLATE.md e `structural` — se o time ja tem um formato proprio de causa raiz, pode customizar as secoes. O `/update-framework` preserva customizacoes.
+
 ### Bloco 3 — Fases do roadmap
 
 1. Quantas fases? (sugerir 3 + Testes)
@@ -406,6 +429,9 @@ Apresentar recomendacao baseada na analise:
 - backlog-report
 - code-review
 - component-audit
+
+**Agents condicionais:**
+- product-review → se PRD opt-in (Bloco 2b)
 
 **Recomendadas por deteccao:**
 
@@ -486,6 +512,7 @@ Alguns arquivos são essenciais para o framework funcionar. Se o usuario pular u
 | `scripts/verify.sh` | **Sim** — DoD depende dele | Avisar e registrar pendência. |
 | `.claude/specs/STATE.md` | Opcional — útil mas não bloqueia | Pular sem aviso. |
 | `.claude/specs/DESIGN_TEMPLATE.md` | Opcional — só pra Grande/Complexo | Pular sem aviso. |
+| `.claude/specs/PRD_TEMPLATE.md` | Opcional — só se PRD opt-in | Pular sem aviso. |
 | `PROJECT_CONTEXT.md` | Opcional — útil pra outros LLMs | Pular sem aviso. |
 | `scripts/reports.sh` | Opcional — reports não bloqueiam | Pular sem aviso. |
 | `docs/*` | Opcional — referência humana | Pular sem aviso. |
@@ -588,6 +615,7 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
   - Copiar `${FRAMEWORK_PATH}/specs/backlog.md` para `.claude/specs/backlog.md`
   - Copiar `${FRAMEWORK_PATH}/specs/STATE.md` para `.claude/specs/STATE.md`
   - Copiar `${FRAMEWORK_PATH}/specs/DESIGN_TEMPLATE.md` para `.claude/specs/DESIGN_TEMPLATE.md`
+  - Se **PRD opt-in (Bloco 2b):** copiar `${FRAMEWORK_PATH}/specs/PRD_TEMPLATE.md` para `.claude/specs/PRD_TEMPLATE.md`
   - Preencher fases do backlog com as definidas no Bloco 3
   - Criar `.claude/specs/done/` (diretorio vazio)
 - Se **modelo externo:**
@@ -604,7 +632,10 @@ Para cada skill selecionada no Bloco 4:
 - `skills/backlog-update/SKILL.md`
 - `skills/spec-creator/SKILL.md`
 
-**Se modelo externo:** adaptar `/spec` e `/backlog-update` para referenciar IDs externos.
+**Se PRD opt-in (Bloco 2b):**
+- `skills/prd-creator/SKILL.md`
+
+**Se modelo externo:** adaptar `/spec`, `/backlog-update` e `/prd` (se opt-in) para referenciar IDs externos.
 
 ### 3.7 scripts/verify.sh
 

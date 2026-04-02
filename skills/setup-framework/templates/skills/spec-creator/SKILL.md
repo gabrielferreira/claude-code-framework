@@ -46,6 +46,12 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    - Prioridade: perguntar ao usuário
    - Data: hoje
 4. **Preencher contexto:** perguntar ao usuário ou inferir da conversa
+4b. **Verificar PRD pai (se o projeto usa PRDs):**
+   Detectar se o projeto tem PRD habilitado — sinais: existe `.claude/specs/PRD_TEMPLATE.md`, ou `.claude/skills/prd-creator/`, ou CLAUDE.md menciona `/prd`, ou SPECS_INDEX.md tem secao "PRDs".
+   - **Se o projeto usa PRDs:** perguntar "Este spec esta vinculada a algum PRD existente?"
+     - Se sim: adicionar `> PRD pai: {PRD-ID}` no header da spec, logo abaixo do Status. Atualizar a tabela "Como resolver" ou "Decisoes tomadas" no PRD referenciado, adicionando o link para esta spec
+     - Se nao: prosseguir sem PRD
+   - **Se o projeto NAO usa PRDs:** pular este passo silenciosamente (nao perguntar)
 5. **Registrar no SPECS_INDEX.md:**
    - Identificar o domínio correto
    - Adicionar linha com status `rascunho`
