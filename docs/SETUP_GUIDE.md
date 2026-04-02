@@ -666,14 +666,16 @@ Detecta mudancas no framework source e aplica atualizacoes respeitando customiza
 
 ### Agents disponiveis
 
-| Agent | Quando usar |
-|---|---|
-| `security-audit` | Antes de releases, apos novo endpoint ou fluxo de auth |
-| `spec-validator` | Antes de implementar qualquer spec (obrigatorio para Medio+) |
-| `coverage-check` | Apos implementar feature, antes do commit |
-| `code-review` | Antes de PR ou merge |
-| `component-audit` | Quando o codebase cresce e precisa de revisao de arquitetura |
-| `backlog-report` | Inicio de sprint ou revisao periodica |
+Cada agent define `model:` no frontmatter — o Claude Code usa automaticamente o modelo otimizado para a tarefa. Para ajustar, editar o frontmatter em `.claude/agents/*.md`.
+
+| Agent | Modelo | Quando usar |
+|---|---|---|
+| `security-audit` | opus | Antes de releases, apos novo endpoint ou fluxo de auth |
+| `spec-validator` | sonnet | Antes de implementar qualquer spec (obrigatorio para Medio+) |
+| `coverage-check` | sonnet | Apos implementar feature, antes do commit |
+| `code-review` | sonnet | Antes de PR ou merge |
+| `component-audit` | sonnet | Quando o codebase cresce e precisa de revisao de arquitetura |
+| `backlog-report` | haiku | Inicio de sprint ou revisao periodica |
 
 ### Skills de referencia
 

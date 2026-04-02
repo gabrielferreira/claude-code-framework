@@ -92,6 +92,7 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 
 {Agents são sub-agentes autônomos que rodam e devolvem relatório.}
 {Cada agent define `worktree: false` (roda no working directory atual) ou `worktree: true` (roda em worktree isolada) no frontmatter. Agents read-only (auditoria, report, validação) = false. Agents que editam código = true.}
+{Cada agent também define `model:` no frontmatter — o modelo usado para executar. O Claude Code respeita esse campo automaticamente.}
 
 1. **Auditar segurança do repo** -> `.claude/agents/security-audit.md`
 2. **Validar spec antes de implementar** -> `.claude/agents/spec-validator.md`
@@ -99,6 +100,33 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 4. **Relatório do backlog** -> `.claude/agents/backlog-report.md`
 5. **Revisar qualidade do código** -> `.claude/agents/code-review.md`
 6. **Auditar arquitetura de componentes** -> `.claude/agents/component-audit.md`
+
+## Modelos para sub-agents
+
+Cada agent custom define `model:` no frontmatter — o Claude Code usa esse modelo automaticamente ao disparar o agent. Para sobrescrever pontualmente, passar `model` na chamada do Agent tool.
+
+Para sub-agents built-in (Explore, Plan, general-purpose) e qualquer dispatch via Agent tool, escolher o modelo pela complexidade da tarefa:
+
+| Quando usar | Modelo | Exemplos |
+|---|---|---|
+| Raciocínio profundo, análise de segurança, decisão arquitetural com trade-offs complexos | `opus` | Security audit, design de sistema, refactor com impacto amplo |
+| Análise estruturada, checklists, comparação, code review, planejamento de implementação | `sonnet` | Code review, spec validation, Plan agent, Explore com análise |
+| Busca simples, leitura de arquivos, agregação de dados, formatação de relatórios | `haiku` | Grep/glob em muitos arquivos, backlog report, Explore rápido |
+
+**Regra prática:** se a tarefa tem checklist explícito → sonnet. Se precisa "pensar como atacante" ou avaliar trade-offs → opus. Se só lê e formata → haiku. Na dúvida → sonnet (melhor custo/benefício).
+
+**Agents custom deste projeto:**
+
+| Agent | Modelo | Pode sobrescrever? |
+|---|---|---|
+| security-audit | opus | Sim, mas não recomendado rebaixar |
+| code-review | sonnet | Sim |
+| component-audit | sonnet | Sim |
+| spec-validator | sonnet | Sim |
+| coverage-check | sonnet | Sim |
+| backlog-report | haiku | Sim — subir para sonnet se backlog for complexo |
+
+{Ajustar modelos conforme necessidade do projeto. Editar o campo `model:` no frontmatter de cada `.claude/agents/*.md`.}
 
 ## Antes de commitar (obrigatório)
 

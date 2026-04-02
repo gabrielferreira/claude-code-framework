@@ -1,5 +1,6 @@
 ---
 description: Analisa arquitetura de componentes e módulos — estrutura, responsabilidades e oportunidades de extração
+model: sonnet
 worktree: false
 ---
 <!-- framework-tag: v2.3.0 framework-file: agents/component-audit.md -->

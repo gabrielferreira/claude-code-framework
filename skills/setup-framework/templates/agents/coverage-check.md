@@ -1,5 +1,6 @@
 ---
 description: Identifica gaps de cobertura de testes e sugere cenários de teste faltantes
+model: sonnet
 worktree: false
 ---
 <!-- framework-tag: v2.3.0 framework-file: agents/coverage-check.md -->
