@@ -92,7 +92,8 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 14. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
 15. **Vai criar nova spec?** -> `/spec {ID} {Título}` (slash command)
 16. **Vai atualizar o backlog?** -> `/backlog-update {ID} {ação}` (slash command)
-{17+. Skills específicas do domínio do projeto}
+17. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command)
+{18+. Skills específicas do domínio do projeto}
 
 ## Agents — executar sob demanda
 
@@ -107,6 +108,7 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 5. **Revisar qualidade do código** -> `.claude/agents/code-review.md`
 6. **Auditar arquitetura de componentes** -> `.claude/agents/component-audit.md`
 7. **Auditar SEO e performance** -> `.claude/agents/seo-audit.md`
+8. **Revisar cobertura produto -> specs (PRD)** -> `.claude/agents/product-review.md`
 
 ## Modelos para sub-agents
 
@@ -146,6 +148,7 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | coverage-check | sonnet | Sim |
 | seo-audit | sonnet | Sim |
 | backlog-report | haiku | Sim — subir para sonnet se backlog for complexo |
+| product-review | sonnet | Sim |
 
 {Ajustar modelos conforme necessidade do projeto. Editar o campo `model:` no frontmatter de cada `.claude/agents/*.md`.}
 
