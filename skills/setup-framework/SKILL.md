@@ -922,37 +922,158 @@ Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
 - **reports.sh:** {Orquestrador L0}
 ```
 
-### 5b. Plano de acao (pendencias)
+### 5b. Auditoria de completude
 
-Adicionar ao final do SETUP_REPORT.md:
+Apos criar todos os arquivos, rodar uma auditoria automatica para verificar que o setup ficou completo. Adicionar o resultado ao final do SETUP_REPORT.md.
+
+#### Categoria 1 — Existencia de arquivos
+
+Verificar que todos os arquivos obrigatorios e opcionais existem no projeto:
+
+| Arquivo | Severidade se ausente |
+|---|---|
+| `CLAUDE.md` | 🔴 critico |
+| `SPECS_INDEX.md` | 🔴 critico |
+| `.claude/specs/TEMPLATE.md` | 🔴 critico |
+| `.claude/specs/backlog.md` | 🔴 critico |
+| `scripts/verify.sh` | 🔴 critico |
+| `.claude/specs/STATE.md` | 🟠 alto |
+| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio |
+| `PROJECT_CONTEXT.md` | 🟡 medio |
+| `scripts/reports.sh` | 🟡 medio |
+| `scripts/backlog-report.cjs` | 🟡 medio |
+| `scripts/reports-index.js` | 🟡 medio |
+| `docs/README.md` | 🟡 medio |
+| `docs/GIT_CONVENTIONS.md` | ⚪ info |
+| `.claude/prds/PRD_TEMPLATE.md` | ⚪ info (so se PRD opt-in) |
+| `.claude/prds/PRDS_INDEX.md` | ⚪ info (so se PRD opt-in) |
+
+#### Categoria 2 — Agents
+
+Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator]`:
+
+1. **Arquivo existe** em `.claude/agents/{nome}.md`? → 🔴 se nao
+2. **Frontmatter completo?** Campos: `description`, `model`, `worktree`, `model-rationale` → 🟠 por campo faltante
+3. **Framework-tag** presente apos frontmatter? → 🟡 se nao
+4. **Secoes obrigatorias?** H1 + "Quando usar" + "Input" + "O que verificar" + "Output" + "Regras" → 🟠 por secao faltante
+5. **Referenciado no CLAUDE.md** na secao "Agents"? → 🟠 se nao
+
+#### Categoria 3 — Skills
+
+Para cada skill core em `[spec-driven, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[spec-creator, backlog-update, prd-creator]`:
+
+1. **Arquivo existe** em `.claude/skills/{nome}/README.md` ou `SKILL.md`? → 🔴 para core, 🟡 para condicionais
+2. **Framework-tag** presente? → 🟡 se nao
+3. **Secao "Regras"** presente? → 🟡 se nao
+4. **Referenciada no CLAUDE.md** na secao "Skills"? → 🟠 se nao
+
+#### Categoria 4 — Secoes do CLAUDE.md
+
+Verificar presenca de cada H2 esperada:
+
+| Secao H2 | Severidade se ausente | Skills/agents que dependem |
+|---|---|---|
+| Skills (mapeamento) | 🔴 critico | Todas as skills |
+| Agents | 🔴 critico | Todos os agents |
+| Comandos | 🔴 critico | verify.sh, testing |
+| Specs e Requisitos | 🔴 critico | spec-creator, backlog-update |
+| Regras de operacao | 🟠 alto | Todas |
+| Mindset por dominio | 🟠 alto | Todas |
+| Regras absolutas de seguranca | 🟠 alto | security-audit |
+| Regras de codigo | 🟠 alto | code-quality |
+| Testes | 🟠 alto | testing, coverage-check |
+| Ordem de precedencia (skills) | 🟡 medio | — |
+| Modelos para sub-agents | 🟡 medio | — |
+| Verificacao proativa | 🟡 medio | — |
+| Antes de commitar | 🟡 medio | definition-of-done |
+| Estrutura | 🟡 medio | — |
+| Padroes | 🟡 medio | — |
+| Worktrees e subagents | ⚪ info | — |
+| Contexto de negocio | ⚪ info | — |
+
+#### Categoria 5 — Integridade de conteudo
+
+1. **`{placeholders}` nao preenchidos** no CLAUDE.md — contar e listar os que ainda tem `{Adaptar:` ou `{placeholder}`. 🟡 cada
+2. **Referencias dangling** — paths na secao Skills/Agents do CLAUDE.md que nao existem no disco. 🟠 cada
+3. **Scripts sem permissao de execucao** (`verify.sh`, `reports.sh`). 🟡 cada
+4. **SPECS_INDEX.md vazio** (sem nenhuma spec registrada). ⚪ info (normal pos-setup)
+5. **Secao "Agents" no CLAUDE.md lista agent que nao existe** em `.claude/agents/`. 🟠 cada
+
+#### Formato do output no SETUP_REPORT.md
 
 ```markdown
-## Pendencias para aderencia total
+## Auditoria de completude
+
+### Resumo
+- 🔴 {N} criticos
+- 🟠 {N} altos
+- 🟡 {N} medios
+- ⚪ {N} info
+
+### Findings
+
+#### 🔴 Criticos
+{lista numerada dos findings criticos, se houver}
+
+#### 🟠 Altos
+{lista numerada dos findings altos, se houver}
+
+#### 🟡 Medios
+{lista numerada dos findings medios, se houver}
+
+#### ⚪ Info
+{lista numerada dos findings info, se houver}
+```
+
+Se houver 0 criticos e 0 altos: "✅ Setup completo — nenhum finding critico ou alto."
+
+#### Auto-fix
+
+Apos listar os findings, oferecer correcao automatica para os que sao corrigiveis:
+
+```
+Posso corrigir automaticamente {N} dos {M} findings:
+- Copiar {X} arquivos faltantes do framework source
+- Inserir {Y} secoes faltantes no CLAUDE.md
+- Adicionar {Z} referencias de agents/skills no CLAUDE.md
+- Corrigir permissoes de {W} scripts
+
+Aplicar correcoes? [Sim/Nao/Selecionar]
+```
+
+**Ordem de aplicacao:** (1) copiar arquivos faltantes do source, (2) inserir secoes faltantes no CLAUDE.md, (3) atualizar referencias de agents/skills, (4) corrigir permissoes de scripts.
+
+Apos aplicar, re-rodar os checks afetados para confirmar resolucao.
+
+**O que NAO corrige automaticamente** (precisa de input humano):
+- `{placeholders}` — o usuario precisa preencher com dados reais do projeto
+- Conteudo customizado ausente (regras de seguranca especificas, mindset por dominio)
+- Esses ficam listados como "Pendencias manuais" no relatorio
+
+#### Pendencias manuais
+
+Apos a auditoria e auto-fix, listar o que so o usuario pode resolver:
+
+```markdown
+## Pendencias manuais
 
 ### Prioridade alta
-- [ ] Preencher secao "Contexto de negocio" no CLAUDE.md com regras reais do dominio
+- [ ] Preencher {N} placeholders restantes no CLAUDE.md (listados acima)
 - [ ] Revisar e customizar `scripts/verify.sh` para o projeto
 - [ ] Criar primeira spec para feature em andamento
-- [ ] Rodar `bash scripts/verify.sh` e corrigir falhas iniciais
 
 ### Prioridade media
 - [ ] Adicionar regras de seguranca especificas do dominio no CLAUDE.md
 - [ ] Customizar mindset por dominio no CLAUDE.md
 - [ ] Preencher docs/ com conteudo real do projeto
-- [ ] Revisar skills instaladas e adaptar ao projeto
 
-### Prioridade baixa
-- [ ] Criar skills customizadas sugeridas na Fase 4
-- [ ] Configurar CLAUDE.md hierarquico (se monorepo)
-- [ ] Adicionar checks evolutivos ao verify.sh
+### Proximos passos recomendados
 
-## Proximos passos recomendados
-
-1. **Agora:** revisar CLAUDE.md gerado e ajustar secoes com {placeholders} restantes
+1. **Agora:** revisar CLAUDE.md gerado e ajustar placeholders restantes
 2. **Semana 1:** criar backlog inicial, primeira spec, rodar verify.sh
 3. **Semana 2:** adicionar 2-3 skills de dominio, customizar checks
-4. **Semana 3+:** evoluir progressivamente conforme padroes do README.md do framework
-5. **Quando o framework atualizar:** usar `/update-framework` para aplicar mudanças
+4. **Semana 3+:** evoluir progressivamente
+5. **Quando o framework atualizar:** usar `/update-framework`
 ```
 
 ### 5c. Opcao de desfazer
