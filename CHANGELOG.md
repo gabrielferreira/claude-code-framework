@@ -1,0 +1,119 @@
+# Changelog
+
+Todas as mudancas relevantes do framework sao documentadas neste arquivo.
+
+Formato baseado em [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/).
+Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
+
+## [Unreleased]
+
+### Adicionado
+
+- Sistema de PRD — template, skill `/prd` e agent `product-review` para gestao de documentos de produto
+- Guidelines permanentes para criacao de skills e agents no CLAUDE.md do framework
+
+### Corrigido
+
+- Referencias a PRD condicionadas ao opt-in do projeto (nao exibidas quando projeto nao usa PRD)
+
+## [2.5.0] — 2026-04-01
+
+### Adicionado
+
+- Skills `security-review`, `seo-performance`, `syntax-check` e `golden-tests`
+- Agent `seo-audit` para analise automatizada de SEO e performance
+
+## [2.4.0] — 2026-04-01
+
+### Adicionado
+
+- Campo `model:` no frontmatter dos agents para selecao de modelo por complexidade (opus, sonnet, haiku)
+- Guidelines de dispatch autonomo para agents
+
+## [2.3.0] — 2026-03-31
+
+### Adicionado
+
+- CLAUDE.md do framework com guia completo para desenvolvedores do framework
+- Script `release.sh` com modo automatico que detecta bump via Conventional Commits
+- Campo `worktree` no frontmatter dos agents
+- Secao worktrees e subagents no CLAUDE.template.md
+
+### Alterado
+
+- Processo de release migrado inteiramente para o CLAUDE.md (Claude Code decide o bump)
+- Script `release.sh` removido — processo de release vive nas instrucoes do CLAUDE.md
+
+### Corrigido
+
+- Pre-requisitos do Notion MCP mais claros no setup e update
+- Instrucoes de configuracao do Notion MCP corrigidas no setup e update
+
+## [2.2.0] — 2026-03-31
+
+### Alterado
+
+- Documentacao do README atualizada com instrucoes do `install-skills.sh`
+- Opcao B de instalacao atualizada para usar `install-skills.sh`
+
+### Corrigido
+
+- Auditoria de secoes do CLAUDE.md no setup e update para garantir consistencia
+
+## [2.1.1] — 2026-03-31
+
+### Adicionado
+
+- Script `install-skills.sh` para instalacao e atualizacao pessoal de skills
+
+## [2.1.0] — 2026-03-31
+
+### Adicionado
+
+- Integracao nativa com Notion para specs e backlog via MCP
+- `plugin.json` para instalacao via `claude plugin add`
+- Documentacao de fluxo dia a dia pos-setup
+
+### Corrigido
+
+- Modo Notion sempre cria pagina (incluindo classificacao Pequeno)
+- Frontmatter YAML em agents e skills ajustado para plugin validate
+- `plugin.json` movido para `.claude-plugin/` (formato correto do Claude Code)
+
+## [2.0.0] — 2026-03-31
+
+### Adicionado
+
+- Sistema de versionamento com framework-tags e skill `/update-framework`
+- Suporte a mobile, infra, CLI, desktop e library (alem de web)
+- Cenarios de monorepo no setup (migracao, sub-projeto novo, re-run)
+- `reports-index.js` generico com pagina consolidada e auto-deteccao
+- `reports.sh` generico com integracao no setup e skills
+- `backlog-report.cjs` com auto-regeneracao no `/backlog-update`
+- Coluna Owner no SPECS_INDEX, variante externa, validacao pre-implementacao
+- Auto-sizing de specs, fluxo RPI, design docs, task breakdown, STATE.md, sub-agents, scope guardrails e context budget
+- Templates do framework embutidos na skill setup-framework
+- Resolucao de caminhos do framework e docs de distribuicao para times
+- Wizard interativo `/setup-framework` para deploy automatizado
+- Skills multi-linguagem para testes e guias tecnicos
+- Framework expandido para 7 camadas com PROJECT_CONTEXT e suporte profundo a mono-repo
+- Suporte a CLAUDE.md hierarquico
+
+### Alterado
+
+- Agents refatorados para autonomos com modularizacao de skills
+- DoD sem duplicacao com verify.sh — separacao entre verificacao de maquina e inteligencia
+- CLAUDE.md delega pre-commit ao DoD
+- Documentacao geral revisada (README, guides, specs)
+- Fundamentacao de praticas com pesquisa (RPI, scope guardrails, context budget 60-70%)
+
+### Corrigido
+
+- Headers framework-tag em docs, specs e templates corrigidos
+- Setup nunca para em "nao" — separacao entre obrigatorios e opcionais
+- Templates SETUP_GUIDE e SPEC_DRIVEN_GUIDE adicionados aos templates do setup
+- Gaps no fluxo single-repo do setup
+- Setup monorepo nao assume estrutura — mapeia sub-projetos com confirmacao
+- Templates do setup sincronizados com versoes atuais
+- `reports.sh` limpa `coverage/` antes de rerodar para evitar cache stale
+- `/spec` classifica complexidade automaticamente (nao o humano)
