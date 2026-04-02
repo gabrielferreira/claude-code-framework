@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.6.0 framework-file: docs/SPEC_DRIVEN_GUIDE.md -->
+<!-- framework-tag: v2.7.0 framework-file: docs/SPEC_DRIVEN_GUIDE.md -->
 # Spec-Driven Development com AI: a prática do SPECS_INDEX
 
 ## O problema
