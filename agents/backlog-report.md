@@ -3,7 +3,7 @@ description: Analisa o backlog e gera relatório consolidado com status do proje
 model: haiku
 worktree: false
 ---
-<!-- framework-tag: v2.4.0 framework-file: agents/backlog-report.md -->
+<!-- framework-tag: v2.5.0 framework-file: agents/backlog-report.md -->
 # Agent: Backlog Report
 
 > Sub-agente autônomo que analisa o backlog e gera relatório consolidado.
