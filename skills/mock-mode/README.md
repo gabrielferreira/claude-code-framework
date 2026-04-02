@@ -38,7 +38,7 @@
     - Migrations         -> rodam normalmente
 -->
 
-{Definir o que o mock mode substitui e o que NAO substitui.}
+{Adaptar: o que o mock mode substitui e o que NAO substitui.}
 
 **Exemplo:**
 > PostgreSQL é SEMPRE obrigatório — não existe DB stub. Mock mode substitui apenas chamadas a APIs externas (pagamento, email, IA).
@@ -165,7 +165,7 @@ MOCK_SERVICES=1 python manage.py runserver
 
 ## Fixtures
 
-{Listar arquivos de dados mock/demo do projeto.}
+{Adaptar: arquivos de dados mock/demo do projeto.}
 
 | Arquivo | Conteúdo | Usado por |
 |---|---|---|

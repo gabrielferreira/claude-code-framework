@@ -23,7 +23,7 @@ worktree: false
 
 ## Páginas públicas do projeto
 
-{Listar as páginas públicas e sua prioridade SEO:}
+{Adaptar: paginas publicas e sua prioridade SEO:}
 
 | Página | Path | Prioridade SEO |
 |---|---|---|

@@ -118,7 +118,7 @@ Exemplo de secao no CLAUDE.md que deve bater:
 Quando adicionar teste: rodar contagem, atualizar numero no CLAUDE.md.
 -->
 
-{Listar contagens que devem bater entre codigo e docs:}
+{Adaptar: contagens que devem bater entre codigo e docs:}
 
 - Testes: {N} ({comando para verificar})
 - Suites: {N} ({comando})

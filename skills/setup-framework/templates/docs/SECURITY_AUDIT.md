@@ -157,7 +157,7 @@ Cada item classificado como: ✅ COBERTO | ⚠️ PARCIAL | ❌ PENDENTE
 
 ## Gaps identificados e plano de ação
 
-{Listar todos os itens ⚠️ PARCIAL e ❌ PENDENTE com plano de correção.}
+{Adaptar: itens PARCIAL e PENDENTE com plano de correcao.}
 
 | # | Gap | Severidade | Plano | Prazo |
 |---|---|---|---|---|

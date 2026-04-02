@@ -28,6 +28,8 @@ Agents são genéricos — sem customização de projeto.
 | `.claude/agents/component-audit.md` | `agents/component-audit.md` | overwrite |
 | `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | overwrite |
 | `.claude/agents/product-review.md` | `agents/product-review.md` | overwrite |
+| `.claude/agents/refactor-agent.md` | `agents/refactor-agent.md` | overwrite |
+| `.claude/agents/test-generator.md` | `agents/test-generator.md` | overwrite |
 
 ### Skills (structural)
 
