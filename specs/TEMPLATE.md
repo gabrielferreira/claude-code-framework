@@ -3,7 +3,10 @@
 
 > Status: `rascunho` | `aprovada` | `em andamento` | `parcial — {detalhe}` | `concluída` | `descontinuada — ver {SPEC_SUBSTITUTA}`
 > Prioridade: `crítica` | `alta` | `média` | `baixa`
+> Autor: {quem solicitou a criacao da spec}
+> Responsavel: {quem implementou — preencher ao concluir}
 > Criada em: YYYY-MM-DD
+> Concluida em: {YYYY-MM-DD — preencher ao marcar como concluida}
 
 ## Contexto
 
@@ -108,6 +111,8 @@ Antes de mover para `done/`:
 - [ ] Cada critério de aceitação verificado no código (não de memória)
 - [ ] Cada checkbox do escopo marcado `[x]` ou movido para novo item no backlog
 - [ ] Status atualizado para `concluída` (ou `parcial — {detalhe}`)
+- [ ] Campo "Responsavel" preenchido com quem implementou
+- [ ] Campo "Concluida em" preenchido com a data de hoje
 - [ ] Testes passam
 - [ ] Docs atualizados (ver `.claude/skills/docs-sync/README.md`)
 - [ ] Contagem de testes atualizada se adicionou/removeu

@@ -76,7 +76,10 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - Título: `# {ID} — {Título}`
    - Status: `rascunho`
    - Prioridade: perguntar ao usuário
+   - Autor: tentar `git config user.name`; se disponivel, usar como default e confirmar; senao, perguntar (no modo Notion, a resolucao e feita pelas properties — ver Regras)
+   - Responsavel: deixar vazio (sera preenchido ao concluir)
    - Data: hoje
+   - Concluida em: deixar vazio (sera preenchido ao concluir)
 4. **Preencher contexto:** se `--from` foi usado, usar dados extraidos da fonte. Caso contrario, perguntar ao usuário ou inferir da conversa
 4b. **Verificar PRD pai (se o projeto usa PRDs):**
    Detectar se o projeto tem PRD habilitado — sinais: existe `.claude/prds/PRD_TEMPLATE.md`, ou `.claude/prds/PRDS_INDEX.md`, ou `.claude/skills/prd-creator/`, ou CLAUDE.md menciona `/prd`.
@@ -168,7 +171,8 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
        "Estimativa": "{estimativa}",
        "Domínio": "{domínio}",
        "Projeto": "{nome do projeto}",
-       "Spec detail": "{sem spec|light|completa}"
+       "Spec detail": "{sem spec|light|completa}",
+       "Autor": "{nome do usuario que solicitou}"
      },
      content: "{conteúdo coletado no passo 4, formatado em markdown}"
    }]
@@ -224,8 +228,12 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 
 - Spec criada sempre começa como `rascunho`
 - Sempre registrar no SPECS_INDEX.md (se existir)
+- **Autor:** preencher na criacao com a identidade de quem solicitou a spec. Resolucao de identidade por modo: **Notion** → usar `notion-get-users` com `user_id: "self"` para obter o usuario logado. **Repo** → tentar `git config user.name`; se disponivel, usar como default e confirmar com o usuario; se nao, perguntar. No Notion, preencher a property "Autor" (tipo People). No modo repo, preencher o campo `> Autor:` no header
+- **Responsavel:** preencher APENAS ao concluir a spec — e quem implementou (o usuario da sessao que executou a implementacao). Mesma logica de resolucao de identidade do Autor por modo. No Notion, preencher a property "Responsavel" (tipo People). No modo repo, preencher o campo `> Responsavel:` no header
+- **Concluida em:** preencher APENAS ao marcar status como `concluida` — data do dia. No Notion, preencher a property "Concluida em". No modo repo, preencher o campo `> Concluida em:` no header
 - **Modo repo:** nomes de arquivo `{id-kebab-case}.md`
 - **Modo Notion:** criar via `notion-create-pages` com template correto — nunca criar arquivo local. **Sempre preencher o body** com conteúdo coletado (Contexto, Requisitos, Critérios). Nunca criar página com body vazio
+- **Modo Notion — campo "Arquivo":** se a database do Notion tem uma property "Arquivo" (ou similar referenciando path no repo), deixar vazio — a spec vive no Notion, nao como arquivo local. Se o projeto usa modo hibrido (spec no Notion + implementacao no repo), o campo pode conter o path do branch ou PR associado, mas nao um path de arquivo .md
 - **`--from`:** quando fornecido, resolver fonte externa ANTES de criar a spec. Registrar referencia no header
 - Seções obrigatórias do template devem ser mantidas (podem ficar com placeholder)
 - Pequeno: **modo repo** = só backlog (sem spec). **Modo Notion** = cria página com template Pequeno

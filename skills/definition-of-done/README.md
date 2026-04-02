@@ -145,6 +145,9 @@ Tudo do checklist universal, mais:
    - Se NÃO implementado: implementar agora OU criar sub-item no backlog
 4. **Atualizar metadata da spec:**
    - Status: `concluída` (ou `parcial — itens X, Y pendentes`)
+   - Responsavel: identidade de quem implementou. No modo Notion, usar `notion-get-users` com `user_id: "self"` para property tipo People. No modo repo, tentar `git config user.name`; se disponivel, usar como default e confirmar; senao, perguntar
+   - Concluida em: data de hoje
+   - No Notion: atualizar as properties "Responsavel" e "Concluida em" via `notion-update-page`
 5. **Validação final:**
    - Todos checkboxes `[x]` e status `concluída` -> mover para `done/`
    - Checkboxes `[ ]` restantes -> manter em `specs/` (NÃO mover)
