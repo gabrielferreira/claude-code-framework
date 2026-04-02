@@ -7,6 +7,22 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.7.0] — 2026-04-02
+
+### Adicionado
+
+- Doc portavel `PRD_PORTABLE_PROMPT.md` — prompt standalone para criar PRDs em OpenAI Projects, Claude Projects ou Gemini Gems
+- Regra 10 no CLAUDE.md: docs portaveis sincronizados com skills
+- Separacao de PRDs em diretorio proprio (`prds/`) com PRDS_INDEX independente
+- Flag `--from` no `/prd` para preencher a partir de Jira, Notion, Confluence ou Google Docs
+- Flag `--export` no `/prd` para gerar PRD formatado na conversa sem criar arquivo
+- Verificacao pos-criacao obrigatoria no `/spec` e `/prd`
+- Secao de regras imperativas no CLAUDE.template.md
+
+### Corrigido
+
+- Modo Notion do `/prd` e `/spec` agora preenche body da pagina (nao so properties)
+
 ## [2.6.0] — 2026-04-02
 
 ### Adicionado

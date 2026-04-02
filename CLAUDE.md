@@ -47,6 +47,19 @@ Todo arquivo que vai pro projeto existe em **dois lugares**:
 cp agents/security-audit.md skills/setup-framework/templates/agents/security-audit.md
 ```
 
+## Posicao do framework-tag
+
+Todo arquivo distribuido pro projeto deve ter um header `<!-- framework-tag: vX.Y.Z framework-file: {path} -->`. A posicao depende do tipo de arquivo:
+
+| Tipo | Posicao | Motivo |
+|---|---|---|
+| Docs, templates de spec, indexes (sem frontmatter YAML) | **Linha 1** | Nada precede |
+| Skills e agents (com frontmatter YAML `---`...`---`) | **Primeira linha apos o fechamento `---`** | Frontmatter precisa ficar no topo para ser parseado |
+
+Arquivos skip (STATE.md, backlog.md) e arquivos internos do framework (CLAUDE.md, MANIFEST.md, CHANGELOG.md, README.md, VERSION) **nao levam** framework-tag.
+
+Quando o `framework-tag` aparece dentro de blocos de codigo (exemplos, instrucoes), nao e considerado tag real — o `validate-tags.sh` ignora conteudo dentro de code fences.
+
 ## MANIFEST.md
 
 E a fonte de verdade sobre o que vai pro projeto e com qual estrategia:
