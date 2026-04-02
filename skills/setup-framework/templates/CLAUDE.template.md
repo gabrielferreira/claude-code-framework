@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.9.0 framework-file: CLAUDE.template.md -->
+<!-- framework-tag: v2.10.0 framework-file: CLAUDE.template.md -->
 # CLAUDE.md — {NOME_DO_PROJETO}
 
 ## O que é este projeto
@@ -60,6 +60,7 @@ Adotar a postura de especialista sênior do domínio em que estiver trabalhando.
 Antes de implementar qualquer feature ou corrigir comportamento de negócio → ler a skill **spec-driven** (`.claude/skills/spec-driven/README.md`). Ela define o fluxo completo: consulta de specs, classificação de complexidade, TDD, backlog, fluxo RPI e scope guardrail.
 
 Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
+PRDs (se habilitados): `.claude/prds/` (ativos) e `.claude/prds/done/` (concluídos).
 
 ## Regras absolutas de segurança
 
@@ -103,9 +104,9 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 15. **Vai auditar dependencias?** -> `.claude/skills/dependency-audit/README.md`
 16. **Vai investigar performance?** -> `.claude/skills/performance-profiling/README.md`
 17. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
-18. **Vai criar nova spec?** -> `/spec {ID} {Título}` (slash command)
+18. **Vai criar nova spec?** -> `/spec {ID} {Título}` (slash command). Aceita `--from PROJ-123` para preencher a partir de fonte externa (Jira, Notion, etc.)
 19. **Vai atualizar o backlog?** -> `/backlog-update {ID} {ação}` (slash command)
-20. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command)
+20. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command). Aceita `--from` e `--export`
 {21+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedencia
