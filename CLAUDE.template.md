@@ -89,11 +89,14 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 11. **Vai commitar código?** -> `.claude/skills/syntax-check/README.md`
 12. **Vai mexer em página pública?** -> `.claude/skills/seo-performance/README.md`
 13. **Vai escrever golden/snapshot tests?** -> `.claude/skills/golden-tests/README.md`
-14. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
-15. **Vai criar nova spec?** -> `/spec {ID} {Título}` (slash command)
-16. **Vai atualizar o backlog?** -> `/backlog-update {ID} {ação}` (slash command)
-17. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command)
-{18+. Skills específicas do domínio do projeto}
+14. **Vai validar contratos de API?** -> `.claude/skills/api-testing/README.md`
+15. **Vai auditar dependencias?** -> `.claude/skills/dependency-audit/README.md`
+16. **Vai investigar performance?** -> `.claude/skills/performance-profiling/README.md`
+17. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
+18. **Vai criar nova spec?** -> `/spec {ID} {Título}` (slash command)
+19. **Vai atualizar o backlog?** -> `/backlog-update {ID} {ação}` (slash command)
+20. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command)
+{21+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedencia
 

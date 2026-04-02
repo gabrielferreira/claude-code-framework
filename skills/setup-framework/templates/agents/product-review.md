@@ -113,11 +113,17 @@ Data: YYYY-MM-DD
 
 ## Gaps encontrados
 
-### Criticos
+### 🔴 Critico
 - **GAP-001:** {descricao} — {recomendacao}
 
-### Alertas
+### 🟠 Alto
 - **ALERT-001:** {descricao} — {recomendacao}
+
+### 🟡 Medio
+- **REC-001:** {descricao} — {recomendacao}
+
+### ⚪ Info
+- **INFO-001:** {descricao} — {recomendacao}
 
 ## Recomendacoes
 
