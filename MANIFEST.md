@@ -66,6 +66,9 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/SETUP_GUIDE.md` | `docs/SETUP_GUIDE.md` | structural |
 | `docs/SPEC_DRIVEN_GUIDE.md` | `docs/SPEC_DRIVEN_GUIDE.md` | structural |
 | `docs/QUICK_START.md` | `docs/QUICK_START.md` | structural |
+| `docs/MIGRATION_GUIDE.md` | `docs/MIGRATION_GUIDE.md` | structural |
+| `docs/TROUBLESHOOTING.md` | `docs/TROUBLESHOOTING.md` | structural |
+| `docs/NOTION_INTEGRATION.md` | `docs/NOTION_INTEGRATION.md` | structural |
 
 ### Scripts (manual)
 
@@ -88,6 +91,7 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | `VERSION` | Versão atual do framework (semver) |
 | `.gitignore` | Git ignore do repo do framework |
 | `CHANGELOG.md` | Historico de versoes do framework |
+| `scripts/validate-tags.sh` | Validacao de framework-tags pre-release |
 
 ### Projeto-específicos (skip)
 
