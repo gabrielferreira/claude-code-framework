@@ -618,9 +618,9 @@ Nem toda spec precisa estar completa desde o primeiro dia:
 
 **Sem spec** — Existe como item no backlog (1 frase). Spec será criada quando o item entrar em pipeline. Não aparece no SPECS_INDEX até ter pelo menos uma spec light.
 
-### Da demanda à spec — processo colaborativo
+### Da demanda à spec — PRD e processo colaborativo
 
-Specs não nascem do nada. Antes de abrir o editor e rodar `/spec`, existe um processo de descoberta que envolve o time. Um fluxo comum em times de produto + engenharia:
+Specs não nascem do nada. Antes de abrir o editor e rodar `/spec`, existe um processo de descoberta que envolve o time. O framework oferece o **PRD (Product Requirements Document)** como artefato formal para estruturar essa descoberta.
 
 ```
 Problema identificado
@@ -630,9 +630,24 @@ Problema identificado
      │
      ├─ Porquês (por que as causas existem — análise de raiz)
      │
-     └─ Como resolver (ações concretas)
-          └─ Cada ação vira item no backlog → spec quando priorizada
+     └─ Como resolver (ações concretas)                              ← PRD captura tudo até aqui
+          └─ Cada ação vira item no backlog → spec quando priorizada ← Specs capturam daqui pra frente
 ```
+
+**O PRD é o artefato de produto** — captura o "o que, por que, para quem". **A spec é o artefato de engenharia** — captura o "como implementar". Um PRD pode gerar multiplas specs.
+
+> **PRD é opt-in.** Projetos que não usam análise de causa raiz formal podem ir direto para specs. Configurado no `/setup-framework`.
+
+Para criar um PRD: `/prd {ID} {Título}`. O skill guia a análise de causa raiz perguntando Problema, Causas, Evidências, Porquês e Como resolver.
+
+**Quando usar PRD:**
+
+| Complexidade | PRD | Por quê |
+|---|---|---|
+| Pequeno | Não | Vai direto pro backlog/spec |
+| Médio | Opcional | Se o time quiser alinhar antes |
+| Grande | Recomendado | Múltiplas specs derivadas de um problema |
+| Complexo | Recomendado | Alinhamento é crítico antes de investir em specs |
 
 **Exemplo hipotético:**
 
@@ -653,38 +668,40 @@ Porquês:
   - Cada dev resolve de um jeito diferente
 
 Como resolver:
-  1. Criar base de conhecimento interna        → backlog item FEAT-10
+  1. Criar base de conhecimento interna        → spec FEAT-10
      ├─ Definir estrutura de categorias
      ├─ Migrar FAQs existentes do Slack
      └─ Criar template de artigo padrão
-  2. Padronizar fluxo de troubleshooting        → backlog item FEAT-11
+  2. Padronizar fluxo de troubleshooting        → spec FEAT-11
      ├─ Mapear os 10 tipos de ticket mais comuns
      ├─ Criar fluxograma de decisão por tipo
      └─ Treinar time no novo fluxo
-  3. Centralizar informações em um lugar        → backlog item FEAT-12
+  3. Centralizar informações em um lugar        → spec FEAT-12
      ├─ Escolher ferramenta (wiki, notion, repo)
      └─ Integrar com sistema de tickets
 ```
 
-Cada "Como" vira um item no backlog. As **sub-ações** de cada "Como" viram detalhes dentro da spec:
+Cada "Como" vira uma spec derivada do PRD. As **sub-ações** viram detalhes dentro da spec:
 
-| Nível do exercício | Vira na spec |
-|---|---|
-| Problema + causas + evidências + porquês | **Contexto** (por que é necessário) |
-| Ação ("Como") | **Item no backlog** → spec quando priorizada |
-| Sub-ações | **Requisitos Funcionais** (RF-001, RF-002) ou **checkboxes do Escopo** |
-| Sub-ações com dependências entre si | **Breakdown de tasks** (T1 → T2 → T3, com `[P]` para paralelas) |
-| Métricas de sucesso | **Critérios de aceitação** (como saber que resolveu) |
-| O que ficou de fora | **Não fazer** (pode virar outra spec no futuro) |
+| Nível do exercício | Com PRD | Sem PRD (direto na spec) |
+|---|---|---|
+| Problema + causas + evidências + porquês | **PRD** (artefato próprio) | **Contexto** da spec |
+| Ação ("Como") | **Spec vinculada** ao PRD | **Item no backlog** → spec |
+| Sub-ações | **RF/Escopo** na spec | **RF/Escopo** na spec |
+| Sub-ações com dependências | **Breakdown de tasks** | **Breakdown de tasks** |
+| Métricas de sucesso | **Métricas** no PRD | **Critérios de aceitação** na spec |
+| O que ficou de fora | **Excluído** no PRD | **Não fazer** na spec |
 
-**O framework não substitui o processo de descoberta do time.** Ele recebe o output e estrutura para que o Claude (ou qualquer dev) implemente com contexto completo. Times que fazem análise de causa raiz, design sprints, ou qualquer exercício colaborativo antes de codar alimentam specs melhores.
+**Validação:** o agent `product-review` verifica se todas as causas/ações do PRD têm specs vinculadas e se as specs cobrem o que foi definido.
+
+Times que fazem análise de causa raiz, design sprints, ou qualquer exercício colaborativo antes de codar alimentam specs melhores — com ou sem PRD formal.
 
 ### De onde vem a spec — backlog como pipeline
 
 O fluxo completo de uma spec, do nascimento ao código:
 
 ```
-ideia → backlog (1 frase) → spec light (contexto + escopo) → spec completa (quando priorizada) → implementação → done
+ideia → [PRD (opcional)] → backlog (1 frase) → spec light (contexto + escopo) → spec completa (quando priorizada) → implementação → done
 ```
 
 O backlog no framework segue um formato estruturado com 4 seções fixas:
@@ -1018,6 +1035,16 @@ Se o time usa Notion como source of truth para specs, há riscos adicionais a co
 - **Descoberta.** Sem o índice, o modelo precisaria fazer search no workspace inteiro — lento, caro em tokens, e retorna resultados irrelevantes.
 
 O índice com External ID mitiga o problema de descoberta. Os demais riscos permanecem e devem ser aceitos conscientemente.
+
+### Integração nativa com Notion (v2.1.0+)
+
+A partir da v2.1.0, o framework suporta integração nativa com Notion via MCP. Quando configurada pelo `/setup-framework`, as skills `/spec` e `/backlog-update` operam diretamente na database do Notion:
+
+- **`/spec`** cria páginas no Notion usando os templates da database (Spec Pequena, Média, Grande/Complexa, Design Doc), preenche as propriedades automaticamente (Status, Fase, Severidade, Camadas, etc.) e registra no SPECS_INDEX.md local.
+- **`/backlog-update`** lê e atualiza propriedades (Status, Concluída em, etc.) diretamente na página do Notion.
+- **Leitura de specs** usa `notion-fetch` com o URL da página — o Claude lê o conteúdo completo incluindo o body preenchido pelo template.
+
+A configuração é armazenada na seção `## Integracao Notion (specs)` do CLAUDE.md, que inclui o data source ID da database e a tabela de mapeamento de templates por complexidade. Ver `docs/SETUP_GUIDE.md` para detalhes da configuração.
 
 ## Impacto no consumo de tokens
 

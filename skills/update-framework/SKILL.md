@@ -276,7 +276,42 @@ Nada a fazer. Seguir para Fase 4c.
 
 ---
 
-## Fase 4c — Auditar seções do CLAUDE.md
+## Fase 4c — Verificar PRD (opt-in)
+
+Detectar se o projeto usa PRDs. Sinais:
+- Existe `.claude/specs/PRD_TEMPLATE.md`
+- Existe `.claude/skills/prd-creator/`
+- CLAUDE.md menciona `/prd`
+- SPECS_INDEX.md tem seção "PRDs"
+
+### Cenário A — Projeto não usa PRD e framework agora oferece
+
+Se a versão do framework sendo atualizada inclui artefatos de PRD e o projeto não os tem:
+
+1. Informar: "O framework agora suporta PRDs (Product Requirements Documents) para estruturar análise de causa raiz antes de criar specs. É um recurso opt-in."
+2. Perguntar: "Quer ativar PRDs neste projeto?"
+3. **Se sim:**
+   - Copiar `PRD_TEMPLATE.md` para `.claude/specs/`
+   - Copiar `skills/prd-creator/` para `.claude/skills/`
+   - Copiar `agents/product-review.md` para `.claude/agents/`
+   - Adicionar seção "PRDs" no SPECS_INDEX.md (se não existir)
+   - Sugerir adicionar `/prd` e `product-review` ao CLAUDE.md (como `manual` — mostrar diff)
+4. **Se não:** classificar artefatos de PRD como `skip` para este projeto. Não instalar.
+
+### Cenário B — Projeto já usa PRD
+
+Atualizar artefatos conforme estratégia normal:
+- `PRD_TEMPLATE.md` → structural (preservar customizações, adicionar seções novas)
+- `prd-creator/SKILL.md` → structural
+- `product-review.md` → overwrite
+
+### Cenário C — PRD não mudou entre versões
+
+Nada a fazer. Seguir para Fase 4d.
+
+---
+
+## Fase 4d — Auditar seções do CLAUDE.md
 
 O CLAUDE.md pode ter sido criado numa versão anterior do framework e estar faltando seções que versões mais recentes adicionaram. Esta fase verifica e complementa.
 

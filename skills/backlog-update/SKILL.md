@@ -51,6 +51,7 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    - **Estimativa:** 15min | 30min | 1h | 2h | 4h | 1d | 2d | 1sem
    - **Dependências:** IDs ou `—`
    - **Spec:** nome do arquivo se existir, ou `—`
+   - **PRD:** ID do PRD pai se existir, ou `—`
 3. Ler `.claude/specs/backlog.md`
 4. Inserir nova linha na seção da fase correta, ordenado por severidade (🔴 > 🟠 > 🟡 > ⚪)
 5. Atualizar `Última atualização` no header
@@ -75,6 +76,7 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    - Verificar se alguma "Ideia adiada" pode ser promovida a item no backlog
    - Sugerir registrar lição aprendida (L-NNN) se houve algo não óbvio durante a implementação
    - Se existir design doc associado (`.claude/specs/{id}-design.md`): atualizar status para `implementado`
+   - Se existir PRD pai: verificar se todas as specs vinculadas ao PRD estão concluídas. Se sim, sugerir marcar o PRD como `concluido`
 
 #### Ação: `update`
 
