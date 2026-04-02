@@ -78,15 +78,29 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 
 1. **Vai implementar qualquer item?** -> `.claude/skills/spec-driven/README.md`
 2. **Vai escrever/modificar testes?** -> `.claude/skills/testing/README.md`
-3. **Vai finalizar entrega?** -> `.claude/skills/definition-of-done/README.md`
-4. **Vai commitar?** -> `.claude/skills/docs-sync/README.md`
-5. **Vai adicionar log ou try/catch?** -> `.claude/skills/logging/README.md`
-6. **Vai refatorar ou criar módulo novo?** -> `.claude/skills/code-quality/README.md`
-7. **Vai mexer em tabelas, migrations ou queries?** -> `.claude/skills/dba-review/README.md`
-8. **Vai criar/modificar componente visual?** -> `.claude/skills/ux-review/README.md`
-9. **Vai adicionar integração externa ou mock?** -> `.claude/skills/mock-mode/README.md`
-10. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
-{11+. Skills específicas do domínio do projeto}
+3. **Vai criar/modificar rota, endpoint ou service?** -> `.claude/skills/security-review/README.md`
+4. **Vai finalizar entrega?** -> `.claude/skills/definition-of-done/README.md`
+5. **Vai commitar?** -> `.claude/skills/docs-sync/README.md`
+6. **Vai adicionar log ou try/catch?** -> `.claude/skills/logging/README.md`
+7. **Vai refatorar ou criar módulo novo?** -> `.claude/skills/code-quality/README.md`
+8. **Vai mexer em tabelas, migrations ou queries?** -> `.claude/skills/dba-review/README.md`
+9. **Vai criar/modificar componente visual?** -> `.claude/skills/ux-review/README.md`
+10. **Vai adicionar integração externa ou mock?** -> `.claude/skills/mock-mode/README.md`
+11. **Vai commitar código?** -> `.claude/skills/syntax-check/README.md`
+12. **Vai mexer em página pública?** -> `.claude/skills/seo-performance/README.md`
+13. **Vai escrever golden/snapshot tests?** -> `.claude/skills/golden-tests/README.md`
+14. **Vai iniciar sessão em feature existente?** -> `.claude/specs/STATE.md` (retomar de onde parou)
+15. **Vai criar nova spec?** -> `/spec {ID} {Título}` (slash command)
+16. **Vai atualizar o backlog?** -> `/backlog-update {ID} {ação}` (slash command)
+17. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command)
+{18+. Skills específicas do domínio do projeto}
+
+### Ordem de precedencia
+
+Quando varias skills se aplicam na mesma tarefa, seguir esta ordem:
+1. **spec-driven** (entender o que fazer) → 2. **skill de dominio** (como fazer) → 3. **testing** (validar) → 4. **definition-of-done** (fechar)
+
+{Ajustar ordem conforme o fluxo do projeto.}
 
 ## Agents — executar sob demanda
 
@@ -100,12 +114,21 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 4. **Relatório do backlog** -> `.claude/agents/backlog-report.md`
 5. **Revisar qualidade do código** -> `.claude/agents/code-review.md`
 6. **Auditar arquitetura de componentes** -> `.claude/agents/component-audit.md`
+7. **Auditar SEO e performance** -> `.claude/agents/seo-audit.md`
+8. **Revisar cobertura produto -> specs (PRD)** -> `.claude/agents/product-review.md`
+
+**Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
 
 ## Modelos para sub-agents
 
 Cada agent custom define `model:` no frontmatter — o Claude Code usa esse modelo automaticamente ao disparar o agent. Para sobrescrever pontualmente, passar `model` na chamada do Agent tool.
 
-Para sub-agents built-in (Explore, Plan, general-purpose) e qualquer dispatch via Agent tool, escolher o modelo pela complexidade da tarefa:
+**Hierarquia de decisão de modelo:**
+1. Override pontual (`model` no Agent tool) → maior prioridade
+2. Frontmatter do agent (`model:` no `.md`)
+3. Diretriz abaixo (para built-in e como fallback)
+
+**Tabela de decisão (para qualquer dispatch de sub-agent):**
 
 | Quando usar | Modelo | Exemplos |
 |---|---|---|
@@ -113,7 +136,15 @@ Para sub-agents built-in (Explore, Plan, general-purpose) e qualquer dispatch vi
 | Análise estruturada, checklists, comparação, code review, planejamento de implementação | `sonnet` | Code review, spec validation, Plan agent, Explore com análise |
 | Busca simples, leitura de arquivos, agregação de dados, formatação de relatórios | `haiku` | Grep/glob em muitos arquivos, backlog report, Explore rápido |
 
-**Regra prática:** se a tarefa tem checklist explícito → sonnet. Se precisa "pensar como atacante" ou avaliar trade-offs → opus. Se só lê e formata → haiku. Na dúvida → sonnet (melhor custo/benefício).
+**Regra prática:** checklist explícito → sonnet. "Pensar como atacante" ou trade-offs → opus. Só lê e formata → haiku. Na dúvida → sonnet.
+
+**Agents built-in:**
+
+| Agent built-in | Modelo default | Quando subir/descer |
+|---|---|---|
+| Explore | haiku | Subir para sonnet se precisa analisar (não só buscar) |
+| Plan | sonnet | Subir para opus se decisão arquitetural complexa |
+| general-purpose | sonnet | Subir para opus se envolve segurança ou decisão crítica |
 
 **Agents custom deste projeto:**
 
@@ -124,9 +155,36 @@ Para sub-agents built-in (Explore, Plan, general-purpose) e qualquer dispatch vi
 | component-audit | sonnet | Sim |
 | spec-validator | sonnet | Sim |
 | coverage-check | sonnet | Sim |
+| seo-audit | sonnet | Sim |
 | backlog-report | haiku | Sim — subir para sonnet se backlog for complexo |
+| product-review | sonnet | Sim |
 
 {Ajustar modelos conforme necessidade do projeto. Editar o campo `model:` no frontmatter de cada `.claude/agents/*.md`.}
+
+## Verificação proativa (início de sessão)
+
+{Definir quais agents/skills invocar automaticamente conforme o contexto da sessão:}
+
+- **{Regras de domínio}:** Se a sessão envolve {área de domínio} → invocar agent `.claude/agents/{domain-audit}.md`
+- **{Segurança}:** Se a sessão envolve auth, pagamentos ou dados sensíveis → ler skill `.claude/skills/security-review/README.md`
+
+## Regras de código
+
+{Listar regras específicas da stack. Exemplos comuns:}
+
+1. **Testes passando = pré-requisito.** Zero falhas antes de qualquer entrega.
+2. **Error handling explícito.** Erros específicos, nunca genéricos.
+3. **Análise de índices.** Query com WHERE/JOIN/ORDER BY em coluna não-PK → avaliar índice.
+4. **`verify.sh` é obrigatório.** Deve passar antes de qualquer commit.
+
+{Se o projeto tem frontend com componentes/hooks, considerar regras adicionais:}
+{5. **Effect/watcher dependencies nunca são expressões.** Framework vê boolean, não variável.}
+{6. **Todo fetch tem timeout.** Sem timeout = risco de tela travada.}
+{7. **Ação async precisa de error handling.** Sem try-catch = UI irresponsiva.}
+{8. **Webhook/external metadata validada por formato.** Metadata é input externo.}
+{9. **Respostas de serviço externo truncadas.** Arrays limitados com slice antes de processar.}
+{10. **Estado morto removido.** useState/state sem leitura = dead code.}
+{11. **Timers com cleanup.** setTimeout/setInterval precisam de cleanup no unmount.}
 
 ## Antes de commitar (obrigatório)
 
