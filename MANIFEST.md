@@ -77,6 +77,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/NOTION_INTEGRATION.md` | `docs/NOTION_INTEGRATION.md` | structural |
 | `docs/CONCEPTUAL_MAP.md` | `docs/CONCEPTUAL_MAP.md` | structural |
 | `docs/SPEC_EXAMPLE.md` | `docs/SPEC_EXAMPLE.md` | structural |
+| `docs/PRD_PORTABLE_PROMPT.md` | `docs/PRD_PORTABLE_PROMPT.md` | structural |
 
 ### Scripts (manual)
 
