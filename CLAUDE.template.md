@@ -95,6 +95,13 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 17. **Vai definir produto/feature nova (analise de causa raiz)?** -> `/prd {ID} {Titulo}` (slash command)
 {18+. Skills específicas do domínio do projeto}
 
+### Ordem de precedencia
+
+Quando varias skills se aplicam na mesma tarefa, seguir esta ordem:
+1. **spec-driven** (entender o que fazer) → 2. **skill de dominio** (como fazer) → 3. **testing** (validar) → 4. **definition-of-done** (fechar)
+
+{Ajustar ordem conforme o fluxo do projeto.}
+
 ## Agents — executar sob demanda
 
 {Agents são sub-agentes autônomos que rodam e devolvem relatório.}
@@ -109,6 +116,8 @@ Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
 6. **Auditar arquitetura de componentes** -> `.claude/agents/component-audit.md`
 7. **Auditar SEO e performance** -> `.claude/agents/seo-audit.md`
 8. **Revisar cobertura produto -> specs (PRD)** -> `.claude/agents/product-review.md`
+
+**Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
 
 ## Modelos para sub-agents
 
