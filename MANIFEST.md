@@ -65,6 +65,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/README.md` | `docs/README.md` | structural |
 | `docs/SETUP_GUIDE.md` | `docs/SETUP_GUIDE.md` | structural |
 | `docs/SPEC_DRIVEN_GUIDE.md` | `docs/SPEC_DRIVEN_GUIDE.md` | structural |
+| `docs/QUICK_START.md` | `docs/QUICK_START.md` | structural |
 
 ### Scripts (manual)
 
@@ -84,6 +85,9 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | Path no framework | Propósito |
 |---|---|
 | `scripts/install-skills.sh` | Instala skills no ~/.claude/skills/ |
+| `VERSION` | Versão atual do framework (semver) |
+| `.gitignore` | Git ignore do repo do framework |
+| `CHANGELOG.md` | Historico de versoes do framework |
 
 ### Projeto-específicos (skip)
 
