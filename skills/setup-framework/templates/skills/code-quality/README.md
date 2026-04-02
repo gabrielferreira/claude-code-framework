@@ -21,31 +21,85 @@
 
 ### Verificar antes de commitar
 
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Busca de funcoes com nomes similares (detecta duplicacao):
 ```bash
-# 1. Funções duplicadas entre arquivos
-# {ADAPTAR: padrão de busca}
+# Encontrar funcoes de validacao espalhadas pelo projeto
+grep -rn "function.*validate" src/ --include="*.js" | head -20
+# Saida tipica que indica duplicacao:
+#   src/routes/users.js:15:  function validateEmail(email) {
+#   src/routes/auth.js:8:    function validateEmail(input) {
+#   src/services/signup.js:22: function validateEmailFormat(e) {
+# -> 3 funcoes fazendo a mesma coisa = extrair para utils/validate.js
+
+# Encontrar constantes duplicadas (precos, limites, configs)
+grep -rn "50000\|500\.00\|MAX_UPLOAD" src/ --include="*.{js,ts}" | grep -v node_modules | grep -v test
+# Saida tipica:
+#   src/routes/billing.js:10:  const MAX_AMOUNT = 50000;
+#   src/services/payment.js:5: if (amount > 50000) {
+#   src/middleware/upload.js:3: const LIMIT = 50000;
+# -> mesmo valor em 3 lugares = extrair para constants.js
+```
+-->
+
+```bash
+# 1. Funcoes duplicadas entre arquivos
+# {ADAPTAR: padrao de busca}
 grep -rn "function " {src}/*.js | sort -t: -k3 | uniq -d -f2
 
-# 2. Constantes de negócio em mais de um lugar
+# 2. Constantes de negocio em mais de um lugar
 # {ADAPTAR: valores do projeto}
 grep -rn "{valor1}\|{valor2}" {backend}/ {frontend}/ --include="*.js" | grep -v node_modules | grep -v test
 
-# 3. Padrões repetidos que deveriam ser helpers
+# 3. Padroes repetidos que deveriam ser helpers
 # {ADAPTAR: patterns do projeto}
 ```
 
-Se um valor de negócio aparece em mais de 2 arquivos -> extrair para constante compartilhada.
+Se um valor de negocio aparece em mais de 2 arquivos -> extrair para constante compartilhada.
+
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Antes (duplicacao em 3 arquivos):
+```javascript
+// src/routes/users.js
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// src/routes/auth.js
+function isValidEmail(input) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(input);
+}
+
+// src/services/signup.js
+function checkEmail(e) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+```
+
+Depois (extraido para helper unico):
+```javascript
+// src/utils/validate.js  <-- fonte unica de verdade
+export function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// src/routes/users.js, auth.js, services/signup.js
+import { validateEmail } from '../utils/validate.js';
+```
+Regra pratica: >3 blocos similares = extrair. >2 constantes iguais = centralizar.
+-->
 
 ## Regras de qualidade
 
-### Não duplicar
+### Nao duplicar
 
-{Listar fontes únicas de verdade do projeto:}
+{Listar fontes unicas de verdade do projeto:}
 
-1. **{Funções de segurança}** -> `{path/security.js}`
-2. **{Validação de IDs}** -> `{path/validate.js}`
-3. **{Preços/planos}** -> `{path/pricing.js}`
-4. **{Constantes de negócio}** -> `{path/constants.js}`
+1. **{Funcoes de seguranca}** -> `{path/security.js}`
+2. **{Validacao de IDs}** -> `{path/validate.js}`
+3. **{Precos/planos}** -> `{path/pricing.js}`
+4. **{Constantes de negocio}** -> `{path/constants.js}`
 
 ### Não repetir padrões
 
@@ -82,7 +136,25 @@ Se um valor de negócio aparece em mais de 2 arquivos -> extrair para constante 
 
 ## Verificação de sintaxe
 
-### Verificação por runtime
+### Verificacao por runtime
+
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Para monorepo com backend Node.js + frontend React:
+```bash
+# Backend (Node.js)
+for f in $(git diff --name-only --cached | grep 'backend/.*\.js$'); do
+  node -c "$f" && echo "ok $f" || echo "ERRO $f"
+done
+
+# Frontend (TypeScript)
+cd frontend && npx tsc --noEmit
+
+# Python (se houver scripts)
+for f in $(git diff --name-only --cached | grep '\.py$'); do
+  python -m py_compile "$f" && echo "ok $f" || echo "ERRO $f"
+done
+```
+-->
 
 {Adaptar ao runtime do projeto}
 

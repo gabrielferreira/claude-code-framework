@@ -1,6 +1,7 @@
 ---
 description: Audita SEO, performance e acessibilidade de páginas públicas
 model: sonnet
+model-rationale: Checklist estruturado com thresholds claros para meta tags, Core Web Vitals e acessibilidade.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/seo-audit.md -->
@@ -152,3 +153,10 @@ grep -rn "import.*{heavy-lib}" {frontend}/ --include="*.{ext}" | grep -v "lazy\|
 - Meta descriptions devem ser únicas por página
 - Bundle size verificado com números reais
 - Se a página é pública, é canal de aquisição — cada issue tem impacto em conversão
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Problemas de SEO, performance e acessibilidade:** consultar skill `.claude/skills/seo-performance/README.md` para aplicar correcoes seguindo checklist de otimizacao
+- **Criar spec para correcao:** `/spec {ID} {titulo do finding}`

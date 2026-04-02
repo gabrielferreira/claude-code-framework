@@ -1,6 +1,7 @@
 ---
 description: Analisa arquitetura de componentes e módulos — estrutura, responsabilidades e oportunidades de extração
 model: sonnet
+model-rationale: Checklist estruturado com thresholds numericos para tamanho, responsabilidades e acoplamento de componentes.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/component-audit.md -->
@@ -183,3 +184,11 @@ App
 - Não refatorar — apenas identificar e sugerir decomposição
 - Cada sugestão de extração deve ter resultado esperado (tamanho antes/depois)
 - Se o projeto tem padrões definidos (CLAUDE.md), verificar compliance
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **God components, props drilling e acoplamento:** consultar skill `.claude/skills/code-quality/README.md` para padroes de refatoracao e decomposicao
+- **Problemas de UX em componentes visuais:** consultar skill `.claude/skills/ux-review/README.md` para validar usabilidade apos refatoracao
+- **Criar spec para correcao:** `/spec {ID} {titulo do finding}`

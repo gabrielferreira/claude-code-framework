@@ -1,6 +1,7 @@
 ---
 description: Analisa o backlog e gera relatório consolidado com status do projeto
-model: haiku
+model: sonnet
+model-rationale: Analisa tendencias, velocidade e blockers com heuristicas estruturadas — vai alem de leitura simples.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/backlog-report.md -->
@@ -129,3 +130,11 @@ Para itens com spec `—`:
 - Alertas são priorizados: ação necessária > atenção > informativo
 - Não modificar o backlog — apenas reportar. Mudanças são decisão do SWE
 - Se o projeto usa Notion, verificar sincronização entre backlog local e database Notion
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Itens sem spec ou com spec light:** consultar skill `.claude/skills/spec-driven/README.md` para criar ou detalhar specs pendentes
+- **Atualizar backlog com mudancas de status:** executar `/backlog-update` para sincronizar prioridades e status
+- **Criar spec para item pendente:** `/spec {ID} {titulo do item}`
