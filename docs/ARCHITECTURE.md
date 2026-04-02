@@ -71,7 +71,7 @@
 
 ---
 
-{Adicionar mais decisões conforme surgem. Numerar sequencialmente.}
+{Adaptar: mais decisoes conforme surgem. Numerar sequencialmente.}
 
 ---
 
@@ -191,7 +191,7 @@ Frontend          Backend              Gateway
 
 ## Variáveis de ambiente
 
-{Listar todas as env vars necessárias — sem valores reais.}
+{Adaptar: env vars necessarias — sem valores reais.}
 
 | Variável | Obrigatória | Descrição |
 |---|---|---|

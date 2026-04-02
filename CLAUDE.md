@@ -92,6 +92,8 @@ Antes de qualquer bump:
 - **Working directory limpo?** Se nao, commitar ou pedir pro usuario decidir.
 - **Source e templates em sincronia?** Comparar cada source com seu template (`diff source template`). Se divergirem, sincronizar e commitar antes.
 - **MANIFEST atualizado?** Se adicionou/removeu arquivo desde a ultima release, verificar se o MANIFEST reflete isso.
+- **CHANGELOG atualizado?** Adicionar entrada para a nova versao com commits agrupados por tipo (feat/fix/docs). Se `CHANGELOG.md` nao existe, criar.
+- **Framework-tags consistentes?** Rodar `scripts/validate-tags.sh` (ou `grep -r "framework-tag:" --include="*.md"`) e confirmar que todos apontam para a mesma versao.
 
 ### 2. Determinar o bump
 
@@ -119,6 +121,19 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
 5. **Tag** — `git tag vX.Y.Z`
 6. **Push** — perguntar ao usuario antes de `git push && git push --tags`
 
+### 4. Checklist pos-release
+
+Verificar que tudo ficou consistente:
+
+- [ ] `VERSION` contem a nova versao
+- [ ] `plugin.json` contem a mesma versao
+- [ ] `CHANGELOG.md` tem entrada para a nova versao
+- [ ] `scripts/validate-tags.sh` passa sem erros
+- [ ] Todos os sources estao sincronizados com templates (`diff source template`)
+- [ ] Novo doc/skill/agent tem entrada no MANIFEST
+- [ ] Tag criada (`git tag -l`)
+- [ ] Testar em repo real: `./scripts/install-skills.sh` + `/setup-framework` funciona
+
 ## Fluxo de desenvolvimento
 
 1. Criar worktree para a sessao
@@ -132,7 +147,7 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
 ## Regras
 
 1. **Nunca editar so o template sem editar o source** (ou vice-versa). Sempre os dois.
-2. **Nunca adicionar arquivo ao framework sem entrada no MANIFEST.** Decidir a estrategia antes.
+2. **Nunca adicionar arquivo ao framework sem entrada completa no MANIFEST.** Cada entrada deve ter: path no projeto, template source, e estrategia (overwrite/structural/manual/skip). Se o arquivo vai para projetos, a copia em `skills/setup-framework/templates/` tambem e obrigatoria (vinculando com a regra 1).
 3. **Testar mudancas num repo real** antes de publicar. Instalar via `install-skills.sh` e rodar `/setup-framework` ou `/update-framework` num repo de teste.
 4. **Skills dual-mode (repo + Notion):** `/spec` e `/backlog-update` detectam `## Integracao Notion (specs)` no CLAUDE.md do projeto. Qualquer mudanca nessas skills precisa funcionar nos dois modos.
 5. **Agents sao read-only.** Todos tem `worktree: false`. Se criar agent que edita codigo, marcar `worktree: true`.
@@ -143,6 +158,33 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
    - `sonnet` — checklists estruturados, analise com heuristicas claras. Default recomendado para novos agents.
    - `haiku` — leitura e formatacao sem julgamento complexo.
    Regra pratica: se o agent tem checklist com thresholds numericos → sonnet. Se precisa correlacionar findings ou julgar severidade → opus. Se so le e formata → haiku.
+   Incluir `model-rationale:` no frontmatter com 1 frase justificando a escolha (ex: `model-rationale: checklist com thresholds numericos, sem julgamento subjetivo`). Isso garante rastreabilidade e facilita revisao.
+9. **Skills devem ter exemplos concretos.** Toda skill deve conter pelo menos 1 exemplo concreto por bloco de codigo, alem dos placeholders `{Adaptar:...}`. Placeholders sozinhos nao sao suficientes — o exemplo concreto serve de referencia para quem customiza no projeto.
+
+## Padrao para criar agents
+
+Ao criar um novo agent, seguir este checklist:
+
+1. **Frontmatter obrigatorio:** `description`, `model`, `worktree`, `model-rationale`
+2. **Secoes obrigatorias:** "Quando usar", "Input", "O que verificar", "Output", "Regras"
+3. **Severidade padrao no output:** 🔴 critico, 🟠 alto, 🟡 medio, ⚪ info
+4. **Secao "Proximos passos"** linkando para skills relacionadas (ex: security-audit → security-review skill para correcao)
+5. **Sincronizar** source + template (regra 1)
+6. **MANIFEST** com entrada completa (regra 2)
+7. **CLAUDE.template.md** — adicionar o agent ao mapeamento na secao "Agents"
+
+## Padrao para criar skills
+
+Ao criar uma nova skill, seguir este checklist:
+
+1. **Arquivo:** `README.md` dentro do diretorio da skill (`skills/{nome}/README.md`)
+2. **Header:** incluir `<!-- framework-tag: vX.Y.Z framework-file: skills/{nome}/README.md -->`
+3. **Secoes obrigatorias:** "Quando usar", "Quando NAO usar", "Checklist" (com checkboxes), "Regras"
+4. **Exemplos concretos** antes dos placeholders (regra 9)
+5. **Dependencias:** se a skill depende de outra, documentar no topo (ex: "Rodar apos code-quality")
+6. **Sincronizar** source + template (regra 1)
+7. **MANIFEST** com entrada completa (regra 2)
+8. **CLAUDE.template.md** — adicionar a skill ao mapeamento na secao "Skills"
 
 ## Notion (integracao nativa)
 

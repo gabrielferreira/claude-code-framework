@@ -117,7 +117,7 @@ O backlog tem **4 seções fixas**, nesta ordem:
 
 ### Fases do roadmap
 
-{Definir as fases do seu projeto. Exemplo:}
+{Adaptar: fases do projeto. Exemplo:}
 
 | Fase | Código | Período | Foco | Severidade padrão |
 |---|---|---|---|---|
@@ -146,7 +146,7 @@ O backlog tem **4 seções fixas**, nesta ordem:
 
 **Tipo:** Feature | Bug | Segurança | Regra de Negócio | Refatoração | Testes | Docs | Análise | Infra
 
-**Camadas:** {Definir tags do projeto. Ex: `FE` `BE` `DB` `IA` `DOC` `INF` `MOB`}
+**Camadas:** {Adaptar: tags do projeto. Ex: FE BE DB IA DOC INF MOB}
 
 **Complexidade:**
 | Emoji | Nível | Referência |

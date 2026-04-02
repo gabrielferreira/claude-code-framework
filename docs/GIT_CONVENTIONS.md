@@ -21,7 +21,7 @@ Todo commit segue o formato: `<type>(<scope>): <description>`
 
 ### Scopes (opcional mas recomendado)
 
-{Definir scopes relevantes ao projeto. Exemplos:}
+{Adaptar: scopes relevantes ao projeto. Exemplos:}
 
 `auth`, `security`, `admin`, `payments`, `email`, `frontend`, `backend`, `schema`, `ci`, `deps`
 

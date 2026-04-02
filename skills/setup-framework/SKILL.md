@@ -35,6 +35,21 @@ Ver secao "Distribuicao para times" no `docs/SETUP_GUIDE.md`.
 
 ---
 
+### Modo dry-run
+
+Se o usuario pedir `/setup-framework --dry-run` ou mencionar "preview" / "simular":
+
+1. Executar todas as fases de analise (Fase 0, 1) normalmente
+2. Na Fase 2 (perguntas), fazer todas as perguntas normalmente
+3. Na Fase 3 (geracao), em vez de criar arquivos:
+   - Listar todos os arquivos que seriam criados com seus paths
+   - Mostrar um resumo: X arquivos novos, Y diretorios, Z skills ativas
+   - Mostrar placeholders que ficariam pendentes
+4. Perguntar: "Quer que eu aplique agora ou quer revisar?"
+5. Se sim, executar Fase 3 normalmente. Se nao, encerrar.
+
+---
+
 ## Fase 0 — Pre-requisitos e validacao
 
 Antes de qualquer coisa:

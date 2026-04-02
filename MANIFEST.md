@@ -28,6 +28,8 @@ Agents são genéricos — sem customização de projeto.
 | `.claude/agents/component-audit.md` | `agents/component-audit.md` | overwrite |
 | `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | overwrite |
 | `.claude/agents/product-review.md` | `agents/product-review.md` | overwrite |
+| `.claude/agents/refactor-agent.md` | `agents/refactor-agent.md` | overwrite |
+| `.claude/agents/test-generator.md` | `agents/test-generator.md` | overwrite |
 
 ### Skills (structural)
 
@@ -48,6 +50,9 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/seo-performance/README.md` | `skills/seo-performance/README.md` | structural |
 | `.claude/skills/syntax-check/README.md` | `skills/syntax-check/README.md` | structural |
 | `.claude/skills/golden-tests/README.md` | `skills/golden-tests/README.md` | structural |
+| `.claude/skills/api-testing/README.md` | `skills/api-testing/README.md` | structural |
+| `.claude/skills/dependency-audit/README.md` | `skills/dependency-audit/README.md` | structural |
+| `.claude/skills/performance-profiling/README.md` | `skills/performance-profiling/README.md` | structural |
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
@@ -65,6 +70,11 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/README.md` | `docs/README.md` | structural |
 | `docs/SETUP_GUIDE.md` | `docs/SETUP_GUIDE.md` | structural |
 | `docs/SPEC_DRIVEN_GUIDE.md` | `docs/SPEC_DRIVEN_GUIDE.md` | structural |
+| `docs/QUICK_START.md` | `docs/QUICK_START.md` | structural |
+| `docs/MIGRATION_GUIDE.md` | `docs/MIGRATION_GUIDE.md` | structural |
+| `docs/TROUBLESHOOTING.md` | `docs/TROUBLESHOOTING.md` | structural |
+| `docs/SKILLS_MAP.md` | `docs/SKILLS_MAP.md` | structural |
+| `docs/NOTION_INTEGRATION.md` | `docs/NOTION_INTEGRATION.md` | structural |
 
 ### Scripts (manual)
 
@@ -84,6 +94,10 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | Path no framework | Propósito |
 |---|---|
 | `scripts/install-skills.sh` | Instala skills no ~/.claude/skills/ |
+| `VERSION` | Versão atual do framework (semver) |
+| `.gitignore` | Git ignore do repo do framework |
+| `CHANGELOG.md` | Historico de versoes do framework |
+| `scripts/validate-tags.sh` | Validacao de framework-tags pre-release |
 
 ### Projeto-específicos (skip)
 

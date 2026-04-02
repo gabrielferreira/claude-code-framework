@@ -43,25 +43,82 @@
 
 ## Verificação automatizada pré-commit
 
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Script completo para projeto Node.js + Express:
 ```bash
 #!/bin/bash
-# Rodar após completar uma feature para verificar sync
+echo "=== Contagem de testes ==="
+REAL=$(grep -rc "test(\|it(" tests/ --include="*.test.js" | awk -F: '{s+=$2} END {print s}')
+DOCS=$(grep -oP 'Testes: \K[0-9]+' CLAUDE.md)
+echo "Real: $REAL testes | Docs: $DOCS"
+[ "$REAL" != "$DOCS" ] && echo "DIVERGENCIA: atualizar CLAUDE.md"
+
+echo ""
+echo "=== Endpoints ==="
+ROTAS=$(grep -rc "router\.\(get\|post\|put\|delete\|patch\)" src/routes/ --include="*.js" | awk -F: '{s+=$2} END {print s}')
+echo "Rotas no codigo: $ROTAS"
+
+echo ""
+echo "=== Tabelas no schema ==="
+TABELAS=$(grep -c "CREATE TABLE" database/schema.sql)
+echo "Tabelas: $TABELAS"
+```
+-->
+<!-- Script completo para projeto Django/Python:
+```bash
+#!/bin/bash
+echo "=== Contagem de testes ==="
+REAL=$(grep -rc "def test_" tests/ --include="*.py" | awk -F: '{s+=$2} END {print s}')
+echo "Real: $REAL testes"
+
+echo ""
+echo "=== Endpoints ==="
+ROTAS=$(grep -rc "path(\|re_path(" */urls.py | awk -F: '{s+=$2} END {print s}')
+echo "Rotas no codigo: $ROTAS"
+
+echo ""
+echo "=== Models ==="
+MODELS=$(grep -rc "class.*models.Model" */models.py | awk -F: '{s+=$2} END {print s}')
+echo "Models: $MODELS"
+```
+-->
+
+```bash
+#!/bin/bash
+# Rodar apos completar uma feature para verificar sync
 
 echo "=== Contagem de testes ==="
-# {ADAPTAR: padrão de contagem de testes}
+# {ADAPTAR: padrao de contagem de testes}
 REAL=$(grep -c "test(" {tests}/*.test.js | awk -F: '{s+=$2} END {print s}')
 echo "Real: $REAL testes"
 
 echo ""
-echo "=== Endpoints no código vs docs ==="
+echo "=== Endpoints no codigo vs docs ==="
 echo "Rotas reais:"
-# {ADAPTAR: padrão de contagem de rotas}
+# {ADAPTAR: padrao de contagem de rotas}
 grep "router\.\(get\|post\|put\|delete\)" {routes}/*.js | wc -l
 ```
 
 ## Contagens a manter sincronizadas
 
-{Listar contagens que devem bater entre código e docs:}
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Contagens para projeto Node.js + PostgreSQL:
+- Testes: 142 (`grep -rc "test(\|it(" tests/ --include="*.test.js" | awk -F: '{s+=$2} END {print s}'`)
+- Suites: 12 (`ls tests/*.test.js | wc -l`)
+- Tabelas: 15 (`grep -c "CREATE TABLE" database/schema.sql`)
+- Endpoints: 34 (`grep -rc "router\.\(get\|post\|put\|delete\|patch\)" src/routes/ --include="*.js" | awk -F: '{s+=$2} END {print s}'`)
+- Migrations: 23 (`ls database/migrations/*.js | wc -l`)
+
+Exemplo de secao no CLAUDE.md que deve bater:
+  ## Metricas do projeto
+  - **142 testes** em 12 suites (jest)
+  - **34 endpoints** REST
+  - **15 tabelas** no schema PostgreSQL
+
+Quando adicionar teste: rodar contagem, atualizar numero no CLAUDE.md.
+-->
+
+{Adaptar: contagens que devem bater entre codigo e docs:}
 
 - Testes: {N} ({comando para verificar})
 - Suites: {N} ({comando})

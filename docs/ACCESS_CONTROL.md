@@ -13,7 +13,7 @@ Todo limite, permissão e verificação de acesso é feito server-side.
 
 ## Domínios de autenticação
 
-{Listar domínios separados de auth se houver. Ex: usuários vs admins.}
+{Adaptar: dominios separados de auth se houver. Ex: usuarios vs admins.}
 
 | Domínio | Tabela | Tipo de auth | JWT issuer |
 |---|---|---|---|
@@ -122,7 +122,7 @@ Todo limite, permissão e verificação de acesso é feito server-side.
 
 ### Funções principais
 
-{Listar as funções do middleware auth com breve descrição.}
+{Adaptar: funcoes do middleware auth com breve descricao.}
 
 | Função | Descrição | Arquivo |
 |---|---|---|
@@ -230,7 +230,7 @@ CREATE TABLE {refresh_tokens} (
 
 ## Endpoints públicos (sem auth)
 
-{Listar todos os endpoints que NÃO exigem autenticação, com justificativa.}
+{Adaptar: endpoints que NAO exigem autenticacao, com justificativa.}
 
 | Endpoint | Justificativa |
 |---|---|

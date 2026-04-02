@@ -19,7 +19,7 @@ Decisoes tomadas para esta feature. Registrar tambem no `STATE.md` como AD-NNN s
 
 Novos campos, tabelas, migrations ou mudancas em schema.
 
-{Descrever mudancas no modelo de dados. Se nao ha mudancas, escrever "Sem mudancas no modelo de dados."}
+{Adaptar: mudancas no modelo de dados. Se nao ha mudancas, escrever "Sem mudancas no modelo de dados."}
 
 ## Componentes e responsabilidades
 

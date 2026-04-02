@@ -12,23 +12,81 @@
 
 ## Como funciona o mock mode
 
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Variavel de ambiente tipica:
+  MOCK_MODE=true    # Node.js / Express
+  MOCK_SERVICES=1   # Django / Flask
+  RAILS_MOCK=true   # Ruby on Rails
+-->
+
 ```
-{ENV_VAR}=true  → backend simula serviços externos
+{ENV_VAR}=true  → backend simula servicos externos
 ```
 
-{Definir o que o mock mode substitui e o que NÃO substitui.}
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- O que mock mode substitui vs NAO substitui:
+  SUBSTITUI (APIs externas):
+    - Stripe/pagamentos  -> resposta fixa de sucesso/falha
+    - SendGrid/email     -> log no console, nao envia
+    - OpenAI/LLM         -> resposta hardcoded
+    - Twilio/SMS         -> log no console, nao envia
+    - S3/upload          -> salva em /tmp local
+
+  NAO SUBSTITUI (infra local obrigatoria):
+    - PostgreSQL/MySQL   -> banco real, sempre
+    - Redis              -> real (ou use fakeredis em dev)
+    - Migrations         -> rodam normalmente
+-->
+
+{Adaptar: o que o mock mode substitui e o que NAO substitui.}
 
 **Exemplo:**
 > PostgreSQL é SEMPRE obrigatório — não existe DB stub. Mock mode substitui apenas chamadas a APIs externas (pagamento, email, IA).
 
 ## Setup mock mode
 
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Setup completo para projeto Node.js + PostgreSQL:
+```bash
+# 1. Banco
+docker compose up -d postgres
+npx knex migrate:latest
+
+# 2. Seed
+node scripts/seed-demo.js
+
+# 3. Backend com mock mode
+MOCK_MODE=true STRIPE_API_KEY=sk_test_fake npm run dev
+
+# 4. Credenciais de teste
+# Email: demo@example.com / Senha: demo123
+# Admin: admin@example.com / Senha: admin123
+# Cartao mock Stripe: 4242 4242 4242 4242 (qualquer data/cvv)
+```
+-->
+<!-- Setup completo para projeto Django + PostgreSQL:
+```bash
+# 1. Banco
+docker compose up -d postgres
+python manage.py migrate
+
+# 2. Seed
+python manage.py loaddata fixtures/demo.json
+
+# 3. Backend com mock mode
+MOCK_SERVICES=1 python manage.py runserver
+
+# 4. Credenciais de teste
+# Email: demo@example.com / Senha: demo123
+```
+-->
+
 ```bash
 # 1. Banco precisa estar rodando + schema aplicado
 {comando para setup do banco}
 
 # 2. Seed dados de demo
-{comando para seed — ex: node scripts/seed-demo.js}
+{comando para seed -- ex: node scripts/seed-demo.js}
 
 # 3. Backend com mock mode
 {ENV_VAR}=true {comando para iniciar backend}
@@ -41,12 +99,49 @@
 
 ### Toda nova integração externa DEVE ter mock
 
-| Integração | Arquivo | Mock handler | Seed data |
+<!-- Exemplo concreto — adaptar ou remover -->
+<!-- Tabela de exemplo para SaaS com pagamento + email + IA:
+| Integracao   | Arquivo              | Mock handler                                    | Seed data         |
 |---|---|---|---|
-| {Pagamento} | {payments.js} | `if (MOCK_MODE)` → {simula sucesso} | — |
-| {Email} | {email-service.js} | `if (MOCK_MODE)` → {log + skip envio} | — |
-| {IA/LLM} | {external-provider.js} | `if (MOCK_MODE)` → {resposta fixa} | — |
-| {Auth externo} | {auth.js} | `if (MOCK_MODE)` → {aceita credencial fixa} | {contas seedadas} |
+| Stripe       | services/stripe.js   | `if (MOCK_MODE)` -> retorna `{id: "pi_mock_123", status: "succeeded"}` | — |
+| SendGrid     | services/email.js    | `if (MOCK_MODE)` -> `console.log("[MOCK EMAIL]", {to, subject})` e retorna ok | — |
+| OpenAI       | services/llm.js      | `if (MOCK_MODE)` -> retorna `{content: "Mock AI response", tokens: 10}` | — |
+| Google OAuth | services/auth.js     | `if (MOCK_MODE)` -> aceita `token=mock_token_123` | `fixtures/users.json` |
+-->
+
+<!-- Exemplo de mock handler em Node.js:
+  // services/stripe.js
+  async function createPaymentIntent(amount, currency) {
+    if (process.env.MOCK_MODE === 'true') {
+      return {
+        id: `pi_mock_${Date.now()}`,
+        status: 'succeeded',
+        amount,
+        currency,
+        client_secret: 'mock_secret_123',
+      };
+    }
+    // Chamada real ao Stripe
+    return stripe.paymentIntents.create({ amount, currency });
+  }
+-->
+
+<!-- Exemplo de mock handler em Python/Django:
+  # services/email_service.py
+  def send_email(to, subject, body):
+      if settings.MOCK_MODE:
+          logger.info(f"[MOCK EMAIL] to={to} subject={subject}")
+          return {"status": "mocked", "message_id": f"mock_{uuid4()}"}
+      # Chamada real ao SendGrid
+      return sg.send(Mail(to=to, subject=subject, html_content=body))
+-->
+
+| Integracao | Arquivo | Mock handler | Seed data |
+|---|---|---|---|
+| {Pagamento} | {payments.js} | `if (MOCK_MODE)` -> {simula sucesso} | -- |
+| {Email} | {email-service.js} | `if (MOCK_MODE)` -> {log + skip envio} | -- |
+| {IA/LLM} | {external-provider.js} | `if (MOCK_MODE)` -> {resposta fixa} | -- |
+| {Auth externo} | {auth.js} | `if (MOCK_MODE)` -> {aceita credencial fixa} | {contas seedadas} |
 
 ### Ao adicionar nova integração
 
@@ -70,7 +165,7 @@
 
 ## Fixtures
 
-{Listar arquivos de dados mock/demo do projeto.}
+{Adaptar: arquivos de dados mock/demo do projeto.}
 
 | Arquivo | Conteúdo | Usado por |
 |---|---|---|

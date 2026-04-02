@@ -1,6 +1,7 @@
 ---
 description: Compara specs com o código atual e identifica divergências antes da implementação
 model: sonnet
+model-rationale: Checklist estruturado que verifica existencia de arquivos, funcoes e comportamentos — validacao metodica, nao julgamento profundo.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/spec-validator.md -->
@@ -77,7 +78,7 @@ Para cada critério de aceitação:
 - **Tipo:** Arquivo não encontrado | Comportamento diferente | Função renomeada | Critério não testável | Escopo negativo ausente
 - **Na spec:** {o que a spec diz}
 - **No código:** {o que o código mostra}
-- **Impacto:** Bloqueia implementação | Requer atualização da spec | Informativo
+- **Severidade:** 🔴 Critico | 🟠 Alto | 🟡 Medio | ⚪ Info
 - **Sugestão:** {como resolver}
 
 ## Validações realizadas
@@ -106,3 +107,11 @@ Para cada critério de aceitação:
 - Reportar divergências com evidência (linha do código vs. texto da spec)
 - Não corrigir a spec automaticamente — apenas reportar. Correção é decisão do SWE
 - Se a spec tem Notion Page ID, verificar se o conteúdo local e o Notion estão sincronizados
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Specs desatualizadas ou com divergencias:** consultar skill `.claude/skills/spec-driven/README.md` para reescrever ou atualizar a spec seguindo o fluxo correto
+- **Atualizar status no backlog apos correcao:** executar `/backlog-update` para sincronizar o backlog com as mudancas na spec
+- **Criar spec para correcao:** `/spec {ID} {titulo da divergencia}`

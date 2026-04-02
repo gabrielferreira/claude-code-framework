@@ -43,6 +43,14 @@ Condições que DEVEM ser verdadeiras para considerar a spec concluída. Escrito
 2. ...
 3. ...
 
+## Possiveis riscos
+
+{Opcional para specs Medio. Obrigatorio para Grande e Complexo.}
+
+| Risco | Probabilidade | Impacto | Mitigacao |
+|---|---|---|---|
+| {Adaptar: risco tecnico} | {alta/media/baixa} | {alto/medio/baixo} | {Adaptar: como mitigar} |
+
 ## Arquivos afetados
 
 | Arquivo | Tipo de mudança |
@@ -75,7 +83,7 @@ Fase 3 (integração):  T7 → T8
 - **Reutiliza:** —
 - **Pronto quando:** {critério testável}
 
-{Adicionar mais tasks conforme necessário. Marcador `[P]` = pode rodar em paralelo via sub-agent.}
+{Adaptar: mais tasks conforme necessario. Marcador [P] = pode rodar em paralelo via sub-agent.}
 
 ## Não fazer
 
