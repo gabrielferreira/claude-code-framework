@@ -43,6 +43,14 @@ Condições que DEVEM ser verdadeiras para considerar a spec concluída. Escrito
 2. ...
 3. ...
 
+## Possiveis riscos
+
+{Opcional para specs Medio. Obrigatorio para Grande e Complexo.}
+
+| Risco | Probabilidade | Impacto | Mitigacao |
+|---|---|---|---|
+| {Descrever risco tecnico} | {alta/media/baixa} | {alto/medio/baixo} | {Como mitigar} |
+
 ## Arquivos afetados
 
 | Arquivo | Tipo de mudança |

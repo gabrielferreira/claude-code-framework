@@ -78,7 +78,7 @@ Para cada critério de aceitação:
 - **Tipo:** Arquivo não encontrado | Comportamento diferente | Função renomeada | Critério não testável | Escopo negativo ausente
 - **Na spec:** {o que a spec diz}
 - **No código:** {o que o código mostra}
-- **Impacto:** Bloqueia implementação | Requer atualização da spec | Informativo
+- **Severidade:** 🔴 Critico | 🟠 Alto | 🟡 Medio | ⚪ Info
 - **Sugestão:** {como resolver}
 
 ## Validações realizadas

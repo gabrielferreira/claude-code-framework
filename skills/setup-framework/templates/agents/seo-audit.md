@@ -122,10 +122,10 @@ grep -rn "import.*{heavy-lib}" {frontend}/ --include="*.{ext}" | grep -v "lazy\|
 
 | Categoria | Issues |
 |---|---|
-| 🔴 SEO blocker | N |
-| 🟡 Performance | N |
-| 🟡 Acessibilidade | N |
-| ⚪ Melhoria | N |
+| 🔴 Critico | N |
+| 🟠 Alto | N |
+| 🟡 Medio | N |
+| ⚪ Info | N |
 
 ## Por página
 
@@ -140,7 +140,7 @@ grep -rn "import.*{heavy-lib}" {frontend}/ --include="*.{ext}" | grep -v "lazy\|
 ## Findings
 
 ### [SEO-001] {título}
-- **Severidade:** 🔴/🟡/⚪
+- **Severidade:** 🔴 Critico / 🟠 Alto / 🟡 Medio / ⚪ Info
 - **Página:** {qual}
 - **Descrição:** {o que falta}
 - **Impacto:** {efeito em ranking/conversão}

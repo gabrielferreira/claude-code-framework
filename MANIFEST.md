@@ -48,6 +48,9 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/seo-performance/README.md` | `skills/seo-performance/README.md` | structural |
 | `.claude/skills/syntax-check/README.md` | `skills/syntax-check/README.md` | structural |
 | `.claude/skills/golden-tests/README.md` | `skills/golden-tests/README.md` | structural |
+| `.claude/skills/api-testing/README.md` | `skills/api-testing/README.md` | structural |
+| `.claude/skills/dependency-audit/README.md` | `skills/dependency-audit/README.md` | structural |
+| `.claude/skills/performance-profiling/README.md` | `skills/performance-profiling/README.md` | structural |
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
@@ -68,6 +71,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/QUICK_START.md` | `docs/QUICK_START.md` | structural |
 | `docs/MIGRATION_GUIDE.md` | `docs/MIGRATION_GUIDE.md` | structural |
 | `docs/TROUBLESHOOTING.md` | `docs/TROUBLESHOOTING.md` | structural |
+| `docs/SKILLS_MAP.md` | `docs/SKILLS_MAP.md` | structural |
 | `docs/NOTION_INTEGRATION.md` | `docs/NOTION_INTEGRATION.md` | structural |
 
 ### Scripts (manual)

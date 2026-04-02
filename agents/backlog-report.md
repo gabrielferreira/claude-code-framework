@@ -89,15 +89,18 @@ Para itens com spec `—`:
 
 ## Alertas
 
-### 🔴 Ação necessária
+### 🔴 Critico
 - {item}: Crítico sem spec desde {data}
 - {item}: Bloqueado por {dep} que não tem previsão
 
-### 🟡 Atenção
+### 🟠 Alto
 - {item}: Spec light na fase atual — detalhar antes de implementar
 - {item}: Médio+ sem spec
 
-### ℹ️ Informativo
+### 🟡 Medio
+- {item}: Spec com lacunas menores identificadas
+
+### ⚪ Info
 - {N} itens concluídos no último período
 - Decisão futura "{título}" tem gatilho próximo ({data})
 
@@ -127,7 +130,7 @@ Para itens com spec `—`:
 
 - Ler o backlog completo antes de gerar o relatório
 - Verificar existência real das specs (não confiar só no campo "Spec" do backlog)
-- Alertas são priorizados: ação necessária > atenção > informativo
+- Alertas são priorizados: 🔴 Critico > 🟠 Alto > 🟡 Medio > ⚪ Info
 - Não modificar o backlog — apenas reportar. Mudanças são decisão do SWE
 - Se o projeto usa Notion, verificar sincronização entre backlog local e database Notion
 
