@@ -107,9 +107,32 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
    - Perguntar: "Quer criar uma entrada no backlog para acompanhar este PRD?"
    - Se sim: criar com Tipo `Analise` via `/backlog-update`
 
-8. **Informar o usuario:**
+8. **Verificacao pos-criacao** (OBRIGATORIO):
+   Ler o arquivo criado e validar que o conteudo foi preenchido:
+
+   | Secao | Medio | Grande/Complexo |
+   |---|---|---|
+   | Problema | obrigatorio — ≥2 frases concretas | obrigatorio |
+   | Causas | obrigatorio — ≥1 causa real | obrigatorio |
+   | Evidencias | obrigatorio — ≥1 dado concreto | obrigatorio |
+   | Porques | obrigatorio — ≥1 nivel de profundidade | obrigatorio |
+   | Como resolver | obrigatorio — ≥1 acao concreta | obrigatorio |
+   | Quem e afetado | — | obrigatorio |
+   | Metricas de sucesso | — | obrigatorio |
+
+   **Se alguma secao obrigatoria esta vazia ou so tem placeholder** (`{...}`, `*...*`, `TBD`):
+   - Perguntar ao usuario as informacoes faltantes
+   - Preencher antes de finalizar
+   - So informar "PRD criado" quando o check passar
+
+   **Se o usuario nao tem a informacao agora:**
+   - Marcar a secao com `{A DETALHAR — pendente de input do usuario}`
+   - Avisar: "PRD criado com N secoes pendentes. Complete antes de aprovar."
+
+9. **Informar o usuario:**
    - Path do arquivo criado (`.claude/prds/{id}.md`)
    - Classificacao de complexidade aplicada
+   - Resultado da verificacao: ✅ completo | ⚠️ N secoes pendentes
    - Se `--from` foi usado: resumo do que foi extraido da fonte
    - Proximo passo: "Quando o PRD estiver aprovado, crie specs derivadas com `/spec {SPEC-ID} {Titulo}` e vincule a este PRD."
    - Lembrar que PRD `rascunho` precisa ser discutido/aprovado pelo time antes de gerar specs
@@ -160,9 +183,33 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
    - Formato: `| {ID} | {Titulo} | rascunho | — | {resumo} |`
    - Adicionar nota com link Notion: `[Notion]({url})`
 
-6. **Informar o usuario:**
+6. **Verificacao pos-criacao** (OBRIGATORIO):
+   Ler a pagina criada no Notion via `notion-fetch` e validar que o conteudo foi preenchido:
+
+   | Secao | Medio | Grande/Complexo |
+   |---|---|---|
+   | Problema | obrigatorio | obrigatorio |
+   | Causas | obrigatorio | obrigatorio |
+   | Evidencias | obrigatorio | obrigatorio |
+   | Porques | obrigatorio | obrigatorio |
+   | Como resolver | obrigatorio | obrigatorio |
+   | Quem e afetado | — | obrigatorio |
+   | Metricas de sucesso | — | obrigatorio |
+
+   **Validar que cada secao obrigatoria tem conteudo real** (≥2 frases ou ≥1 item concreto).
+   Placeholders do template NÃO contam.
+
+   **Se alguma secao obrigatoria esta vazia:**
+   - Perguntar ao usuario as informacoes faltantes
+   - Atualizar a pagina no Notion via `notion-update-page`
+
+   **Se o usuario nao tem a informacao agora:**
+   - Marcar com `{A DETALHAR}` e avisar quantas secoes ficaram pendentes
+
+7. **Informar o usuario:**
    - URL da pagina criada no Notion
    - Classificacao de complexidade
+   - Resultado da verificacao: ✅ completo | ⚠️ N secoes pendentes
    - Se `--from` foi usado: resumo do que foi extraido da fonte
    - Proximo passo: vincular specs ao PRD conforme acoes forem priorizadas
 
