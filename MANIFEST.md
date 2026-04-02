@@ -27,6 +27,7 @@ Agents são genéricos — sem customização de projeto.
 | `.claude/agents/code-review.md` | `agents/code-review.md` | overwrite |
 | `.claude/agents/component-audit.md` | `agents/component-audit.md` | overwrite |
 | `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | overwrite |
+| `.claude/agents/product-review.md` | `agents/product-review.md` | overwrite |
 
 ### Skills (structural)
 
@@ -49,6 +50,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/golden-tests/README.md` | `skills/golden-tests/README.md` | structural |
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
+| `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
 
 ### Docs (structural)
 
@@ -96,6 +98,7 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `.claude/specs/STATE.md` | skip |
 | `.claude/specs/TEMPLATE.md` | overwrite |
 | `.claude/specs/DESIGN_TEMPLATE.md` | overwrite |
+| `.claude/specs/PRD_TEMPLATE.md` | structural |
 | `.claude/specs/*.md` (specs do projeto) | skip |
 | `.claude/specs/done/*.md` | skip |
 | `.claude/SETUP_REPORT.md` | skip |
