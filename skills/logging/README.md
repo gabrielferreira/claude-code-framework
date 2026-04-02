@@ -103,7 +103,7 @@ try {
 
 ## Módulos registrados
 
-{Definir prefixos para consistência no projeto:}
+{Adaptar: prefixos para consistencia no projeto:}
 
 | Prefixo | Módulo |
 |---|---|

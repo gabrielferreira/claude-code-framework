@@ -12,10 +12,10 @@
 
 ## O que é o projeto
 
-{Descrever em 2-3 frases: o que o sistema faz, para quem, e qual problema resolve.}
+{Adaptar: o que o sistema faz, para quem, e qual problema resolve. 2-3 frases.}
 
 **Exemplo:**
-> {Descreva aqui o que o sistema faz, para quem, e o problema que resolve.}
+> {Adaptar: descricao do sistema, publico-alvo e problema que resolve.}
 
 ---
 
@@ -35,7 +35,7 @@
 | Testes | {Jest / Vitest / Pytest / etc. — contagem atual: ver CLAUDE.md} |
 | Deploy | {Docker / Vercel / AWS / etc.} |
 
-{Manter apenas as linhas relevantes ao projeto. Remover as que não se aplicam.}
+{Adaptar: manter apenas as linhas relevantes ao projeto. Remover as que nao se aplicam.}
 
 ---
 
@@ -71,7 +71,7 @@
         └── {id}-design.md        # Design docs (Grande/Complexo)
 ```
 
-{Se monorepo: adaptar a estrutura acima para mostrar sub-projetos com CLAUDE.md L2 em cada um. Exemplo:}
+{Adaptar: se monorepo, mostrar sub-projetos com CLAUDE.md L2 em cada um. Exemplo:}
 
 ```
 {projeto}/
@@ -96,7 +96,7 @@
 
 ## Decisões arquiteturais já tomadas
 
-{Listar decisões que NÃO devem ser rediscutidas — o LLM precisa respeitar estas decisões.}
+{Adaptar: decisoes que NAO devem ser rediscutidas — o LLM precisa respeitar estas decisoes.}
 
 **Formato sugerido:**
 
@@ -111,7 +111,7 @@
 
 ## Regras de negócio
 
-{Regras fundamentais do domínio que qualquer LLM precisa saber para dar respostas corretas.}
+{Adaptar: regras fundamentais do dominio que qualquer LLM precisa saber para dar respostas corretas.}
 
 **Formato sugerido:**
 
@@ -128,7 +128,7 @@
 
 ## Segurança — pontos críticos
 
-{Resumir as decisões de segurança mais importantes que o LLM deve respeitar.}
+{Adaptar: decisoes de seguranca mais importantes que o LLM deve respeitar.}
 
 - {Ponto 1 — ex: prompt injection tratada como ameaça real}
 - {Ponto 2 — ex: timing-safe comparison em toda comparação de secret}
@@ -140,7 +140,7 @@
 
 ### Implementado e testado
 
-{Listar features prontas — ajuda o LLM a não sugerir reimplementar algo que já existe.}
+{Adaptar: features prontas — ajuda o LLM a nao sugerir reimplementar algo que ja existe.}
 
 - {Feature 1}
 - {Feature 2}
@@ -148,7 +148,7 @@
 
 ### Dívida técnica conhecida
 
-{Listar problemas conhecidos — ajuda o LLM a não tropeçar neles.}
+{Adaptar: problemas conhecidos — ajuda o LLM a nao tropecar neles.}
 
 - Backlog completo em `.claude/specs/backlog.md`
 
@@ -165,7 +165,7 @@
 
 ## O que este projeto NÃO faz
 
-{Listar explicitamente o que está fora do escopo — evita sugestões inúteis do LLM.}
+{Adaptar: o que esta fora do escopo — evita sugestoes inuteis do LLM.}
 
 - {Limitação 1}
 - {Limitação 2}

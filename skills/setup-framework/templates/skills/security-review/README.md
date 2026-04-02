@@ -9,9 +9,9 @@
 
 ## Regras absolutas do projeto
 
-{Listar as regras invioláveis de segurança do projeto. Exemplos comuns:}
+{Adaptar: regras inviolaveis de seguranca do projeto. Exemplos comuns:}
 
-1. **Dados sensíveis do usuário NUNCA persistidos em texto claro.** {Definir quais dados.}
+1. **Dados sensíveis do usuário NUNCA persistidos em texto claro.** {Adaptar: quais dados sensiveis.}
 2. **Prepared statements em toda query SQL.** Zero concatenação de input do usuário em SQL.
 3. **Todo input sanitizado antes de processar.** {Função de sanitização do projeto.}
 4. **Secrets em variáveis de ambiente.** Nunca hardcodar API keys, JWT secrets ou webhook secrets.
@@ -109,7 +109,7 @@ timingSafeCompare(a, b)     // evita timing attacks
 
 ## Campos proibidos em respostas
 
-{Listar campos que NUNCA devem aparecer em respostas JSON:}
+{Adaptar: campos que NUNCA devem aparecer em respostas JSON:}
 - `password_hash`
 - `token_hash`
 - `api_key`

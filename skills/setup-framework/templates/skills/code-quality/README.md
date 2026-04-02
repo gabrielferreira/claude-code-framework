@@ -94,7 +94,7 @@ Regra pratica: >3 blocos similares = extrair. >2 constantes iguais = centralizar
 
 ### Nao duplicar
 
-{Listar fontes unicas de verdade do projeto:}
+{Adaptar: fontes unicas de verdade do projeto:}
 
 1. **{Funcoes de seguranca}** -> `{path/security.js}`
 2. **{Validacao de IDs}** -> `{path/validate.js}`

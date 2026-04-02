@@ -121,6 +121,19 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
 5. **Tag** — `git tag vX.Y.Z`
 6. **Push** — perguntar ao usuario antes de `git push && git push --tags`
 
+### 4. Checklist pos-release
+
+Verificar que tudo ficou consistente:
+
+- [ ] `VERSION` contem a nova versao
+- [ ] `plugin.json` contem a mesma versao
+- [ ] `CHANGELOG.md` tem entrada para a nova versao
+- [ ] `scripts/validate-tags.sh` passa sem erros
+- [ ] Todos os sources estao sincronizados com templates (`diff source template`)
+- [ ] Novo doc/skill/agent tem entrada no MANIFEST
+- [ ] Tag criada (`git tag -l`)
+- [ ] Testar em repo real: `./scripts/install-skills.sh` + `/setup-framework` funciona
+
 ## Fluxo de desenvolvimento
 
 1. Criar worktree para a sessao
