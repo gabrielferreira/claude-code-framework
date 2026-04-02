@@ -59,7 +59,37 @@ Se a tag instalada é igual à tag do source → "Framework está atualizado. Na
 
 Se diferente → prosseguir para Fase 1.
 
-### 0.4 Detectar contexto (single repo vs monorepo)
+### 0.4 Detectar contexto do projeto
+
+Antes de propor qualquer mudanca, entender o que o projeto e e o que ja usa. Isso evita instalar arquivos irrelevantes.
+
+1. **Ler SETUP_REPORT.md** (se existir em `.claude/SETUP_REPORT.md`):
+   - Tipo: single repo ou monorepo
+   - Stack detectada (backend, frontend, fullstack, etc.)
+   - Skills instaladas e motivo
+   - Agents instalados
+
+2. **Se nao tem SETUP_REPORT.md**, detectar pelo projeto:
+   - **Stack:** presenca de `package.json` com React/Vue/Next (frontend), `go.mod`/`requirements.txt`/`Gemfile` (backend), ambos (fullstack)
+   - **DB:** presenca de migrations, prisma, knex, sequelize, sqlalchemy
+   - **Frontend publico:** presenca de `pages/`, `app/`, rotas com SSR/SSG, sitemap
+   - **PRD ativo:** presenca de `.claude/prds/` ou CLAUDE.md menciona `/prd`
+   - **Notion ativo:** presenca de `## Integracao Notion` no CLAUDE.md
+
+3. **Construir perfil do projeto:**
+
+```
+Perfil detectado:
+  Stack: backend (Go)
+  DB: PostgreSQL (migrations detectadas)
+  Frontend publico: nao
+  PRD: nao ativo
+  Notion: nao configurado
+```
+
+Este perfil e usado na Fase 1 e 3 para filtrar o que oferecer.
+
+### 0.5 Detectar monorepo
 
 1. **Verificar se é monorepo:** procurar `.claude/SETUP_REPORT.md` e ler campo "Tipo"
 2. **Se monorepo:** escanear sub-diretórios:
@@ -230,9 +260,33 @@ O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/
 
 ### 3.4 Instalar novos
 
-1. Copiar arquivo do source para o path correto no projeto
-2. Header já vem com a tag correta
-3. Se é skill com `{placeholders}` → avisar: "Arquivo instalado com placeholders. Customize conforme o projeto."
+**Nunca instalar arquivos novos sem verificar relevancia para o projeto.** Usar o perfil detectado na Fase 0.4 para filtrar e perguntar.
+
+1. **Classificar cada arquivo novo por relevancia:**
+
+   | Arquivo novo | Relevante se | Acao |
+   |---|---|---|
+   | Agent core (security-audit, code-review, spec-validator, coverage-check, backlog-report) | Sempre | Instalar automaticamente |
+   | Agent condicional (seo-audit, component-audit) | Frontend publico detectado / Frontend detectado | Perguntar: "O framework adicionou {agent}. Seu projeto parece ser {perfil}. Quer instalar?" |
+   | Agent de produto (product-review) | PRD ativo | Perguntar: "O framework adicionou {agent} para revisao de PRDs. Quer ativar PRDs neste projeto?" |
+   | Agent de acao (refactor-agent, test-generator) | Sempre | Instalar automaticamente |
+   | Skill core (testing, code-quality, etc.) | Sempre | Instalar automaticamente |
+   | Skill condicional (dba-review) | DB detectado | Perguntar se nao detectou DB |
+   | Skill condicional (ux-review, seo-performance) | Frontend detectado | Perguntar se nao detectou frontend |
+   | Skill de produto (prd-creator) | PRD ativo ou usuario aceitar | Perguntar: "Quer ativar PRDs?" |
+   | Doc novo | Sempre | Instalar automaticamente (docs sao informativos) |
+   | PRD artefatos (template, index) | PRD ativo | So instalar se PRD ativo ou usuario aceitar |
+
+2. **Para cada arquivo classificado como "perguntar":**
+   - Informar o que e, para que serve, e por que pode nao ser relevante
+   - Perguntar: "Instalar? [Sim/Nao]"
+   - Se nao: pular e registrar no relatorio como "Pulado — nao relevante para o projeto"
+
+3. **Para cada arquivo aceito ou automatico:**
+   - Copiar arquivo do source para o path correto no projeto
+   - Header já vem com a tag correta
+   - Se é skill com `{placeholders}` → avisar: "Arquivo instalado com placeholders. Customize conforme o projeto."
+   - **Se instalou agent/skill novo:** avisar que precisa ser adicionado ao CLAUDE.md (a auditoria na Fase 5b vai detectar e oferecer corrigir)
 
 ### 3.5 Remover obsoletos
 
