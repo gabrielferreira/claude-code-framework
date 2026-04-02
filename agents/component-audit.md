@@ -3,7 +3,7 @@ description: Analisa arquitetura de componentes e módulos — estrutura, respon
 model: sonnet
 worktree: false
 ---
-<!-- framework-tag: v2.3.0 framework-file: agents/component-audit.md -->
+<!-- framework-tag: v2.4.0 framework-file: agents/component-audit.md -->
 # Agent: Component Audit
 
 > Sub-agente autônomo que analisa a arquitetura de componentes e módulos.

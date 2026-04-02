@@ -3,7 +3,7 @@ description: Varre o repositório em busca de vulnerabilidades de segurança e g
 model: opus
 worktree: false
 ---
-<!-- framework-tag: v2.3.0 framework-file: agents/security-audit.md -->
+<!-- framework-tag: v2.4.0 framework-file: agents/security-audit.md -->
 # Agent: Security Audit
 
 > Sub-agente autônomo que varre o repositório em busca de vulnerabilidades de segurança.

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.3.0 framework-file: docs/ARCHITECTURE.md -->
+<!-- framework-tag: v2.4.0 framework-file: docs/ARCHITECTURE.md -->
 # Arquitetura — {NOME_DO_PROJETO}
 
 > Decisões arquiteturais, integrações, e diagramas do sistema.
