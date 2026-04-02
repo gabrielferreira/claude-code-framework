@@ -766,20 +766,28 @@ Os SKILL.md de `/spec` e `/backlog-update` ja suportam Notion nativamente — ba
 
 ### 3.11 Agents
 
-Copiar **todos** os agents do framework — sao genericos e nao tem customizacao de projeto:
+**Nunca copiar todos os agents cegamente.** Usar o perfil do projeto (Fase 1) para decidir quais instalar.
 
-```bash
-cp ${FRAMEWORK_PATH}/agents/*.md .claude/agents/
-```
-
-| Agent | Modelo | Descricao | Sempre |
+| Agent | Modelo | Descricao | Quando instalar |
 |---|---|---|---|
-| `security-audit.md` | opus | Auditoria OWASP Top 10 | Sim |
-| `spec-validator.md` | sonnet | Valida spec contra codigo | Sim |
-| `coverage-check.md` | sonnet | Identifica gaps de cobertura | Sim |
-| `backlog-report.md` | haiku | Relatorio consolidado do backlog | Sim |
-| `code-review.md` | sonnet | Revisao de qualidade de codigo | Sim |
-| `component-audit.md` | sonnet | Auditoria de arquitetura de componentes | Sim |
+| `security-audit.md` | opus | Auditoria OWASP Top 10 | Sempre |
+| `spec-validator.md` | sonnet | Valida spec contra codigo | Sempre |
+| `coverage-check.md` | sonnet | Identifica gaps de cobertura | Sempre |
+| `backlog-report.md` | haiku | Relatorio consolidado do backlog | Sempre |
+| `code-review.md` | sonnet | Revisao de qualidade de codigo | Sempre |
+| `refactor-agent.md` | sonnet | Refatoracao a partir de findings | Sempre |
+| `test-generator.md` | sonnet | Gera testes a partir de gaps | Sempre |
+| `component-audit.md` | sonnet | Auditoria de arquitetura de componentes | Se frontend detectado. Senao, perguntar |
+| `seo-audit.md` | sonnet | SEO e performance de paginas publicas | Se frontend publico detectado. Senao, perguntar |
+| `product-review.md` | sonnet | Revisao PRD vs implementacao | Se PRD opt-in (Bloco 2b). Senao, nao instalar |
+
+**Fluxo:**
+1. Instalar automaticamente os agents marcados "Sempre"
+2. Para agents condicionais: verificar o perfil do projeto
+   - Se a condicao e atendida (ex: frontend detectado para component-audit): instalar
+   - Se a condicao NAO e atendida: perguntar "O framework tem o agent {nome} para {descricao}. Seu projeto parece nao ter {requisito}. Quer instalar mesmo assim?"
+   - Se nao: pular e registrar no relatorio
+3. product-review: so instalar se PRD foi ativado no Bloco 2b
 
 Todos sao `overwrite` — nao tem conteudo customizado do projeto. Cada agent define `model:` no frontmatter — o Claude Code usa esse modelo automaticamente. Projetos podem ajustar editando o frontmatter.
 
