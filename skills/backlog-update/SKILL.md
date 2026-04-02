@@ -50,8 +50,8 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    - **Complexidade:** 🟢 Baixa | 🟡 Média | 🔴 Alta
    - **Estimativa:** 15min | 30min | 1h | 2h | 4h | 1d | 2d | 1sem
    - **Dependências:** IDs ou `—`
+   - **Origem:** Sessão | Backlog | Auditoria | Incidente | Feedback | PRD | Externo (default: `Sessão`)
    - **Spec:** nome do arquivo se existir, ou `—`
-   - **PRD** (se o projeto usa PRDs)**:** ID do PRD pai se existir, ou `—`. Pular este campo se o projeto nao tem PRD habilitado
 3. Ler `.claude/specs/backlog.md`
 4. Inserir nova linha na seção da fase correta, ordenado por severidade (🔴 > 🟠 > 🟡 > ⚪)
 5. Atualizar `Última atualização` no header
@@ -76,7 +76,7 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    - Verificar se alguma "Ideia adiada" pode ser promovida a item no backlog
    - Sugerir registrar lição aprendida (L-NNN) se houve algo não óbvio durante a implementação
    - Se existir design doc associado (`.claude/specs/{id}-design.md`): atualizar status para `implementado`
-   - Se o projeto usa PRDs e existir PRD pai: verificar se todas as specs vinculadas ao PRD estão concluídas. Se sim, sugerir marcar o PRD como `concluido`. Se o projeto nao usa PRDs, pular esta verificacao
+   - Se o projeto usa PRDs (sinal: existe `.claude/prds/PRDS_INDEX.md`) e a spec tiver `> PRD pai: {ID}` no header: verificar no `PRDS_INDEX.md` se todas as specs vinculadas ao PRD estão concluídas. Se sim, sugerir marcar o PRD como `concluido` e mover para `.claude/prds/done/`. Se o projeto nao usa PRDs, pular esta verificacao
 
 #### Ação: `update`
 
@@ -104,7 +104,9 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, o backlog �
 
 #### Ação: `add`
 
-1. Perguntar ao usuário as mesmas informações do modo repo (Título, Fase, Severidade, Impacto, Tipo, Camadas, Complexidade, Estimativa)
+1. Perguntar ao usuário:
+   - Título, Fase, Severidade, Impacto, Tipo, Camadas, Complexidade, Estimativa
+   - Nota: Dependências, Origem e Spec não se aplicam no Notion — esses campos são gerenciados via properties da database
 2. **Criar página no Notion** usando `notion-create-pages`:
    ```
    parent: { data_source_id: "{data_source_id}" }

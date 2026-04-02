@@ -76,6 +76,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/SKILLS_MAP.md` | `docs/SKILLS_MAP.md` | structural |
 | `docs/NOTION_INTEGRATION.md` | `docs/NOTION_INTEGRATION.md` | structural |
 | `docs/CONCEPTUAL_MAP.md` | `docs/CONCEPTUAL_MAP.md` | structural |
+| `docs/SPEC_EXAMPLE.md` | `docs/SPEC_EXAMPLE.md` | structural |
 
 ### Scripts (manual)
 
@@ -113,9 +114,12 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `.claude/specs/STATE.md` | skip |
 | `.claude/specs/TEMPLATE.md` | overwrite |
 | `.claude/specs/DESIGN_TEMPLATE.md` | overwrite |
-| `.claude/specs/PRD_TEMPLATE.md` | structural |
 | `.claude/specs/*.md` (specs do projeto) | skip |
 | `.claude/specs/done/*.md` | skip |
+| `.claude/prds/PRD_TEMPLATE.md` | structural |
+| `.claude/prds/PRDS_INDEX.md` | skip |
+| `.claude/prds/*.md` (PRDs do projeto) | skip |
+| `.claude/prds/done/*.md` | skip |
 | `.claude/SETUP_REPORT.md` | skip |
 
 ### Plugin (overwrite)
