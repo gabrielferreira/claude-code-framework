@@ -26,6 +26,7 @@ Agents são genéricos — sem customização de projeto.
 | `.claude/agents/backlog-report.md` | `agents/backlog-report.md` | overwrite |
 | `.claude/agents/code-review.md` | `agents/code-review.md` | overwrite |
 | `.claude/agents/component-audit.md` | `agents/component-audit.md` | overwrite |
+| `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | overwrite |
 
 ### Skills (structural)
 
@@ -42,6 +43,10 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/ux-review/README.md` | `skills/ux-review/README.md` | structural |
 | `.claude/skills/dba-review/README.md` | `skills/dba-review/README.md` | structural |
 | `.claude/skills/mock-mode/README.md` | `skills/mock-mode/README.md` | structural |
+| `.claude/skills/security-review/README.md` | `skills/security-review/README.md` | structural |
+| `.claude/skills/seo-performance/README.md` | `skills/seo-performance/README.md` | structural |
+| `.claude/skills/syntax-check/README.md` | `skills/syntax-check/README.md` | structural |
+| `.claude/skills/golden-tests/README.md` | `skills/golden-tests/README.md` | structural |
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 

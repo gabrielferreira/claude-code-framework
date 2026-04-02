@@ -284,9 +284,27 @@ fi
 #   pass "Design docs referenciados existem"
 # fi
 
+# 18. TODO/FIXME/HACK pendentes
+TODO_COUNT=$(grep -rn 'TODO\|FIXME\|HACK\|XXX' {backend}/ {frontend}/ --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v node_modules | wc -l | tr -d ' ')
+if [ "$TODO_COUNT" = "0" ]; then
+  pass "Zero TODO/FIXME/HACK pendentes"
+else
+  warn "$TODO_COUNT TODO/FIXME/HACK encontrados — resolver ou criar item no backlog"
+  grep -rn 'TODO\|FIXME\|HACK\|XXX' {backend}/ {frontend}/ --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v node_modules | head -5
+fi
+
+# 19. debugger statements
+DEBUGGER_COUNT=$(grep -rn 'debugger' {backend}/ {frontend}/ --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v node_modules | wc -l | tr -d ' ')
+if [ "$DEBUGGER_COUNT" = "0" ]; then
+  pass "Zero debugger statements"
+else
+  fail "$DEBUGGER_COUNT debugger statements encontrados — remover antes de commitar"
+  grep -rn 'debugger' {backend}/ {frontend}/ --include="*.js" --include="*.jsx" --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v node_modules | head -5
+fi
+
 # {ADICIONAR: checks específicos do projeto}
-# 18. ...
-# 19. ...
+# 20. ...
+# 21. ...
 
 # ═══════════════════════════════════════════════════════════
 #  RESULTADO

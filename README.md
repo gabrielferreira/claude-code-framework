@@ -256,6 +256,10 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 | UX Review | `ux-review/README.md` | Ao criar/modificar telas e fluxos | Design system, mobile first, acessibilidade WCAG, anti-patterns |
 | DBA Review | `dba-review/README.md` | Ao mexer em schema, queries, índices | Tipos, constraints, migrations, N+1, pool exhaustion |
 | Mock Mode | `mock-mode/README.md` | Ao adicionar integração externa | Cobertura mock, seed data, fixtures, smoke test |
+| Security Review | `security-review/README.md` | Ao criar/modificar rota, endpoint ou service | Checklists por tipo: rota, auth, webhook, frontend, race conditions |
+| SEO & Performance | `seo-performance/README.md` | Ao mexer em página pública | Meta tags, structured data, CWV, bundle, acessibilidade |
+| Syntax Check | `syntax-check/README.md` | Ao commitar código | Validação sintaxe, padrões suspeitos, module consistency |
+| Golden Tests | `golden-tests/README.md` | Ao escrever snapshot tests | Filosofia, serializers, quando usar/não usar, review |
 | {Regras de domínio} | `{domain-rules}/README.md` | {Quando mexer no domínio} | {Regras específicas do negócio} |
 | {IA / LLM} | `{ai-prompts}/README.md` | {Quando mexer em prompts} | {Prompt engineering, injection, guardrails} |
 
@@ -271,6 +275,7 @@ Cada agent define `model:` no frontmatter — o Claude Code usa automaticamente 
 | Backlog Report | haiku | `agents/backlog-report.md` | Início de sprint, planejamento | Relatório consolidado do backlog |
 | Code Review | sonnet | `agents/code-review.md` | Antes de PR, periodicamente | Duplicação, complexidade, dead code |
 | Component Audit | sonnet | `agents/component-audit.md` | Quando codebase cresce | God components, props drilling, extração |
+| SEO Audit | sonnet | `agents/seo-audit.md` | Antes de deploy, periodicamente | Meta tags, CWV, bundle, acessibilidade |
 
 **Anatomia de uma skill:**
 
