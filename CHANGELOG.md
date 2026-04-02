@@ -7,6 +7,15 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.10.0] — 2026-04-02
+
+### Corrigido
+
+- Setup e update agora filtram agents/skills pelo perfil do projeto em vez de copiar tudo cegamente
+- Update detecta contexto do projeto (stack, DB, frontend, PRD, Notion) na Fase 0.4 antes de propor mudancas
+- Agents condicionais (seo-audit, component-audit, product-review) so sao instalados se o perfil bate ou o usuario aceitar
+- Skills condicionais (dba-review, ux-review, seo-performance) seguem a mesma logica
+
 ## [2.9.0] — 2026-04-02
 
 ### Adicionado

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.9.0 framework-file: SPECS_INDEX.template.md -->
+<!-- framework-tag: v2.10.0 framework-file: SPECS_INDEX.template.md -->
 # SPECS_INDEX — {NOME_DO_PROJETO}
 
 > Índice de todas as specs do projeto. Consultar ANTES de implementar qualquer item.
@@ -12,18 +12,6 @@
 4. Verificar status antes de implementar:
    - `rascunho` → perguntar antes de implementar (pode estar incompleta)
    - `descontinuada` → NÃO implementar. Verificar qual spec a substituiu
-
-## PRDs (Product Requirements Documents)
-
-> PRDs capturam o "o que, por que, para quem" ANTES das specs tecnicas.
-> Um PRD pode gerar multiplas specs. Criar PRD com `/prd {ID} {Titulo}`.
-> Specs Pequenas nao precisam de PRD — ir direto para `/spec` ou `/backlog-update`.
-
-| PRD ID | Titulo | Status | Specs vinculadas | Resumo |
-|--------|--------|--------|------------------|--------|
-| *{PRD-AUTH}* | *{Autenticacao unificada}* | `aprovado` | *AUTH1, AUTH2, AUTH3* | *{Fluxo de auth para todos os canais}* |
-
----
 
 ## {Domínio 1 — ex: Autenticação & Acesso}
 
