@@ -1,5 +1,6 @@
 ---
 description: Analisa o backlog e gera relatório consolidado com status do projeto
+model: haiku
 worktree: false
 ---
 <!-- framework-tag: v2.3.0 framework-file: agents/backlog-report.md -->

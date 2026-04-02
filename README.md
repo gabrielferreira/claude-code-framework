@@ -261,14 +261,16 @@ Skills são **checklists especializados por domínio**. Vivem em `.claude/skills
 
 **Agents (sub-agentes autônomos, sob demanda):**
 
-| Agent | Arquivo | Quando usar | Output |
-|---|---|---|---|
-| Security Audit | `agents/security-audit.md` | Antes de releases, periodicamente | Relatório OWASP com findings por severidade |
-| Spec Validator | `agents/spec-validator.md` | Antes de implementar spec (Médio+) | Divergências spec vs código |
-| Coverage Check | `agents/coverage-check.md` | Após implementar, antes de commit | Gaps de cobertura + cenários sugeridos |
-| Backlog Report | `agents/backlog-report.md` | Início de sprint, planejamento | Relatório consolidado do backlog |
-| Code Review | `agents/code-review.md` | Antes de PR, periodicamente | Duplicação, complexidade, dead code |
-| Component Audit | `agents/component-audit.md` | Quando codebase cresce | God components, props drilling, extração |
+Cada agent define `model:` no frontmatter — o Claude Code usa automaticamente o modelo ideal para a tarefa. Projetos podem ajustar editando o frontmatter.
+
+| Agent | Modelo | Arquivo | Quando usar | Output |
+|---|---|---|---|---|
+| Security Audit | opus | `agents/security-audit.md` | Antes de releases, periodicamente | Relatório OWASP com findings por severidade |
+| Spec Validator | sonnet | `agents/spec-validator.md` | Antes de implementar spec (Médio+) | Divergências spec vs código |
+| Coverage Check | sonnet | `agents/coverage-check.md` | Após implementar, antes de commit | Gaps de cobertura + cenários sugeridos |
+| Backlog Report | haiku | `agents/backlog-report.md` | Início de sprint, planejamento | Relatório consolidado do backlog |
+| Code Review | sonnet | `agents/code-review.md` | Antes de PR, periodicamente | Duplicação, complexidade, dead code |
+| Component Audit | sonnet | `agents/component-audit.md` | Quando codebase cresce | God components, props drilling, extração |
 
 **Anatomia de uma skill:**
 

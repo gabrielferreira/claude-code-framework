@@ -1,5 +1,6 @@
 ---
 description: Analisa qualidade do código — duplicação, complexidade, dead code e inconsistências
+model: sonnet
 worktree: false
 ---
 <!-- framework-tag: v2.3.0 framework-file: agents/code-review.md -->

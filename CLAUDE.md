@@ -138,6 +138,11 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
 5. **Agents sao read-only.** Todos tem `worktree: false`. Se criar agent que edita codigo, marcar `worktree: true`.
 6. **O framework nao configura MCP.** Setup/update apenas usam o MCP Notion se ja estiver configurado. Nunca pedir token ou configurar autenticacao.
 7. **CLAUDE.md do projeto e intocavel por overwrite.** Sempre `manual` — mostrar diff, nunca aplicar sozinho.
+8. **Agents definem `model:` no frontmatter.** Ao criar ou editar agent, escolher modelo pela complexidade:
+   - `opus` — raciocinio profundo, consequencia real de erro (ex: security). Usar com parcimonia.
+   - `sonnet` — checklists estruturados, analise com heuristicas claras. Default recomendado para novos agents.
+   - `haiku` — leitura e formatacao sem julgamento complexo.
+   Regra pratica: se o agent tem checklist com thresholds numericos → sonnet. Se precisa correlacionar findings ou julgar severidade → opus. Se so le e formata → haiku.
 
 ## Notion (integracao nativa)
 

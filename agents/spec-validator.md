@@ -1,5 +1,6 @@
 ---
 description: Compara specs com o código atual e identifica divergências antes da implementação
+model: sonnet
 worktree: false
 ---
 <!-- framework-tag: v2.3.0 framework-file: agents/spec-validator.md -->

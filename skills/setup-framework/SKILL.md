@@ -693,16 +693,16 @@ Copiar **todos** os agents do framework — sao genericos e nao tem customizacao
 cp ${FRAMEWORK_PATH}/agents/*.md .claude/agents/
 ```
 
-| Agent | Descricao | Sempre |
-|---|---|---|
-| `security-audit.md` | Auditoria OWASP Top 10 | Sim |
-| `spec-validator.md` | Valida spec contra codigo | Sim |
-| `coverage-check.md` | Identifica gaps de cobertura | Sim |
-| `backlog-report.md` | Relatorio consolidado do backlog | Sim |
-| `code-review.md` | Revisao de qualidade de codigo | Sim |
-| `component-audit.md` | Auditoria de arquitetura de componentes | Sim |
+| Agent | Modelo | Descricao | Sempre |
+|---|---|---|---|
+| `security-audit.md` | opus | Auditoria OWASP Top 10 | Sim |
+| `spec-validator.md` | sonnet | Valida spec contra codigo | Sim |
+| `coverage-check.md` | sonnet | Identifica gaps de cobertura | Sim |
+| `backlog-report.md` | haiku | Relatorio consolidado do backlog | Sim |
+| `code-review.md` | sonnet | Revisao de qualidade de codigo | Sim |
+| `component-audit.md` | sonnet | Auditoria de arquitetura de componentes | Sim |
 
-Todos sao `overwrite` — nao tem conteudo customizado do projeto.
+Todos sao `overwrite` — nao tem conteudo customizado do projeto. Cada agent define `model:` no frontmatter — o Claude Code usa esse modelo automaticamente. Projetos podem ajustar editando o frontmatter.
 
 ---
 
@@ -802,14 +802,17 @@ Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
 
 ## Agents instalados
 
-| Agent | Motivo |
-|---|---|
-| security-audit | Sempre incluido |
-| spec-validator | Sempre incluido |
-| coverage-check | Sempre incluido |
-| backlog-report | Sempre incluido |
-| code-review | Sempre incluido |
-| component-audit | Sempre incluido |
+| Agent | Modelo | Motivo |
+|---|---|---|
+| security-audit | opus | Analise profunda OWASP |
+| spec-validator | sonnet | Comparacao spec vs codigo |
+| coverage-check | sonnet | Gaps de cobertura |
+| backlog-report | haiku | Leitura e formatacao |
+| code-review | sonnet | Qualidade de codigo |
+| component-audit | sonnet | Arquitetura de componentes |
+
+> Modelos dos agents podem ser ajustados editando o campo `model:` no frontmatter de cada `.claude/agents/*.md`.
+> Para sub-agents built-in (Explore, Plan), o Claude segue as diretrizes da secao "Modelos para sub-agents" no CLAUDE.md.
 
 ## Configuracoes aplicadas
 
