@@ -7,6 +7,18 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.8.0] — 2026-04-02
+
+### Adicionado
+
+- Fase 5b "Auditoria de completude" no `/setup-framework` e `/update-framework` — 5 categorias de checks (arquivos, agents, skills, secoes do CLAUDE.md, integridade de conteudo) com auto-fix
+- Regra 11 no CLAUDE.md: auditoria de completude em sincronia entre setup e update
+
+### Alterado
+
+- Fase 4d do `/update-framework` absorvida pela auditoria de completude (era limitada a secoes H2)
+- Secao "Pendencias para aderencia total" do `/setup-framework` substituida por diagnostico dinamico
+
 ## [2.7.0] — 2026-04-02
 
 ### Adicionado
