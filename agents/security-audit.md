@@ -4,7 +4,7 @@ model: opus
 model-rationale: Seguranca tem consequencia real de erro — requer correlacionar findings entre vetores de ataque e julgar severidade.
 worktree: false
 ---
-<!-- framework-tag: v2.8.0 framework-file: agents/security-audit.md -->
+<!-- framework-tag: v2.9.0 framework-file: agents/security-audit.md -->
 # Agent: Security Audit
 
 > Sub-agente autônomo que varre o repositório em busca de vulnerabilidades de segurança.

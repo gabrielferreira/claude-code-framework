@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.8.0 framework-file: skills/api-testing/README.md -->
+<!-- framework-tag: v2.9.0 framework-file: skills/api-testing/README.md -->
 # Skill: API Testing
 
 > Use esta skill ao criar, modificar ou revisar endpoints de API.
