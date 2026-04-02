@@ -5,6 +5,16 @@
 
 {Adaptar: descricao do projeto, stack principal, dados sensiveis que trata. 1-2 frases.}
 
+## Regras de operacao (obrigatorio)
+
+> Estas regras se aplicam a TODA interacao. Nao pular nenhuma, mesmo que o pedido pareca simples.
+
+1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar `.claude/specs/` para specs existentes e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec e a mudanca nao e trivial (>3 arquivos ou >30min) → criar spec antes de codar.
+2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
+3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
+4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
+5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao em feature existente → ler `.claude/specs/STATE.md` primeiro. Ao encerrar → atualizar STATE.md com decisoes, blockers e proximos passos.
+
 ## Mindset por domínio
 
 Adotar a postura de especialista sênior do domínio em que estiver trabalhando. Não ser generalista — pensar, questionar e entregar como quem faz aquilo há anos.
