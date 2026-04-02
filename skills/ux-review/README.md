@@ -16,7 +16,7 @@
 
 ### Fontes
 
-{Definir fonte da verdade — ex: `frontend/styles/tokens.js` ou Figma}
+{Adaptar: fonte da verdade — ex: frontend/styles/tokens.js ou Figma}
 
 | Uso | Fonte | Peso |
 |---|---|---|
@@ -28,7 +28,7 @@
 
 ### Cores
 
-{Definir tokens de cor — adaptar à paleta do projeto}
+{Adaptar: tokens de cor conforme a paleta do projeto}
 
 | Token | Valor | Uso |
 |---|---|---|

@@ -10,6 +10,20 @@
 
 set -euo pipefail
 
+# Pre-requisitos
+if ! command -v git &>/dev/null; then
+  echo "ERROR: git nao encontrado. Instale git antes de continuar."
+  exit 1
+fi
+
+# Detectar metodo de clone (SSH ou HTTPS)
+if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
+  REPO_URL="git@github.com:estrategiahq/claude-code-framework.git"
+else
+  echo "SSH nao configurado. Usando HTTPS."
+  REPO_URL="https://github.com/estrategiahq/claude-code-framework.git"
+fi
+
 # Se rodou via clone local, usar o diretório do script como source
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FRAMEWORK_DIR="$(dirname "$SCRIPT_DIR")"
@@ -19,7 +33,7 @@ if [ ! -f "$FRAMEWORK_DIR/VERSION" ]; then
   echo "Framework não encontrado localmente. Clonando..."
   FRAMEWORK_DIR="/tmp/claude-code-framework"
   rm -rf "$FRAMEWORK_DIR"
-  git clone git@github.com:estrategiahq/claude-code-framework.git "$FRAMEWORK_DIR"
+  git clone "$REPO_URL" "$FRAMEWORK_DIR"
 fi
 
 VERSION=$(cat "$FRAMEWORK_DIR/VERSION")

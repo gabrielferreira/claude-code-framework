@@ -201,6 +201,24 @@ Para cada arquivo `structural`:
    - Referências a arquivos/skills que mudaram de nome → atualizar (ex: `security-review` → `security-audit`)
 4. **Atualizar o header `framework-tag`** para a nova versão
 
+#### Algoritmo de merge structural
+
+O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/remove secoes do framework:
+
+1. **Parsear ambos os arquivos** (source e projeto) em secoes H2
+2. **Para cada H2 no source:**
+   - Se a secao existe no projeto → manter versao do projeto (conteudo customizado)
+   - Se a secao NAO existe no projeto → adicionar do source (secao nova do framework)
+3. **Para cada H2 no projeto:**
+   - Se a secao NAO existe no source → avisar usuario (secao removida do framework, pedir confirmacao)
+4. **Subsecoes H3:** mesmo algoritmo recursivamente dentro de cada H2
+5. **Ordem:** manter a ordem do source, inserindo secoes do projeto na posicao correspondente
+
+**Edge cases:**
+- Secao renomeada: detectar por similaridade de conteudo (>70% igual = provavel rename). Perguntar ao usuario.
+- Secao vazia no projeto: substituir pelo source (usuario nao customizou).
+- Conflito de ordem: priorizar ordem do source, mover secoes do projeto para posicao correspondente.
+
 ### 3.3 Aplicar manual
 
 1. Mostrar diff completo entre o template source e o arquivo instalado
@@ -273,6 +291,17 @@ Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O 
 ### Cenário C — Não usa Notion
 
 Nada a fazer. Seguir para Fase 4c.
+
+### Erros comuns de Notion no update
+
+| Erro | Causa provavel | Acao |
+|---|---|---|
+| "notion-fetch failed" ou timeout | MCP Notion nao configurado ou token expirado | Avisar usuario: "MCP Notion nao esta acessivel. Pulando sync com Notion. Configure o MCP e rode /update-framework novamente." |
+| "database not found" (404) | Database deletada ou URL incorreta no CLAUDE.md | Avisar: "Database Notion nao encontrada. Verifique a URL em ## Integracao Notion." |
+| "unauthorized" (401/403) | Token sem acesso a database | Avisar: "Sem permissao para acessar a database Notion. Verifique se o MCP tem acesso." |
+| Template IDs invalidos | Templates removidos da database | Listar IDs invalidos e sugerir atualizar secao Notion do CLAUDE.md |
+
+**Regra:** Falha de Notion NUNCA bloqueia o update. Se Notion nao esta acessivel, pular a fase de sync e avisar. O update de arquivos locais continua normalmente.
 
 ---
 

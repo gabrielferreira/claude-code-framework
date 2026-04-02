@@ -1,6 +1,7 @@
 ---
 description: Revisa specs e implementacao contra o PRD pai e valida cobertura de requisitos de produto
 model: sonnet
+model-rationale: Validacao estruturada de specs contra PRD com criterios claros de cobertura e completude.
 worktree: false
 ---
 
@@ -112,11 +113,17 @@ Data: YYYY-MM-DD
 
 ## Gaps encontrados
 
-### Criticos
+### 🔴 Critico
 - **GAP-001:** {descricao} — {recomendacao}
 
-### Alertas
+### 🟠 Alto
 - **ALERT-001:** {descricao} — {recomendacao}
+
+### 🟡 Medio
+- **REC-001:** {descricao} — {recomendacao}
+
+### ⚪ Info
+- **INFO-001:** {descricao} — {recomendacao}
 
 ## Recomendacoes
 
@@ -131,3 +138,11 @@ Data: YYYY-MM-DD
 3. **Tratar ausencia de PRD com graciosidade** — se a spec nao tem PRD pai, informar e encerrar (nao e erro)
 4. **Modo externo:** se o PRD esta em Notion/Jira/etc., usar as tools MCP disponiveis para ler. Se nao conseguir acessar, pedir o conteudo ao usuario
 5. **Nao bloquear por placeholders** — se o PRD ainda tem campos com `*{placeholder}*`, avisar mas continuar a analise com o que existe
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Gaps de cobertura entre PRD e specs:** consultar skill `.claude/skills/spec-driven/README.md` para criar specs que cubram causas ou user stories pendentes
+- **PRD incompleto ou sem metricas instrumentadas:** criar ou revisar o PRD com `/prd-creator`
+- **Criar spec para gap identificado:** `/spec {ID} {titulo do gap}`

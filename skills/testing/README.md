@@ -225,7 +225,7 @@ test("API response matches golden", () => {
 
 ## Suites e contagem
 
-{Listar suites com contagem de testes — manter atualizado.}
+{Adaptar: suites com contagem de testes — manter atualizado.}
 
 | Suite | Tipo | Testes | Cobertura alvo |
 |---|---|---|---|
@@ -255,13 +255,13 @@ Cobertura NÃO é um número para atingir — é uma ferramenta para encontrar c
 ### O que cobrir em cada nível
 
 **100% obrigatório (módulos críticos):**
-- {Listar módulos: security, session, auth, payments, etc.}
+- {Adaptar: modulos criticos — security, session, auth, payments, etc.}
 - Todos os branches (if/else, switch, try/catch)
 - Edge cases documentados na spec
 - Error paths — não só happy path
 
 **80% mínimo (módulos de suporte):**
-- {Listar módulos: adapters, email, middleware utils, CRUD routes}
+- {Adaptar: modulos de suporte — adapters, email, middleware utils, CRUD routes}
 - Happy path + principais erros
 - Branches de segurança (mesmo em módulos "simples")
 

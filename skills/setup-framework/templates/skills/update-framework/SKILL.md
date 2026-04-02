@@ -201,6 +201,24 @@ Para cada arquivo `structural`:
    - Referências a arquivos/skills que mudaram de nome → atualizar (ex: `security-review` → `security-audit`)
 4. **Atualizar o header `framework-tag`** para a nova versão
 
+#### Algoritmo de merge structural
+
+O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/remove secoes do framework:
+
+1. **Parsear ambos os arquivos** (source e projeto) em secoes H2
+2. **Para cada H2 no source:**
+   - Se a secao existe no projeto → manter versao do projeto (conteudo customizado)
+   - Se a secao NAO existe no projeto → adicionar do source (secao nova do framework)
+3. **Para cada H2 no projeto:**
+   - Se a secao NAO existe no source → avisar usuario (secao removida do framework, pedir confirmacao)
+4. **Subsecoes H3:** mesmo algoritmo recursivamente dentro de cada H2
+5. **Ordem:** manter a ordem do source, inserindo secoes do projeto na posicao correspondente
+
+**Edge cases:**
+- Secao renomeada: detectar por similaridade de conteudo (>70% igual = provavel rename). Perguntar ao usuario.
+- Secao vazia no projeto: substituir pelo source (usuario nao customizou).
+- Conflito de ordem: priorizar ordem do source, mover secoes do projeto para posicao correspondente.
+
 ### 3.3 Aplicar manual
 
 1. Mostrar diff completo entre o template source e o arquivo instalado
@@ -274,9 +292,55 @@ Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O 
 
 Nada a fazer. Seguir para Fase 4c.
 
+### Erros comuns de Notion no update
+
+| Erro | Causa provavel | Acao |
+|---|---|---|
+| "notion-fetch failed" ou timeout | MCP Notion nao configurado ou token expirado | Avisar usuario: "MCP Notion nao esta acessivel. Pulando sync com Notion. Configure o MCP e rode /update-framework novamente." |
+| "database not found" (404) | Database deletada ou URL incorreta no CLAUDE.md | Avisar: "Database Notion nao encontrada. Verifique a URL em ## Integracao Notion." |
+| "unauthorized" (401/403) | Token sem acesso a database | Avisar: "Sem permissao para acessar a database Notion. Verifique se o MCP tem acesso." |
+| Template IDs invalidos | Templates removidos da database | Listar IDs invalidos e sugerir atualizar secao Notion do CLAUDE.md |
+
+**Regra:** Falha de Notion NUNCA bloqueia o update. Se Notion nao esta acessivel, pular a fase de sync e avisar. O update de arquivos locais continua normalmente.
+
 ---
 
-## Fase 4c — Auditar seções do CLAUDE.md
+## Fase 4c — Verificar PRD (opt-in)
+
+Detectar se o projeto usa PRDs. Sinais:
+- Existe `.claude/specs/PRD_TEMPLATE.md`
+- Existe `.claude/skills/prd-creator/`
+- CLAUDE.md menciona `/prd`
+- SPECS_INDEX.md tem seção "PRDs"
+
+### Cenário A — Projeto não usa PRD e framework agora oferece
+
+Se a versão do framework sendo atualizada inclui artefatos de PRD e o projeto não os tem:
+
+1. Informar: "O framework agora suporta PRDs (Product Requirements Documents) para estruturar análise de causa raiz antes de criar specs. É um recurso opt-in."
+2. Perguntar: "Quer ativar PRDs neste projeto?"
+3. **Se sim:**
+   - Copiar `PRD_TEMPLATE.md` para `.claude/specs/`
+   - Copiar `skills/prd-creator/` para `.claude/skills/`
+   - Copiar `agents/product-review.md` para `.claude/agents/`
+   - Adicionar seção "PRDs" no SPECS_INDEX.md (se não existir)
+   - Sugerir adicionar `/prd` e `product-review` ao CLAUDE.md (como `manual` — mostrar diff)
+4. **Se não:** classificar artefatos de PRD como `skip` para este projeto. Não instalar.
+
+### Cenário B — Projeto já usa PRD
+
+Atualizar artefatos conforme estratégia normal:
+- `PRD_TEMPLATE.md` → structural (preservar customizações, adicionar seções novas)
+- `prd-creator/SKILL.md` → structural
+- `product-review.md` → overwrite
+
+### Cenário C — PRD não mudou entre versões
+
+Nada a fazer. Seguir para Fase 4d.
+
+---
+
+## Fase 4d — Auditar seções do CLAUDE.md
 
 O CLAUDE.md pode ter sido criado numa versão anterior do framework e estar faltando seções que versões mais recentes adicionaram. Esta fase verifica e complementa.
 

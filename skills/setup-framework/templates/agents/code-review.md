@@ -1,6 +1,7 @@
 ---
 description: Analisa qualidade do código — duplicação, complexidade, dead code e inconsistências
 model: sonnet
+model-rationale: Checklist estruturado com thresholds numericos para duplicacao, complexidade e dead code.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/code-review.md -->
@@ -170,3 +171,12 @@ Para cada inconsistência:
 - Dead code em entry points (main, CLI handlers, route handlers) não é dead code
 - Não refatorar — apenas identificar e sugerir. Refatoração vira spec
 - Se o projeto tem fontes únicas de verdade definidas (CLAUDE.md/code-quality skill), verificar compliance
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Duplicacao, complexidade e code smells:** consultar skill `.claude/skills/code-quality/README.md` para aplicar padroes de refatoracao
+- **Gaps de testes identificados:** consultar skill `.claude/skills/testing/README.md` para escrever testes seguindo TDD
+- **Validar que refatoracao atende criterios de entrega:** consultar skill `.claude/skills/definition-of-done/README.md`
+- **Criar spec para correcao:** `/spec {ID} {titulo do finding}`

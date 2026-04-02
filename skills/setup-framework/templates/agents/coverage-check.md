@@ -1,6 +1,7 @@
 ---
 description: Identifica gaps de cobertura de testes e sugere cenários de teste faltantes
 model: sonnet
+model-rationale: Checklist estruturado comparando metricas de coverage contra targets definidos.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/coverage-check.md -->
@@ -119,3 +120,11 @@ Para cada gap identificado, sugerir cenário concreto:
 - Sugestões de teste devem ser concretas (mock X, assert Y), não genéricas
 - Dead code é finding separado — reportar mas não sugerir teste para código que não deveria existir
 - Não criar testes — apenas identificar gaps e sugerir cenários. Criação segue TDD normal
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Gaps de cobertura e cenarios faltantes:** consultar skill `.claude/skills/testing/README.md` para implementar testes seguindo TDD
+- **Cenarios de snapshot ou golden tests:** consultar skill `.claude/skills/golden-tests/README.md` para testes de regressao visual ou de output
+- **Criar spec para correcao:** `/spec {ID} {titulo do gap}`
