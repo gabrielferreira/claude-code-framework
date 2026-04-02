@@ -16,7 +16,7 @@ echo "---"
 
 ERRORS=0
 while IFS= read -r file; do
-  TAG=$(grep -o 'framework-tag: v[0-9]*\.[0-9]*\.[0-9]*' "$file" | head -1 | awk '{print $2}')
+  TAG=$(grep -o 'framework-tag: v[0-9]*\.[0-9]*\.[0-9]*' "$file" 2>/dev/null | head -1 | awk '{print $2}' || true)
   if [ -z "$TAG" ]; then
     continue
   fi
@@ -24,7 +24,7 @@ while IFS= read -r file; do
     echo "MISMATCH: $file has $TAG (expected $EXPECTED)"
     ERRORS=$((ERRORS + 1))
   fi
-done < <(grep -rl "framework-tag:" --include="*.md" .)
+done < <(grep -rl "<!-- framework-tag:" --include="*.md" .)
 
 if [ "$ERRORS" -eq 0 ]; then
   echo "All framework-tags are consistent with VERSION ($EXPECTED)"

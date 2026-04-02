@@ -7,14 +7,38 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.6.0] — 2026-04-02
+
 ### Adicionado
 
-- Sistema de PRD — template, skill `/prd` e agent `product-review` para gestao de documentos de produto
-- Guidelines permanentes para criacao de skills e agents no CLAUDE.md do framework
+- Sistema de PRD — template, skill `/prd` e agent `product-review`
+- 3 skills novas: `api-testing`, `dependency-audit`, `performance-profiling`
+- 2 action agents: `refactor-agent` e `test-generator` (com `worktree: true`)
+- 7 docs novos: QUICK_START, MIGRATION_GUIDE, TROUBLESHOOTING, NOTION_INTEGRATION, SKILLS_MAP, SPEC_EXAMPLE, CHANGELOG
+- Secao "Possiveis riscos" no template de spec
+- Secao "Proximos passos" em todos os 10 agents
+- Campo `model-rationale:` no frontmatter de todos os agents
+- Diretrizes permanentes no CLAUDE.md: padroes para criar skills e agents
+- Ordem de precedencia entre skills no CLAUDE.template.md
+- Script `validate-tags.sh` para verificacao pre-release
+- Modo dry-run no `/setup-framework`
+- Checklist pos-release no CLAUDE.md
+- Exemplos concretos em dba-review, mock-mode, code-quality, docs-sync
+
+### Alterado
+
+- `backlog-report` atualizado de haiku para sonnet (analise de tendencias)
+- Severidade padronizada em todos os agents (🔴🟠🟡⚪)
+- Placeholders padronizados para formato `{Adaptar: descricao}`
+- `install-skills.sh` com deteccao automatica SSH/HTTPS
+- `plugin.json` expandido com author, license, keywords, agents, docs
+- MANIFEST.md completado com todas as entradas faltantes
+- Algoritmo de structural merge documentado no update-framework
+- Tratamento de erros Notion documentado no update-framework
 
 ### Corrigido
 
-- Referencias a PRD condicionadas ao opt-in do projeto (nao exibidas quando projeto nao usa PRD)
+- Referencias a PRD condicionadas ao opt-in do projeto
 
 ## [2.5.0] — 2026-04-01
 
