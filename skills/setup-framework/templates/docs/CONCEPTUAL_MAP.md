@@ -9,7 +9,7 @@
 
 | Termo da industria | No framework | Onde vive | Comando |
 |---|---|---|---|
-| Epic / Initiative | **PRD** — analise de causa raiz | `.claude/specs/prd-{id}.md` | `/prd` |
+| Epic / Initiative | **PRD** — analise de causa raiz | `.claude/prds/{id}.md` | `/prd` |
 | User Story / Feature | **Spec** — derivada de uma acao do PRD | `.claude/specs/{id}.md` | `/spec` |
 | Task / Sub-task | **Task** dentro da spec (T1, T2...) | Secao "Breakdown de tasks" na spec | — |
 | Backlog Item / Ticket | **Item no backlog** | `.claude/specs/backlog.md` | `/backlog-update` |
@@ -88,7 +88,7 @@ Para detalhes completos sobre sizing, veja [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_
 
 | Nivel | Template | Skill | Agent de validacao |
 |---|---|---|---|
-| PRD | `specs/PRD_TEMPLATE.md` | `/prd` | `product-review` |
+| PRD | `prds/PRD_TEMPLATE.md` | `/prd` | `product-review` |
 | Spec | `specs/TEMPLATE.md` | `/spec` | `spec-validator` |
 | Design doc | `specs/DESIGN_TEMPLATE.md` | — (manual) | — |
 | Backlog | `specs/backlog.md` | `/backlog-update` | `backlog-report` |
@@ -99,7 +99,7 @@ Para detalhes completos sobre sizing, veja [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_
 
 ### Cenario: "Sistema de Notificacoes"
 
-**1. PRD** (`prd-notificacoes.md`) — Time de produto identifica que usuarios perdem atualizacoes importantes. Analisa causas: sem push mobile, sem preferencias, sem digest.
+**1. PRD** (`notificacoes.md` em `.claude/prds/`) — Time de produto identifica que usuarios perdem atualizacoes importantes. Analisa causas: sem push mobile, sem preferencias, sem digest.
 
 ```
 PRD-NOTIF: Sistema de Notificacoes
@@ -135,7 +135,7 @@ BL-17 | SPEC-003    | pendente     | Grande
 |---|---|
 | Guia completo de spec-driven development | [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) |
 | Mapa de todas as skills disponiveis | [`SKILLS_MAP.md`](SKILLS_MAP.md) |
-| Template de PRD | [`../specs/PRD_TEMPLATE.md`](../.claude/specs/PRD_TEMPLATE.md) |
+| Template de PRD | [`../prds/PRD_TEMPLATE.md`](../.claude/prds/PRD_TEMPLATE.md) |
 | Template de Spec | [`../specs/TEMPLATE.md`](../.claude/specs/TEMPLATE.md) |
 | Template de Design Doc | [`../specs/DESIGN_TEMPLATE.md`](../.claude/specs/DESIGN_TEMPLATE.md) |
 | Integracao com Notion | [`NOTION_INTEGRATION.md`](NOTION_INTEGRATION.md) |

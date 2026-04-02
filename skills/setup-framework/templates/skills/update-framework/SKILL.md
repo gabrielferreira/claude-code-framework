@@ -307,29 +307,34 @@ Nada a fazer. Seguir para Fase 4c.
 
 ## Fase 4c — Verificar PRD (opt-in)
 
-Detectar se o projeto usa PRDs. Sinais:
-- Existe `.claude/specs/PRD_TEMPLATE.md`
+Detectar se o projeto usa PRDs. Sinais (novos):
+- Existe `.claude/prds/PRD_TEMPLATE.md` ou `.claude/prds/PRDS_INDEX.md`
 - Existe `.claude/skills/prd-creator/`
 - CLAUDE.md menciona `/prd`
+
+Sinais antigos (migração necessária):
+- Existe `.claude/specs/PRD_TEMPLATE.md`
 - SPECS_INDEX.md tem seção "PRDs"
+- Existem arquivos `.claude/specs/prd-*.md`
 
 ### Cenário A — Projeto não usa PRD e framework agora oferece
 
 Se a versão do framework sendo atualizada inclui artefatos de PRD e o projeto não os tem:
 
-1. Informar: "O framework agora suporta PRDs (Product Requirements Documents) para estruturar análise de causa raiz antes de criar specs. É um recurso opt-in."
+1. Informar: "O framework agora suporta PRDs (Product Requirements Documents) para estruturar análise de causa raiz antes de criar specs. PRDs vivem em `.claude/prds/` (separados de specs). É um recurso opt-in."
 2. Perguntar: "Quer ativar PRDs neste projeto?"
 3. **Se sim:**
-   - Copiar `PRD_TEMPLATE.md` para `.claude/specs/`
+   - Criar `.claude/prds/` e `.claude/prds/done/`
+   - Copiar `PRD_TEMPLATE.md` para `.claude/prds/`
+   - Copiar `PRDS_INDEX.template.md` para `.claude/prds/PRDS_INDEX.md`
    - Copiar `skills/prd-creator/` para `.claude/skills/`
    - Copiar `agents/product-review.md` para `.claude/agents/`
-   - Adicionar seção "PRDs" no SPECS_INDEX.md (se não existir)
    - Sugerir adicionar `/prd` e `product-review` ao CLAUDE.md (como `manual` — mostrar diff)
 4. **Se não:** classificar artefatos de PRD como `skip` para este projeto. Não instalar.
 
-### Cenário B — Projeto já usa PRD
+### Cenário B — Projeto já usa PRD (estrutura nova)
 
-Atualizar artefatos conforme estratégia normal:
+Se o projeto já tem `.claude/prds/`, atualizar artefatos conforme estratégia normal:
 - `PRD_TEMPLATE.md` → structural (preservar customizações, adicionar seções novas)
 - `prd-creator/SKILL.md` → structural
 - `product-review.md` → overwrite
@@ -337,6 +342,22 @@ Atualizar artefatos conforme estratégia normal:
 ### Cenário C — PRD não mudou entre versões
 
 Nada a fazer. Seguir para Fase 4d.
+
+### Cenário D — Migração: PRDs na estrutura antiga (`.claude/specs/prd-*.md`)
+
+Se detectar sinais antigos (PRDs dentro de `.claude/specs/`):
+
+1. Informar: "Detectei PRDs na estrutura antiga (dentro de `.claude/specs/`). A partir desta versão, PRDs vivem em `.claude/prds/` (separados de specs)."
+2. Perguntar: "Quer migrar os PRDs para a nova estrutura?"
+3. **Se sim:**
+   - Criar `.claude/prds/` e `.claude/prds/done/`
+   - Mover cada `.claude/specs/prd-{id}.md` para `.claude/prds/{id}.md` (removendo prefixo `prd-`)
+   - Mover `.claude/specs/PRD_TEMPLATE.md` para `.claude/prds/PRD_TEMPLATE.md` (ou copiar novo se não existir)
+   - Criar `.claude/prds/PRDS_INDEX.md` a partir dos PRDs encontrados (preencher tabela com IDs e títulos)
+   - Remover seção "PRDs" do SPECS_INDEX.md
+   - Atualizar `prd-creator/SKILL.md` via structural
+   - Mostrar diff sugerido para CLAUDE.md com novos paths
+4. **Se não:** manter estrutura antiga. Avisar que em versões futuras a migração pode ser obrigatória.
 
 ---
 

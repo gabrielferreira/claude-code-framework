@@ -396,22 +396,29 @@ O framework se integra nativamente com Notion via MCP. O setup nao configura aut
 
 Perguntar: "O time usa analise de causa raiz / PRD antes de criar specs tecnicas?"
 
-- **Sim** → Perguntar onde PRDs vivem:
-  - **No repo** (padrao se specs sao locais): copiar `PRD_TEMPLATE.md` para `.claude/specs/`
-  - **No Notion** (se MCP configurado): verificar se a database de specs tem template de PRD. Se sim, mapear. Se nao, informar que PRDs podem ser criados na mesma database sem template
-  - **Em outra ferramenta** (Jira, Confluence, etc.): registrar URL base para referencias
-  - Em todos os casos de "Sim":
+- **Sim** → Perguntar como quer usar PRDs:
+  1. **Local** (padrao): criar `.claude/prds/` com `PRD_TEMPLATE.md` e `PRDS_INDEX.md`
+  2. **Notion** (se MCP configurado):
+     - Perguntar: "PRDs ficam na mesma database de specs ou em database separada?"
+       - **Mesma database:** usar `data_source_id` existente com property `"Tipo": "PRD"`. Verificar se ha template de PRD na database
+       - **Database separada:** perguntar URL da database de PRDs. Fazer `notion-fetch` para obter `prd_data_source_id`. Adicionar secao `## Integracao Notion (PRDs)` no CLAUDE.md com o `prd_data_source_id` e templates mapeados
+     - Ainda criar `.claude/prds/PRDS_INDEX.md` local para rastreabilidade
+  3. **Export-only**: PRDs sao gerados como output para copy-paste (Jira, Confluence, etc.). Nao ficam armazenados no projeto. Adicionar `prd_mode: export` na secao de PRDs do CLAUDE.md
+  4. **Outra ferramenta** (Jira, Confluence, etc.): registrar URL base para referencias. Criar `.claude/prds/PRDS_INDEX.md` para rastreabilidade local
+
+  Em todos os casos de "Sim":
+    - Criar diretorio `.claude/prds/` e `.claude/prds/done/`
+    - Se modo local: copiar `PRD_TEMPLATE.md` para `.claude/prds/PRD_TEMPLATE.md`
+    - Copiar `PRDS_INDEX.md` para `.claude/prds/PRDS_INDEX.md`
     - Instalar skill `/prd` (copiar `skills/prd-creator/`)
     - Instalar agent `product-review` (copiar `agents/product-review.md`)
-    - Adicionar secao "PRDs" no SPECS_INDEX.md
     - Adicionar `/prd` na secao Skills do CLAUDE.md
     - Adicionar `product-review` na secao Agents do CLAUDE.md
 
 - **Nao** → Nao copiar nenhum artefato de PRD. O fluxo segue Idea → Spec direto.
-  - NAO copiar `PRD_TEMPLATE.md`
+  - NAO criar diretorio `.claude/prds/`
   - NAO instalar skill `prd-creator`
   - NAO instalar agent `product-review`
-  - NAO adicionar secao PRDs no SPECS_INDEX
 
 > O PRD_TEMPLATE.md e `structural` — se o time ja tem um formato proprio de causa raiz, pode customizar as secoes. O `/update-framework` preserva customizacoes.
 
@@ -527,7 +534,8 @@ Alguns arquivos são essenciais para o framework funcionar. Se o usuario pular u
 | `scripts/verify.sh` | **Sim** — DoD depende dele | Avisar e registrar pendência. |
 | `.claude/specs/STATE.md` | Opcional — útil mas não bloqueia | Pular sem aviso. |
 | `.claude/specs/DESIGN_TEMPLATE.md` | Opcional — só pra Grande/Complexo | Pular sem aviso. |
-| `.claude/specs/PRD_TEMPLATE.md` | Opcional — só se PRD opt-in | Pular sem aviso. |
+| `.claude/prds/PRD_TEMPLATE.md` | Opcional — só se PRD opt-in | Pular sem aviso. |
+| `.claude/prds/PRDS_INDEX.md` | Opcional — só se PRD opt-in | Pular sem aviso. |
 | `PROJECT_CONTEXT.md` | Opcional — útil pra outros LLMs | Pular sem aviso. |
 | `scripts/reports.sh` | Opcional — reports não bloqueiam | Pular sem aviso. |
 | `docs/*` | Opcional — referência humana | Pular sem aviso. |
@@ -544,6 +552,8 @@ mkdir -p .claude/skills
 mkdir -p .claude/specs/done
 mkdir -p scripts
 mkdir -p docs
+# Se PRD opt-in (Bloco 2b):
+mkdir -p .claude/prds/done
 ```
 
 ### 3.2 CLAUDE.md
@@ -599,6 +609,25 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
     - SPECS_INDEX.md serve como indice local com links para o Notion
     ```
 
+  - Se **PRD opt-in + Notion com database separada de PRDs:** adicionar tambem:
+    ```markdown
+    ## Integracao Notion (PRDs)
+
+    - **Database URL:** {url}
+    - **Data source ID:** {prd_data_source_id}
+    - **Templates de PRD:**
+      | Complexidade | Template | Template ID |
+      |---|---|---|
+      | Médio | {nome} | {id} |
+      | Grande | {nome} | {id} |
+      | Complexo | {nome} | {id} |
+
+    ### Regras de integracao
+    - `/prd` cria pagina no Notion usando `notion-create-pages` na database de PRDs
+    - Para ler um PRD: usar `notion-fetch` com o URL da pagina
+    - PRDS_INDEX.md serve como indice local com links para o Notion
+    ```
+
 ### 3.3 PROJECT_CONTEXT.md
 
 Usar `${FRAMEWORK_PATH}/PROJECT_CONTEXT.md` como base. Preencher com dados coletados:
@@ -630,9 +659,12 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
   - Copiar `${FRAMEWORK_PATH}/specs/backlog.md` para `.claude/specs/backlog.md`
   - Copiar `${FRAMEWORK_PATH}/specs/STATE.md` para `.claude/specs/STATE.md`
   - Copiar `${FRAMEWORK_PATH}/specs/DESIGN_TEMPLATE.md` para `.claude/specs/DESIGN_TEMPLATE.md`
-  - Se **PRD opt-in (Bloco 2b):** copiar `${FRAMEWORK_PATH}/specs/PRD_TEMPLATE.md` para `.claude/specs/PRD_TEMPLATE.md`
   - Preencher fases do backlog com as definidas no Bloco 3
   - Criar `.claude/specs/done/` (diretorio vazio)
+  - Se **PRD opt-in (Bloco 2b):**
+    - Criar `.claude/prds/` e `.claude/prds/done/`
+    - Se modo local: copiar `${FRAMEWORK_PATH}/prds/PRD_TEMPLATE.md` para `.claude/prds/PRD_TEMPLATE.md`
+    - Copiar `${FRAMEWORK_PATH}/PRDS_INDEX.template.md` para `.claude/prds/PRDS_INDEX.md` (adaptar nome do projeto)
 - Se **modelo externo:**
   - NAO copiar TEMPLATE.md nem backlog.md locais
   - Criar `.claude/specs/README.md` com instrucoes de como referenciar specs externas
