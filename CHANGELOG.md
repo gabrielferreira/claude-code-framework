@@ -7,6 +7,19 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.9.0] — 2026-04-02
+
+### Adicionado
+
+- Campos Autor, Responsavel e Concluida em no template de spec e no ciclo de vida
+- Resolucao de identidade: Notion user (`notion-get-users self`) no modo Notion, `git config user.name` no modo repo
+- Regra sobre campo "Arquivo" no Notion (deixar vazio quando spec vive no Notion)
+
+### Corrigido
+
+- Definition of Done agora preenche Responsavel e Concluida em ao marcar spec como concluida
+- Verificacao pos-implementacao inclui checklist para campos de conclusao
+
 ## [2.8.0] — 2026-04-02
 
 ### Adicionado
