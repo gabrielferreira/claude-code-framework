@@ -1,6 +1,7 @@
 ---
 description: Varre o repositório em busca de vulnerabilidades de segurança e gera relatório estruturado
 model: opus
+model-rationale: Seguranca tem consequencia real de erro — requer correlacionar findings entre vetores de ataque e julgar severidade.
 worktree: false
 ---
 <!-- framework-tag: v2.5.0 framework-file: agents/security-audit.md -->
@@ -181,3 +182,11 @@ Relatório estruturado com:
 - Falsos positivos marcados como `[FP]` com justificativa
 - Se o repo tem regras absolutas de segurança no CLAUDE.md, verificar compliance com cada uma
 - Não corrigir — apenas reportar. Correções são specs separadas
+
+## Proximos passos
+
+Com base nos findings deste agent:
+
+- **Vulnerabilidades e falhas de seguranca:** consultar skill `.claude/skills/security-review/README.md` para aplicar checklist de correcao segura
+- **Endpoints sem auth ou com controle de acesso quebrado:** consultar skill `.claude/skills/definition-of-done/README.md` para garantir que o fix atende todos os criterios antes de fechar
+- **Criar spec para correcao:** `/spec {ID} {titulo do finding}`
