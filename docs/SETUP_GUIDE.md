@@ -675,6 +675,7 @@ Cada agent define `model:` no frontmatter — o Claude Code usa automaticamente 
 | `coverage-check` | sonnet | Apos implementar feature, antes do commit |
 | `code-review` | sonnet | Antes de PR ou merge |
 | `component-audit` | sonnet | Quando o codebase cresce e precisa de revisao de arquitetura |
+| `seo-audit` | sonnet | Antes de deploy, apos mexer em paginas publicas |
 | `backlog-report` | haiku | Inicio de sprint ou revisao periodica |
 
 ### Skills de referencia
@@ -692,6 +693,10 @@ O Claude consulta automaticamente conforme o contexto (configurado no CLAUDE.md)
 | `logging` | Ao adicionar logs ou error handling |
 | `docs-sync` | Ao commitar mudancas que afetam docs |
 | `mock-mode` | Ao lidar com integracoes externas |
+| `security-review` | Ao criar/modificar rota, endpoint ou service |
+| `seo-performance` | Ao mexer em pagina publica |
+| `syntax-check` | Ao commitar codigo |
+| `golden-tests` | Ao escrever snapshot tests |
 
 ---
 
