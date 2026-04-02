@@ -75,6 +75,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/TROUBLESHOOTING.md` | `docs/TROUBLESHOOTING.md` | structural |
 | `docs/SKILLS_MAP.md` | `docs/SKILLS_MAP.md` | structural |
 | `docs/NOTION_INTEGRATION.md` | `docs/NOTION_INTEGRATION.md` | structural |
+| `docs/CONCEPTUAL_MAP.md` | `docs/CONCEPTUAL_MAP.md` | structural |
 
 ### Scripts (manual)
 
