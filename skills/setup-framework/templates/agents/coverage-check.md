@@ -3,7 +3,7 @@ description: Identifica gaps de cobertura de testes e sugere cenários de teste 
 model: sonnet
 worktree: false
 ---
-<!-- framework-tag: v2.3.0 framework-file: agents/coverage-check.md -->
+<!-- framework-tag: v2.4.0 framework-file: agents/coverage-check.md -->
 # Agent: Coverage Check
 
 > Sub-agente autônomo que identifica gaps de cobertura de testes e sugere cenários.
