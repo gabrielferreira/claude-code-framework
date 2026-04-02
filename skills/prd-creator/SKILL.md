@@ -127,7 +127,13 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
 
 2. **Classificar complexidade:** mesma logica do modo repo. Pequeno = nao cria PRD.
 
-3. **Coletar informacoes** (guiar analise de causa raiz — mesmas perguntas do modo repo)
+3. **Coletar informacoes** (guiar analise de causa raiz — mesmas perguntas do modo repo):
+   - Problema, Causas, Evidencias, Porques, Como resolver (obrigatorias)
+   - Quem e afetado, Historias de usuario, Metricas, Escopo (conforme complexidade)
+   - Se `--from` foi usado, usar dados extraidos como base
+
+   > **REGRA:** Nunca criar pagina no Notion com body vazio ou so com placeholders.
+   > O conteudo coletado neste passo DEVE ser usado como body no passo 4.
 
 4. **Criar pagina no Notion** usando `notion-create-pages`:
    ```
@@ -140,10 +146,14 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
        "Complexidade": "{Medio|Grande|Complexo}",
        "Tipo": "PRD",
        "Projeto": "{nome do projeto}"
-     }
+     },
+     content: "{conteudo coletado no passo 3, formatado em markdown}"
    }]
    ```
+   O content deve incluir todas as secoes coletadas (Problema, Causas, Evidencias, etc.).
+   Se o template do Notion ja tem secoes (H2/H3), preencher dentro dessas secoes.
    Se nao houver template de PRD na database, criar a pagina sem template e preencher o conteudo usando o formato do PRD_TEMPLATE.md como referencia.
+   Se o usuario nao tiver todas as informacoes, preencher o que tem e marcar secoes pendentes com `{A DETALHAR}`.
 
 5. **Registrar no PRDS_INDEX.md** (se existir em `.claude/prds/`):
    - Secao "PRDs ativos"
