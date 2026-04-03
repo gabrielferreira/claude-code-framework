@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.10.0 framework-file: skills/dba-review/README.md -->
+<!-- framework-tag: v2.10.1 framework-file: skills/dba-review/README.md -->
 # Skill: DBA Review — {NOME_DO_PROJETO}
 
 > Executar quando criar ou modificar tabelas, migrations, queries ou índices.

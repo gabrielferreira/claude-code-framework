@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.10.1] — 2026-04-03
+
+### Adicionado
+
+- Diagrama de workflow do framework (`docs/WORKFLOW_DIAGRAM.md`) com 7 diagramas ASCII: setup, uso diario, agents, update, ciclo de release, estrategias do MANIFEST e integracao Notion
+
 ## [2.10.0] — 2026-04-02
 
 ### Corrigido
