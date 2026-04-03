@@ -100,6 +100,7 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | `VERSION` | Versão atual do framework (semver) |
 | `.gitignore` | Git ignore do repo do framework |
 | `CHANGELOG.md` | Historico de versoes do framework |
+| `BACKLOG.md` | Backlog de evolução do framework |
 | `scripts/validate-tags.sh` | Validacao de framework-tags pre-release |
 
 ### Projeto-específicos (skip)
