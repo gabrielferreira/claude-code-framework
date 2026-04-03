@@ -78,6 +78,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/CONCEPTUAL_MAP.md` | `docs/CONCEPTUAL_MAP.md` | structural |
 | `docs/SPEC_EXAMPLE.md` | `docs/SPEC_EXAMPLE.md` | structural |
 | `docs/PRD_PORTABLE_PROMPT.md` | `docs/PRD_PORTABLE_PROMPT.md` | structural |
+| `docs/WORKFLOW_DIAGRAM.md` | `docs/WORKFLOW_DIAGRAM.md` | structural |
 
 ### Scripts (manual)
 
