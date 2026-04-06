@@ -1,0 +1,102 @@
+<!-- framework-tag: v2.11.0 framework-file: skills/execution-plan/README.md -->
+
+# Execution Plan — Plano de execução obrigatório
+
+Skill obrigatória para itens de complexidade média ou superior (3+ arquivos, 1h+). Plano escrito ANTES de sub-agents — plano mental não conta.
+
+## Quando usar
+
+- Item do backlog classificado como **Médio** (3-5 arquivos, 1-3h)
+- Item classificado como **Grande** (6+ arquivos, >3h)
+- Item classificado como **Complexo** (domínio novo, >20 tasks)
+- **Batch de 2+ itens** que no total afetam 6+ arquivos ou 3+ domínios
+
+## Quando NÃO usar
+
+- Item **Pequeno** (≤3 arquivos, <30min, sem regra de negócio) — implementar direto
+- Correção trivial de bug com causa óbvia e fix de 1-2 linhas
+
+## Formato do plano
+
+### 1. Escopo e contexto (2-3 frases)
+
+O que vai ser feito, por que, e qual spec/item do backlog.
+
+### 2. Mapa de arquivos
+
+Listar **todos** os arquivos que serão lidos ou modificados, e a qual parte pertencem:
+
+| Arquivo | Ação | Parte |
+|---------|------|-------|
+| `src/routes/auth.js` | Modificar | Parte 1 |
+| `src/services/session.js` | Modificar | Parte 1 |
+| `tests/auth.test.js` | Criar | Parte 1 |
+| `src/components/LoginForm.jsx` | Modificar | Parte 2 |
+| `tests/LoginForm.test.jsx` | Criar | Parte 2 |
+
+### 3. Decomposição em partes
+
+Para cada parte:
+
+- **Escopo:** o que essa parte faz
+- **Arquivos:** quais arquivos afeta (do mapa acima)
+- **Funções/componentes:** o que criar/modificar
+- **Não tocar:** o que NÃO modificar (previne overlap)
+- **Sub-agent?** Sim/Não — se sim, incluir briefing completo
+- **TDD:** quais testes escrever primeiro
+- **Dependências:** depende de outra parte? Qual?
+- **Critério de "pronto":** como saber que esta parte está completa
+- **Contratos:** se outra parte consome o output, definir interface/formato
+
+### 4. Ordem de execução
+
+```
+Fase 1 (sequencial): Parte 1 — backend auth
+Fase 2 (paralelo): Parte 2 + Parte 3 — frontend + testes E2E (sem overlap)
+Fase 3 (sequencial): Integração — verificar que partes se encaixam
+```
+
+Justificar paralelismo: "Parte 2 e 3 não compartilham arquivos" ou "Parte 2 depende de Parte 1".
+
+### 5. Análise de overlap
+
+Para cada par de partes que rodam em paralelo, confirmar:
+
+| Parte A | Parte B | Arquivos em comum? | Overlap? |
+|---------|---------|-------------------|----------|
+| Parte 2 | Parte 3 | Nenhum | ✅ Seguro |
+
+**Regra:** se há overlap de arquivos entre partes paralelas → tornar sequencial ou redesenhar a decomposição.
+
+### 6. Riscos e decisões
+
+- Risco 1: {descrição} → Mitigação: {ação}
+- Decisão 1: {escolha feita} → Motivo: {por quê}
+
+### 7. Checklist pós-execução
+
+- [ ] Todas as partes concluídas
+- [ ] Testes passando (`{comando testes}`)
+- [ ] Coverage atingido (`{comando coverage}`)
+- [ ] verify.sh passando
+- [ ] Spec verificada critério por critério
+- [ ] STATE.md atualizado (se decisão arquitetural ou blocker surgiu)
+
+## Regras
+
+1. **Plano vive na conversa ou no arquivo da spec** — não criar arquivo separado. Se a spec tem seção "Breakdown de tasks", preencher lá.
+2. **Máximo paralelismo com zero sobreposição.** Nunca duas partes editam o mesmo arquivo ao mesmo tempo.
+3. **Revisitar o plano se surgirem surpresas.** Se durante a implementação o escopo muda (arquivo extra, dependência não prevista) → atualizar o plano antes de continuar.
+4. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes.
+5. **Sessão principal nunca delega decisão.** Sub-agents executam e reportam ambiguidades. Quem decide é a sessão principal.
+6. **Sessão principal faz a integração.** Verificar que as partes se encaixam é responsabilidade da sessão principal, não de sub-agents.
+
+## Checklist
+
+- [ ] Escopo e contexto definidos
+- [ ] Mapa de arquivos completo (todos os read + modify)
+- [ ] Decomposição em partes com critérios de pronto
+- [ ] Ordem de execução com justificativa de paralelismo
+- [ ] Análise de overlap para partes paralelas
+- [ ] Riscos identificados
+- [ ] Checklist pós-execução definido
