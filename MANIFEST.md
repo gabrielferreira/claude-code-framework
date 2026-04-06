@@ -91,6 +91,18 @@ Scripts podem ter checks evolutivos adicionados pelo projeto.
 | `scripts/reports-index.js` | `scripts/reports-index.js` | manual |
 | `scripts/backlog-report.cjs` | `scripts/backlog-report.cjs` | manual |
 
+### Migrations (overwrite)
+
+Guias de migracao manual entre versoes — como migrations de banco de dados, mas para o framework. Gerados automaticamente durante o release.
+
+| Path no projeto | Template source | Estratégia |
+|---|---|---|
+| `migrations/README.md` | `migrations/README.md` | overwrite |
+| `migrations/MIGRATION_TEMPLATE.md` | `migrations/MIGRATION_TEMPLATE.md` | overwrite |
+| `migrations/v{X}-to-v{Y}.md` | `migrations/v{X}-to-v{Y}.md` | overwrite (gerado por release) |
+
+> **Nota:** os arquivos `v{X}-to-v{Y}.md` sao criados a cada release. O setup copia todos os migrations existentes. O update copia os novos.
+
 ### Scripts do framework (não copiados)
 
 Estes scripts existem apenas no repo do framework. NAO são copiados para projetos.
