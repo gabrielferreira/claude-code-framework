@@ -133,6 +133,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 19 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
 | 20 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
 | 21 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 22 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
 {22+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
