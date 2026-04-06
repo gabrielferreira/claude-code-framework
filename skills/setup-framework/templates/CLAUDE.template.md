@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.11.0 framework-file: CLAUDE.template.md -->
+<!-- framework-tag: v2.12.0 framework-file: CLAUDE.template.md -->
 # CLAUDE.md — {NOME_DO_PROJETO}
 
 ## O que é este projeto

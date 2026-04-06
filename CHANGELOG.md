@@ -7,6 +7,30 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.12.0] — 2026-04-06
+
+### Adicionado
+
+- Skill `execution-plan`: planejamento obrigatorio para itens medios+ com mapa de arquivos, decomposicao em partes, analise de overlap e ordem de execucao
+- Agent `dx-audit`: auditoria de developer experience (scripts, configs, docs, hooks)
+- Agent `performance-audit`: auditoria de performance (queries, componentes, pool, timeouts)
+- Agent `infra-audit`: auditoria de infraestrutura (deploy, Docker, CI/CD, monitoramento)
+- Template `backlog-format.md`: especificacao do formato do backlog (colunas, fases, severidade, complexidade)
+- Doc `PROTECT_BACKLOG_HOOK.md`: documentacao do hook opcional para proteger backlog de edicao direta
+- Secao "Output — concisao obrigatoria" no CLAUDE.template.md (economia de tokens)
+- Secao "TDD obrigatorio" no CLAUDE.template.md (red-green-refactor)
+- Secao "Execucao por agents — orquestracao" no CLAUDE.template.md (tech lead pattern, checkpoint, delegacao)
+- Secao "Testes e coverage" com tabela de targets por camada e modulos criticos
+- Tabela de ciclo de vida dos status no SPECS_INDEX.template.md
+
+### Alterado
+
+- Skills no CLAUDE.template.md: de lista numerada para tabela com coluna "Obrigatorio?"
+- Agents no CLAUDE.template.md: de lista numerada para tabela com modelo, trigger e obrigatoriedade
+- Checklist pre-commit expandido de 3 para 9 itens (coverage, verificacao manual, E2E, docs)
+- Verificacao proativa: adicionada regra de validacao de spec contra codigo atual
+- Removida secao duplicada de "Regras de codigo"
+
 ## [2.11.0] — 2026-04-06
 
 ### Adicionado
