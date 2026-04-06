@@ -60,6 +60,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
 | `.claude/skills/execution-plan/README.md` | `skills/execution-plan/README.md` | structural |
+| `.claude/skills/bug-investigation/SKILL.md` | `skills/bug-investigation/SKILL.md` | structural |
 
 ### Docs (structural)
 
@@ -82,6 +83,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/CONCEPTUAL_MAP.md` | `docs/CONCEPTUAL_MAP.md` | structural |
 | `docs/SPEC_EXAMPLE.md` | `docs/SPEC_EXAMPLE.md` | structural |
 | `docs/PRD_PORTABLE_PROMPT.md` | `docs/PRD_PORTABLE_PROMPT.md` | structural |
+| `docs/BUG_INVESTIGATION_PORTABLE_PROMPT.md` | `docs/BUG_INVESTIGATION_PORTABLE_PROMPT.md` | structural |
 | `docs/WORKFLOW_DIAGRAM.md` | `docs/WORKFLOW_DIAGRAM.md` | structural |
 | `docs/PROTECT_BACKLOG_HOOK.md` | `docs/PROTECT_BACKLOG_HOOK.md` | structural |
 
@@ -138,6 +140,8 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `.claude/specs/*.md` (specs do projeto) | skip |
 | `.claude/specs/done/*.md` | skip |
 | `.claude/prds/PRD_TEMPLATE.md` | structural |
+| `.claude/bugs/BUG_REPORT_TEMPLATE.md` | structural |
+| `.claude/bugs/*.md` (reports do projeto) | skip |
 | `.claude/prds/PRDS_INDEX.md` | skip |
 | `.claude/prds/*.md` (PRDs do projeto) | skip |
 | `.claude/prds/done/*.md` | skip |
