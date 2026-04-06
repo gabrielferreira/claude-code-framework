@@ -7,6 +7,16 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.11.0] — 2026-04-06
+
+### Adicionado
+
+- Sistema de migrations para atualizacoes manuais entre versoes — como migrations de banco de dados, mas para o framework
+- Template de migration (`migrations/MIGRATION_TEMPLATE.md`) e README explicativo
+- 7 migrations retroativas cobrindo v2.4.0 ate v2.10.1
+- Passo 4 no processo de release: geracao automatica de migration a cada nova versao
+- Backlog do framework com analise do ecossistema SDD (`BACKLOG.md`)
+
 ## [2.10.1] — 2026-04-03
 
 ### Adicionado
