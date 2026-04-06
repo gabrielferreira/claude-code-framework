@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.12.0 framework-file: bugs/BUG_REPORT_TEMPLATE.md -->
+<!-- framework-tag: v2.13.0 framework-file: bugs/BUG_REPORT_TEMPLATE.md -->
 # Bug Report — {ID}: {Titulo}
 
 > Severidade: `critico` | `alto` | `medio` | `baixo`

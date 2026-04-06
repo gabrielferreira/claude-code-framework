@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: planejamento estruturado de refatoracao segue heuristicas claras, sem necessidade de raciocinio profundo
 worktree: true
 ---
-<!-- framework-tag: v2.12.0 framework-file: agents/refactor-agent.md -->
+<!-- framework-tag: v2.13.0 framework-file: agents/refactor-agent.md -->
 # Agent: Refactor
 
 > Sub-agente autonomo que gera planos de refatoracao concretos a partir de findings de outros agents.
