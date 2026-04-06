@@ -176,122 +176,66 @@ Se algum "nao": voltar ao passo correspondente e completar.
 
 ## Formato de saida
 
-Gere o relatorio no formato abaixo:
+Apos conduzir a investigacao completa (10 passos), gerar o relatorio final no formato abaixo. Este formato e compativel com o template de bugs do Notion do time.
+
+**IMPORTANTE:** O relatorio final organiza os dados coletados durante a investigacao nas 4 secoes padrao do time. A analise profunda (validacao do sintoma, porques encadeados, mapa de impacto) alimenta o conteudo — mas o output segue o formato que engenharia espera receber.
 
 ```markdown
-# Bug Report — {ID}: {Titulo}
+### Titulo Sugerido: [Bug][{Vertical/Sistema}] {Breve resumo do problema}
 
-> Severidade: critico | alto | medio | baixo
-> Status: investigando | confirmado | escalado
-> Investigado por: {nome}
-> Data: {data de hoje}
+### 1. Contexto e Comportamento
 
-## Sintoma reportado
+- **Descricao do Problema:** {Resumo claro do que esta acontecendo — usar o bug real identificado na validacao, nao o sintoma superficial}
+- **Comportamento Atual:** {O que o sistema esta fazendo de errado — resultado real documentado no passo 3}
+- **Comportamento Esperado:** {O que o sistema deveria fazer — com referencia a spec/doc se existir}
 
-- **Quem reportou:** {usuario, cliente, monitoramento}
-- **Canal:** {ticket, chat, email, alerta}
-- **Relato original:** {transcrever ou resumir}
+### 2. Reproducao e Validacao
 
-### Validacao do sintoma
+- **Passos para Reproduzir:**
+  1. {Passo 1}
+  2. {Passo 2}
+  3. {Passo 3}
+  4. {Observar o erro...}
+- **Como validar a correcao:** {Criterio de aceite derivado da causa raiz — o que confirma que o fix resolveu a raiz, nao so o sintoma}
+- **Midias (Evidencias):**
+  - [ ] Prints anexados
+  - [ ] Gravacao de tela anexada
+  - {Outros: logs, metricas, relatos de usuarios}
 
-- **Sintoma original:** {o que o usuario ve}
-- **Bug real identificado:** {o que realmente esta errado}
-- **Nivel:** sintoma visivel | bug intermediario | bug raiz
-- **Bugs similares anteriores:** {links, se existem}
+### 3. Dados Tecnicos (Adicoes criticas para reducao de Cycle Time)
 
-## Comportamento esperado vs real
+- **Ambiente/Versao:** {Ex: Producao, Staging / App v2.14.0, iOS 17}
+- **Massa de Dados Utilizada:** {E-mail do usuario teste, ID do pedido, UUID do cliente}
+- **Logs / Console:** {Prints do console do navegador, links do NewRelic/CloudWatch Logs, Payload de erro da API}
 
-| Aspecto | Esperado | Real |
-|---------|----------|------|
-| {aspecto} | {esperado} | {real} |
+**Analise de causa raiz (5 Whys):**
 
-**Referencia:** {link para spec/PRD/doc ou "expectativa implicita"}
+{Para cada hipotese investigada:}
 
-## Contexto da funcionalidade
-
-- **Funcionalidade/modulo:** {nome}
-- **Tela/endpoint/fluxo:** {caminho}
-- **Dependencias:** {APIs, servicos}
-- **Referencias:** {links para spec, PRD, doc, repo}
-
-## Reproducao
-
-### Pre-condicoes
-- {estado inicial}
-
-### Passos
-1. {passo 1}
-2. {passo 2}
-3. {passo 3}
-
-### Resultado esperado
-{o que deveria acontecer}
-
-### Resultado real
-{o que acontece}
-
-### Frequencia e ambiente
-| Item | Valor |
-|------|-------|
-| Frequencia | sempre / intermitente (~X%) / uma vez |
-| Ambiente | {producao, staging, local} |
-| Browser/OS/App | {versao} |
-| Primeira ocorrencia | {data} |
-
-## Evidencias
-
-### Logs
-{logs com timestamp}
-
-### Screenshots/gravacoes
-- {descricao e link}
-
-### Metricas
-- {metrica: valor antes vs agora, link dashboard}
-
-### Relatos de outros usuarios
-- {quantos, desde quando, padrao}
-
-## Porques (causa raiz)
-
-### Hipotese 1 — {titulo}
-
+**Hipotese 1 — {titulo}**
 1. Por que? → {resposta}
 2. Por que? → {resposta}
 3. Por que? → {resposta}
 
 **Causa raiz provavel:** {resumo}
 **Tipo:** codigo | dados | infra | config | processo
-**Confianca:** alta | media | baixa
+**Confianca:** alta (evidencia direta) | media (indireta) | baixa (hipotese)
 
-## Mapa de impacto
+**Recomendacao para engenharia:**
+- **Area do sistema afetada:** {modulo, servico, tabela, API}
+- **Sugestao de correcao:** {o que mudar — nivel de produto, nao implementacao}
+- **Riscos da correcao:** {efeitos colaterais possiveis}
+- **Testes sugeridos:** {como validar que o fix resolveu}
 
-| Dimensao | Detalhe |
-|----------|---------|
-| Usuarios afetados | {quantos, segmento} |
-| Impacto no negocio | {receita, reputacao, SLA} |
-| Blast radius | {cascata?} |
-| Workaround | {existe? aceitavel?} |
-| Desde quando | {data/deploy} |
+### 4. Escopo e Impacto
 
-## Recomendacao para engenharia
-
-- **Causa raiz mais provavel:** {resumo}
-- **Area do sistema:** {modulo, servico, API}
-- **Sugestao de correcao:** {o que mudar}
-- **Riscos:** {efeitos colaterais}
-- **Testes sugeridos:** {como validar o fix}
-- **Prioridade sugerida:** {com justificativa}
-
-## Calibracao de completude
-
-- [ ] Engenharia consegue reproduzir so com este relatorio
-- [ ] Causa raiz tem evidencia
-- [ ] Comportamento esperado tem referencia
-- [ ] Impacto quantificado
-- [ ] Recomendacao aponta area especifica
-- [ ] Evidencias tem timestamp
-- [ ] Bugs similares referenciados
+- **Plataforma:** {Plataforma nova / legado / especificar versao}
+- **Vertical:** {Todas / especificar: Concursos, OAB, etc}
+- **Sistemas Afetados (Horizontal):** {LDI, Auth, Payments, etc}
+- **Dispositivos Afetados:** {Web / Aplicativo / detalhar OS se relevante: iOS/Android}
+- **Usuarios Afetados:** {Todos / % estimada / perfil de usuario especifico}
+- **Blocante (Possui Workaround?):** {Nao / Se sim, descrever qual e o contorno atual}
+- **Chamados Relacionados (Links/Threads):** {links para tickets, threads, bugs similares anteriores}
 ```
 
 ## Regras
