@@ -7,12 +7,13 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
-## [2.13.2] — 2026-04-06
+## [2.13.3] — 2026-04-06
 
 ### Corrigido
 
-- Bug report: output agora segue o formato do template de bugs do Notion do time (4 secoes: Contexto e Comportamento, Reproducao e Validacao, Dados Tecnicos, Escopo e Impacto)
-- Bug report: investigador nao precisava repetir informacoes ja fornecidas na mensagem inicial — fluxo extrai tudo da mensagem antes de perguntar
+- Bug report: 5 Whys agora bloqueia respostas rasas e insiste ate 3 tentativas antes de aceitar como incompleto
+- Bug report: output agora segue o formato do template de bugs do Notion do time (4 secoes)
+- Bug report: fluxo extrai informacoes da mensagem inicial antes de perguntar
 
 ## [2.13.0] — 2026-04-06
 
