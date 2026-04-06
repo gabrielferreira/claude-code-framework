@@ -30,6 +30,9 @@ Agents são genéricos — sem customização de projeto.
 | `.claude/agents/product-review.md` | `agents/product-review.md` | overwrite |
 | `.claude/agents/refactor-agent.md` | `agents/refactor-agent.md` | overwrite |
 | `.claude/agents/test-generator.md` | `agents/test-generator.md` | overwrite |
+| `.claude/agents/dx-audit.md` | `agents/dx-audit.md` | overwrite |
+| `.claude/agents/performance-audit.md` | `agents/performance-audit.md` | overwrite |
+| `.claude/agents/infra-audit.md` | `agents/infra-audit.md` | overwrite |
 
 ### Skills (structural)
 
@@ -56,6 +59,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
+| `.claude/skills/execution-plan/README.md` | `skills/execution-plan/README.md` | structural |
 
 ### Docs (structural)
 
@@ -79,6 +83,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/SPEC_EXAMPLE.md` | `docs/SPEC_EXAMPLE.md` | structural |
 | `docs/PRD_PORTABLE_PROMPT.md` | `docs/PRD_PORTABLE_PROMPT.md` | structural |
 | `docs/WORKFLOW_DIAGRAM.md` | `docs/WORKFLOW_DIAGRAM.md` | structural |
+| `docs/PROTECT_BACKLOG_HOOK.md` | `docs/PROTECT_BACKLOG_HOOK.md` | structural |
 
 ### Scripts (manual)
 
@@ -129,6 +134,7 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `.claude/specs/STATE.md` | skip |
 | `.claude/specs/TEMPLATE.md` | overwrite |
 | `.claude/specs/DESIGN_TEMPLATE.md` | overwrite |
+| `.claude/specs/backlog-format.md` | overwrite |
 | `.claude/specs/*.md` (specs do projeto) | skip |
 | `.claude/specs/done/*.md` | skip |
 | `.claude/prds/PRD_TEMPLATE.md` | structural |

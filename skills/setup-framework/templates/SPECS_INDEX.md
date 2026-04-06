@@ -10,8 +10,17 @@
 2. Localizar a spec pelo ID ou palavras-chave
 3. Abrir APENAS a spec identificada
 4. Verificar status antes de implementar:
-   - `rascunho` → perguntar antes de implementar (pode estar incompleta)
-   - `descontinuada` → NÃO implementar. Verificar qual spec a substituiu
+
+### Ciclo de vida dos status
+
+| Status | Significa | Pode implementar? |
+|--------|----------|-------------------|
+| `rascunho` | Incompleta ou não revisada | Não — perguntar antes |
+| `aprovada` | Time concordou, pronta para implementar | Sim |
+| `em andamento` | Alguém está implementando | — (verificar quem) |
+| `parcial` | Parte implementada, parte pendente | Ver detalhe na spec |
+| `concluída` | Tudo verificado e entregue | — |
+| `descontinuada` | Cancelada ou substituída | Não — verificar substituta |
 
 ## {Domínio 1 — ex: Autenticação & Acesso}
 
