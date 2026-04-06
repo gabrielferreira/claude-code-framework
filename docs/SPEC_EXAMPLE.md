@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.12.0 framework-file: docs/SPEC_EXAMPLE.md -->
+<!-- framework-tag: v2.13.0 framework-file: docs/SPEC_EXAMPLE.md -->
 # FEAT-42 — Notificacoes por email quando spec muda de status
 
 > Status: `aprovada`

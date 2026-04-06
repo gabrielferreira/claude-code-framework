@@ -7,6 +7,27 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.13.0] — 2026-04-06
+
+### Adicionado
+
+- Skill `bug-investigation` (`/bug-report`): investigacao estruturada de bugs para times N2/N3 antes de escalar para engenharia — 10 passos com validacao de sintoma, reproducao, porques encadeados, mapa de impacto e recomendacao para engenharia
+- Template `BUG_REPORT_TEMPLATE.md`: template completo para relatorios de bug com todas as secoes de investigacao
+- Doc `BUG_INVESTIGATION_PORTABLE_PROMPT.md`: prompt standalone para investigacao de bugs em qualquer LLM (Gemini, OpenAI, Claude)
+- PRD Creator: validacao do problema (teste de resolucao — desafia se o problema declarado e sintoma/causa)
+- PRD Creator: porques encadeados com minimo 3 niveis por causa (antes era 1 nivel)
+- PRD Creator: mapa causal com nos compartilhados, convergencias e causa raiz principal
+- PRD Creator: derivacao de "como resolver" encadeada a partir das causas raiz (Como? → Como especificamente? → O que concretamente?)
+- PRD Creator: calibracao de escopo que previne PRDs nivel task (<3 acoes = warning)
+
+### Alterado
+
+- PRD Template: secoes Porques e Como Resolver reestruturadas para suportar analise encadeada
+- PRD Template: checklist de verificacao pos-conclusao expandido de 4 para 10 itens
+- PRD Portable Prompt: espelha todas as mudancas da skill e template
+- CLAUDE.template.md: adicionada skill #22 (bug-investigation)
+- MANIFEST.md: adicionadas entradas para bug-investigation, BUG_REPORT_TEMPLATE e BUG_INVESTIGATION_PORTABLE_PROMPT
+
 ## [2.12.0] — 2026-04-06
 
 ### Adicionado
