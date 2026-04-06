@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.13.1] — 2026-04-06
+
+### Corrigido
+
+- Skill `/bug-report` e portable prompt: investigador nao precisava repetir informacoes ja fornecidas na mensagem inicial. Agora o fluxo extrai tudo da mensagem antes de perguntar, confirma o que ja tem, e so pergunta o que falta.
+
 ## [2.13.0] — 2026-04-06
 
 ### Adicionado
