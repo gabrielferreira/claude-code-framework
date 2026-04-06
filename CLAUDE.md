@@ -134,13 +134,40 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
 5. **Tag** — `git tag vX.Y.Z`
 6. **Push** — perguntar ao usuario antes de `git push && git push --tags`
 
-### 4. Checklist pos-release
+### 4. Gerar migration
+
+Apos o bump e antes do commit de release, gerar o arquivo de migration para esta versao. Migrations sao guias de atualizacao manual — como migrations de banco de dados, mas para o framework.
+
+1. **Obter o diff entre a tag anterior e HEAD:**
+   ```bash
+   git diff ${TAG_ANTERIOR}..HEAD --name-status
+   ```
+
+2. **Classificar cada arquivo pelo MANIFEST** (overwrite/structural/manual/skip/new/removed)
+
+3. **Gerar `migrations/v{ANTERIOR}-to-v{NOVA}.md`** usando o template `migrations/MIGRATION_TEMPLATE.md`:
+   - Para cada arquivo **overwrite**: listar o path e descrever o que mudou (resumo do diff)
+   - Para cada arquivo **structural**: listar secoes H2/H3 adicionadas ou removidas
+   - Para cada arquivo **manual**: incluir o diff relevante para o usuario decidir
+   - Para cada arquivo **novo**: descrever o que e, para que serve, e quando e relevante
+   - Para cada arquivo **removido**: explicar o motivo e apontar substituto
+   - Agrupar por estrategia, na ordem: overwrite → structural → manual → novos → removidos
+   - Omitir secoes vazias (ex: se nao tem arquivos removidos, nao incluir a secao)
+
+4. **Validar:** o migration deve ser auto-contido — alguem sem acesso ao Claude Code consegue ler e aplicar cada passo manualmente.
+
+5. **Incluir o migration no commit de release** (mesmo commit que VERSION, plugin.json e framework-tags).
+
+> **Nota:** migrations nao sao geradas retroativamente. A primeira migration sera criada na proxima release apos esta funcionalidade ser adicionada.
+
+### 5. Checklist pos-release
 
 Verificar que tudo ficou consistente:
 
 - [ ] `VERSION` contem a nova versao
 - [ ] `plugin.json` contem a mesma versao
 - [ ] `CHANGELOG.md` tem entrada para a nova versao
+- [ ] `migrations/v{ANTERIOR}-to-v{NOVA}.md` existe e esta completo
 - [ ] `scripts/validate-tags.sh` passa sem erros
 - [ ] Todos os sources estao sincronizados com templates (`diff source template`)
 - [ ] Novo doc/skill/agent tem entrada no MANIFEST
