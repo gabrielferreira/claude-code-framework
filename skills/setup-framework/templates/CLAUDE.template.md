@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.13.2 framework-file: CLAUDE.template.md -->
+<!-- framework-tag: v2.13.3 framework-file: CLAUDE.template.md -->
 # CLAUDE.md — {NOME_DO_PROJETO}
 
 ## Output — concisão obrigatória

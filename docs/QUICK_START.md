@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.13.2 framework-file: docs/QUICK_START.md -->
+<!-- framework-tag: v2.13.3 framework-file: docs/QUICK_START.md -->
 # Quick Start — claude-code-framework
 
 > Em 5 minutos voce tera: CLAUDE.md configurado, backlog pronto, skills de dominio instaladas e um fluxo spec-driven funcionando no seu projeto.

@@ -1,6 +1,6 @@
 {
   "name": "claude-code-framework",
-  "version": "2.13.2",
+  "version": "2.13.3",
   "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
   "repository": "https://github.com/estrategiahq/claude-code-framework",
   "author": "Estrategia HQ",

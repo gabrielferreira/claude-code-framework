@@ -3,7 +3,7 @@ name: bug-investigation
 description: Guia investigacao estruturada de bugs para times N2/N3 antes de escalar para engenharia, com analise de causa raiz e evidencias completas
 user_invocable: true
 ---
-<!-- framework-tag: v2.13.2 framework-file: skills/bug-investigation/SKILL.md -->
+<!-- framework-tag: v2.13.3 framework-file: skills/bug-investigation/SKILL.md -->
 
 # /bug-report — Investigacao estruturada de bugs
 
