@@ -75,7 +75,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
 
 2. **Classificar complexidade:**
    - **Pequeno** (<=3 arquivos, <30min): PRD nao se aplica. Informar: "Classificado como Pequeno — nao precisa de PRD. Use `/spec` ou `/backlog-update` direto." Parar aqui.
-   - **Medio** (<10 tasks, escopo claro): criar PRD light — preencher apenas Problema, Causas, Evidencias, Porques e Como resolver. Demais secoes opcionais.
+   - **Medio** (<10 tasks, escopo claro): criar PRD light — preencher secoes obrigatorias. Demais secoes opcionais.
    - **Grande** (multi-componente, >10 tasks): criar PRD completo com todas as secoes.
    - **Complexo** (ambiguidade, dominio novo, >20 tasks): criar PRD completo + sugerir sessao de pesquisa antes: "Feature complexa — recomendo uma sessao de pesquisa/discovery antes de preencher o PRD."
    Na duvida, classificar para cima.
@@ -89,13 +89,151 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
    - Complexidade: conforme classificacao
    - Data: hoje
 
-5. **Guiar analise de causa raiz:** perguntar ao usuario em sequencia:
-   - **Problema:** "Qual o problema ou oportunidade? O que esta acontecendo? Quem e afetado?"
-   - **Causas:** "O que esta gerando esse problema? Liste as causas que voce identifica."
-   - **Evidencias:** "Que dados sustentam isso? Metricas, reclamacoes, incidentes, feedbacks?"
-   - **Porques:** "Por que essas causas existem? Vamos aprofundar — por que a causa X acontece?"
-   - **Quem:** "Quem sao as personas afetadas? Qual a dor principal de cada uma?"
-   - **Como resolver:** "Quais acoes concretas resolvem as causas raiz? Cada acao pode virar uma spec."
+5. **Guiar analise de causa raiz (9 passos):**
+
+   Conduzir a analise fazendo **uma pergunta de cada vez**. Esperar a resposta antes de avancar. Nao pular etapas.
+
+   ---
+
+   #### Passo 1 — Problema
+   Pergunte: "Qual o problema ou oportunidade? O que esta acontecendo? Quem e afetado?"
+
+   Objetivo: capturar o que o usuario percebe como problema, em 2-3 frases concretas.
+
+   ---
+
+   #### Passo 2 — Validacao do problema (CRITICO)
+
+   **Nao aceitar o problema declarado sem questionar.** Avaliar criticamente:
+
+   - O que foi descrito parece uma **causa** (algo que gera um efeito) ou um **sintoma** (consequencia visivel) ao inves de um problema raiz?
+   - Existe algo **acima** do que foi declarado?
+
+   **Aplicar o teste de resolucao:**
+   Pergunte: "Se resolvermos '{problema declarado}', o problema maior desaparece completamente? Ou continua existindo de alguma forma?"
+
+   - **Se o usuario diz que continua existindo** → o que foi declarado e causa ou sintoma. Pergunte: "Entao qual seria o problema real que queremos resolver? O que esta acima de '{problema declarado}'?"
+   - **Se o usuario diz que desaparece** → provavelmente e o problema raiz. Confirme e siga.
+
+   **Repetir ate 3 rodadas** para evitar frustrar o usuario. Se apos 3 rodadas ainda parecer causa/sintoma mas o usuario insiste, aceitar e registrar a observacao:
+   > "Nota: o problema declarado pode ser causa intermediaria de algo maior. Considerar revisitar se as solucoes nao resolverem a dor raiz."
+
+   **Registrar no PRD:**
+   - Declaracao original (o que o usuario trouxe primeiro)
+   - Nivel identificado: `problema raiz`, `causa intermediaria`, ou `sintoma`
+   - Problema raiz real (se diferente do original)
+   - Resultado do teste de resolucao
+
+   ---
+
+   #### Passo 3 — Causas
+   Pergunte: "O que esta gerando esse problema? Liste as causas que voce identifica."
+
+   Objetivo: listar pelo menos 3 causas possiveis. Ajudar o usuario a ir alem do obvio:
+   - "Alem dessas, existe alguma causa organizacional, de processo, ou tecnica que contribui?"
+   - "Alguma dessas causas depende de outra? Uma gera a outra?"
+
+   ---
+
+   #### Passo 4 — Evidencias
+   Pergunte: "Que dados sustentam isso? Metricas, reclamacoes, incidentes, feedbacks?"
+
+   Objetivo: ancorar as causas em dados concretos. Sem evidencias, o PRD fica fragil.
+
+   ---
+
+   #### Passo 5 — Porques encadeados (5 Whys profundo)
+
+   **Para cada causa principal**, conduzir uma cadeia de "por que?" com **minimo 3 niveis**, idealmente 5:
+
+   Pergunte: "Vamos aprofundar a Causa 1: '{causa}'. Por que isso acontece?"
+   - Ao receber resposta: "E por que '{resposta}' acontece?"
+   - Repetir ate chegar numa resposta que nao tem mais "por que" (a raiz real)
+   - Minimo 3 niveis, maximo 5 (parar se estiver circular ou o usuario nao souber mais)
+
+   **Apos encadear todas as causas, cruzar as cadeias:**
+   - Alguma resposta aparece em mais de uma cadeia? → E um **no compartilhado** (causa raiz que alimenta multiplos problemas)
+   - Exemplo: se "falta de documentacao" aparece como resposta no nivel 3 da Causa 1 E no nivel 2 da Causa 3, sinalizar: "'{resposta}' aparece em multiplas cadeias — pode ser uma causa raiz de alto impacto."
+
+   **Registrar cada cadeia no formato:**
+   ```
+   ### Causa N — {titulo}
+   1. Por que? → {resposta}
+   2. Por que? → {resposta}
+   3. Por que? → {resposta}
+   **Causa raiz identificada:** {resumo}
+   ```
+
+   ---
+
+   #### Passo 6 — Mapa causal
+
+   **Sintetizar** todas as cadeias de porques em um mapa de relacoes. Este passo e feito pelo assistente (nao e uma pergunta ao usuario), mas apresentado para validacao:
+
+   1. **Nos compartilhados** — causas raiz que alimentam multiplos efeitos:
+      - "{Causa raiz X} → afeta {efeito 1}, {efeito 2}, {efeito 3}"
+   2. **Convergencias** — efeitos que tem multiplas causas contribuindo:
+      - "{Efeito Y} ← causado por {causa 1}, {causa 2}"
+   3. **Causa raiz principal** — a que, se resolvida, tem o maior efeito cascata
+
+   Apresentar ao usuario: "Baseado na analise, identifiquei que a causa raiz de maior impacto e '{causa}' porque afeta {N} cadeias. Concorda?"
+
+   ---
+
+   #### Passo 7 — Quem e afetado
+   Pergunte: "Quem sao as personas afetadas? Qual a dor principal de cada uma? Que workaround usam hoje?"
+
+   Objetivo: mapear personas com dor concreta e comportamento atual.
+
+   ---
+
+   #### Passo 8 — Como resolver (derivacao encadeada)
+
+   **Para cada causa raiz identificada** (nao as causas superficiais — as raizes encontradas nos Porques), conduzir cadeia de "como?":
+
+   Pergunte: "Como resolvemos a causa raiz '{causa raiz}'?"
+   - Ao receber resposta: "Como especificamente fazemos '{resposta}'?"
+   - Ao receber resposta: "O que concretamente precisa ser feito para '{resposta}'?"
+
+   **Regras:**
+   - Cada acao deve rastrear para uma causa raiz especifica ("esta acao resolve a causa raiz X")
+   - Acoes que nao rastreiam para nenhuma causa raiz devem ser questionadas: "Essa acao resolve qual causa raiz?"
+   - Acoes vagas ("melhorar o sistema") nao servem — a cadeia de "como?" forca o detalhamento
+   - Cada acao detalhada pode virar uma spec
+
+   **Registrar cada acao no formato:**
+   ```
+   ### Acao N — {titulo}
+   **Causa raiz atacada:** {ref}
+   **Cadeia de derivacao:**
+   1. Como? → {resposta}
+   2. Como especificamente? → {resposta}
+   3. O que concretamente? → {resposta}
+   ```
+
+   ---
+
+   #### Passo 9 — Calibracao de escopo
+
+   **Validar que o PRD e epic-level, nao task-level.** Checar:
+
+   | Criterio | Resultado esperado |
+   |----------|-------------------|
+   | Total de acoes | >=3 (se <3, provavelmente e uma task, nao um epic) |
+   | Specs estimadas | >=3 (cada acao deve gerar pelo menos 1 spec) |
+   | Acoes sao de produto (o que/por que) vs implementacao (como tecnico)? | Devem ser de produto |
+   | Resolver todas as acoes elimina o problema raiz? | Sim — se nao, falta acao |
+
+   **Se <3 acoes:**
+   Avisar: "Este PRD tem apenas {N} acoes — pode ser mais adequado como uma spec unica ou item de backlog. Quer reformular expandindo o escopo, ou prefere converter para spec?"
+
+   **Se acoes sao muito tecnicas:**
+   Avisar: "Algumas acoes parecem detalhes de implementacao (ex: '{acao}'). O PRD deve descrever O QUE resolver, nao COMO implementar. Quer reformular em nivel mais alto?"
+
+   **Registrar no PRD:**
+   - Total de acoes, specs estimadas, nivel validado (epic/feature/task)
+
+   ---
 
    > Nao e necessario preencher tudo de uma vez. O usuario pode deixar campos como placeholder e iterar depois. O importante e capturar o maximo possivel na primeira passada.
 
@@ -113,10 +251,13 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
    | Secao | Medio | Grande/Complexo |
    |---|---|---|
    | Problema | obrigatorio — ≥2 frases concretas | obrigatorio |
-   | Causas | obrigatorio — ≥1 causa real | obrigatorio |
+   | Validacao do problema | obrigatorio — teste de resolucao feito | obrigatorio |
+   | Causas | obrigatorio — ≥3 causas | obrigatorio |
    | Evidencias | obrigatorio — ≥1 dado concreto | obrigatorio |
-   | Porques | obrigatorio — ≥1 nivel de profundidade | obrigatorio |
-   | Como resolver | obrigatorio — ≥1 acao concreta | obrigatorio |
+   | Porques encadeados | obrigatorio — ≥3 niveis por causa | obrigatorio |
+   | Mapa causal | — | obrigatorio |
+   | Como resolver (com derivacao) | obrigatorio — ≥1 acao com cadeia | obrigatorio |
+   | Calibracao de escopo | obrigatorio — nivel validado | obrigatorio |
    | Quem e afetado | — | obrigatorio |
    | Metricas de sucesso | — | obrigatorio |
 
@@ -132,6 +273,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
 9. **Informar o usuario:**
    - Path do arquivo criado (`.claude/prds/{id}.md`)
    - Classificacao de complexidade aplicada
+   - Causa raiz principal identificada
    - Resultado da verificacao: ✅ completo | ⚠️ N secoes pendentes
    - Se `--from` foi usado: resumo do que foi extraido da fonte
    - Proximo passo: "Quando o PRD estiver aprovado, crie specs derivadas com `/spec {SPEC-ID} {Titulo}` e vincule a este PRD."
@@ -150,9 +292,12 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
 
 2. **Classificar complexidade:** mesma logica do modo repo. Pequeno = nao cria PRD.
 
-3. **Coletar informacoes** (guiar analise de causa raiz — mesmas perguntas do modo repo):
-   - Problema, Causas, Evidencias, Porques, Como resolver (obrigatorias)
-   - Quem e afetado, Historias de usuario, Metricas, Escopo (conforme complexidade)
+3. **Coletar informacoes** (guiar analise de causa raiz — **mesmos 9 passos do modo repo**):
+   - Passo 1-2: Problema + validacao
+   - Passo 3-4: Causas + evidencias
+   - Passo 5-6: Porques encadeados + mapa causal
+   - Passo 7: Quem e afetado
+   - Passo 8-9: Como resolver encadeado + calibracao de escopo
    - Se `--from` foi usado, usar dados extraidos como base
 
    > **REGRA:** Nunca criar pagina no Notion com body vazio ou so com placeholders.
@@ -173,7 +318,7 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
      content: "{conteudo coletado no passo 3, formatado em markdown}"
    }]
    ```
-   O content deve incluir todas as secoes coletadas (Problema, Causas, Evidencias, etc.).
+   O content deve incluir todas as secoes coletadas (Problema, Validacao, Causas, Porques encadeados, Mapa causal, Como resolver com derivacao, Calibracao, etc.).
    Se o template do Notion ja tem secoes (H2/H3), preencher dentro dessas secoes.
    Se nao houver template de PRD na database, criar a pagina sem template e preencher o conteudo usando o formato do PRD_TEMPLATE.md como referencia.
    Se o usuario nao tiver todas as informacoes, preencher o que tem e marcar secoes pendentes com `{A DETALHAR}`.
@@ -189,10 +334,13 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
    | Secao | Medio | Grande/Complexo |
    |---|---|---|
    | Problema | obrigatorio | obrigatorio |
+   | Validacao do problema | obrigatorio | obrigatorio |
    | Causas | obrigatorio | obrigatorio |
    | Evidencias | obrigatorio | obrigatorio |
-   | Porques | obrigatorio | obrigatorio |
-   | Como resolver | obrigatorio | obrigatorio |
+   | Porques encadeados | obrigatorio | obrigatorio |
+   | Mapa causal | — | obrigatorio |
+   | Como resolver (com derivacao) | obrigatorio | obrigatorio |
+   | Calibracao de escopo | obrigatorio | obrigatorio |
    | Quem e afetado | — | obrigatorio |
    | Metricas de sucesso | — | obrigatorio |
 
@@ -209,6 +357,7 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
 7. **Informar o usuario:**
    - URL da pagina criada no Notion
    - Classificacao de complexidade
+   - Causa raiz principal identificada
    - Resultado da verificacao: ✅ completo | ⚠️ N secoes pendentes
    - Se `--from` foi usado: resumo do que foi extraido da fonte
    - Proximo passo: vincular specs ao PRD conforme acoes forem priorizadas
@@ -237,10 +386,10 @@ Quando PRDs vivem em Jira, Confluence, Google Docs, ou outra ferramenta.
 Quando o usuario passa `--export` ou o projeto tem `prd_mode: export` no CLAUDE.md. O PRD e gerado como output formatado na conversa, sem criar arquivo nem registrar em nenhum index.
 
 1. **Classificar complexidade** (mesma logica)
-2. **Coletar informacoes** (mesma sequencia de perguntas, ou usar `--from` se fornecido)
+2. **Coletar informacoes** (mesmos 9 passos de analise de causa raiz)
 3. **Gerar PRD formatado** usando a estrutura do `PRD_TEMPLATE.md`:
    - Output completo em markdown na conversa
-   - Incluir header, todas as secoes preenchidas, e checklist
+   - Incluir header, todas as secoes preenchidas (com validacao, porques encadeados, mapa causal, derivacao de comos, calibracao), e checklist
 4. **Informar o usuario:**
    - "PRD gerado para copy-paste. Nenhum arquivo foi criado."
    - Sugerir destino: "Copie para o Jira, Confluence, ou ferramenta de produto do time."
@@ -258,8 +407,14 @@ Quando o usuario passa `--export` ou o projeto tem `prd_mode: export` no CLAUDE.
 - **Modo externo:** apenas registrar referencia — nao criar arquivo local
 - **Modo export:** gerar output formatado na conversa — nao criar arquivo nem registrar
 - **`--from`:** quando fornecido, resolver fonte externa ANTES de iniciar analise. Registrar referencia no header do PRD
-- Secoes obrigatorias: Problema, Causas, Evidencias, Porques, Como resolver
-- Secoes opcionais para Medio: Historias de usuario, Restricoes, Metricas de sucesso
+- **Nunca aceitar o problema declarado sem questionar.** Sempre aplicar o teste de resolucao (passo 2) antes de prosseguir
+- **Porques devem ter minimo 3 niveis** por causa. Um unico "por que?" nao e suficiente
+- **Cruzar cadeias de porques** para identificar nos compartilhados e convergencias
+- **Cada acao deve rastrear para uma causa raiz.** Acoes orfas (sem causa raiz vinculada) devem ser questionadas
+- **Derivar comos das causas raiz**, nao de causas superficiais. A cadeia Como? → Como especificamente? → O que concretamente? e obrigatoria
+- **PRD com <3 acoes provavelmente e task.** Avisar o usuario e sugerir reformulacao ou conversao para spec
+- Secoes obrigatorias: Problema, Validacao, Causas, Evidencias, Porques encadeados, Como resolver com derivacao, Calibracao de escopo
+- Secoes opcionais para Medio: Mapa causal, Historias de usuario, Restricoes, Metricas de sucesso
 - Na duvida sobre complexidade, classificar para cima
 - O PRD captura o "o que/por que/para quem" — nao detalhar "como implementar" (isso e da spec)
 - PRD `rascunho` precisa ser aprovado pelo time antes de gerar specs
