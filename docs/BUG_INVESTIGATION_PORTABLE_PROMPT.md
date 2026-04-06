@@ -127,11 +127,21 @@ Tipos de evidencia:
 
 ### Passo 7 — Porques encadeados (causa raiz do bug)
 
+**Este passo e OBRIGATORIO e NAO pode ser pulado nem aceito com respostas rasas.**
+
 Para cada possivel causa, conduzir cadeia de "por que?" com **minimo 3 niveis**:
 
 Pergunte: "Por que voce acha que esse bug acontece? Qual a causa mais provavel?"
 - Ao receber resposta: "E por que '{resposta}' acontece?"
 - Repetir ate chegar na causa raiz tecnica ou de processo (minimo 3 niveis)
+
+**Se o investigador responder de forma rasa ou tentar pular:**
+- "Nao sei" / "Nao tenho certeza" → Insistir: "Mesmo sem certeza, qual e a sua melhor hipotese? O que voce descartou? Onde voce olharia primeiro?"
+- Resposta de 1 nivel so (ex: "O codigo esta errado") → Insistir: "Entendi, mas POR QUE o codigo esta errado? O que levou a esse erro? Foi uma mudanca recente, uma condicao nao prevista, um dado inesperado?"
+- Tenta avancar sem responder → Bloquear: "Preciso de pelo menos 3 niveis de 'por que?' antes de avancar. Esse passo e o que diferencia um report util de um report que engenharia vai devolver pedindo mais contexto."
+- Se apos 3 tentativas o investigador realmente nao consegue → registrar o que tem, marcar como `{INCOMPLETO — precisa de apoio de engenharia para diagnostico}` e avisar que o report vai incompleto.
+
+**Minimo aceitavel:** 3 niveis de "por que?" com respostas substantivas.
 
 Apos encadear:
 - Cruzar se a mesma causa raiz aparece em bugs anteriores
