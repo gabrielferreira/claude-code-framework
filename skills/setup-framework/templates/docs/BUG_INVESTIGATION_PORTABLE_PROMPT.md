@@ -50,10 +50,16 @@ Na duvida, classificar para cima.
 
 ## Fluxo de investigacao (10 passos)
 
-Conduza a investigacao fazendo **uma pergunta de cada vez**. Espere a resposta antes de avancar. Nao pule etapas.
+**REGRA CRITICA — Extrair antes de perguntar:**
+Antes de fazer qualquer pergunta, analisar TODA a informacao que o investigador ja forneceu na mensagem inicial. Extrair e pre-preencher tudo que for possivel: sintoma, ambiente, passos de reproducao, evidencias, contexto, comportamento esperado/real. Se a mensagem inicial ja contem a resposta para um passo, **nao perguntar de novo** — confirmar o que foi extraido e avancar para o proximo passo que ainda tem lacuna. Apresentar um resumo: "Extraí da sua mensagem: [sintoma], [ambiente], [evidencias]. Vou confirmar e aprofundar o que falta."
+
+Conduzir a investigacao fazendo **uma pergunta de cada vez** apenas para os passos que ainda tem lacuna. Esperar a resposta antes de avancar.
 
 ### Passo 1 — Sintoma reportado
-Pergunte: "Qual o bug reportado? O que o usuario/cliente disse que esta acontecendo?"
+
+**Se ja fornecido na mensagem inicial:** confirmar — "Entendi que o sintoma reportado e: '{sintoma extraido}'. Esta correto? Tem algo a mais?"
+
+**Se nao fornecido:** Pergunte: "Qual o bug reportado? O que o usuario/cliente disse que esta acontecendo?"
 
 Objetivo: capturar exatamente o que foi relatado, sem interpretar. Registrar as palavras do usuario/cliente.
 
@@ -70,13 +76,19 @@ Explorar:
 - Existe um padrao — outros bugs similares ja foram reportados?
 
 ### Passo 3 — Comportamento esperado vs real
-Pergunte: "Qual o comportamento esperado (o que deveria acontecer)? E qual o comportamento real (o que acontece de fato)?"
+
+**Se ja fornecido:** confirmar — "Entendi que o esperado era '{X}' e o que acontece e '{Y}'. Correto?"
+
+**Se nao fornecido ou incompleto:** Pergunte: "Qual o comportamento esperado (o que deveria acontecer)? E qual o comportamento real (o que acontece de fato)?"
 
 Complementar: "Onde esta documentado o comportamento esperado? Spec, PRD, documentacao?"
 Se nao ha documentacao → registrar como expectativa implicita.
 
 ### Passo 4 — Contexto da funcionalidade
-Pergunte: "Qual funcionalidade/modulo/tela e afetada? Que fluxo do usuario leva ate esse ponto?"
+
+**Se ja fornecido:** confirmar — "O bug esta em '{modulo/tela}', no fluxo de '{fluxo}'. Correto? Tem dependencias que devo saber?"
+
+**Se nao fornecido:** Pergunte: "Qual funcionalidade/modulo/tela e afetada? Que fluxo do usuario leva ate esse ponto?"
 
 Coletar:
 - Funcionalidade/modulo afetado
@@ -85,7 +97,10 @@ Coletar:
 - Referencias (spec, PRD, doc tecnica, repositorio)
 
 ### Passo 5 — Reproducao
-Pergunte: "Como reproduzir o bug? Quais passos exatos? Em que ambiente?"
+
+**Se passos ja fornecidos:** confirmar e complementar — "Voce mencionou os passos: {passos extraidos}. Falta algum detalhe? Pre-condicoes? Ambiente?"
+
+**Se nao fornecidos:** Pergunte: "Como reproduzir o bug? Quais passos exatos? Em que ambiente?"
 
 Estrutura obrigatoria:
 1. Pre-condicoes (estado inicial, dados, permissoes)
@@ -98,7 +113,10 @@ Estrutura obrigatoria:
 Se nao reproduzir: registrar tentativas e ambientes testados.
 
 ### Passo 6 — Evidencias
-Pergunte: "Que evidencias existem? Logs, screenshots, gravacoes, metricas, relatos de outros usuarios?"
+
+**Se evidencias ja fornecidas (logs, screenshots, metricas na mensagem):** confirmar — "Voce ja trouxe estas evidencias: {lista}. Tem mais alguma? Logs com timestamp, metricas de monitoramento, relatos de outros usuarios?"
+
+**Se nao fornecidas:** Pergunte: "Que evidencias existem? Logs, screenshots, gravacoes, metricas, relatos de outros usuarios?"
 
 Tipos de evidencia:
 - Logs (com timestamp e request ID)

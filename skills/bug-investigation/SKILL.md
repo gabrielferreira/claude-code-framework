@@ -69,12 +69,21 @@ Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
 
 4. **Guiar investigacao (10 passos):**
 
-   Conduzir a investigacao fazendo **uma pergunta de cada vez**. Esperar a resposta antes de avancar.
+   **REGRA CRITICA — Extrair antes de perguntar:**
+   Antes de fazer qualquer pergunta, analisar TODA a informacao que o investigador ja forneceu (no comando, na mensagem inicial, ou via `--from`). Extrair e pre-preencher tudo que for possivel:
+   - Sintoma, ambiente, passos de reproducao, evidencias, contexto, comportamento esperado/real
+   - Se a mensagem inicial ja contem a resposta para um passo, **nao perguntar de novo** — confirmar o que foi extraido e avancar para o proximo passo que ainda tem lacuna
+   - Apresentar um resumo do que foi extraido: "Extraí da sua mensagem: [sintoma], [ambiente], [evidencias]. Vou confirmar e aprofundar o que falta."
+
+   Conduzir a investigacao fazendo **uma pergunta de cada vez** apenas para os passos que ainda tem lacuna. Esperar a resposta antes de avancar.
 
    ---
 
    #### Passo 1 — Sintoma reportado
-   Pergunte: "Qual o bug reportado? O que o usuario/cliente disse que esta acontecendo?"
+
+   **Se ja fornecido na mensagem inicial:** confirmar o que foi extraido — "Entendi que o sintoma reportado e: '{sintoma extraido}'. Esta correto? Tem algo a mais?"
+
+   **Se nao fornecido:** Pergunte: "Qual o bug reportado? O que o usuario/cliente disse que esta acontecendo?"
 
    Objetivo: capturar exatamente o que foi relatado, sem interpretar. Registrar as palavras do usuario/cliente.
 
@@ -100,7 +109,10 @@ Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
    ---
 
    #### Passo 3 — Comportamento esperado vs real
-   Pergunte: "Qual o comportamento esperado (o que deveria acontecer)? E qual o comportamento real (o que acontece de fato)?"
+
+   **Se ja fornecido:** confirmar — "Entendi que o esperado era '{X}' e o que acontece e '{Y}'. Correto?"
+
+   **Se nao fornecido ou incompleto:** Pergunte: "Qual o comportamento esperado (o que deveria acontecer)? E qual o comportamento real (o que acontece de fato)?"
 
    Objetivo: documentar a discrepancia de forma clara e testavel.
 
@@ -111,7 +123,10 @@ Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
    ---
 
    #### Passo 4 — Contexto da funcionalidade
-   Pergunte: "Qual funcionalidade/modulo/tela e afetada? Que fluxo do usuario leva ate esse ponto?"
+
+   **Se ja fornecido:** confirmar — "O bug esta em '{modulo/tela}', no fluxo de '{fluxo}'. Correto? Tem dependencias que devo saber?"
+
+   **Se nao fornecido:** Pergunte: "Qual funcionalidade/modulo/tela e afetada? Que fluxo do usuario leva ate esse ponto?"
 
    Objetivo: mapear exatamente ONDE o bug acontece no produto.
 
@@ -124,7 +139,10 @@ Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
    ---
 
    #### Passo 5 — Reproducao
-   Pergunte: "Como reproduzir o bug? Quais passos exatos? Em que ambiente?"
+
+   **Se passos ja fornecidos:** confirmar e complementar — "Voce mencionou os passos: {passos extraidos}. Falta algum detalhe? Pre-condicoes? Ambiente?"
+
+   **Se nao fornecidos:** Pergunte: "Como reproduzir o bug? Quais passos exatos? Em que ambiente?"
 
    Objetivo: documentar passos de reproducao que engenharia pode seguir sem ambiguidade.
 
@@ -144,7 +162,10 @@ Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
    ---
 
    #### Passo 6 — Evidencias
-   Pergunte: "Que evidencias existem? Logs, screenshots, gravacoes, metricas, relatos de outros usuarios?"
+
+   **Se evidencias ja fornecidas (logs, screenshots, metricas na mensagem):** confirmar — "Voce ja trouxe estas evidencias: {lista}. Tem mais alguma? Logs com timestamp, metricas de monitoramento, relatos de outros usuarios?"
+
+   **Se nao fornecidas:** Pergunte: "Que evidencias existem? Logs, screenshots, gravacoes, metricas, relatos de outros usuarios?"
 
    Objetivo: compilar todas as evidencias disponiveis.
 
