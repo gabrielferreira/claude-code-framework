@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.11.0 framework-file: specs/backlog-format.md -->
+<!-- framework-tag: v2.12.0 framework-file: specs/backlog-format.md -->
 # Formato do Backlog
 
 > Especificação do formato das tabelas de backlog. Aplicar ao editar `backlog-pending.md` e `backlog-done.md`.
