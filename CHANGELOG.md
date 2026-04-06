@@ -7,11 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
-## [2.13.1] — 2026-04-06
+## [2.13.2] — 2026-04-06
 
 ### Corrigido
 
-- Skill `/bug-report` e portable prompt: investigador nao precisava repetir informacoes ja fornecidas na mensagem inicial. Agora o fluxo extrai tudo da mensagem antes de perguntar, confirma o que ja tem, e so pergunta o que falta.
+- Bug report: output agora segue o formato do template de bugs do Notion do time (4 secoes: Contexto e Comportamento, Reproducao e Validacao, Dados Tecnicos, Escopo e Impacto)
+- Bug report: investigador nao precisava repetir informacoes ja fornecidas na mensagem inicial — fluxo extrai tudo da mensagem antes de perguntar
 
 ## [2.13.0] — 2026-04-06
 
