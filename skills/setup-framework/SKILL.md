@@ -659,7 +659,7 @@ Apresentar recomendacao baseada na analise:
 - code-quality
 - logging
 - docs-sync
-- spec-creator ← slash command `/spec-creator` (cria specs)
+- spec-creator ← slash command `/spec` (cria specs)
 - backlog-update ← slash command `/backlog-update` (atualiza backlog)
 
 > **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
@@ -909,7 +909,7 @@ Para cada skill listada no Bloco 4 (incluindo as core):
 - Copiar o diretorio inteiro de `${FRAMEWORK_PATH}/skills/{nome}/` para `.claude/skills/{nome}/`
 - Incluir tanto README.md (skills de referencia) quanto SKILL.md (slash commands)
 
-> **CRITICO:** `spec-creator` e `backlog-update` sao slash commands essenciais — ja estao na lista core do Bloco 4. Se por qualquer motivo nao estiverem na lista de skills a copiar, adicionar. O projeto nao funciona sem `/spec-creator` e `/backlog-update`.
+> **CRITICO:** `spec-creator` e `backlog-update` sao slash commands essenciais — ja estao na lista core do Bloco 4. Se por qualquer motivo nao estiverem na lista de skills a copiar, adicionar. O projeto nao funciona sem `/spec` e `/backlog-update`.
 
 **Se PRD opt-in (Bloco 2b):**
 - `skills/prd-creator/SKILL.md`
@@ -1738,7 +1738,7 @@ Apos a auditoria e auto-fix, listar o que so o usuario pode resolver:
 
 ### Proximos passos recomendados
 
-> ⚠️ **IMPORTANTE:** Skills instaladas durante esta sessao so ficam disponiveis como slash commands apos iniciar uma **nova sessao** (ou usar `/clear`). Isso e uma limitacao do Claude Code — ele carrega a lista de skills ao iniciar a sessao. Inicie uma sessao nova antes de usar `/spec-creator`, `/backlog-update` ou qualquer outro slash command instalado.
+> ⚠️ **IMPORTANTE:** Skills instaladas durante esta sessao so ficam disponiveis como slash commands apos iniciar uma **nova sessao** (ou usar `/clear`). Isso e uma limitacao do Claude Code — ele carrega a lista de skills ao iniciar a sessao. Inicie uma sessao nova antes de usar `/spec`, `/backlog-update` ou qualquer outro slash command instalado.
 
 1. **Agora:** revisar CLAUDE.md gerado e ajustar placeholders restantes
 2. **Iniciar nova sessao** (ou `/clear`) para ativar os slash commands instalados
