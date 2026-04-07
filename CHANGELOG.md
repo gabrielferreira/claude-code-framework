@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.14.2] — 2026-04-07
+
+### Documentacao
+
+- Adicionado `/clear` como alternativa a abrir sessao nova no SPEC_DRIVEN_GUIDE, spec-driven skill e CLAUDE.template.md
+
 ## [2.14.1] — 2026-04-07
 
 ### Corrigido
