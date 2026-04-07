@@ -821,7 +821,7 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
   - Se **repo**: manter secao "Specs e Requisitos" padrao
   - Se **externo**: adaptar caminhos para referenciar IDs externos (ex: `PROJ-123` em vez de `.claude/specs/auth.md`), adicionar instrucao de como consultar specs externas via MCP ou link direto
   - Se **hibrido**: manter estrutura local para specs tecnicas + adicionar secao de referencia externa para specs de produto
-  - Se **Notion com MCP**: adicionar secao "Integracao Notion" no CLAUDE.md com a configuracao coletada:
+  - Se **Notion com MCP**: **OBRIGATORIO** adicionar secao `## Integracao Notion (specs)` no CLAUDE.md com a configuracao coletada. Sem esta secao, `/spec` e `/backlog-update` operam em modo local (arquivos .md) em vez de Notion:
     ```markdown
     ## Integracao Notion (specs)
 
@@ -899,9 +899,14 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
     - Criar `.claude/prds/` e `.claude/prds/done/`
     - Se modo local: copiar `${FRAMEWORK_PATH}/prds/PRD_TEMPLATE.md` para `.claude/prds/PRD_TEMPLATE.md`
     - Copiar `${FRAMEWORK_PATH}/PRDS_INDEX.template.md` para `.claude/prds/PRDS_INDEX.md` (adaptar nome do projeto)
-- Se **modelo externo:**
-  - NAO copiar TEMPLATE.md nem backlog.md locais
-  - Criar `.claude/specs/README.md` com instrucoes de como referenciar specs externas
+- Se **modelo externo (incluindo Notion):**
+  - **NAO copiar** TEMPLATE.md, backlog.md, STATE.md nem DESIGN_TEMPLATE.md locais
+  - **NAO criar** `.claude/specs/` — specs vivem na ferramenta externa
+  - Criar apenas `SPECS_INDEX.md` na raiz como indice de referencia (links para Notion/Jira/etc.)
+  - Se Notion: a `/spec` cria paginas direto no Notion via `notion-create-pages`. O SPECS_INDEX.md serve so como ponte local → Notion.
+  - Se outra ferramenta: criar `.claude/specs/README.md` com instrucoes de como referenciar specs externas
+
+> **CRITICO para Notion:** o backlog do projeto **NAO e local** (`backlog.md`). O backlog vive no Notion. NAO copiar `backlog.md` para o projeto. A skill `/backlog-update` deve atualizar direto no Notion via MCP. Se o CLAUDE.md tiver a secao "Integracao Notion (specs)", a `/spec` e `/backlog-update` operam em modo Notion automaticamente.
 
 ### 3.6 Skills
 
