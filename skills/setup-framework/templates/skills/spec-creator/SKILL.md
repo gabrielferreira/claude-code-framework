@@ -1,5 +1,5 @@
 ---
-name: spec-creator
+name: spec
 description: Cria uma nova spec a partir do template, atualiza SPECS_INDEX e backlog
 user_invocable: true
 ---

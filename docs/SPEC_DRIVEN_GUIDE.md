@@ -761,7 +761,7 @@ Isso equilibra **disciplina** (specs garantem que nada é esquecido) com **auton
 
 A fricção de "criar arquivo, copiar template, preencher header, adicionar no índice" mata adoção. Se o custo de criar uma spec é 5 minutos de setup burocrático, o dev não cria. Se é 5 segundos, cria até para itens menores.
 
-No framework, a skill `/spec-creator` (slash command do Claude Code) automatiza isso:
+No framework, a skill `/spec` (slash command do Claude Code) automatiza isso:
 
 1. Classifica a complexidade (Pequeno/Médio/Grande/Complexo)
 2. Se Pequeno: cria apenas entrada no backlog
@@ -1135,7 +1135,7 @@ Mitigações práticas:
 
 Se uma spec nova aparece sem entrada no índice, ou o índice aponta para arquivo que não existe, o CI falha.
 
-**Automação via skill.** A skill `/spec-creator` cria spec + entrada no índice automaticamente. A skill `/backlog-update` mantém o backlog sincronizado e atualiza STATUS.md quando uma spec é movida para `concluída`.
+**Automação via skill.** A skill `/spec` cria spec + entrada no índice automaticamente. A skill `/backlog-update` mantém o backlog sincronizado e atualiza STATUS.md quando uma spec é movida para `concluída`.
 
 ## Setup automatizado
 
@@ -1177,6 +1177,6 @@ O ponto de inflexão geralmente está em torno de 15-20 specs, ou quando o conte
 | Design doc | Decisões arquiteturais separadas da spec. Obrigatório para Complexo, recomendado para Grande. | specs/{id}-design.md |
 | Scope guardrail | 3 regras para não sair do escopo (não corrigir bugs alheios, não implementar ideias). | CLAUDE.md |
 | Fluxo RPI | Research → Plan → Implement em sessões separadas (Grande/Complexo). | CLAUDE.md |
-| `/spec-creator` | Skill que cria spec + entrada no índice automaticamente, classificando complexidade. | Slash command |
+| `/spec` | Skill que cria spec + entrada no índice automaticamente, classificando complexidade. | Slash command |
 | `/setup-framework` | Skill que analisa projeto e gera toda a estrutura de arquivos do framework automaticamente. | Slash command |
 | `scripts/verify.sh` | CI check que valida integridade estrutural: índice ↔ filesystem + testes + segurança. | Raiz do repo / pipeline CI |
