@@ -114,8 +114,18 @@ Antes de qualquer coisa:
    - L0 (raiz): convencoes globais (commits, seguranca universal, estrutura do monorepo, mapa de skills)
    - L2 (sub-projeto): stack, comandos, testes, coverage, regras especificas
    - Specs: perguntar se unificadas na raiz ou distribuidas por sub-projeto
-   - verify.sh raiz: orquestrador que chama verify.sh de cada sub-projeto
-   - reports.sh raiz: orquestrador que chama reports de cada sub-projeto
+   - verify.sh: por sub-projeto (cada um com checks da sua stack). Orquestrador na raiz e **opcional** — so faz sentido se o time quer rodar tudo junto no CI
+   - reports.sh: mesmo modelo — por sub-projeto, orquestrador na raiz opcional
+   - hooks: por sub-projeto quando relevante (ver secao 3.7)
+
+   **Arquivos com mesmo nome em sub-projetos diferentes:**
+
+   Sub-projetos podem ter skills, agents e docs com o **mesmo nome** mas conteudo diferente (ex: `logging/README.md` no backend Go e `logging/README.md` no frontend React). Isso e esperado e correto — cada sub-projeto tem sua versao. Para evitar ambiguidade:
+
+   - **Setup/update identificam por path completo**, nunca so pelo nome: `backend/.claude/skills/logging/README.md` != `frontend/.claude/skills/logging/README.md`
+   - **SETUP_REPORT.md registra o path completo** de cada skill/agent instalado, incluindo o sub-projeto
+   - **Auditoria (Categoria 6) roda por sub-projeto**: valida `backend/.claude/skills/logging/` contra CODE_PATTERNS de `backend/`, nao contra os do `frontend/`
+   - **CLAUDE.md L2 de cada sub-projeto** referencia as skills do seu `.claude/skills/`, nao da raiz (a menos que sejam skills universais L0)
 
    **Skills e agents em monorepo — distribuicao por camada:**
 
@@ -973,14 +983,116 @@ Copiar `${FRAMEWORK_PATH}/scripts/verify.sh` e adaptar:
 - Manter checks de testes, lint, seguranca relevantes ao stack
 
 **Se monorepo:**
-- Criar verify.sh orquestrador na raiz que chama verify.sh de cada sub-projeto
-- Cada sub-projeto pode ter seu proprio verify.sh com checks especificos
+
+Cada sub-projeto tem seu **proprio `scripts/verify.sh`** com checks especificos da sua stack:
+
+```
+raiz/
+├── scripts/verify.sh          ← orquestrador (OPCIONAL — so se o time quer rodar tudo junto)
+├── backend/
+│   └── scripts/verify.sh      ← go test, golangci-lint, checks Go
+├── frontend/
+│   └── scripts/verify.sh      ← vitest, eslint, checks React
+└── ml/
+    └── scripts/verify.sh      ← pytest, ruff, checks Python
+```
+
+**verify.sh do sub-projeto:**
+- Contem checks especificos da stack (testes, lint, seguranca)
+- Customizado com CODE_PATTERNS do sub-projeto (ex: grep por `fmt.Errorf` proibido no Go)
+- **Auto-suficiente** — pode ser rodado sozinho: `cd backend && bash scripts/verify.sh`
+- Referenciado no CLAUDE.md L2 do sub-projeto
+
+**verify.sh da raiz (orquestrador) — opcional:**
+- Perguntar ao usuario: "Quer um verify.sh na raiz que rode todos os sub-projetos? (util para CI)"
+- Se sim: criar orquestrador que chama `{subdir}/scripts/verify.sh` para cada sub-projeto
+- Se nao: cada sub-projeto roda o seu independentemente
+- O orquestrador **nunca substitui** os verify.sh individuais — apenas os chama
+
+**Hooks (pre-commit, etc.) em monorepo:**
+- Se o time usa hooks (pre-commit, husky, lefthook), configurar para rodar o verify.sh do sub-projeto afetado, nao todos
+- Exemplo com lefthook: `glob: "backend/**"` → roda `backend/scripts/verify.sh`
+- O setup nao configura hooks automaticamente — apenas informa o modelo recomendado no SETUP_REPORT.md
 
 ### 3.8 docs/
 
-Para cada doc selecionado no Bloco 6:
+**Se single repo:**
 - Copiar de `${FRAMEWORK_PATH}/docs/` para `docs/` do projeto
 - NAO preencher conteudo detalhado — deixar como template para evolucao
+
+**Se monorepo:**
+
+Docs podem ser globais (raiz) ou por sub-projeto, dependendo do conteudo:
+
+| Doc | Onde fica | Motivo |
+|---|---|---|
+| `GIT_CONVENTIONS.md` | Raiz `docs/` | Convencoes de git sao globais |
+| `ARCHITECTURE.md` | Raiz `docs/` + L2 `{subdir}/docs/` se complexo | Raiz descreve visao geral, L2 descreve o sub-projeto |
+| `ACCESS_CONTROL.md` | Onde tem auth | Se so backend tem auth, fica em `backend/docs/` |
+| `SECURITY_AUDIT.md` | Raiz `docs/` ou por sub-projeto | Se cada sub-projeto tem superficie de ataque diferente, separar |
+
+Perguntar ao usuario para cada doc: "Este doc se aplica a todos os sub-projetos ou a algum especifico?"
+
+### 3.8.1 CLAUDE.md por sub-projeto (L2) e niveis mais profundos (L3+)
+
+O setup gera:
+- **L0 (raiz):** `CLAUDE.md` — convencoes globais (commits, seguranca, mapa de skills/agents, estrutura do monorepo)
+- **L2 (sub-projeto):** `{subdir}/CLAUDE.md` — stack, comandos, testes, coverage, regras especificas, referencia para skills L2
+
+O Claude Code **concatena** todos os CLAUDE.md do path: ao abrir sessao em `backend/src/`, carrega L0 (raiz) + L2 (backend/). Regras nao devem ser repetidas — se esta no L0, nao copiar pro L2.
+
+**L3+ (niveis mais profundos):**
+- O setup **nao cria** L3 automaticamente — a maioria dos monorepos funciona bem com L0 + L2
+- Informar no SETUP_REPORT.md: "Se um sub-dominio dentro de um sub-projeto tem regras complexas ou conflitantes, crie um `CLAUDE.md` no diretorio especifico (ex: `backend/src/payments/CLAUDE.md`). Manter curto (30-80 linhas) e nao repetir regras do L0/L2."
+- O update (Categoria 6) deve detectar CLAUDE.md em niveis profundos e validar que nao duplicam conteudo do L0/L2
+
+**Conteudo do CLAUDE.md L2 por sub-projeto:**
+
+> **Como o Claude sabe qual skill usar:** Ao abrir sessao dentro de `backend/`, o Claude Code concatena L0 (raiz) + L2 (`backend/CLAUDE.md`). O L2 tem a tabela de Skills com paths **relativos ao sub-projeto** (ex: `.claude/skills/logging/README.md` aponta para `backend/.claude/skills/logging/README.md`). Skills universais (L0) usam path absoluto desde a raiz. O Claude segue o CLAUDE.md mais proximo — se o L2 diz "usar `.claude/skills/logging/README.md`", ele le o do sub-projeto, nao o da raiz.
+
+```markdown
+# CLAUDE.md — {nome do sub-projeto}
+
+## Stack
+{stack detectada — ex: Go 1.22, GORM, elogger}
+
+## Comandos
+```bash
+# Testes
+{comando — ex: go test ./...}
+# Build
+{comando — ex: go build ./cmd/api}
+# Lint
+{comando — ex: golangci-lint run}
+# Verify
+bash scripts/verify.sh
+```
+
+## Testes
+{coverage policy, framework de teste}
+
+## Skills — ler ANTES de codificar
+
+> Skills deste sub-projeto ficam em `.claude/skills/` (relativo a este diretorio).
+> Skills universais ficam na raiz do monorepo em `../../.claude/skills/`.
+
+| # | Trigger | Skill | Obrigatorio? |
+|---|---|---|---|
+| 1 | Vai implementar feature? | `../../.claude/skills/spec-driven/README.md` | ⛔ Sempre |
+| 2 | Vai escrever/modificar testes? | `.claude/skills/testing/README.md` | ⛔ Sempre |
+| 3 | Vai adicionar log ou try/catch? | `.claude/skills/logging/README.md` | ⛔ Sempre |
+| 4 | Vai refatorar ou criar modulo? | `.claude/skills/code-quality/README.md` | Recomendado |
+| 5 | Vai finalizar entrega? | `../../.claude/skills/definition-of-done/README.md` | ⛔ Sempre |
+{Adaptar: mapeamento completo — skills L2 com path relativo, skills L0 com path ate a raiz}
+
+## Agents
+{mapeamento para .claude/agents/ deste sub-projeto + agents da raiz}
+
+## Regras especificas
+{regras que so se aplicam a este sub-projeto — ex: "usar erros.Wrap, nunca fmt.Errorf"}
+```
+
+**Regra critica:** o CLAUDE.md L2 e o que garante que ao trabalhar dentro de um sub-projeto, o Claude le as skills certas. Se o L2 nao mapeia as skills L2, o Claude vai usar as da raiz (que podem ter exemplos de outra stack). Sempre gerar a tabela de Skills no L2 com paths corretos.
 
 ### 3.9 scripts/reports.sh e scripts de report
 

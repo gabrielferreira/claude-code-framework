@@ -321,10 +321,12 @@ Se detectou sub-projetos na Fase 0:
 
 1. **Para cada sub-projeto desatualizado:**
    - Rodar Fases 1-3 no contexto do sub-projeto
+   - **Identificar arquivos pelo path completo**, nunca so pelo nome. `backend/.claude/skills/logging/README.md` e `frontend/.claude/skills/logging/README.md` sao arquivos diferentes que devem ser atualizados independentemente, cada um com os CODE_PATTERNS do seu sub-projeto.
    - **Detectar modelo de distribuicao** (ler do SETUP_REPORT.md ou inferir pela estrutura):
      - Skills/agents na raiz (`.claude/skills/`) → atualizar so na raiz
      - Skills/agents por sub-projeto (`{subdir}/.claude/skills/`) → atualizar em cada um
      - Misto (universais na raiz + especificas por sub-projeto) → atualizar cada uma no lugar certo
+   - **verify.sh por sub-projeto:** atualizar cada `{subdir}/scripts/verify.sh` separadamente, com checks da stack e CODE_PATTERNS do sub-projeto. Se existe orquestrador na raiz, atualizar tambem (adicionar novos sub-projetos, remover os que foram deletados).
    - **CODE_PATTERNS por sub-projeto:** rodar Fase 0.6 dentro de cada sub-projeto separadamente. Mesmo sub-projetos na mesma linguagem podem ter padroes diferentes (ex: Go com `elogger` vs Go com `zap`, .NET com `Serilog` vs .NET com `NLog`). Cada sub-projeto tem seus proprios patterns — nunca assumir que mesma linguagem = mesmos padroes.
    - **Categoria 6 por sub-projeto:** validar relevancia no contexto de cada sub-projeto, nao no contexto global. Exemplo: `component-audit` instalado na raiz mas so faz sentido pro frontend — perguntar se quer mover para L2 do frontend
    - **Skills L2 devem ser atualizadas com os CODE_PATTERNS do seu sub-projeto:** ao atualizar uma skill em `backend/.claude/skills/logging/`, usar CODE_PATTERNS de `backend/`, nao da raiz. A sugestao concreta (Categoria 6) deve refletir os padroes reais daquele sub-projeto.
