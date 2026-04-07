@@ -277,7 +277,88 @@ Consolidar todos os comandos encontrados:
 - Se `CLAUDE.md` existe: ler e extrair informacoes uteis (descricao do projeto, regras, comandos)
 - Essas informacoes serao usadas como base na Fase 3
 
-### 1.6 Apresentar resumo ao usuario
+### 1.6 Deteccao de padroes de codigo
+
+Alem de detectar stack e estrutura, analisar o **codigo-fonte real** do projeto para identificar padroes, libs internas e convencoes que o time ja usa. Isso permite customizar skills (logging, code-quality, etc.) com exemplos reais em vez de exemplos genericos.
+
+**Como escanear:**
+1. Selecionar ~10-15 arquivos de codigo representativos (nao testes, nao vendor/node_modules):
+   - Priorizar arquivos em `src/`, `pkg/`, `internal/`, `lib/`, `app/`, `services/`, `routes/`, `controllers/`
+   - Pegar arquivos de diferentes diretorios para cobrir variedade
+   - Usar Glob para encontrar, Read para ler os primeiros ~50 linhas (imports + inicializacao)
+
+2. **Extrair padroes por categoria:**
+
+#### Logging
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Import/require de logger | `import { logger } from "..."`, `require("winston")`, `log "github.com/x/slog"` |
+| Instanciacao de logger | `const logger = createLogger(...)`, `var log = elogger.New(...)` |
+| Chamadas de log no codigo | `logger.info(...)`, `log.Error(...)`, `console.error(...)`, `logging.warning(...)` |
+
+**Resultado:** nome da lib (ex: `elogger`, `zap`, `winston`, `logrus`, `slog`, `logging`, `console`), formato de chamada (ex: `elogger.Error(ctx, "msg", fields)` vs `console.error("[MODULE]", msg)`), e se usa log estruturado.
+
+#### Error handling
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Import de lib de erros | `import "github.com/pkg/errors"`, `from errors import ...`, `require("http-errors")` |
+| Padrao de wrap/criacao | `errors.Wrap(err, "ctx")`, `fmt.Errorf("...: %w", err)`, `erros.New(...)`, `new AppError(...)` |
+| Tipos de erro customizados | `type AppError struct`, `class CustomError extends Error`, structs/classes de erro |
+
+**Resultado:** lib usada (ex: lib interna `erros`, `pkg/errors`, `fmt.Errorf`, `http-errors`), padrao de wrapping, tipos customizados.
+
+#### HTTP client / requests
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Import de client HTTP | `import "net/http"`, `require("axios")`, `import requests` |
+| Client customizado | `httpClient.Do(...)`, `api.Get(...)`, `fetch(...)` com wrapper |
+
+#### Patterns gerais
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Dependency injection | Construtores com `New*(deps)`, `@Inject()`, providers |
+| Middleware pattern | `app.use(...)`, middleware chain, interceptors |
+| Config/env loading | `viper`, `dotenv`, `os.Getenv`, config struct |
+| Validacao | `validator`, `zod`, `joi`, custom validation |
+| ORM/DB access | `gorm`, `sqlx`, `prisma`, `drizzle`, `sqlalchemy`, query builders |
+
+3. **Guardar resultado como `CODE_PATTERNS`** para uso na Fase 3:
+
+```
+CODE_PATTERNS = {
+  logging: {
+    lib: "elogger",                           // nome da lib real
+    import: 'import "company/pkg/elogger"',   // import exato
+    levels: ["Debug", "Info", "Warn", "Error"],// niveis usados
+    format: "elogger.Error(ctx, msg, fields)", // formato de chamada
+    structured: true                           // se usa campos estruturados
+  },
+  errors: {
+    lib: "erros",                              // nome da lib real
+    import: 'import "company/pkg/erros"',      // import exato
+    wrap: "erros.Wrap(err, msg)",              // padrao de wrap
+    new: "erros.New(msg)",                     // padrao de criacao
+    types: ["NotFoundError", "ValidationError"] // tipos customizados
+  },
+  http_client: {
+    lib: "internal/httpclient",
+    pattern: "httpclient.Do(ctx, req)"
+  },
+  validation: { lib: "zod", pattern: "schema.parse(input)" },
+  orm: { lib: "sqlx", pattern: "db.QueryContext(ctx, query, args...)" },
+  config: { lib: "viper", pattern: "viper.GetString(key)" }
+}
+```
+
+**Se nenhum padrao claro for detectado** numa categoria, deixar como `null` — a skill usara os exemplos genericos do template.
+
+**Se o projeto for novo (poucos arquivos de codigo):** pular esta etapa e informar que as skills virao com exemplos genericos para customizar depois.
+
+### 1.7 Apresentar resumo ao usuario
 
 Mostrar ao usuario um resumo estruturado do que foi detectado:
 
@@ -299,6 +380,14 @@ Mostrar ao usuario um resumo estruturado do que foi detectado:
 - Build: {comando}
 - Lint: {comando}
 - Migrate: {comando}
+
+**Padroes de codigo detectados:**
+- Logging: {lib} — ex: `{formato de chamada}`
+- Erros: {lib} — ex: `{padrao de wrap}`
+- HTTP client: {lib} — ex: `{padrao de chamada}`
+- Validacao: {lib}
+- ORM/DB: {lib}
+- Config: {lib}
 ```
 
 Perguntar: "Esta analise esta correta? Quer corrigir ou adicionar algo antes de continuar?"
@@ -579,6 +668,17 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
 - Secao "Skills" → mapeamento baseado na selecao do Bloco 4
 - Secao "Testes" → coverage configurado no Bloco 5
 - Secao "Regras de seguranca" → regras do Bloco 5
+- Secao "Regras de codigo" → **usar CODE_PATTERNS da Fase 1.6** para preencher regras de consistencia:
+  - Se `CODE_PATTERNS.logging` detectado: adicionar regra "Usar `{lib}` para logging — nunca `{alternativas da stdlib}`"
+  - Se `CODE_PATTERNS.errors` detectado: adicionar regra "Usar `{lib}` para erros — nunca `{alternativas genericas}`"
+  - Se `CODE_PATTERNS.http_client` detectado: adicionar regra "Usar `{lib}` para HTTP — nunca `{stdlib direto}`"
+  - Se `CODE_PATTERNS.validation` detectado: adicionar regra "Usar `{lib}` para validacao"
+  - Se `CODE_PATTERNS.orm` detectado: adicionar regra "Usar `{lib}` para acesso a dados"
+  - Manter as regras genericas do template (testes passando, error handling explicito, verify.sh obrigatorio)
+- Secao "Padroes" → **usar CODE_PATTERNS** para substituir exemplos genericos por exemplos reais:
+  - Subsecao "Backend" → adaptar error handling, logging, HTTP patterns ao projeto real
+  - Subsecao "Auth" → usar lib de validacao real se detectada
+  - Manter subsecoes sem padroes detectados com exemplos genericos do template
 - Secao "Fases do roadmap" → fases do Bloco 3
 - Secao "Estrutura" → estrutura real do projeto detectada
 - Secao "Contexto de negocio" → baseado no dominio do Bloco 1
@@ -684,6 +784,60 @@ Para cada skill selecionada no Bloco 4:
 - `skills/prd-creator/SKILL.md`
 
 **Se modelo externo:** adaptar `/spec`, `/backlog-update` e `/prd` (se opt-in) para referenciar IDs externos.
+
+#### 3.6.1 Customizacao de skills com CODE_PATTERNS
+
+Apos copiar as skills, **customizar o conteudo** usando os padroes detectados na Fase 1.6. Isso garante que exemplos de codigo nas skills reflitam as libs e convencoes reais do projeto.
+
+**Skill `logging`** — se `CODE_PATTERNS.logging` foi detectado:
+
+1. **Substituir a tabela de niveis de log** com a lib real:
+   - Trocar `console.error("[MODULE]", ...)` pelo formato real (ex: `elogger.Error(ctx, "msg", fields)`)
+   - Adaptar cada nivel ao que a lib oferece
+   - Se a lib usa log estruturado, mostrar exemplos com campos/fields em vez de string concatenada
+
+2. **Substituir exemplos de codigo** nos padroes de error handling:
+   - Trocar `console.error("[SERVICE] Erro:", ...)` pelo padrao real
+   - Adaptar imports nos blocos de codigo
+
+3. **Adicionar secao "Inicializacao do logger"** se detectado padrao de instanciacao (ex: `var log = elogger.New(config)`)
+
+Exemplo — projeto Go com `elogger`:
+```markdown
+| Nivel | Quando usar | Exemplo |
+|---|---|---|
+| `elogger.Error(ctx, msg, fields)` | Erro que precisa de acao | `elogger.Error(ctx, "payment failed", elogger.F("order_id", id))` |
+| `elogger.Info(ctx, msg, fields)` | Evento de negocio relevante | `elogger.Info(ctx, "order created", elogger.F("order_id", id))` |
+| `elogger.Warn(ctx, msg, fields)` | Condicao degradada | `elogger.Warn(ctx, "pool connections high", elogger.F("pct", 80))` |
+| `elogger.Debug(ctx, msg, fields)` | **NUNCA em producao.** | Somente local com nivel DEBUG ativo. |
+```
+
+**Skill `code-quality`** — se `CODE_PATTERNS.errors` foi detectado:
+
+1. **Adaptar "Padroes suspeitos"** para buscar pela lib real:
+   - Trocar `console.log` por equivalente da stack (ex: `fmt.Println` em Go)
+   - Adicionar check para uso incorreto da lib de erros (ex: `fmt.Errorf` quando deveria ser `erros.Wrap`)
+
+2. **Adaptar exemplos de grep/busca** nos checklists para patterns reais do projeto
+
+3. **Adicionar regra de consistencia:** "Usar `{lib detectada}` para {categoria}. Nao misturar com alternativas."
+
+Exemplo — projeto Go com lib interna `erros`:
+```markdown
+## Regra de consistencia
+
+- **Logging:** usar `elogger` — nunca `fmt.Println`, `log.Printf` ou `fmt.Fprintf(os.Stderr, ...)`
+- **Erros:** usar `erros.New()` / `erros.Wrap()` — nunca `fmt.Errorf()` ou `errors.New()` da stdlib
+- **HTTP client:** usar `httpclient.Do()` — nunca `http.Get()` direto
+```
+
+**Skill `security-review`** — se `CODE_PATTERNS.errors` ou `CODE_PATTERNS.validation` detectados:
+- Adaptar exemplos de validacao com a lib real (ex: `zod` em vez de validacao manual)
+- Adaptar exemplos de error handling seguro com a lib real
+
+**Para skills sem CODE_PATTERNS relevante:** manter os exemplos genericos do template. Os placeholders `{ADAPTAR:...}` permanecem para o usuario customizar depois.
+
+**Regra:** nunca remover os placeholders `{ADAPTAR:...}` — apenas substituir os exemplos concretos que precedem os placeholders. O usuario pode ter padroes adicionais que os placeholders cobrem.
 
 ### 3.7 scripts/verify.sh
 
@@ -1006,6 +1160,165 @@ Verificar presenca de cada H2 esperada:
 3. **Scripts sem permissao de execucao** (`verify.sh`, `reports.sh`). 🟡 cada
 4. **SPECS_INDEX.md vazio** (sem nenhuma spec registrada). ⚪ info (normal pos-setup)
 5. **Secao "Agents" no CLAUDE.md lista agent que nao existe** em `.claude/agents/`. 🟠 cada
+
+#### Categoria 6 — Relevancia de conteudo
+
+Verificar se o conteudo gerado nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (stack, tipo, CODE_PATTERNS da Fase 1.6) para cruzar com o que foi instalado.
+
+> **Regra:** esta categoria nunca corrige automaticamente. Sempre apresenta o finding e pergunta ao usuario, oferecendo opcoes claras (remover, substituir, manter).
+
+##### 6.1 Exemplos de codigo incompativeis com a stack
+
+Ler o conteudo das skills instaladas e verificar se os exemplos de codigo correspondem a stack real:
+
+| Check | Severidade | Exemplo de mismatch |
+|---|---|---|
+| Skill `logging` usa exemplos de linguagem diferente da stack | 🟠 alto | Projeto Go com exemplos `console.error("[MODULE]", ...)` em JS |
+| Skill `code-quality` tem grep patterns de outra linguagem | 🟠 alto | Projeto Python com `grep "function "` (sintaxe JS) |
+| Skill `testing` referencia framework de teste errado | 🟠 alto | Projeto com Pytest mas skill menciona Jest |
+| Skill `security-review` tem exemplos de validacao de outra stack | 🟡 medio | Projeto Go com exemplos de `express-validator` |
+| Blocos de codigo no CLAUDE.md (secao "Padroes") em linguagem errada | 🟠 alto | Secao "Backend" com exemplos JS num projeto Go |
+
+**Acao ao detectar:** mostrar o trecho problematico e perguntar:
+```
+⚠️ A skill "logging" tem exemplos em JavaScript, mas o projeto usa Go.
+CODE_PATTERNS detectou que voces usam `elogger` para logging.
+
+Opcoes:
+1. Substituir exemplos por padroes do projeto (elogger.Error, elogger.Info, etc.)
+2. Substituir por exemplos genericos de Go (log.Printf, fmt.Errorf)
+3. Manter como esta (vou customizar depois)
+```
+
+##### 6.2 Libs e padroes divergentes dos detectados
+
+Se CODE_PATTERNS foi preenchido na Fase 1.6, verificar se as skills usam as libs corretas:
+
+| Check | Severidade | Exemplo |
+|---|---|---|
+| Skill `logging` usa lib generica mas projeto tem lib especifica | 🟠 alto | Skill usa `log.Printf` mas projeto usa `elogger` |
+| Skill `code-quality` nao menciona lib de erros do projeto | 🟠 alto | Skill sugere `fmt.Errorf` mas projeto usa lib interna `erros` |
+| CLAUDE.md "Regras de codigo" nao menciona libs obrigatorias do projeto | 🟡 medio | Nenhuma regra sobre usar `elogger` em vez de `fmt.Println` |
+| Skill `security-review` nao conhece lib de validacao do projeto | 🟡 medio | Projeto usa `zod` mas skill tem exemplos de validacao manual |
+
+**Acao ao detectar:** mostrar o padrao detectado vs o que esta na skill e perguntar:
+```
+⚠️ A skill "code-quality" sugere `fmt.Errorf` para erros, mas o projeto usa a lib `erros`.
+Detectei o padrao: erros.Wrap(err, "contexto") em 8 arquivos.
+
+Opcoes:
+1. Adicionar regra de consistencia: "Usar erros.Wrap/erros.New — nunca fmt.Errorf"
+2. Apenas adicionar nota sobre a lib sem criar regra
+3. Ignorar (vou configurar depois)
+```
+
+##### 6.3 Skills e agents irrelevantes para o tipo de projeto
+
+Cruzar o perfil detectado (tipo de projeto, stack, features) com o que foi instalado:
+
+| Check | Severidade | Condicao |
+|---|---|---|
+| `ux-review` instalada mas nao tem frontend | 🟠 alto | Tipo = backend/API/CLI/library sem frontend |
+| `seo-performance` instalada mas nao tem frontend publico | 🟠 alto | Sem pages/, sem SSR, sem sitemap |
+| `component-audit` agent instalado mas nao tem componentes | 🟠 alto | Sem React/Vue/Svelte/Angular |
+| `seo-audit` agent instalado mas nao tem frontend publico | 🟡 medio | Backend puro |
+| `dba-review` instalada mas nao tem DB | 🟡 medio | Sem migrations, sem ORM, sem schema |
+| `product-review` agent instalado mas PRD nao ativo | 🟡 medio | Sem `.claude/prds/` |
+| `golden-tests` skill mas nao tem golden tests | ⚪ info | Sem arquivos de golden test detectados |
+| `mock-mode` skill mas nao tem integracoes externas | ⚪ info | Sem chamadas HTTP externas detectadas |
+
+**Acao ao detectar:** perguntar com contexto:
+```
+⚠️ A skill "ux-review" foi instalada, mas o projeto parece ser backend puro (Go API).
+
+Opcoes:
+1. Remover — nao se aplica a este projeto
+2. Manter — temos planos de frontend futuro
+3. Manter — temos um frontend em outro repo que consome esta API
+```
+
+##### 6.4 Secoes do CLAUDE.md irrelevantes
+
+Verificar se secoes do CLAUDE.md fazem sentido para o projeto:
+
+| Check | Severidade | Condicao |
+|---|---|---|
+| Secao "TDD obrigatorio" com padrao e2e mas projeto e backend API | 🟡 medio | Backend sem browser/UI |
+| Secao "Mindset Frontend" presente mas nao tem frontend | 🟡 medio | Tipo = backend/CLI |
+| Secao "Mindset Banco de dados" presente mas nao tem DB | 🟡 medio | Sem DB detectado |
+| Secao "Mindset UX" presente mas nao tem frontend | 🟡 medio | Tipo = backend/CLI/library |
+| Padroes de "Frontend" na secao "Padroes" mas nao tem frontend | 🟡 medio | Tipo = backend |
+| Padroes de "SQL" na secao "Padroes" mas nao tem DB | 🟡 medio | Sem DB |
+
+**Acao ao detectar:** oferecer opcoes claras:
+```
+⚠️ O CLAUDE.md tem a secao "Mindset Frontend" e padroes de e2e testing,
+mas o projeto parece ser backend Go puro.
+
+Opcoes:
+1. Remover secoes de frontend e e2e (recomendado para backend puro)
+2. Manter — o projeto vai ter frontend em breve
+3. Manter apenas "Mindset Frontend" mas remover e2e patterns
+```
+
+##### 6.5 Docs irrelevantes
+
+| Check | Severidade | Condicao |
+|---|---|---|
+| `docs/ARCHITECTURE.md` instalado mas projeto e muito simples (1-2 dirs) | ⚪ info | Menos de 5 diretorios no src |
+| `docs/ACCESS_CONTROL.md` instalado mas nao tem auth | ⚪ info | Sem middleware de auth, sem JWT, sem session |
+| `docs/SECURITY_AUDIT.md` instalado mas nao tem endpoints publicos | ⚪ info | CLI/library sem API |
+
+**Acao:** apenas informar (⚪), nao perguntar. O usuario decide se quer remover.
+
+##### 6.6 Procedimento de remocao
+
+Quando o usuario escolher "Remover" em qualquer check acima, a remocao deve ser **completa** — nao basta deletar o arquivo, todas as referencias tambem devem ser limpas:
+
+1. **Deletar o arquivo** (skill, agent ou doc)
+2. **Remover a linha correspondente na tabela de Skills ou Agents do CLAUDE.md** — nao deixar referencia dangling
+3. **Remover de `SETUP_REPORT.md`** (se existir) — mover para secao "Removidos"
+4. **Se a skill era referenciada em `verify.sh`** — remover ou comentar o check correspondente
+5. **Se o agent era referenciado em outra skill** (ex: security-audit referenciado em security-review) — avisar que a referencia sera quebrada
+
+**Antes de executar**, mostrar resumo do que sera removido:
+```
+Removendo skill "ux-review":
+  - Deletar .claude/skills/ux-review/README.md
+  - Remover linha 10 da tabela Skills no CLAUDE.md
+  - Remover check "ux-review" do verify.sh (se existir)
+
+Confirmar? [Sim/Nao]
+```
+
+**Regra:** nunca remover silenciosamente. Sempre listar tudo que sera afetado e pedir confirmacao.
+
+##### Resumo da Categoria 6
+
+Apos todos os checks, apresentar consolidado:
+
+```
+## Relevancia de conteudo
+
+Encontrei {N} items que podem nao fazer sentido para o projeto:
+
+### 🟠 Acao recomendada
+1. Skill "logging" tem exemplos JS — projeto usa Go com elogger
+2. Skill "code-quality" sugere fmt.Errorf — projeto usa lib erros
+3. Skill "ux-review" instalada — projeto e backend puro
+
+### 🟡 Revisar
+4. CLAUDE.md tem secao "Mindset Frontend" — projeto e backend
+5. CLAUDE.md tem padroes e2e — projeto e API
+
+### ⚪ Informativo
+6. docs/ARCHITECTURE.md pode nao ser necessario ainda
+
+Quer resolver agora item por item? [Sim/Pular para depois]
+```
+
+Se "Sim": percorrer cada item 🟠 e 🟡, perguntar ao usuario com as opcoes descritas acima.
+Se "Pular": registrar como pendencias manuais no SETUP_REPORT.md.
 
 #### Formato do output no SETUP_REPORT.md
 
