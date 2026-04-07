@@ -1738,11 +1738,14 @@ Apos a auditoria e auto-fix, listar o que so o usuario pode resolver:
 
 ### Proximos passos recomendados
 
+> ⚠️ **IMPORTANTE:** Skills instaladas durante esta sessao so ficam disponiveis como slash commands apos iniciar uma **nova sessao** (ou usar `/clear`). Isso e uma limitacao do Claude Code — ele carrega a lista de skills ao iniciar a sessao. Inicie uma sessao nova antes de usar `/spec-creator`, `/backlog-update` ou qualquer outro slash command instalado.
+
 1. **Agora:** revisar CLAUDE.md gerado e ajustar placeholders restantes
-2. **Semana 1:** criar backlog inicial, primeira spec, rodar verify.sh
-3. **Semana 2:** adicionar 2-3 skills de dominio, customizar checks
-4. **Semana 3+:** evoluir progressivamente
-5. **Quando o framework atualizar:** usar `/update-framework`
+2. **Iniciar nova sessao** (ou `/clear`) para ativar os slash commands instalados
+3. **Semana 1:** criar backlog inicial, primeira spec, rodar verify.sh
+4. **Semana 2:** adicionar 2-3 skills de dominio, customizar checks
+5. **Semana 3+:** evoluir progressivamente
+6. **Quando o framework atualizar:** usar `/update-framework`
 ```
 
 ### 5c. Opcao de desfazer
