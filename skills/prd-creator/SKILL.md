@@ -289,7 +289,15 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
    6. **Incluir o no `Hipoteses`** apenas se houver causas raiz sem evidencia suficiente
    7. Ajustar a quantidade de nos em cada camada conforme o PRD real — o template acima e apenas referencia
 
-   Apresentar o diagrama ao usuario para validacao: "Gerei o diagrama de padronizacao do PRD. Ele mostra as 4 camadas: problema → causas (usuario) → porques (plataforma) → solucoes. Confere?"
+   **Salvar arquivo Mermaid separado (PADRAO):**
+
+   Alem de incluir o diagrama no corpo do PRD, **sempre** criar um arquivo `.mmd` standalone:
+   - **Modo repo:** salvar em `.claude/prds/{id-em-kebab-case}.mmd`
+   - **Modo Notion/externo/export:** salvar em `.claude/prds/{id-em-kebab-case}.mmd` (mesmo sem PRD local, o diagrama fica no repo como referencia visual)
+
+   O arquivo `.mmd` contem apenas o codigo Mermaid puro (sem code fences), pronto para abrir em qualquer ferramenta que suporte Mermaid (VS Code com extensao, Mermaid Live Editor, GitHub preview, etc.).
+
+   Apresentar o diagrama ao usuario para validacao: "Gerei o diagrama de padronizacao do PRD. Ele mostra as 4 camadas: problema → causas (usuario) → porques (plataforma) → solucoes. Arquivo Mermaid salvo em `.claude/prds/{id}.mmd`. Confere?"
 
    **Apos validacao, oferecer exportacao para ferramenta visual:**
 
