@@ -7,6 +7,18 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.15.1] — 2026-04-07
+
+### Corrigido
+
+- Setup: `spec-creator` e `backlog-update` adicionados a lista core do Bloco 4 (antes so apareciam em secao separada facil de pular)
+- Setup: nota explicita diferenciando `spec-driven` (processo) de `spec-creator` (slash command) — ambas obrigatorias
+- Setup: aviso de que skills so ficam disponiveis como slash commands apos nova sessao ou `/clear`
+- Setup Notion: nao criar `backlog.md`, `TEMPLATE.md`, `STATE.md` locais — specs e backlog vivem no Notion
+- Setup Notion: secao `## Integracao Notion (specs)` no CLAUDE.md marcada como OBRIGATORIA (sem ela, `/spec` cai em modo local)
+- Slash command renomeado de `/spec-creator` para `/spec` (consistente com toda a documentacao)
+- Update: sincronizado com as mesmas correcoes (spec-driven vs spec-creator, aviso nova sessao)
+
 ## [2.15.0] — 2026-04-07
 
 ### Adicionado
