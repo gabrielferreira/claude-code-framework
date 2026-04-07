@@ -230,6 +230,38 @@ Ações disponíveis:
 
 > **REGRA ABSOLUTA DA FASE 3:** Arquivos `structural` NUNCA sao substituidos por cp/copia direta do source. O merge structural e um algoritmo de ADICAO de secoes novas, nao de substituicao de conteudo. Se o arquivo do projeto tem conteudo customizado (libs reais, patterns reais, branches reais, exemplos adaptados), esse conteudo e INTOCAVEL. Copiar o source por cima de um arquivo structural customizado e um bug critico — equivale a destruir trabalho do usuario.
 
+### 3.0 Filtro por modo spec (ANTES de aplicar qualquer arquivo)
+
+Antes de aplicar qualquer arquivo, detectar o modo spec do projeto:
+
+1. **Ler o CLAUDE.md do projeto** e verificar se contem `## Integracao Notion (specs)`
+   - Se sim: `SPEC_MODE=notion`
+   - Se nao: `SPEC_MODE=repo`
+
+2. **Se `SPEC_MODE=notion`, EXCLUIR da lista de aplicacao:**
+   - `.claude/specs/TEMPLATE.md` — templates vivem no Notion
+   - `.claude/specs/backlog.md` — backlog vive no Notion
+   - `.claude/specs/DESIGN_TEMPLATE.md` — templates vivem no Notion
+   - `.claude/specs/backlog-format.md` — formato do backlog vive no Notion
+
+   Estes arquivos NAO devem ser copiados, atualizados, nem mencionados como pendencia.
+
+3. **Se `SPEC_MODE=notion`, LIMPAR artefatos locais desnecessarios:**
+   - Verificar se existem no projeto: `.claude/specs/backlog.md`, `.claude/specs/TEMPLATE.md`, `.claude/specs/DESIGN_TEMPLATE.md`, `.claude/specs/backlog-format.md`
+   - Para cada arquivo encontrado:
+     - Informar: "Detectei `{arquivo}` no projeto, mas o modo e Notion — este arquivo e desnecessario (o backlog/templates vivem no Notion)."
+     - Fazer backup em `.claude/.update-backup/{tag}/{path}`
+     - **Remover o arquivo** (nao perguntar — em modo Notion estes arquivos so causam confusao)
+   - Verificar se o CLAUDE.md tem secoes que referenciam artefatos locais incompativeis com Notion:
+     - `### Padrao do backlog` referenciando `.claude/specs/backlog.md` → remover secao (backlog e no Notion)
+     - Linhas mencionando "Specs tecnicas locais: `.claude/specs/`" → substituir por referencia ao Notion
+     - Qualquer referencia a `backlog.md` como arquivo local → remover ou substituir
+   - Informar no relatorio: "Removidos {N} artefatos locais desnecessarios em modo Notion."
+
+4. **Se `SPEC_MODE=repo`, aplicar normalmente** — todos os arquivos de specs sao relevantes.
+
+> **Regra:** o filtro se aplica a TODAS as sub-fases (3.1 overwrite, 3.2 structural, 3.3 manual, 3.4 novos). Nenhuma sub-fase deve criar/copiar arquivos excluidos pelo filtro.
+
 ### 3.1 Aplicar overwrite
 
 ```bash
