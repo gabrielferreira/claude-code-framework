@@ -114,9 +114,106 @@ Antes de qualquer coisa:
    - L0 (raiz): convencoes globais (commits, seguranca universal, estrutura do monorepo, mapa de skills)
    - L2 (sub-projeto): stack, comandos, testes, coverage, regras especificas
    - Specs: perguntar se unificadas na raiz ou distribuidas por sub-projeto
-   - Skills: compartilhadas na raiz (`.claude/skills/`), a menos que sub-projetos tenham dominios muito diferentes
    - verify.sh raiz: orquestrador que chama verify.sh de cada sub-projeto
    - reports.sh raiz: orquestrador que chama reports de cada sub-projeto
+
+   **Skills e agents em monorepo — distribuicao por camada:**
+
+   A regra principal: **skills com exemplos de codigo precisam refletir a stack do sub-projeto, nao uma stack generica.** O modelo de distribuicao depende de quantas stacks diferentes o monorepo tem.
+
+   **Se todos os sub-projetos usam a mesma stack** (ex: monorepo 100% TypeScript):
+   - Skills na raiz (`.claude/skills/`), compartilhadas por todos
+   - CODE_PATTERNS unificado — uma analise so
+   - Agents na raiz (`.claude/agents/`)
+
+   **Se sub-projetos tem stacks diferentes** (ex: Go backend + React frontend + Python ML):
+
+   Perguntar ao usuario:
+   ```
+   O monorepo tem sub-projetos com stacks diferentes:
+     backend/ — Go
+     frontend/ — React/TypeScript
+     ml/ — Python
+
+   Skills como logging, code-quality e testing precisam de exemplos
+   diferentes por stack. Como quer organizar?
+
+   1. Skills por sub-projeto (recomendado) — cada sub-projeto tem
+      .claude/skills/ proprio com exemplos da sua stack
+   2. Skills na raiz com secoes por sub-projeto — uma skill so,
+      mas com secoes "## Backend (Go)" / "## Frontend (React)"
+   3. Decidir skill por skill
+   ```
+
+   **Opcao 1 — Skills por sub-projeto (recomendado para stacks muito diferentes):**
+   ```
+   raiz/
+   ├── .claude/
+   │   ├── skills/              ← Skills universais (spec-driven, definition-of-done, docs-sync)
+   │   └── agents/              ← Agents universais (security-audit, spec-validator)
+   ├── backend/
+   │   └── .claude/
+   │       ├── skills/          ← logging (elogger), code-quality (Go patterns), testing (go test)
+   │       └── agents/          ← Agents relevantes (dba-review se tem DB)
+   ├── frontend/
+   │   └── .claude/
+   │       ├── skills/          ← logging (console), code-quality (ESLint), testing (Vitest)
+   │       └── agents/          ← component-audit, seo-audit
+   └── ml/
+       └── .claude/
+           ├── skills/          ← logging (logging), code-quality (ruff), testing (pytest)
+           └── agents/          ← ai-ml-review
+   ```
+
+   - CODE_PATTERNS roda **por sub-projeto** (cada um tem imports diferentes)
+   - Categoria 6 (relevancia) valida **por sub-projeto** (e2e patterns no backend → flag)
+   - Claude Code carrega skills da raiz + do sub-projeto quando a sessao esta num sub-dir
+
+   **Opcao 2 — Skills na raiz com secoes (para stacks parecidas ou poucos sub-projetos):**
+   ```markdown
+   # Skill: Logging — {NOME_DO_PROJETO}
+
+   ## Backend (Go)
+   | Nivel | Formato | Exemplo |
+   | elogger.Error(...) | ... | ... |
+
+   ## Frontend (TypeScript)
+   | Nivel | Formato | Exemplo |
+   | console.error("[MODULE]", ...) | ... | ... |
+   ```
+
+   - Uma skill so, mas com secoes claras por sub-projeto
+   - CODE_PATTERNS ainda roda por sub-projeto, mas preenche secoes na mesma skill
+   - Menos arquivos, mais facil de manter, mas pode ficar grande
+
+   **Opcao 3 — Decidir skill por skill:**
+   Percorrer cada skill e perguntar onde fica:
+
+   | Skill | Candidata a L2? | Motivo |
+   |---|---|---|
+   | `logging` | Sim — se stacks diferentes | Libs e formatos diferentes |
+   | `code-quality` | Sim — se stacks diferentes | Grep patterns, linters diferentes |
+   | `testing` | Sim — se stacks diferentes | Frameworks de teste diferentes |
+   | `security-review` | Depende | Validacao e auth podem variar |
+   | `spec-driven` | Nao — sempre L0 | Processo e universal |
+   | `definition-of-done` | Nao — sempre L0 | Checklist e universal |
+   | `docs-sync` | Nao — sempre L0 | Convencoes de docs sao globais |
+   | `dba-review` | Depende | So relevante pra sub-projetos com DB |
+   | `ux-review` | Depende | So relevante pra sub-projetos com UI |
+
+   **Agents em monorepo — mesma logica:**
+
+   | Agent | Distribuicao | Motivo |
+   |---|---|---|
+   | `security-audit` | L0 (raiz) | Analise global |
+   | `spec-validator` | L0 (raiz) | Compara spec vs codigo |
+   | `code-review` | L2 se stacks diferentes | Patterns de review variam por stack |
+   | `component-audit` | L2 do frontend | So faz sentido onde tem componentes |
+   | `seo-audit` | L2 do frontend publico | So faz sentido onde tem paginas |
+   | `coverage-check` | L2 se ferramentas diferentes | `go test -cover` vs `vitest --coverage` |
+   | `test-generator` | L2 se stacks diferentes | Gera testes na linguagem do sub-projeto |
+
+   **Regra geral:** se a skill/agent tem **exemplos de codigo ou comandos especificos de uma stack**, e o monorepo tem stacks diferentes, oferecer como L2. Se e sobre **processo ou convencao**, manter como L0.
 
 ---
 
@@ -357,6 +454,25 @@ CODE_PATTERNS = {
 **Se nenhum padrao claro for detectado** numa categoria, deixar como `null` — a skill usara os exemplos genericos do template.
 
 **Se o projeto for novo (poucos arquivos de codigo):** pular esta etapa e informar que as skills virao com exemplos genericos para customizar depois.
+
+**Se monorepo com sub-projetos de stacks diferentes:** rodar CODE_PATTERNS **por sub-projeto**. Cada sub-projeto tem seu proprio conjunto de patterns. Exemplo:
+```
+CODE_PATTERNS = {
+  "backend/": {
+    logging: { lib: "elogger", format: "elogger.Error(ctx, msg, fields)" },
+    errors: { lib: "erros", wrap: "erros.Wrap(err, msg)" }
+  },
+  "frontend/": {
+    logging: { lib: "console", format: "console.error('[MODULE]', msg)" },
+    errors: { lib: null }  // usa try/catch padrao
+  },
+  "ml/": {
+    logging: { lib: "logging", format: "logger.error(msg, extra=fields)" },
+    errors: { lib: null }
+  }
+}
+```
+Os patterns por sub-projeto sao usados na Fase 3 para gerar skills L2 customizadas para cada um.
 
 ### 1.7 Apresentar resumo ao usuario
 
