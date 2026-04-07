@@ -579,6 +579,8 @@ Ver [`skills/update-framework/SKILL.md`](../skills/update-framework/SKILL.md) pa
 
 ## Depois do setup — fluxo do dia a dia
 
+> ⚠️ **Antes de comecar:** skills instaladas pelo setup so ficam disponiveis como slash commands apos iniciar uma **nova sessao** (ou usar `/clear`). Isso e uma limitacao do Claude Code — ele carrega a lista de skills ao iniciar a sessao.
+
 O framework foi instalado. E agora? Este e o fluxo que o time segue no dia a dia.
 
 ### Visao geral
