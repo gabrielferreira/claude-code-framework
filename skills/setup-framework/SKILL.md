@@ -1165,7 +1165,13 @@ Verificar presenca de cada H2 esperada:
 
 Verificar se o conteudo gerado nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (stack, tipo, CODE_PATTERNS da Fase 1.6) para cruzar com o que foi instalado.
 
-> **Regra:** esta categoria nunca corrige automaticamente. Sempre apresenta o finding e pergunta ao usuario, oferecendo opcoes claras (remover, substituir, manter).
+> **Regra critica: NUNCA resetar, limpar ou esvaziar um campo/secao.** Ao detectar conteudo inadequado, o fluxo e sempre:
+> 1. Mostrar o conteudo atual (o que esta errado)
+> 2. Gerar uma **sugestao concreta de substituicao** baseada no CODE_PATTERNS
+> 3. Mostrar a sugestao ao usuario e pedir confirmacao
+> 4. Aplicar **somente** se o usuario confirmar
+>
+> Se nao for possivel gerar sugestao concreta (falta informacao), perguntar ao usuario: "O que deveria estar aqui?" e esperar a resposta antes de tocar no conteudo.
 
 ##### 6.1 Exemplos de codigo incompativeis com a stack
 
@@ -1179,16 +1185,32 @@ Ler o conteudo das skills instaladas e verificar se os exemplos de codigo corres
 | Skill `security-review` tem exemplos de validacao de outra stack | 🟡 medio | Projeto Go com exemplos de `express-validator` |
 | Blocos de codigo no CLAUDE.md (secao "Padroes") em linguagem errada | 🟠 alto | Secao "Backend" com exemplos JS num projeto Go |
 
-**Acao ao detectar:** mostrar o trecho problematico e perguntar:
+**Acao ao detectar:** gerar a sugestao concreta ANTES de perguntar. O usuario precisa ver exatamente o que vai ficar:
+
 ```
 ⚠️ A skill "logging" tem exemplos em JavaScript, mas o projeto usa Go.
-CODE_PATTERNS detectou que voces usam `elogger` para logging.
+CODE_PATTERNS detectou: elogger (github.com/estrategiahq/backend-libs/elogger)
+
+📄 Conteudo atual (trecho):
+  | `console.error("[MODULE]", ...)` | Erro que precisa de ação | `console.error("[STRIPE]...` |
+
+✏️ Sugestao de substituicao:
+  | `elogger.Error(ctx, msg, fields)` | Erro que precisa de ação | `elogger.Error(ctx, "payment failed", elogger.F("order_id", id))` |
+  | `elogger.Info(ctx, msg, fields)` | Evento de negócio | `elogger.Info(ctx, "order created", elogger.F("order_id", id))` |
+  | `elogger.Warn(ctx, msg, fields)` | Condição degradada | `elogger.Warn(ctx, "pool high", elogger.F("pct", 80))` |
+  | `elogger.Debug(ctx, msg, fields)` | NUNCA em produção | Somente local com nível DEBUG ativo |
 
 Opcoes:
-1. Substituir exemplos por padroes do projeto (elogger.Error, elogger.Info, etc.)
-2. Substituir por exemplos genericos de Go (log.Printf, fmt.Errorf)
+1. Aplicar esta sugestao
+2. Editar antes de aplicar — o que quer mudar?
 3. Manter como esta (vou customizar depois)
 ```
+
+**Regras para gerar a sugestao:**
+- Usar os exemplos reais encontrados no codigo (CODE_PATTERNS.logging.format, etc.)
+- Se CODE_PATTERNS tem o import exato, usar no bloco de codigo
+- Se CODE_PATTERNS tem os niveis/metodos, mapear 1:1 com a tabela existente
+- Se nao tem informacao suficiente para gerar sugestao completa, **perguntar ao usuario** em vez de gerar parcial: "Detectei que voces usam `elogger`. Como e o formato de chamada? (ex: elogger.Error(ctx, msg, fields))"
 
 ##### 6.2 Libs e padroes divergentes dos detectados
 
@@ -1201,16 +1223,40 @@ Se CODE_PATTERNS foi preenchido na Fase 1.6, verificar se as skills usam as libs
 | CLAUDE.md "Regras de codigo" nao menciona libs obrigatorias do projeto | 🟡 medio | Nenhuma regra sobre usar `elogger` em vez de `fmt.Println` |
 | Skill `security-review` nao conhece lib de validacao do projeto | 🟡 medio | Projeto usa `zod` mas skill tem exemplos de validacao manual |
 
-**Acao ao detectar:** mostrar o padrao detectado vs o que esta na skill e perguntar:
+**Acao ao detectar:** gerar regra concreta e mostrar antes de aplicar:
+
 ```
 ⚠️ A skill "code-quality" sugere `fmt.Errorf` para erros, mas o projeto usa a lib `erros`.
 Detectei o padrao: erros.Wrap(err, "contexto") em 8 arquivos.
 
+📄 Conteudo atual no CLAUDE.md "Regras de codigo":
+  2. **Error handling explícito.** Erros específicos, nunca genéricos.
+
+✏️ Sugestao — adicionar regras de consistencia ao CLAUDE.md:
+  ```
+  - **Logging:** usar `elogger` (github.com/estrategiahq/backend-libs/elogger) — nunca `fmt.Println`, `log.Printf`
+  - **Erros:** usar `erros.New()` / `erros.Wrap()` (ecommerce/app/src/errors) — nunca `fmt.Errorf()` ou `errors.New()` stdlib
+  ```
+
+✏️ Sugestao — adicionar check ao skill "code-quality":
+  ```
+  # Detectar uso de fmt.Errorf (proibido — usar erros.Wrap/erros.New)
+  grep -rn "fmt\.Errorf" internal/ pkg/ --include="*.go" | grep -v _test.go | grep -v vendor
+  ```
+
 Opcoes:
-1. Adicionar regra de consistencia: "Usar erros.Wrap/erros.New — nunca fmt.Errorf"
-2. Apenas adicionar nota sobre a lib sem criar regra
-3. Ignorar (vou configurar depois)
+1. Aplicar ambas sugestoes
+2. Aplicar so CLAUDE.md
+3. Aplicar so code-quality
+4. Editar antes de aplicar — o que quer mudar?
+5. Ignorar (vou configurar depois)
 ```
+
+**Regras para gerar regras de consistencia:**
+- Incluir o import path completo da lib (se detectado)
+- Listar explicitamente o que e proibido (alternativas da stdlib)
+- Se a lib tem alias ou padrao de inicializacao, documentar
+- Se nao tem certeza se o uso e obrigatorio ou convencao, **perguntar**: "O uso de `erros` e obrigatorio (proibir `fmt.Errorf`) ou apenas recomendado?"
 
 ##### 6.3 Skills e agents irrelevantes para o tipo de projeto
 
@@ -1431,3 +1477,5 @@ Se "desfazer parcial": perguntar quais manter e remover o resto.
 5. **Linguagem dos arquivos gerados:** Portugues (seguindo o padrao do framework).
 6. **Manter consistencia com o framework.** Usar mesmos padroes, mesma estrutura, mesma terminologia.
 7. **Nao inventar conteudo.** Se nao tem informacao suficiente, deixar como `{placeholder}` para o usuario preencher depois.
+8. **Nunca resetar, limpar ou esvaziar conteudo.** Ao detectar conteudo inadequado (Categoria 6), o fluxo obrigatorio e: (a) mostrar o conteudo atual, (b) gerar sugestao concreta de substituicao baseada em CODE_PATTERNS, (c) mostrar a sugestao ao usuario, (d) aplicar somente apos confirmacao. Se nao conseguir gerar sugestao, perguntar "O que deveria estar aqui?" e esperar resposta. NUNCA deixar campo vazio onde antes havia conteudo.
+9. **Perguntar especificamente, nao genericamente.** Ao detectar mismatch, nao perguntar "quer corrigir?". Mostrar o conteudo atual, o que esta errado, a sugestao concreta, e oferecer opcoes numeradas. O usuario deve conseguir responder com um numero.
