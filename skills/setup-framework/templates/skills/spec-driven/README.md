@@ -30,7 +30,7 @@
 
 Após ler a spec e ANTES de escrever código:
 
-1. **Ler a spec** do item em `.claude/specs/`.
+1. **Ler a spec** do item — em `.claude/specs/` (modo repo) ou via `notion-fetch` com a URL do Notion (modo Notion). Consultar `SPECS_INDEX.md` para localizar.
 2. **Verificar o código atual** — abrir os arquivos que a spec menciona e confirmar que as premissas ainda são verdadeiras.
 3. **Listar divergências** — se algo mudou, atualizar a spec ANTES de implementar.
 4. **Confirmar que o item ainda faz sentido** — pode ter sido resolvido por outro item.
@@ -106,9 +106,11 @@ Durante a implementação, ideias e descobertas vão surgir. Não agir sobre ela
 
 O heurístico: "Se não está nos critérios de aceitação da minha task, não entra neste commit."
 
-## Padrão do backlog (`.claude/specs/backlog.md`)
+## Padrão do backlog
 
-O backlog tem **4 seções fixas**, nesta ordem:
+> **Modo repo:** backlog em `.claude/specs/backlog.md`. **Modo Notion:** backlog e a propria database do Notion (Status, Fase e demais properties). Nao existe `backlog.md` local.
+
+**Modo repo** — o `backlog.md` tem **4 seções fixas**, nesta ordem:
 
 1. **Pendentes** — tabela com coluna `Fase`. Colunas: `ID | Fase | Item | Sev. | Impacto | Tipo | Camadas | Compl. | Est. | Deps | Origem | Spec`. Ordenado por fase e prioridade.
 2. **Concluídos** — tabela compacta. Colunas: `ID | Item | Concluído em`. Mais recente primeiro.
