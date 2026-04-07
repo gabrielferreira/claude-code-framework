@@ -9,7 +9,10 @@
   "plugins": [
     {
       "name": "claude-code-framework",
-      "source": ".",
+      "source": {
+        "source": "github",
+        "repo": "gabrielferreira/claude-code-framework"
+      },
       "description": "Framework completo: skills, agents, docs e templates para projetos com Claude Code",
       "version": "2.17.2"
     }
