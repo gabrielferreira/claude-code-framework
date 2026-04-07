@@ -914,6 +914,8 @@ Para cada skill listada no Bloco 4 (incluindo as core):
 - Copiar o diretorio inteiro de `${FRAMEWORK_PATH}/skills/{nome}/` para `.claude/skills/{nome}/`
 - Incluir tanto README.md (skills de referencia) quanto SKILL.md (slash commands)
 
+> **NAO copiar para o projeto:** `setup-framework` e `update-framework`. Sao skills de gestao do framework — ficam em `~/.claude/skills/` (pessoal) ou via plugin. Nunca em `.claude/skills/` do projeto.
+
 > **CRITICO:** `spec-creator` e `backlog-update` sao slash commands essenciais — ja estao na lista core do Bloco 4. Se por qualquer motivo nao estiverem na lista de skills a copiar, adicionar. O projeto nao funciona sem `/spec` e `/backlog-update`.
 
 **Se PRD opt-in (Bloco 2b):**

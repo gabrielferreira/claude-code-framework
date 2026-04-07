@@ -155,10 +155,10 @@ Manifesto do plugin para instalação via `claude plugin`.
 |---|---|---|
 | `.claude-plugin/plugin.json` | `.claude-plugin/plugin.json` | overwrite |
 
-### setup-framework (overwrite)
+### Skills de gestao do framework (NAO copiadas para o projeto)
 
-O próprio setup-framework e seus templates são atualizados direto.
+`setup-framework` e `update-framework` sao skills de gestao do framework — servem para configurar/atualizar, nao fazem parte do dia a dia do projeto. **NAO devem ser copiadas para `.claude/skills/` do projeto.**
 
-| Path no projeto | Template source | Estratégia |
-|---|---|---|
-| `.claude/skills/setup-framework/` | `skills/setup-framework/` | overwrite (diretório inteiro) |
+Ficam disponiveis via:
+- `~/.claude/skills/` (pessoal, via `install-skills.sh`)
+- Plugin compartilhado (`.claude-plugin/plugin.json` referencia `skills/` do framework)
