@@ -1,0 +1,17 @@
+{
+  "name": "claude-code-framework",
+  "owner": {
+    "name": "Gabriel Ferreira"
+  },
+  "metadata": {
+    "description": "Framework de specs, skills e verificacao para projetos com Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "claude-code-framework",
+      "source": ".",
+      "description": "Framework completo: skills, agents, docs e templates para projetos com Claude Code",
+      "version": "2.17.2"
+    }
+  ]
+}
