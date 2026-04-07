@@ -1391,6 +1391,27 @@ Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
 - **reports.sh:** {Orquestrador L0}
 ```
 
+### 5a. Verificacao pos-geracao (OBRIGATORIA)
+
+Antes da auditoria de completude, verificar que a customizacao da Fase 3.6.1 foi aplicada corretamente. Para cada skill instalada:
+
+1. **Ler o conteudo da skill instalada** no projeto
+2. **Comparar com CODE_PATTERNS detectados na Fase 1.6:**
+   - Se CODE_PATTERNS.logging detectou `elogger` → a skill `logging` deve conter `elogger`, NAO `console.log`/`log.Printf`
+   - Se CODE_PATTERNS.errors detectou `erros.Wrap` → a skill `code-quality` deve conter `erros.Wrap`, NAO `fmt.Errorf`
+   - Se CODE_PATTERNS.testing detectou `go test` → a skill `testing` deve conter `go test`, NAO `jest`/`vitest`
+   - Se o projeto e Go → skills NAO devem ter exemplos JS/TS (e vice-versa)
+3. **Se detectou mismatch (skill com conteudo generico/linguagem errada):**
+   - **Corrigir imediatamente** aplicando a customizacao da Fase 3.6.1 que deveria ter sido feita
+   - Registrar no SETUP_REPORT: "⚠️ Skill {nome} foi instalada com exemplos genericos. Customizacao aplicada com CODE_PATTERNS ({lib})."
+4. **Verificar CLAUDE.md:**
+   - Secao "Padroes"/"Regras de codigo" deve refletir as libs reais, nao exemplos genericos
+   - Se tem `console.log` num projeto Go → corrigir para `fmt.Println` ou a lib real
+5. **Verificar docs:**
+   - `GIT_CONVENTIONS.md` deve ter as branches reais (detectadas via `git branch -a`), nao `develop`/`feature/*` genericos
+
+> **Por que isso existe:** em execucoes anteriores o setup instalou skills com exemplos genericos em JS para projetos Go, e docs com branches genericas. Esta verificacao corrige automaticamente antes de entregar ao usuario.
+
 ### 5b. Auditoria de completude
 
 Apos criar todos os arquivos, rodar uma auditoria automatica para verificar que o setup ficou completo. Adicionar o resultado ao final do SETUP_REPORT.md.

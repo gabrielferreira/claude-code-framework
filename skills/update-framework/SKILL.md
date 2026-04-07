@@ -228,6 +228,8 @@ Ações disponíveis:
 
 ## Fase 3 — Aplicação
 
+> **REGRA ABSOLUTA DA FASE 3:** Arquivos `structural` NUNCA sao substituidos por cp/copia direta do source. O merge structural e um algoritmo de ADICAO de secoes novas, nao de substituicao de conteudo. Se o arquivo do projeto tem conteudo customizado (libs reais, patterns reais, branches reais, exemplos adaptados), esse conteudo e INTOCAVEL. Copiar o source por cima de um arquivo structural customizado e um bug critico — equivale a destruir trabalho do usuario.
+
 ### 3.1 Aplicar overwrite
 
 ```bash
@@ -241,6 +243,7 @@ O header `framework-tag` é atualizado automaticamente (já vem no arquivo sourc
 
 Para cada arquivo `structural`:
 
+0. **BACKUP OBRIGATORIO:** copiar arquivo atual para `.claude/.update-backup/{tag}/{path}` ANTES de qualquer alteracao. Se o merge falhar, este backup e a unica forma de restaurar.
 1. **Extrair seções (H2/H3)** do arquivo source e do arquivo instalado
 2. **Comparar listas de seções:**
    - Seção existe em ambos → manter versão do projeto (customizada)
@@ -252,6 +255,8 @@ Para cada arquivo `structural`:
 4. **Atualizar o header `framework-tag`** para a nova versão
 
 #### Algoritmo de merge structural
+
+> **REGRA CRITICA:** O merge structural NUNCA substitui conteudo que o usuario ja customizou. Se o usuario preencheu uma secao com dados reais do projeto (nomes de libs, padroes, branches, etc.), esse conteudo e INTOCAVEL. O merge so adiciona secoes novas e remove secoes obsoletas. Se tiver duvida se o conteudo foi customizado, SEMPRE perguntar antes de alterar.
 
 O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/remove secoes do framework:
 
@@ -268,6 +273,24 @@ O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/
 - Secao renomeada: detectar por similaridade de conteudo (>70% igual = provavel rename). Perguntar ao usuario.
 - Secao vazia no projeto: substituir pelo source (usuario nao customizou).
 - Conflito de ordem: priorizar ordem do source, mover secoes do projeto para posicao correspondente.
+
+**Como detectar se o conteudo foi customizado:**
+- Comparar conteudo da secao com o template source. Se >30% das linhas diferem do template → foi customizado → PRESERVAR.
+- Indicadores de customizacao: nomes de libs reais (elogger, GORM, Vitest), paths reais do projeto, branches reais (main, release, sandbox), envs reais, configuracoes especificas.
+- Indicadores de NAO customizado: placeholders genericos ({Jest / Vitest}, {Node.js 20}), exemplos de linguagem errada (JS em projeto Go), valores padrao iguais ao template.
+- **Na duvida: perguntar.** Nunca assumir que conteudo especifico e generico.
+
+#### Validacao pos-merge (OBRIGATORIA)
+
+Apos aplicar o merge structural em cada arquivo, executar esta validacao ANTES de passar para o proximo arquivo:
+
+1. **Ler o arquivo resultante** e comparar com o backup (salvo em `.claude/.update-backup/{tag}/`)
+2. **Para cada secao que existia no backup:**
+   - O conteudo customizado foi preservado? Se o backup tinha `elogger` e o resultado tem `console.log` → **MERGE FALHOU**
+   - Se falhou: **reverter para o backup** e avisar: "Merge structural falhou em {arquivo} secao {secao}. Conteudo customizado foi restaurado do backup. Secoes novas do framework NAO foram adicionadas. Revisar manualmente."
+3. **Para cada secao nova (nao existia no backup):**
+   - Verificar se tem placeholders — avisar que precisa customizar
+4. **Registrar no relatorio:** quais secoes foram preservadas, quais foram adicionadas, quais falharam
 
 ### 3.3 Aplicar manual
 
@@ -308,7 +331,35 @@ O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/
    - **Se instalou agent/skill novo:** avisar que precisa ser adicionado ao CLAUDE.md (a auditoria na Fase 5b vai detectar e oferecer corrigir)
    - **Se instalou slash command novo (SKILL.md):** avisar que so fica disponivel apos iniciar **nova sessao** (ou `/clear`)
 
-### 3.5 Remover obsoletos
+### 3.5 Verificacao pos-aplicacao (OBRIGATORIA)
+
+Apos aplicar TODOS os merges structural (Fase 3.2), rodar esta verificacao automatica antes de qualquer outra fase:
+
+1. **Para cada arquivo structural que foi tocado:**
+   - Ler o arquivo resultante
+   - Ler o backup em `.claude/.update-backup/{tag}/{path}`
+   - **Comparar secao por secao:**
+     - Se uma secao no backup tinha conteudo customizado (libs reais, paths reais, exemplos adaptados) e a secao no resultado tem conteudo generico/placeholder → **REGRESSAO DETECTADA**
+   - **Indicadores de regressao:**
+     - Backup tinha `elogger` → resultado tem `console.log` ou `log.Printf`
+     - Backup tinha `erros.Wrap` → resultado tem `fmt.Errorf`
+     - Backup tinha branches reais (main, release, sandbox) → resultado tem `develop`, `feature/*`
+     - Backup tinha framework de teste real (Vitest, Pytest) → resultado tem `{Jest / Vitest}`
+     - Backup tinha exemplos Go → resultado tem exemplos JS/TS
+     - Qualquer troca de linguagem de exemplos de codigo
+
+2. **Se detectou regressao:**
+   - **Restaurar o arquivo do backup** imediatamente: `cp backup resultado`
+   - Avisar: "⚠️ REGRESSAO DETECTADA em {arquivo}: secao {secao} teve conteudo customizado substituido por generico. Arquivo restaurado do backup. Secoes novas do framework NAO foram adicionadas."
+   - Registrar no relatorio como "FALHA — merge revertido"
+   - **Tentar novamente com merge mais conservador:** adicionar APENAS as secoes novas (que nao existiam no backup) sem tocar nas existentes
+
+3. **Se nao detectou regressao:**
+   - Registrar no relatorio como "OK — conteudo customizado preservado"
+
+> **Por que isso existe:** em execucoes anteriores o update substituiu conteudo customizado (ex: elogger → console.log, branches reais → genericas). Esta verificacao e a ultima barreira de seguranca contra esse tipo de regressao.
+
+### 3.6 Remover obsoletos
 
 1. Confirmar com o usuário antes de cada remoção
 2. Se o arquivo foi customizado pelo projeto (tem conteúdo além do template), avisar
