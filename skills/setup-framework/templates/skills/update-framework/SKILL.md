@@ -321,12 +321,29 @@ Se detectou sub-projetos na Fase 0:
 
 1. **Para cada sub-projeto desatualizado:**
    - Rodar Fases 1-3 no contexto do sub-projeto
-   - Skills/agents são compartilhados (na raiz) ou por sub-projeto? → ler do SETUP_REPORT.md
-   - Se compartilhados: atualizar só na raiz
-   - Se distribuídos: atualizar em cada sub-projeto
+   - **Detectar modelo de distribuicao** (ler do SETUP_REPORT.md ou inferir pela estrutura):
+     - Skills/agents na raiz (`.claude/skills/`) → atualizar so na raiz
+     - Skills/agents por sub-projeto (`{subdir}/.claude/skills/`) → atualizar em cada um
+     - Misto (universais na raiz + especificas por sub-projeto) → atualizar cada uma no lugar certo
+   - **CODE_PATTERNS por sub-projeto:** rodar Fase 0.6 dentro de cada sub-projeto separadamente. Um sub-projeto Go com `elogger` e um frontend React com `console.error` devem ter patterns independentes
+   - **Categoria 6 por sub-projeto:** validar relevancia no contexto de cada sub-projeto, nao no contexto global. Exemplo: `component-audit` instalado na raiz mas so faz sentido pro frontend — perguntar se quer mover para L2 do frontend
 
 2. **Para cada sub-projeto novo:**
    - Oferecer `/setup-framework` com contexto L2
+
+3. **Detectar mudancas de stack em sub-projetos existentes:**
+   - Se um sub-projeto antes era so backend e agora tem `pages/` ou `components/` → sugerir skills de frontend
+   - Se um sub-projeto adicionou DB (migrations, ORM) → sugerir `dba-review`
+   - Se skills estao na raiz mas um sub-projeto novo tem stack diferente → perguntar:
+     ```
+     O sub-projeto {dir}/ usa {stack}, mas as skills na raiz tem
+     exemplos de {outra stack}.
+
+     Opcoes:
+     1. Criar skills especificas para {dir}/ em {dir}/.claude/skills/
+     2. Adicionar secao "{stack}" nas skills da raiz
+     3. Manter como esta
+     ```
 
 ---
 
