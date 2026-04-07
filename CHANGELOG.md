@@ -7,6 +7,20 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.16.0] — 2026-04-07
+
+### Adicionado
+
+- Setup: Fase 5a — verificacao pos-geracao que detecta e corrige automaticamente skills instaladas com exemplos genericos (ex: JS em projeto Go, branches genericas em GIT_CONVENTIONS)
+- Update: Fase 3.5 — verificacao pos-aplicacao obrigatoria que compara resultado vs backup e restaura se detectou regressao (ex: elogger substituido por console.log)
+- Update: regra absoluta na Fase 3 — arquivos structural NUNCA sao substituidos por cp do source
+- Update: backup obrigatorio ANTES de cada merge structural
+
+### Corrigido
+
+- `setup-framework` e `update-framework` nao sao mais copiados para `.claude/skills/` do projeto (sao skills de gestao, ficam em `~/.claude/skills/` ou via plugin)
+- MANIFEST atualizado para refletir que skills de gestao nao vao pro projeto
+
 ## [2.15.1] — 2026-04-07
 
 ### Corrigido
