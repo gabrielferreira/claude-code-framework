@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Checklist estruturado com thresholds numericos para duplicacao, complexidade e dead code.
 worktree: false
 ---
-<!-- framework-tag: v2.16.0 framework-file: agents/code-review.md -->
+<!-- framework-tag: v2.16.1 framework-file: agents/code-review.md -->
 # Agent: Code Review
 
 > Sub-agente autônomo que analisa qualidade do código e identifica problemas.
