@@ -4,7 +4,7 @@ model: haiku
 model-rationale: leitura e checklist simples, sem julgamento subjetivo
 worktree: false
 ---
-<!-- framework-tag: v2.17.0 framework-file: agents/dx-audit.md -->
+<!-- framework-tag: v2.17.1 framework-file: agents/dx-audit.md -->
 
 # DX Audit — Auditoria de Developer Experience
 

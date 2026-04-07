@@ -7,6 +7,16 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.17.1] — 2026-04-07
+
+### Corrigido
+
+- Setup: leitura obrigatoria do VERSION do framework para evitar framework-tags com `v0.0.0`
+- Setup e Update: filtro por modo spec (Notion/externo) impede criacao de `backlog.md`, `TEMPLATE.md`, `DESIGN_TEMPLATE.md` locais
+- Update: limpeza ativa de artefatos locais desnecessarios em modo Notion (backup + remocao automatica)
+- Update: remocao de secoes do CLAUDE.md que referenciam backlog local quando projeto usa Notion
+- Setup: tabela de arquivos obrigatorios agora distingue por modo (repo vs Notion)
+
 ## [2.17.0] — 2026-04-07
 
 ### Adicionado
