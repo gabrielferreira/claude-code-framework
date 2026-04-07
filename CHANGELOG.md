@@ -7,6 +7,17 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.15.0] — 2026-04-07
+
+### Adicionado
+
+- Monorepo: modelo de distribuicao de skills/agents L0 (raiz) vs L2 (sub-projeto) com 3 opcoes de organizacao
+- Monorepo: CODE_PATTERNS por sub-projeto — mesmo linguagem com padroes diferentes (ex: 2 projetos Go com libs distintas)
+- Monorepo: isolamento por sub-projeto para skills, verify.sh, docs e CLAUDE.md L2
+- Monorepo: modelo misto para CLAUDE.md L2 — sub-projetos so listam overrides de skills, resto herda da raiz via concatenacao
+- Setup: deteccao de stack por sub-projeto e distribuicao condicional de skills/agents
+- Update: deteccao de mudancas de stack por sub-projeto e sugestao de migracao de padroes
+
 ## [2.14.2] — 2026-04-07
 
 ### Documentacao

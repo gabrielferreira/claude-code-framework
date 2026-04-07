@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.14.2 framework-file: docs/SETUP_GUIDE.md -->
+<!-- framework-tag: v2.15.0 framework-file: docs/SETUP_GUIDE.md -->
 # Guia de Setup — /setup-framework
 
 > Como usar o wizard interativo para implantar o claude-code-framework em um repositorio existente.
@@ -557,7 +557,7 @@ cp -r /caminho/do/claude-code-framework/skills/update-framework ~/.claude/skills
 
 Cada arquivo do framework tem um header HTML invisivel:
 ```html
-<!-- framework-tag: v2.14.2 framework-file: skills/testing/README.md -->
+<!-- framework-tag: v2.15.0 framework-file: skills/testing/README.md -->
 ```
 
 O `/update-framework` usa esse header para saber:

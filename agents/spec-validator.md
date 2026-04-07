@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Checklist estruturado que verifica existencia de arquivos, funcoes e comportamentos — validacao metodica, nao julgamento profundo.
 worktree: false
 ---
-<!-- framework-tag: v2.14.2 framework-file: agents/spec-validator.md -->
+<!-- framework-tag: v2.15.0 framework-file: agents/spec-validator.md -->
 # Agent: Spec Validator
 
 > Sub-agente autônomo que compara specs com o código atual e identifica divergências.
