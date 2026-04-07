@@ -148,9 +148,35 @@ Gere automaticamente um diagrama Mermaid que visualiza as 4 camadas do PRD:
 
 O diagrama usa `flowchart TD` com subgraphs coloridos para cada camada e setas mostrando o fluxo de cima para baixo.
 
+**Arquivo Mermaid standalone (padrao):**
+
+Alem de incluir o diagrama no corpo do PRD, sempre gerar um arquivo `.mmd` separado com o codigo Mermaid puro (sem code fences). Se estiver trabalhando com arquivos locais, salvar como `{id-do-prd}.mmd` no mesmo diretorio do PRD. Se nao tiver acesso a arquivos, entregar o codigo Mermaid em bloco separado para o usuario salvar manualmente.
+
+O arquivo `.mmd` e util porque pode ser aberto direto em:
+- VS Code (com extensao Mermaid)
+- GitHub/GitLab (renderiza automaticamente em preview)
+- Mermaid Live Editor (mermaid.live)
+- Qualquer ferramenta que importe Mermaid
+
 Apresentar o diagrama ao usuario para validacao antes de finalizar.
 
-Apos validacao, perguntar se o usuario quer exportar para ferramenta visual (Miro, FigJam, Lucidchart, etc.). Se a plataforma tiver integracao disponivel, criar o diagrama direto na ferramenta. Caso contrario, informar que o codigo Mermaid pode ser copiado manualmente.
+**Exportacao para ferramenta visual (opcional):**
+
+Apos validacao do diagrama, perguntar: "Quer exportar o diagrama para uma ferramenta visual como Miro, FigJam, Lucidchart, ou Excalidraw?"
+
+Se a plataforma tiver integracao disponivel (API, plugin, MCP server, ou qualquer mecanismo de conexao com ferramentas externas):
+
+1. Detectar quais ferramentas visuais estao acessiveis (Miro, FigJam, Lucidchart, Excalidraw, etc.)
+2. Criar um board/frame dedicado ao PRD com as 4 camadas coloridas:
+   - Vermelho (#f8d7da) para Problema
+   - Laranja (#ffe0b2) para Causas
+   - Amarelo (#fff9c4) para Porques
+   - Verde (#c8e6c9) para Solucoes
+3. Criar cada no como shape/sticky note dentro da camada correspondente
+4. Criar conectores/setas entre as camadas
+5. Informar URL do board criado
+
+Se nenhuma integracao estiver disponivel, informar: "Nenhuma integracao com ferramenta visual detectada. O diagrama Mermaid foi salvo como arquivo .mmd e incluido no PRD. Voce pode importar o codigo Mermaid manualmente no Miro, FigJam, ou qualquer ferramenta que suporte diagramas."
 
 ## Verificacao pos-criacao
 
