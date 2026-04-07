@@ -199,6 +199,51 @@
 |------|-----------|---------|
 | *{Tecnica/Negocio/Externa}* | *{description}* | *{what it limits}* |
 
+## Diagrama de padronizacao
+
+*Visualizacao das 4 camadas do PRD: problema → causas (usuario) → porques (plataforma) → solucoes.*
+
+```mermaid
+flowchart TD
+    subgraph problema["🔴 Qual o problema a ser resolvido?"]
+        P["Impacto no usuario + Job que falha<br/><i>{problema raiz validado}</i>"]
+    end
+
+    subgraph causas["🟠 Causas — Camada do usuario"]
+        direction LR
+        C1["{causa/evidencia 1}"]
+        C2["{causa/evidencia 2}"]
+        C3["{causa/evidencia 3}"]
+    end
+
+    subgraph porques["🟡 Porques — Camada da plataforma"]
+        direction LR
+        W1["{causa raiz 1 — categoria}"]
+        W2["{causa raiz 2 — categoria}"]
+        W3["{causa raiz 3 — categoria}"]
+    end
+
+    subgraph comos["🟢 Como resolver — Solucoes"]
+        direction LR
+        S1["{acao 1}"]
+        S2["{acao 2}"]
+        S3["{acao 3}"]
+    end
+
+    P --> C1 & C2 & C3
+    C1 & C2 & C3 --> W1 & W2 & W3
+    W1 & W2 & W3 --> S1 & S2 & S3
+
+    style problema fill:#f8d7da,stroke:#dc3545,color:#000
+    style causas fill:#ffe0b2,stroke:#ff9800,color:#000
+    style porques fill:#fff9c4,stroke:#fbc02d,color:#000
+    style comos fill:#c8e6c9,stroke:#4caf50,color:#000
+```
+
+> **Legenda de categorias (camada Porques):** Inexistencia da solucao | Caracteristicas ou regras | Limitacoes tecnicas | UX | Erros ou Bugs | Questoes alheias a Tecnologia | Direcional estrategico | 🔮 Hipotese (necessita validacao)
+>
+> **Cada acao na camada Como** pode gerar 1 ou N tasks, stories, bugs, etc. A soma de acoes forma o epic.
+
 ## Verificacao pos-conclusao
 
 Antes de marcar como `concluido`:
@@ -212,4 +257,5 @@ Antes de marcar como `concluido`:
 - [ ] Todas as acoes em "Como resolver" tem spec vinculada
 - [ ] Todas as specs vinculadas estao `concluida` ou `descontinuada` com substituta
 - [ ] Metricas de sucesso tem baseline e meta definidos
+- [ ] Diagrama de padronizacao gerado e validado (4 camadas: problema → causas → porques → solucoes)
 - [ ] Agent product-review executado sem gaps criticos

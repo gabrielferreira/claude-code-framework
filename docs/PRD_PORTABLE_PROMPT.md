@@ -47,7 +47,7 @@ Antes de comecar, classifique o escopo do problema:
 
 Na duvida entre dois niveis, classificar para cima.
 
-## Fluxo de analise de causa raiz (9 passos)
+## Fluxo de analise de causa raiz (10 passos)
 
 Conduza a analise fazendo **uma pergunta de cada vez**. Espere a resposta do usuario antes de avancar para a proxima. Nao pule etapas.
 
@@ -136,6 +136,47 @@ Validar que o PRD e epic-level, nao task-level:
 
 **Se <3 acoes:** avisar que pode ser mais adequado como spec unica ou item de backlog.
 **Se acoes sao muito tecnicas:** sugerir reformulacao em nivel mais alto (o que resolver, nao como implementar).
+
+### Passo 10 — Diagrama de padronizacao
+
+Gere automaticamente um diagrama Mermaid que visualiza as 4 camadas do PRD:
+
+1. **🔴 Problema:** impacto no usuario + job que falha (passo 2)
+2. **🟠 Causas — Camada do usuario:** sintomas observaveis, comentarios, dados de uso, evidencias (passos 3-4)
+3. **🟡 Porques — Camada da plataforma:** causas raiz categorizadas como: Inexistencia da solucao, Caracteristicas ou regras, Limitacoes tecnicas, UX, Erros ou Bugs, Questoes alheias a Tecnologia, Direcional estrategico, ou Hipotese (necessita validacao) (passos 5-6)
+4. **🟢 Como resolver — Solucoes:** acoes derivadas das causas raiz. Cada acao ou combinacao pode virar 1 ou N tasks, stories, bugs (passo 8)
+
+O diagrama usa `flowchart TD` com subgraphs coloridos para cada camada e setas mostrando o fluxo de cima para baixo.
+
+**Arquivo Mermaid standalone (padrao):**
+
+Alem de incluir o diagrama no corpo do PRD, sempre gerar um arquivo `.mmd` separado com o codigo Mermaid puro (sem code fences). Se estiver trabalhando com arquivos locais, salvar como `{id-do-prd}.mmd` no mesmo diretorio do PRD. Se nao tiver acesso a arquivos, entregar o codigo Mermaid em bloco separado para o usuario salvar manualmente.
+
+O arquivo `.mmd` e util porque pode ser aberto direto em:
+- VS Code (com extensao Mermaid)
+- GitHub/GitLab (renderiza automaticamente em preview)
+- Mermaid Live Editor (mermaid.live)
+- Qualquer ferramenta que importe Mermaid
+
+Apresentar o diagrama ao usuario para validacao antes de finalizar.
+
+**Exportacao para ferramenta visual (opcional):**
+
+Apos validacao do diagrama, perguntar: "Quer exportar o diagrama para uma ferramenta visual como Miro, FigJam, Lucidchart, ou Excalidraw?"
+
+Se a plataforma tiver integracao disponivel (API, plugin, MCP server, ou qualquer mecanismo de conexao com ferramentas externas):
+
+1. Detectar quais ferramentas visuais estao acessiveis (Miro, FigJam, Lucidchart, Excalidraw, etc.)
+2. Criar um board/frame dedicado ao PRD com as 4 camadas coloridas:
+   - Vermelho (#f8d7da) para Problema
+   - Laranja (#ffe0b2) para Causas
+   - Amarelo (#fff9c4) para Porques
+   - Verde (#c8e6c9) para Solucoes
+3. Criar cada no como shape/sticky note dentro da camada correspondente
+4. Criar conectores/setas entre as camadas
+5. Informar URL do board criado
+
+Se nenhuma integracao estiver disponivel, informar: "Nenhuma integracao com ferramenta visual detectada. O diagrama Mermaid foi salvo como arquivo .mmd e incluido no PRD. Voce pode importar o codigo Mermaid manualmente no Miro, FigJam, ou qualquer ferramenta que suporte diagramas."
 
 ## Verificacao pos-criacao
 
@@ -331,6 +372,14 @@ Gere o PRD no formato abaixo. Substitua os placeholders pelo conteudo coletado n
 | Tipo | Descricao | Impacto |
 |------|-----------|---------|
 | {Tecnica/Negocio/Externa} | {descricao} | {o que limita} |
+
+## Diagrama de padronizacao
+
+*Visualizacao das 4 camadas do PRD: problema → causas (usuario) → porques (plataforma) → solucoes.*
+
+{Gerar diagrama Mermaid flowchart TD com 4 subgraphs coloridos: problema (vermelho), causas (laranja), porques (amarelo), comos (verde). Preencher com dados reais do PRD. Cada acao na camada Como pode gerar 1 ou N tasks/stories/bugs.}
+
+> **Categorias da camada Porques:** Inexistencia da solucao | Caracteristicas ou regras | Limitacoes tecnicas | UX | Erros ou Bugs | Questoes alheias a Tecnologia | Direcional estrategico | Hipotese (necessita validacao)
 
 ## Verificacao pos-conclusao
 
