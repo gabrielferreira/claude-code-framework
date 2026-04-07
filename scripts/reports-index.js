@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// framework-tag: v2.16.1 framework-file: scripts/reports-index.js
 /**
  * Reports Index — Página consolidada de reports
  *

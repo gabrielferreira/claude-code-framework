@@ -51,6 +51,16 @@
 | Qual artefato usar (PRD, spec, backlog) | [`CONCEPTUAL_MAP.md`](CONCEPTUAL_MAP.md) |
 | Convenções de git | [`GIT_CONVENTIONS.md`](GIT_CONVENTIONS.md) |
 | Setup do framework | [`SETUP_GUIDE.md`](SETUP_GUIDE.md) |
+| Integracao Notion | [`NOTION_INTEGRATION.md`](NOTION_INTEGRATION.md) |
+| Investigacao de bugs | [`BUG_INVESTIGATION_PORTABLE_PROMPT.md`](BUG_INVESTIGATION_PORTABLE_PROMPT.md) |
+| PRD (prompt portavel) | [`PRD_PORTABLE_PROMPT.md`](PRD_PORTABLE_PROMPT.md) |
+| Exemplo de spec | [`SPEC_EXAMPLE.md`](SPEC_EXAMPLE.md) |
+| Mapa de skills | [`SKILLS_MAP.md`](SKILLS_MAP.md) |
+| Diagramas de workflow | [`WORKFLOW_DIAGRAM.md`](WORKFLOW_DIAGRAM.md) |
+| Guia de migracao | [`MIGRATION_GUIDE.md`](MIGRATION_GUIDE.md) |
+| Quick start | [`QUICK_START.md`](QUICK_START.md) |
+| Troubleshooting | [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) |
+| Hook de protecao do backlog | [`PROTECT_BACKLOG_HOOK.md`](PROTECT_BACKLOG_HOOK.md) |
 
 ---
 

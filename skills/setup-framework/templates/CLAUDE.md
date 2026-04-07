@@ -20,11 +20,11 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 
 > Estas regras se aplicam a TODA interacao. Nao pular nenhuma, mesmo que o pedido pareca simples.
 
-1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar `.claude/specs/` para specs existentes e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec e a mudanca nao e trivial (>3 arquivos ou >30min) → criar spec antes de codar.
+1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar specs existentes (via `SPECS_INDEX.md` ou Notion, conforme configurado) e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec e a mudanca nao e trivial (>3 arquivos ou >30min) → criar spec antes de codar.
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
 4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
-5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao em feature existente → ler `.claude/specs/STATE.md` primeiro. Ao encerrar → atualizar STATE.md com decisoes, blockers e proximos passos.
+5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao em feature existente → ler `.claude/specs/STATE.md` primeiro. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com decisoes, blockers e proximos passos.
 
 ## Mindset por domínio
 
@@ -70,7 +70,7 @@ Adotar a postura de especialista sênior do domínio em que estiver trabalhando.
 
 Antes de implementar qualquer feature ou corrigir comportamento de negócio → ler a skill **spec-driven** (`.claude/skills/spec-driven/README.md`). Ela define o fluxo completo: consulta de specs, classificação de complexidade, TDD, backlog, fluxo RPI e scope guardrail.
 
-Specs locais: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas).
+Specs: consultar `SPECS_INDEX.md` para localizar. Em modo repo: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas). Em modo Notion: specs vivem na database do Notion (ver secao "Integracao Notion" se existir).
 PRDs (se habilitados): `.claude/prds/` (ativos) e `.claude/prds/done/` (concluídos).
 
 ## ⛔ TDD obrigatório
@@ -133,6 +133,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 19 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
 | 20 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
 | 21 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 22 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
 {22+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
@@ -151,7 +152,7 @@ Quando várias skills se aplicam na mesma tarefa:
 | 1 | `security-audit.md` | opus | Itens SEC*, mudanças em auth/payments/middleware | ⛔ Sim |
 | 2 | `spec-validator.md` | sonnet | Antes de mover spec para done/ | ⛔ Sim |
 | 3 | `coverage-check.md` | sonnet | Após testes, antes de commit | Recomendado |
-| 4 | `backlog-report.md` | haiku | Início de sessão, sob demanda | Recomendado |
+| 4 | `backlog-report.md` | sonnet | Início de sessão, sob demanda | Recomendado |
 | 5 | `code-review.md` | sonnet | Após 3+ arquivos modificados, refatoração | Recomendado |
 | 6 | `component-audit.md` | sonnet | Após 2+ componentes visuais modificados | Recomendado |
 | 7 | `seo-audit.md` | sonnet | Mudanças em páginas públicas, meta tags | Recomendado |
@@ -228,7 +229,7 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | spec-validator | sonnet | Sim |
 | coverage-check | sonnet | Sim |
 | seo-audit | sonnet | Sim |
-| backlog-report | haiku | Sim — subir para sonnet se backlog for complexo |
+| backlog-report | sonnet | Analisa tendencias e velocidade com heuristicas estruturadas |
 | product-review | sonnet | Sim |
 | refactor-agent | sonnet | Sim |
 | test-generator | sonnet | Sim |

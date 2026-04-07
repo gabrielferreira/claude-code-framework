@@ -24,42 +24,45 @@
 
 ## {Domínio 1 — ex: Autenticação & Acesso}
 
-| ID | Spec | Status | Owner | Resumo |
-|---|---|---|---|---|
-| {AUTH1} | `.claude/specs/{auth-login.md}` | `concluída` | {opcional} | {Login e autenticação} |
-| {AUTH2} | `.claude/specs/{auth-roles.md}` | `em andamento` | {opcional} | {Sistema de roles} |
+| ID | Spec | Status | Owner | Fonte | Resumo |
+|---|---|---|---|---|---|
+| {AUTH1} | `.claude/specs/{auth-login.md}` | `concluída` | {opcional} | — | {Login e autenticação} |
+| {AUTH2} | `.claude/specs/{auth-roles.md}` | `em andamento` | {opcional} | `PROJ-123` | {Sistema de roles} |
 
 ## {Domínio 2 — ex: Pagamentos}
 
-| ID | Spec | Status | Owner | Resumo |
-|---|---|---|---|---|
-| {PAY1} | `.claude/specs/{stripe-checkout.md}` | `concluída` | {opcional} | {Checkout e webhooks} |
+| ID | Spec | Status | Owner | Fonte | Resumo |
+|---|---|---|---|---|---|
+| {PAY1} | `.claude/specs/{stripe-checkout.md}` | `concluída` | {opcional} | `PROJ-456` | {Checkout e webhooks} |
+| {PAY2} | `.claude/specs/{stripe-webhooks.md}` | `em andamento` | {opcional} | `PROJ-456` | {Webhooks e reconciliação} |
+
+> **Nota:** Multiplas specs podem referenciar a mesma Fonte (ex: PAY1 e PAY2 ambos vem de PROJ-456). Isso e normal quando um card grande e quebrado em specs menores.
 
 ## {Domínio 3 — ex: Core / Funcionalidade Principal}
 
-| ID | Spec | Status | Owner | Resumo |
-|---|---|---|---|---|
-| {CORE1} | `.claude/specs/{feature-x.md}` | `rascunho` | {opcional} | {Feature X} |
+| ID | Spec | Status | Owner | Fonte | Resumo |
+|---|---|---|---|---|---|
+| {CORE1} | `.claude/specs/{feature-x.md}` | `rascunho` | {opcional} | — | {Feature X} |
 
 ## {Domínio 4 — ex: UI & UX}
 
-| ID | Spec | Status | Owner | Resumo |
-|---|---|---|---|---|
+| ID | Spec | Status | Owner | Fonte | Resumo |
+|---|---|---|---|---|---|
 
 ## {Domínio 5 — ex: Segurança}
 
-| ID | Spec | Status | Owner | Resumo |
+| ID | Spec | Status | Owner | Fonte | Resumo |
 |---|---|---|---|---|
 
 ## {Domínio 6 — ex: Testes & Qualidade}
 
-| ID | Spec | Status | Owner | Resumo |
-|---|---|---|---|---|
+| ID | Spec | Status | Owner | Fonte | Resumo |
+|---|---|---|---|---|---|
 
 ## {Domínio 7 — ex: Infraestrutura}
 
-| ID | Spec | Status | Owner | Resumo |
-|---|---|---|---|---|
+| ID | Spec | Status | Owner | Fonte | Resumo |
+|---|---|---|---|---|---|
 
 ---
 

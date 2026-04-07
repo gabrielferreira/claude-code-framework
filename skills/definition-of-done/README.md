@@ -134,7 +134,7 @@ Tudo do checklist universal, mais:
 
 ### Processo
 
-1. **Abrir a spec** em `.claude/specs/` e reler integralmente
+1. **Abrir a spec** — em `.claude/specs/` (modo repo) ou via `notion-fetch` (modo Notion) — e reler integralmente
 2. **Para cada critério de aceitação:**
    - Localizar no código onde foi implementado (arquivo + linha)
    - Confirmar que o comportamento descrito é o que o código faz

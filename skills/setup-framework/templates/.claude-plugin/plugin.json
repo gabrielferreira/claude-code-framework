@@ -1,0 +1,13 @@
+{
+  "name": "claude-code-framework",
+  "version": "2.16.1",
+  "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
+  "repository": "https://github.com/estrategiahq/claude-code-framework",
+  "author": "Estrategia HQ",
+  "license": "MIT",
+  "homepage": "https://github.com/estrategiahq/claude-code-framework",
+  "keywords": ["specs", "skills", "agents", "verification", "claude-code", "framework"],
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "docs": "./docs/"
+}

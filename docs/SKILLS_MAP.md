@@ -41,6 +41,8 @@ O fluxo comeca com `spec-driven` (que spec implementar), passa pelas skills de d
 | Skill | Quando usar |
 |---|---|
 | logging | Qualquer implementacao que adicione ou modifique logs |
+| execution-plan | Ao planejar implementacao de spec Grande/Complexa |
+| bug-investigation | Ao investigar bug antes de criar spec de correcao |
 | backlog-update | Apos concluir spec ou identificar trabalho adicional |
 | spec-creator (`/spec`) | Ao criar nova spec antes de iniciar implementacao |
 | prd-creator | Ao criar PRD antes de quebrar em specs |

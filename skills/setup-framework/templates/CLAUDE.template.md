@@ -152,7 +152,7 @@ Quando várias skills se aplicam na mesma tarefa:
 | 1 | `security-audit.md` | opus | Itens SEC*, mudanças em auth/payments/middleware | ⛔ Sim |
 | 2 | `spec-validator.md` | sonnet | Antes de mover spec para done/ | ⛔ Sim |
 | 3 | `coverage-check.md` | sonnet | Após testes, antes de commit | Recomendado |
-| 4 | `backlog-report.md` | haiku | Início de sessão, sob demanda | Recomendado |
+| 4 | `backlog-report.md` | sonnet | Início de sessão, sob demanda | Recomendado |
 | 5 | `code-review.md` | sonnet | Após 3+ arquivos modificados, refatoração | Recomendado |
 | 6 | `component-audit.md` | sonnet | Após 2+ componentes visuais modificados | Recomendado |
 | 7 | `seo-audit.md` | sonnet | Mudanças em páginas públicas, meta tags | Recomendado |
@@ -229,7 +229,7 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | spec-validator | sonnet | Sim |
 | coverage-check | sonnet | Sim |
 | seo-audit | sonnet | Sim |
-| backlog-report | haiku | Sim — subir para sonnet se backlog for complexo |
+| backlog-report | sonnet | Analisa tendencias e velocidade com heuristicas estruturadas |
 | product-review | sonnet | Sim |
 | refactor-agent | sonnet | Sim |
 | test-generator | sonnet | Sim |
