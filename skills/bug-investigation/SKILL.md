@@ -34,6 +34,13 @@ Verificar no `CLAUDE.md` do projeto:
 3. **Nenhum dos anteriores:**
    - Modo repo — criar arquivo local
 
+**Detectar integracao Jira (independente do modo):**
+
+Verificar se algum MCP de Jira esta configurado no ambiente:
+- Verificar se tools `jira_*`, `getJiraIssue`, `createJiraIssue`, `jira-create-issue`, ou similares estao disponiveis
+- Verificar se a secao `## Integracao Jira` existe no CLAUDE.md do projeto (pode conter: `jira_project_key`, `jira_bug_issue_type`, `jira_board_id`)
+- Guardar resultado para usar no passo 8 (criacao de card)
+
 ### Passo 0b — Resolver fonte externa (se `--from` fornecido)
 
 Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
@@ -278,10 +285,57 @@ Se o usuario passou `--from {referencia}`, resolver ANTES de iniciar:
    | Recomendacao para engenharia | sim |
    | Calibracao de completude | sim (todos "sim" ou justificativa) |
 
-7. **Informar o investigador:**
+7. **Criar card no Jira (se integracao disponivel):**
+
+   **Se MCP Jira foi detectado no passo 0**, oferecer criacao automatica:
+
+   Perguntar: "Integracao Jira detectada. Quer que eu crie o card de bug automaticamente no Jira?"
+
+   **Se sim:**
+
+   1. **Montar o card** com os dados da investigacao:
+      ```
+      project: "{jira_project_key do CLAUDE.md ou perguntar ao usuario}"
+      issuetype: "{jira_bug_issue_type ou 'Bug'}"
+      summary: "[Bug][{Vertical/Sistema}] {titulo do bug}"
+      priority: "{mapear severidade: critico→Highest, alto→High, medio→Medium, baixo→Low}"
+      description: "{relatorio completo formatado — mesma estrutura do template de saida}"
+      labels: ["bug", "{tipo-causa-raiz: codigo|dados|infra|config|processo}"]
+      ```
+
+   2. **Campos adicionais** (preencher se o projeto Jira tiver):
+      - `environment`: ambiente onde o bug foi reproduzido
+      - `components`: modulo/sistema afetado (do passo 4)
+      - `affects_version`: versao do sistema se identificada
+      - Custom fields do projeto (consultar schema do Jira se disponivel)
+
+   3. **Anexar evidencias** (se a ferramenta suportar):
+      - Screenshots, logs, gravacoes mencionadas no passo 6
+      - Se nao suportar anexo via API, listar no description com instrucao para anexar manualmente
+
+   4. **Vincular a issues relacionadas:**
+      - Se `--from` foi usado e a fonte era Jira, criar link "is caused by" ou "relates to"
+      - Se bugs anteriores foram mencionados no passo 7, criar links "relates to"
+
+   5. **Registrar no relatorio local:**
+      - Adicionar `> Card Jira: [{key}]({url})` no header do relatorio
+      - Atualizar o index de bugs com a referencia
+
+   6. **Informar:** "Card criado: {PROJ-XXX} — {url}. Severidade: {severidade}. Assignee nao definido — atribua ao engenheiro responsavel."
+
+   **Se MCP Jira nao disponivel:**
+
+   Informar: "Nenhuma integracao Jira detectada. Copie o relatorio para criar o card manualmente. O formato ja esta compativel com o template de bugs do Jira."
+
+   **Se o usuario recusar criacao automatica:**
+
+   Seguir normalmente — o relatorio local ja e suficiente.
+
+8. **Informar o investigador:**
    - Path do relatorio
    - Severidade classificada
    - Causa raiz mais provavel
+   - Card Jira criado (se aplicavel): key + URL
    - Resultado da calibracao: ✅ completo para engenharia | ⚠️ N itens pendentes
    - Proximo passo: "Envie este relatorio para o time de engenharia. Se houver spec/PRD relacionado, vincule."
 
@@ -295,6 +349,7 @@ Mesma logica do modo repo, mas criar pagina no Notion:
 2. **Conduzir investigacao** (mesmos 10 passos)
 3. **Criar pagina** via `notion-create-pages` com conteudo completo
 4. **Verificacao pos-criacao** via `notion-fetch`
+5. **Oferecer criacao de card Jira** (mesma logica do passo 7 do modo repo — se MCP Jira disponivel, perguntar e criar. Vincular pagina Notion no campo description ou custom field do Jira)
 
 ---
 
@@ -302,7 +357,8 @@ Mesma logica do modo repo, mas criar pagina no Notion:
 
 1. **Conduzir investigacao** (mesmos 10 passos)
 2. **Gerar relatorio formatado** na conversa
-3. **Informar:** "Relatorio gerado para copy-paste. Copie para o Jira, Slack, ou ferramenta do time."
+3. **Oferecer criacao de card Jira** (mesma logica — se MCP Jira disponivel, perguntar e criar com o conteudo do relatorio)
+4. **Se sem Jira:** "Relatorio gerado para copy-paste. O formato e compativel com o template de bugs do Jira — copie direto."
 
 ---
 

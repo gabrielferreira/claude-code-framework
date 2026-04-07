@@ -184,6 +184,31 @@ Validar que o relatorio esta completo:
 
 Se algum "nao": voltar ao passo correspondente e completar.
 
+### Criacao de card no Jira (automatica quando possivel)
+
+Apos a calibracao de completude, verificar se existe integracao com Jira disponivel (API, MCP server, plugin, ou qualquer mecanismo de conexao):
+
+**Se integracao Jira disponivel:**
+
+Perguntar: "Quer que eu crie o card de bug automaticamente no Jira?"
+
+Se sim, criar o card com:
+- **Tipo:** Bug
+- **Titulo:** `[Bug][{Vertical/Sistema}] {resumo do problema}`
+- **Prioridade:** mapear severidade (critico→Highest, alto→High, medio→Medium, baixo→Low)
+- **Descricao:** relatorio completo no formato de saida abaixo
+- **Labels:** `bug`, tipo da causa raiz (codigo, dados, infra, config, processo)
+- **Ambiente:** onde o bug foi reproduzido
+- **Componente:** modulo/sistema afetado
+
+Vincular a issues relacionadas se existirem (bugs anteriores, fonte original).
+
+Informar key e URL do card criado.
+
+**Se sem integracao Jira:**
+
+Informar: "Nenhuma integracao Jira detectada. O relatorio esta formatado para copiar direto no Jira como card de bug."
+
 ## Formato de saida
 
 Apos conduzir a investigacao completa (10 passos), gerar o relatorio final no formato abaixo. Este formato e compativel com o template de bugs do Notion do time.
