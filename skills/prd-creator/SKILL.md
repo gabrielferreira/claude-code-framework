@@ -235,6 +235,64 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
 
    ---
 
+   #### Passo 10 — Diagrama de padronizacao
+
+   **Gerar automaticamente** um diagrama Mermaid que visualiza as 4 camadas do PRD, seguindo o modelo de padronizacao. O diagrama e gerado pelo assistente (nao e uma pergunta ao usuario), usando os dados coletados nos passos anteriores.
+
+   O diagrama segue este template estrutural — substituir os placeholders pelos dados reais do PRD:
+
+   ~~~mermaid
+   flowchart TD
+       subgraph problema["🔴 Qual o problema a ser resolvido?"]
+           P["Impacto no usuario + Job que falha<br/><i>{problema raiz validado no passo 2}</i>"]
+       end
+
+       subgraph causas["🟠 Causas — Camada do usuario"]
+           direction LR
+           C1["{evidencia/causa 1}"]
+           C2["{evidencia/causa 2}"]
+           C3["{evidencia/causa 3}"]
+       end
+
+       subgraph porques["🟡 Porques — Camada da plataforma"]
+           direction LR
+           W1["{causa raiz 1}"]
+           W2["{causa raiz 2}"]
+           W3["{causa raiz 3}"]
+           WH["🔮 Hipoteses<br/><i>Necessita validacao</i>"]
+       end
+
+       subgraph comos["🟢 Como resolver — Solucoes"]
+           direction LR
+           S1["{acao 1}"]
+           S2["{acao 2}"]
+           S3["{acao 3}"]
+       end
+
+       P --> C1 & C2 & C3
+       C1 & C2 & C3 --> W1 & W2 & W3
+       W1 & W2 & W3 --> S1 & S2 & S3
+
+       style problema fill:#f8d7da,stroke:#dc3545,color:#000
+       style causas fill:#ffe0b2,stroke:#ff9800,color:#000
+       style porques fill:#fff9c4,stroke:#fbc02d,color:#000
+       style comos fill:#c8e6c9,stroke:#4caf50,color:#000
+   ~~~
+
+   **Regras do diagrama:**
+
+   1. **Camada 🔴 Problema:** usar o problema raiz validado (passo 2), descrito como impacto no usuario + job que falha
+   2. **Camada 🟠 Causas (usuario):** preencher com as causas do passo 3 e evidencias do passo 4 — sao os sintomas observaveis pelos usuarios (comentarios classificados, dados de uso, evidencias concretas)
+   3. **Camada 🟡 Porques (plataforma):** preencher com as causas raiz dos porques encadeados (passo 5-6). Categorizar cada uma como: `Inexistencia da solucao`, `Caracteristicas ou regras`, `Limitacoes tecnicas`, `UX`, `Erros ou Bugs`, `Questoes alheias a Tecnologia`, ou `Direcional estrategico`. Se alguma causa raiz nao tem evidencia solida, adicionar como `Hipotese` com nota "Necessita validacao"
+   4. **Camada 🟢 Como (solucoes):** preencher com as acoes do passo 8. Cada acao ou combinacao de acoes pode virar 1 ou N tasks, stories, bugs, etc.
+   5. **Conexoes:** tracar setas de cima para baixo mostrando o fluxo problema → causas → porques → solucoes. Quando possivel, mostrar conexoes especificas (qual causa leva a qual porque, qual porque leva a qual solucao)
+   6. **Incluir o no `Hipoteses`** apenas se houver causas raiz sem evidencia suficiente
+   7. Ajustar a quantidade de nos em cada camada conforme o PRD real — o template acima e apenas referencia
+
+   Apresentar o diagrama ao usuario para validacao: "Gerei o diagrama de padronizacao do PRD. Ele mostra as 4 camadas: problema → causas (usuario) → porques (plataforma) → solucoes. Confere?"
+
+   ---
+
    > Nao e necessario preencher tudo de uma vez. O usuario pode deixar campos como placeholder e iterar depois. O importante e capturar o maximo possivel na primeira passada.
 
 6. **Registrar no PRDS_INDEX.md** (em `.claude/prds/PRDS_INDEX.md`):
