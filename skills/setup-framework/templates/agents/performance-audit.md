@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: checklist com thresholds e analise de impacto requer julgamento estruturado
 worktree: false
 ---
-<!-- framework-tag: v2.13.3 framework-file: agents/performance-audit.md -->
+<!-- framework-tag: v2.14.0 framework-file: agents/performance-audit.md -->
 
 # Performance Audit — Auditoria de Performance
 
