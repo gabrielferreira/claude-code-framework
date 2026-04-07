@@ -66,7 +66,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
 
 1. **Validar ID:** verificar se já existe em `SPECS_INDEX.md`. Se sim, avisar.
 1b. **Classificar complexidade:** antes de criar a spec, avaliar o tamanho:
-   - **Pequeno** (≤3 arquivos, <30min, sem regra de negócio): criar APENAS entrada no backlog via `/backlog-update {ID} add`. Não criar spec. Informar: "Classificado como Pequeno — só precisa de entrada no backlog." Parar aqui.
+   - **Pequeno** (≤3 arquivos, <30min, sem regra de negócio): **MODO REPO APENAS** → criar APENAS entrada no backlog via `/backlog-update {ID} add`. Não criar spec. Informar: "Classificado como Pequeno — só precisa de entrada no backlog." Parar aqui. (**No modo Notion, Pequeno cria pagina normalmente — ver secao Modo Notion.**)
    - **Médio** (<10 tasks, escopo claro): criar spec breve — preencher apenas Contexto, Requisitos Funcionais e Critérios de aceitação. Demais seções opcionais.
    - **Grande** (multi-componente, >10 tasks): criar spec completa + oferecer: "Quer criar um design doc também? (recomendado para features grandes)"
    - **Complexo** (ambiguidade, domínio novo, >20 tasks): criar spec completa + criar design doc + sugerir fluxo RPI: "Feature complexa — recomendo pesquisar em sessão separada, planejar, e implementar em sessão limpa."
@@ -130,7 +130,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - Tabela de templates por complexidade (template IDs + Design Doc IDs)
 
 2. **Classificar complexidade:**
-   - **Pequeno** (≤3 arquivos, <30min): usar template Pequeno
+   - **Pequeno** (≤3 arquivos, <30min): **criar pagina** com template Pequeno (NAO pular — no Notion todas as complexidades criam pagina)
    - **Médio** (<10 tasks, escopo claro): usar template Médio
    - **Grande** (>10 tasks): usar template Grande/Complexa + oferecer Design Doc
    - **Complexo** (>20 tasks, domínio novo): usar template Grande/Complexa + Design Doc obrigatório + sugerir RPI
