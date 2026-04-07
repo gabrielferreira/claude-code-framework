@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# framework-tag: v2.16.1 framework-file: scripts/reports.sh
 # ─────────────────────────────────────────────
 # Reports — Geração consolidada
 #
