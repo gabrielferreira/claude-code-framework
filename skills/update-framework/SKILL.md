@@ -325,24 +325,40 @@ Se detectou sub-projetos na Fase 0:
      - Skills/agents na raiz (`.claude/skills/`) → atualizar so na raiz
      - Skills/agents por sub-projeto (`{subdir}/.claude/skills/`) → atualizar em cada um
      - Misto (universais na raiz + especificas por sub-projeto) → atualizar cada uma no lugar certo
-   - **CODE_PATTERNS por sub-projeto:** rodar Fase 0.6 dentro de cada sub-projeto separadamente. Um sub-projeto Go com `elogger` e um frontend React com `console.error` devem ter patterns independentes
+   - **CODE_PATTERNS por sub-projeto:** rodar Fase 0.6 dentro de cada sub-projeto separadamente. Mesmo sub-projetos na mesma linguagem podem ter padroes diferentes (ex: Go com `elogger` vs Go com `zap`, .NET com `Serilog` vs .NET com `NLog`). Cada sub-projeto tem seus proprios patterns — nunca assumir que mesma linguagem = mesmos padroes.
    - **Categoria 6 por sub-projeto:** validar relevancia no contexto de cada sub-projeto, nao no contexto global. Exemplo: `component-audit` instalado na raiz mas so faz sentido pro frontend — perguntar se quer mover para L2 do frontend
+   - **Skills L2 devem ser atualizadas com os CODE_PATTERNS do seu sub-projeto:** ao atualizar uma skill em `backend/.claude/skills/logging/`, usar CODE_PATTERNS de `backend/`, nao da raiz. A sugestao concreta (Categoria 6) deve refletir os padroes reais daquele sub-projeto.
 
 2. **Para cada sub-projeto novo:**
    - Oferecer `/setup-framework` com contexto L2
+   - Se o monorepo ja tem skills distribuidas (L2), criar skills para o novo sub-projeto com seus proprios CODE_PATTERNS
+   - Se o monorepo tem skills compartilhadas na raiz, perguntar se quer manter compartilhado ou criar L2 para o novo sub-projeto (especialmente se a stack ou padroes sao diferentes)
 
-3. **Detectar mudancas de stack em sub-projetos existentes:**
+3. **Detectar mudancas de stack ou padroes em sub-projetos existentes:**
    - Se um sub-projeto antes era so backend e agora tem `pages/` ou `components/` → sugerir skills de frontend
    - Se um sub-projeto adicionou DB (migrations, ORM) → sugerir `dba-review`
-   - Se skills estao na raiz mas um sub-projeto novo tem stack diferente → perguntar:
+   - Se um sub-projeto mudou de lib (ex: migrou de `fmt.Errorf` para lib `erros`) → detectar via CODE_PATTERNS e sugerir atualizar as skills L2 correspondentes
+   - Se skills estao na raiz mas um sub-projeto novo tem stack ou padroes diferentes → perguntar:
      ```
-     O sub-projeto {dir}/ usa {stack}, mas as skills na raiz tem
-     exemplos de {outra stack}.
+     O sub-projeto {dir}/ usa {stack} com {padroes detectados},
+     mas as skills na raiz tem exemplos de {outra stack/padroes}.
 
      Opcoes:
      1. Criar skills especificas para {dir}/ em {dir}/.claude/skills/
      2. Adicionar secao "{stack}" nas skills da raiz
      3. Manter como esta
+     ```
+
+4. **Detectar inconsistencia entre skills L2 e CODE_PATTERNS atuais:**
+   - Se um sub-projeto tem skills L2 mas os CODE_PATTERNS mudaram desde o ultimo setup/update (ex: time migrou de `zap` para `slog`), mostrar o que mudou e sugerir atualizar:
+     ```
+     O sub-projeto api-gateway/ tem skill "logging" com exemplos de `zap`,
+     mas CODE_PATTERNS detectou que agora usa `slog` (encontrado em 12 arquivos).
+
+     Opcoes:
+     1. Atualizar skill com exemplos de slog (sugestao concreta abaixo)
+     2. Manter zap — ainda estamos migrando
+     3. Atualizar e adicionar regra: "slog obrigatorio, zap proibido em codigo novo"
      ```
 
 ---

@@ -119,14 +119,14 @@ Antes de qualquer coisa:
 
    **Skills e agents em monorepo — distribuicao por camada:**
 
-   A regra principal: **skills com exemplos de codigo precisam refletir a stack do sub-projeto, nao uma stack generica.** O modelo de distribuicao depende de quantas stacks diferentes o monorepo tem.
+   A regra principal: **skills com exemplos de codigo precisam refletir a stack E os padroes do sub-projeto, nao uma stack generica.** Dois sub-projetos na mesma linguagem podem ter padroes diferentes (ex: Go com `elogger` vs Go com `zap`). O modelo de distribuicao depende dos CODE_PATTERNS reais, nao so da linguagem.
 
-   **Se todos os sub-projetos usam a mesma stack** (ex: monorepo 100% TypeScript):
+   **Se todos os sub-projetos usam a mesma stack E mesmos padroes** (ex: monorepo 100% TypeScript com mesmas libs):
    - Skills na raiz (`.claude/skills/`), compartilhadas por todos
    - CODE_PATTERNS unificado — uma analise so
    - Agents na raiz (`.claude/agents/`)
 
-   **Se sub-projetos tem stacks diferentes** (ex: Go backend + React frontend + Python ML):
+   **Se sub-projetos tem stacks ou padroes diferentes** (ex: Go + React, ou Go com elogger + Go com zap):
 
    Perguntar ao usuario:
    ```
