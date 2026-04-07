@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.14.1 framework-file: docs/CONCEPTUAL_MAP.md -->
+<!-- framework-tag: v2.14.2 framework-file: docs/CONCEPTUAL_MAP.md -->
 # Mapa Conceitual — Hierarquia de Artefatos
 
 > Guia rapido para entender como os artefatos do framework se relacionam com a terminologia padrao da industria (Epics, Stories, Tasks).
