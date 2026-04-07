@@ -89,7 +89,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
    - Complexidade: conforme classificacao
    - Data: hoje
 
-5. **Guiar analise de causa raiz (9 passos):**
+5. **Guiar analise de causa raiz (10 passos):**
 
    Conduzir a analise fazendo **uma pergunta de cada vez**. Esperar a resposta antes de avancar. Nao pular etapas.
 
@@ -235,6 +235,114 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
 
    ---
 
+   #### Passo 10 — Diagrama de padronizacao
+
+   **Gerar automaticamente** um diagrama Mermaid que visualiza as 4 camadas do PRD, seguindo o modelo de padronizacao. O diagrama e gerado pelo assistente (nao e uma pergunta ao usuario), usando os dados coletados nos passos anteriores.
+
+   O diagrama segue este template estrutural — substituir os placeholders pelos dados reais do PRD:
+
+   ~~~mermaid
+   flowchart TD
+       subgraph problema["🔴 Qual o problema a ser resolvido?"]
+           P["Impacto no usuario + Job que falha<br/><i>{problema raiz validado no passo 2}</i>"]
+       end
+
+       subgraph causas["🟠 Causas — Camada do usuario"]
+           direction LR
+           C1["{evidencia/causa 1}"]
+           C2["{evidencia/causa 2}"]
+           C3["{evidencia/causa 3}"]
+       end
+
+       subgraph porques["🟡 Porques — Camada da plataforma"]
+           direction LR
+           W1["{causa raiz 1}"]
+           W2["{causa raiz 2}"]
+           W3["{causa raiz 3}"]
+           WH["🔮 Hipoteses<br/><i>Necessita validacao</i>"]
+       end
+
+       subgraph comos["🟢 Como resolver — Solucoes"]
+           direction LR
+           S1["{acao 1}"]
+           S2["{acao 2}"]
+           S3["{acao 3}"]
+       end
+
+       P --> C1 & C2 & C3
+       C1 & C2 & C3 --> W1 & W2 & W3
+       W1 & W2 & W3 --> S1 & S2 & S3
+
+       style problema fill:#f8d7da,stroke:#dc3545,color:#000
+       style causas fill:#ffe0b2,stroke:#ff9800,color:#000
+       style porques fill:#fff9c4,stroke:#fbc02d,color:#000
+       style comos fill:#c8e6c9,stroke:#4caf50,color:#000
+   ~~~
+
+   **Regras do diagrama:**
+
+   1. **Camada 🔴 Problema:** usar o problema raiz validado (passo 2), descrito como impacto no usuario + job que falha
+   2. **Camada 🟠 Causas (usuario):** preencher com as causas do passo 3 e evidencias do passo 4 — sao os sintomas observaveis pelos usuarios (comentarios classificados, dados de uso, evidencias concretas)
+   3. **Camada 🟡 Porques (plataforma):** preencher com as causas raiz dos porques encadeados (passo 5-6). Categorizar cada uma como: `Inexistencia da solucao`, `Caracteristicas ou regras`, `Limitacoes tecnicas`, `UX`, `Erros ou Bugs`, `Questoes alheias a Tecnologia`, ou `Direcional estrategico`. Se alguma causa raiz nao tem evidencia solida, adicionar como `Hipotese` com nota "Necessita validacao"
+   4. **Camada 🟢 Como (solucoes):** preencher com as acoes do passo 8. Cada acao ou combinacao de acoes pode virar 1 ou N tasks, stories, bugs, etc.
+   5. **Conexoes:** tracar setas de cima para baixo mostrando o fluxo problema → causas → porques → solucoes. Quando possivel, mostrar conexoes especificas (qual causa leva a qual porque, qual porque leva a qual solucao)
+   6. **Incluir o no `Hipoteses`** apenas se houver causas raiz sem evidencia suficiente
+   7. Ajustar a quantidade de nos em cada camada conforme o PRD real — o template acima e apenas referencia
+
+   **Salvar arquivo Mermaid separado (PADRAO):**
+
+   Alem de incluir o diagrama no corpo do PRD, **sempre** criar um arquivo `.mmd` standalone:
+   - **Modo repo:** salvar em `.claude/prds/{id-em-kebab-case}.mmd`
+   - **Modo Notion/externo/export:** salvar em `.claude/prds/{id-em-kebab-case}.mmd` (mesmo sem PRD local, o diagrama fica no repo como referencia visual)
+
+   O arquivo `.mmd` contem apenas o codigo Mermaid puro (sem code fences), pronto para abrir em qualquer ferramenta que suporte Mermaid (VS Code com extensao, Mermaid Live Editor, GitHub preview, etc.).
+
+   Apresentar o diagrama ao usuario para validacao: "Gerei o diagrama de padronizacao do PRD. Ele mostra as 4 camadas: problema → causas (usuario) → porques (plataforma) → solucoes. Arquivo Mermaid salvo em `.claude/prds/{id}.mmd`. Confere?"
+
+   **Apos validacao, oferecer exportacao para ferramenta visual:**
+
+   Perguntar: "Quer exportar o diagrama para uma ferramenta visual? Posso criar direto no Miro, FigJam, Lucidchart, ou outra ferramenta se houver integracao MCP disponivel."
+
+   **Detectar ferramentas visuais disponiveis:**
+
+   Verificar se algum MCP de ferramenta visual esta configurado no ambiente:
+
+   | Ferramenta | MCP / Integracao | Como detectar |
+   |---|---|---|
+   | **Miro** | `miro` MCP server | Verificar se tools `miro_*` ou `miro-*` estao disponiveis (ex: `miro_create_sticky_note`, `miro_create_shape`, `miro_create_connector`) |
+   | **FigJam** | `figma` MCP server | Verificar se tools `figma_*` estao disponiveis |
+   | **Lucidchart** | `lucidchart` MCP server | Verificar se tools `lucidchart_*` estao disponiveis |
+   | **Excalidraw** | `excalidraw` MCP server | Verificar se tools `excalidraw_*` estao disponiveis |
+   | **Outra** | Qualquer MCP de diagramacao | Listar tools disponiveis que parecem ser de ferramenta visual |
+
+   **Se ferramenta visual disponivel:**
+
+   1. Criar um board/frame dedicado ao PRD com titulo "PRD — {ID}: {Titulo} — Diagrama de Padronizacao"
+   2. Criar as 4 camadas como areas/frames/sections com cores correspondentes:
+      - Vermelho (#f8d7da) para Problema
+      - Laranja (#ffe0b2) para Causas
+      - Amarelo (#fff9c4) para Porques
+      - Verde (#c8e6c9) para Solucoes
+   3. Criar cada no como shape/sticky note dentro da camada correspondente
+   4. Criar conectores/setas entre as camadas
+   5. Informar URL do board criado ao usuario
+
+   **Exemplo com Miro (se MCP disponivel):**
+   ```
+   1. miro_create_frame → frame "PRD — {ID}" no board
+   2. miro_create_shape → retangulo vermelho "Problema: {titulo}"
+   3. miro_create_sticky_note → sticky laranja para cada causa
+   4. miro_create_sticky_note → sticky amarelo para cada porque
+   5. miro_create_sticky_note → sticky verde para cada solucao
+   6. miro_create_connector → setas entre os nos
+   ```
+
+   **Se nenhuma ferramenta visual disponivel:**
+
+   Informar: "Nenhuma integracao com ferramenta visual detectada. O diagrama Mermaid foi incluido no PRD. Se quiser, voce pode copiar o codigo Mermaid para o Miro, FigJam, ou qualquer ferramenta que suporte importacao de diagramas."
+
+   ---
+
    > Nao e necessario preencher tudo de uma vez. O usuario pode deixar campos como placeholder e iterar depois. O importante e capturar o maximo possivel na primeira passada.
 
 6. **Registrar no PRDS_INDEX.md** (em `.claude/prds/PRDS_INDEX.md`):
@@ -292,12 +400,13 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
 
 2. **Classificar complexidade:** mesma logica do modo repo. Pequeno = nao cria PRD.
 
-3. **Coletar informacoes** (guiar analise de causa raiz — **mesmos 9 passos do modo repo**):
+3. **Coletar informacoes** (guiar analise de causa raiz — **mesmos 10 passos do modo repo**):
    - Passo 1-2: Problema + validacao
    - Passo 3-4: Causas + evidencias
    - Passo 5-6: Porques encadeados + mapa causal
    - Passo 7: Quem e afetado
    - Passo 8-9: Como resolver encadeado + calibracao de escopo
+   - Passo 10: Diagrama de padronizacao (incluir no body da pagina + oferecer exportacao para ferramenta visual)
    - Se `--from` foi usado, usar dados extraidos como base
 
    > **REGRA:** Nunca criar pagina no Notion com body vazio ou so com placeholders.
@@ -386,7 +495,7 @@ Quando PRDs vivem em Jira, Confluence, Google Docs, ou outra ferramenta.
 Quando o usuario passa `--export` ou o projeto tem `prd_mode: export` no CLAUDE.md. O PRD e gerado como output formatado na conversa, sem criar arquivo nem registrar em nenhum index.
 
 1. **Classificar complexidade** (mesma logica)
-2. **Coletar informacoes** (mesmos 9 passos de analise de causa raiz)
+2. **Coletar informacoes** (mesmos 10 passos de analise de causa raiz)
 3. **Gerar PRD formatado** usando a estrutura do `PRD_TEMPLATE.md`:
    - Output completo em markdown na conversa
    - Incluir header, todas as secoes preenchidas (com validacao, porques encadeados, mapa causal, derivacao de comos, calibracao), e checklist
