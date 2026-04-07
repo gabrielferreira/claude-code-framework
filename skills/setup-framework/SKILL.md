@@ -1161,6 +1161,165 @@ Verificar presenca de cada H2 esperada:
 4. **SPECS_INDEX.md vazio** (sem nenhuma spec registrada). ⚪ info (normal pos-setup)
 5. **Secao "Agents" no CLAUDE.md lista agent que nao existe** em `.claude/agents/`. 🟠 cada
 
+#### Categoria 6 — Relevancia de conteudo
+
+Verificar se o conteudo gerado nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (stack, tipo, CODE_PATTERNS da Fase 1.6) para cruzar com o que foi instalado.
+
+> **Regra:** esta categoria nunca corrige automaticamente. Sempre apresenta o finding e pergunta ao usuario, oferecendo opcoes claras (remover, substituir, manter).
+
+##### 6.1 Exemplos de codigo incompativeis com a stack
+
+Ler o conteudo das skills instaladas e verificar se os exemplos de codigo correspondem a stack real:
+
+| Check | Severidade | Exemplo de mismatch |
+|---|---|---|
+| Skill `logging` usa exemplos de linguagem diferente da stack | 🟠 alto | Projeto Go com exemplos `console.error("[MODULE]", ...)` em JS |
+| Skill `code-quality` tem grep patterns de outra linguagem | 🟠 alto | Projeto Python com `grep "function "` (sintaxe JS) |
+| Skill `testing` referencia framework de teste errado | 🟠 alto | Projeto com Pytest mas skill menciona Jest |
+| Skill `security-review` tem exemplos de validacao de outra stack | 🟡 medio | Projeto Go com exemplos de `express-validator` |
+| Blocos de codigo no CLAUDE.md (secao "Padroes") em linguagem errada | 🟠 alto | Secao "Backend" com exemplos JS num projeto Go |
+
+**Acao ao detectar:** mostrar o trecho problematico e perguntar:
+```
+⚠️ A skill "logging" tem exemplos em JavaScript, mas o projeto usa Go.
+CODE_PATTERNS detectou que voces usam `elogger` para logging.
+
+Opcoes:
+1. Substituir exemplos por padroes do projeto (elogger.Error, elogger.Info, etc.)
+2. Substituir por exemplos genericos de Go (log.Printf, fmt.Errorf)
+3. Manter como esta (vou customizar depois)
+```
+
+##### 6.2 Libs e padroes divergentes dos detectados
+
+Se CODE_PATTERNS foi preenchido na Fase 1.6, verificar se as skills usam as libs corretas:
+
+| Check | Severidade | Exemplo |
+|---|---|---|
+| Skill `logging` usa lib generica mas projeto tem lib especifica | 🟠 alto | Skill usa `log.Printf` mas projeto usa `elogger` |
+| Skill `code-quality` nao menciona lib de erros do projeto | 🟠 alto | Skill sugere `fmt.Errorf` mas projeto usa lib interna `erros` |
+| CLAUDE.md "Regras de codigo" nao menciona libs obrigatorias do projeto | 🟡 medio | Nenhuma regra sobre usar `elogger` em vez de `fmt.Println` |
+| Skill `security-review` nao conhece lib de validacao do projeto | 🟡 medio | Projeto usa `zod` mas skill tem exemplos de validacao manual |
+
+**Acao ao detectar:** mostrar o padrao detectado vs o que esta na skill e perguntar:
+```
+⚠️ A skill "code-quality" sugere `fmt.Errorf` para erros, mas o projeto usa a lib `erros`.
+Detectei o padrao: erros.Wrap(err, "contexto") em 8 arquivos.
+
+Opcoes:
+1. Adicionar regra de consistencia: "Usar erros.Wrap/erros.New — nunca fmt.Errorf"
+2. Apenas adicionar nota sobre a lib sem criar regra
+3. Ignorar (vou configurar depois)
+```
+
+##### 6.3 Skills e agents irrelevantes para o tipo de projeto
+
+Cruzar o perfil detectado (tipo de projeto, stack, features) com o que foi instalado:
+
+| Check | Severidade | Condicao |
+|---|---|---|
+| `ux-review` instalada mas nao tem frontend | 🟠 alto | Tipo = backend/API/CLI/library sem frontend |
+| `seo-performance` instalada mas nao tem frontend publico | 🟠 alto | Sem pages/, sem SSR, sem sitemap |
+| `component-audit` agent instalado mas nao tem componentes | 🟠 alto | Sem React/Vue/Svelte/Angular |
+| `seo-audit` agent instalado mas nao tem frontend publico | 🟡 medio | Backend puro |
+| `dba-review` instalada mas nao tem DB | 🟡 medio | Sem migrations, sem ORM, sem schema |
+| `product-review` agent instalado mas PRD nao ativo | 🟡 medio | Sem `.claude/prds/` |
+| `golden-tests` skill mas nao tem golden tests | ⚪ info | Sem arquivos de golden test detectados |
+| `mock-mode` skill mas nao tem integracoes externas | ⚪ info | Sem chamadas HTTP externas detectadas |
+
+**Acao ao detectar:** perguntar com contexto:
+```
+⚠️ A skill "ux-review" foi instalada, mas o projeto parece ser backend puro (Go API).
+
+Opcoes:
+1. Remover — nao se aplica a este projeto
+2. Manter — temos planos de frontend futuro
+3. Manter — temos um frontend em outro repo que consome esta API
+```
+
+##### 6.4 Secoes do CLAUDE.md irrelevantes
+
+Verificar se secoes do CLAUDE.md fazem sentido para o projeto:
+
+| Check | Severidade | Condicao |
+|---|---|---|
+| Secao "TDD obrigatorio" com padrao e2e mas projeto e backend API | 🟡 medio | Backend sem browser/UI |
+| Secao "Mindset Frontend" presente mas nao tem frontend | 🟡 medio | Tipo = backend/CLI |
+| Secao "Mindset Banco de dados" presente mas nao tem DB | 🟡 medio | Sem DB detectado |
+| Secao "Mindset UX" presente mas nao tem frontend | 🟡 medio | Tipo = backend/CLI/library |
+| Padroes de "Frontend" na secao "Padroes" mas nao tem frontend | 🟡 medio | Tipo = backend |
+| Padroes de "SQL" na secao "Padroes" mas nao tem DB | 🟡 medio | Sem DB |
+
+**Acao ao detectar:** oferecer opcoes claras:
+```
+⚠️ O CLAUDE.md tem a secao "Mindset Frontend" e padroes de e2e testing,
+mas o projeto parece ser backend Go puro.
+
+Opcoes:
+1. Remover secoes de frontend e e2e (recomendado para backend puro)
+2. Manter — o projeto vai ter frontend em breve
+3. Manter apenas "Mindset Frontend" mas remover e2e patterns
+```
+
+##### 6.5 Docs irrelevantes
+
+| Check | Severidade | Condicao |
+|---|---|---|
+| `docs/ARCHITECTURE.md` instalado mas projeto e muito simples (1-2 dirs) | ⚪ info | Menos de 5 diretorios no src |
+| `docs/ACCESS_CONTROL.md` instalado mas nao tem auth | ⚪ info | Sem middleware de auth, sem JWT, sem session |
+| `docs/SECURITY_AUDIT.md` instalado mas nao tem endpoints publicos | ⚪ info | CLI/library sem API |
+
+**Acao:** apenas informar (⚪), nao perguntar. O usuario decide se quer remover.
+
+##### 6.6 Procedimento de remocao
+
+Quando o usuario escolher "Remover" em qualquer check acima, a remocao deve ser **completa** — nao basta deletar o arquivo, todas as referencias tambem devem ser limpas:
+
+1. **Deletar o arquivo** (skill, agent ou doc)
+2. **Remover a linha correspondente na tabela de Skills ou Agents do CLAUDE.md** — nao deixar referencia dangling
+3. **Remover de `SETUP_REPORT.md`** (se existir) — mover para secao "Removidos"
+4. **Se a skill era referenciada em `verify.sh`** — remover ou comentar o check correspondente
+5. **Se o agent era referenciado em outra skill** (ex: security-audit referenciado em security-review) — avisar que a referencia sera quebrada
+
+**Antes de executar**, mostrar resumo do que sera removido:
+```
+Removendo skill "ux-review":
+  - Deletar .claude/skills/ux-review/README.md
+  - Remover linha 10 da tabela Skills no CLAUDE.md
+  - Remover check "ux-review" do verify.sh (se existir)
+
+Confirmar? [Sim/Nao]
+```
+
+**Regra:** nunca remover silenciosamente. Sempre listar tudo que sera afetado e pedir confirmacao.
+
+##### Resumo da Categoria 6
+
+Apos todos os checks, apresentar consolidado:
+
+```
+## Relevancia de conteudo
+
+Encontrei {N} items que podem nao fazer sentido para o projeto:
+
+### 🟠 Acao recomendada
+1. Skill "logging" tem exemplos JS — projeto usa Go com elogger
+2. Skill "code-quality" sugere fmt.Errorf — projeto usa lib erros
+3. Skill "ux-review" instalada — projeto e backend puro
+
+### 🟡 Revisar
+4. CLAUDE.md tem secao "Mindset Frontend" — projeto e backend
+5. CLAUDE.md tem padroes e2e — projeto e API
+
+### ⚪ Informativo
+6. docs/ARCHITECTURE.md pode nao ser necessario ainda
+
+Quer resolver agora item por item? [Sim/Pular para depois]
+```
+
+Se "Sim": percorrer cada item 🟠 e 🟡, perguntar ao usuario com as opcoes descritas acima.
+Se "Pular": registrar como pendencias manuais no SETUP_REPORT.md.
+
 #### Formato do output no SETUP_REPORT.md
 
 ```markdown
