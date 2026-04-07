@@ -19,6 +19,12 @@ PASS=0
 FAIL=0
 WARN=0
 
+# Detectar modo de specs (repo ou Notion)
+SPEC_MODE="repo"
+if [ -f CLAUDE.md ] && grep -q "## Integracao Notion (specs)" CLAUDE.md 2>/dev/null; then
+  SPEC_MODE="notion"
+fi
+
 pass() { echo "  ✅ $1"; PASS=$((PASS + 1)); }
 fail() { echo "  ❌ $1"; FAIL=$((FAIL + 1)); }
 warn() { echo "  ⚠️  $1"; WARN=$((WARN + 1)); }
@@ -212,40 +218,63 @@ section "Docs sync"
 section "Checks evolutivos"
 
 # 14. Toda spec ativa tem entrada no SPECS_INDEX.md
-MISSING_SPECS=0
-for spec in .claude/specs/*.md; do
-  basename=$(basename "$spec")
-  case "$basename" in backlog.md|TEMPLATE.md|README.md) continue ;; esac
-  if ! grep -q "$basename" SPECS_INDEX.md 2>/dev/null; then
-    warn "Spec '$basename' não tem entrada no SPECS_INDEX.md"
-    MISSING_SPECS=$((MISSING_SPECS + 1))
-  fi
-done
-if [ -d .claude/specs/done ]; then
-  for spec in .claude/specs/done/*.md; do
+if [ "$SPEC_MODE" = "repo" ]; then
+  MISSING_SPECS=0
+  for spec in .claude/specs/*.md; do
     [ -e "$spec" ] || continue
     basename=$(basename "$spec")
+    case "$basename" in backlog.md|TEMPLATE.md|README.md|STATE.md|DESIGN_TEMPLATE.md) continue ;; esac
     if ! grep -q "$basename" SPECS_INDEX.md 2>/dev/null; then
-      warn "Spec done/'$basename' não tem entrada no SPECS_INDEX.md"
+      warn "Spec '$basename' não tem entrada no SPECS_INDEX.md"
       MISSING_SPECS=$((MISSING_SPECS + 1))
     fi
   done
-fi
-if [ "$MISSING_SPECS" = "0" ]; then
-  pass "Todas as specs têm entrada no SPECS_INDEX.md"
-fi
-
-# 14b. Toda entrada no SPECS_INDEX aponta para arquivo que existe
-MISSING_FILES=0
-if [ -f SPECS_INDEX.md ]; then
-  grep -oP '`\.claude/specs/[^`]+`' SPECS_INDEX.md 2>/dev/null | tr -d '`' | while read spec_path; do
-    if [ ! -f "$spec_path" ]; then
-      warn "SPECS_INDEX referencia '$spec_path' mas arquivo não existe"
-      MISSING_FILES=$((MISSING_FILES + 1))
+  if [ -d .claude/specs/done ]; then
+    for spec in .claude/specs/done/*.md; do
+      [ -e "$spec" ] || continue
+      basename=$(basename "$spec")
+      if ! grep -q "$basename" SPECS_INDEX.md 2>/dev/null; then
+        warn "Spec done/'$basename' não tem entrada no SPECS_INDEX.md"
+        MISSING_SPECS=$((MISSING_SPECS + 1))
+      fi
+    done
+  fi
+  if [ "$MISSING_SPECS" = "0" ]; then
+    pass "Todas as specs têm entrada no SPECS_INDEX.md"
+  fi
+else
+  # Modo Notion: specs vivem no Notion, verificar apenas que SPECS_INDEX.md existe
+  if [ -f SPECS_INDEX.md ]; then
+    pass "SPECS_INDEX.md existe (ponte local→Notion)"
+  else
+    warn "SPECS_INDEX.md não encontrado (recomendado como ponte local→Notion)"
+  fi
+  # Avisar se existem arquivos locais desnecessários
+  for f in .claude/specs/backlog.md .claude/specs/TEMPLATE.md .claude/specs/DESIGN_TEMPLATE.md; do
+    if [ -f "$f" ]; then
+      warn "Modo Notion: '$f' é desnecessário (backlog/templates vivem no Notion)"
     fi
   done
-  if [ "$MISSING_FILES" = "0" ]; then
-    pass "Todas as entradas do SPECS_INDEX apontam para arquivos existentes"
+fi
+
+# 14b. Toda entrada no SPECS_INDEX aponta para arquivo/URL válido
+if [ "$SPEC_MODE" = "repo" ]; then
+  MISSING_FILES=0
+  if [ -f SPECS_INDEX.md ]; then
+    grep -oP '`\.claude/specs/[^`]+`' SPECS_INDEX.md 2>/dev/null | tr -d '`' | while read spec_path; do
+      if [ ! -f "$spec_path" ]; then
+        warn "SPECS_INDEX referencia '$spec_path' mas arquivo não existe"
+        MISSING_FILES=$((MISSING_FILES + 1))
+      fi
+    done
+    if [ "$MISSING_FILES" = "0" ]; then
+      pass "Todas as entradas do SPECS_INDEX apontam para arquivos existentes"
+    fi
+  fi
+else
+  # Modo Notion: SPECS_INDEX deve ter links para Notion, não paths locais
+  if [ -f SPECS_INDEX.md ] && grep -q '\.claude/specs/' SPECS_INDEX.md 2>/dev/null; then
+    warn "Modo Notion: SPECS_INDEX.md referencia paths locais (.claude/specs/) — deveria ter links do Notion"
   fi
 fi
 

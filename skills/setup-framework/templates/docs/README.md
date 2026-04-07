@@ -43,8 +43,8 @@
 | Como fazer deploy em produção | [`../README.md`](../README.md) → seção Deploy |
 | Contexto do projeto para um LLM | [`../PROJECT_CONTEXT.md`](../PROJECT_CONTEXT.md) |
 | Regras de código e segurança | [`../CLAUDE.md`](../CLAUDE.md) |
-| Specs de features | [`../.claude/specs/`](../.claude/specs/) + [`../SPECS_INDEX.md`](../SPECS_INDEX.md) |
-| Backlog (o que falta fazer) | [`../.claude/specs/backlog.md`](../.claude/specs/backlog.md) |
+| Specs de features | [`../SPECS_INDEX.md`](../SPECS_INDEX.md) (repo: `.claude/specs/`, Notion: database) |
+| Backlog (o que falta fazer) | Repo: [`../.claude/specs/backlog.md`](../.claude/specs/backlog.md), Notion: database |
 | Estado entre sessões (decisões, blockers, lições) | [`../.claude/specs/STATE.md`](../.claude/specs/STATE.md) |
 | Skills de desenvolvimento | [`../.claude/skills/`](../.claude/skills/) |
 | Spec-driven development (guia completo) | [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) |

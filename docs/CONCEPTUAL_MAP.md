@@ -10,10 +10,10 @@
 | Termo da industria | No framework | Onde vive | Comando |
 |---|---|---|---|
 | Epic / Initiative | **PRD** — analise de causa raiz | `.claude/prds/{id}.md` | `/prd` |
-| User Story / Feature | **Spec** — derivada de uma acao do PRD | `.claude/specs/{id}.md` | `/spec` |
+| User Story / Feature | **Spec** — derivada de uma acao do PRD | `.claude/specs/{id}.md` (repo) ou pagina no Notion | `/spec` |
 | Task / Sub-task | **Task** dentro da spec (T1, T2...) | Secao "Breakdown de tasks" na spec | — |
-| Backlog Item / Ticket | **Item no backlog** | `.claude/specs/backlog.md` | `/backlog-update` |
-| Design Doc / ADR | **Design doc** (complemento para specs complexas) | `.claude/specs/{id}-design.md` | — |
+| Backlog Item / Ticket | **Item no backlog** | `.claude/specs/backlog.md` (repo) ou database Notion | `/backlog-update` |
+| Design Doc / ADR | **Design doc** (complemento para specs complexas) | `.claude/specs/{id}-design.md` (repo) ou pagina no Notion | — |
 | Acceptance Criteria | Secao **"Criterios de aceitacao"** | Dentro de cada spec | — |
 | Definition of Done | Secao **"Verificacao pos-implementacao"** | Dentro de cada spec | `/definition-of-done` |
 | Sprint / Iteration | Nao gerenciado pelo framework | — | — |
