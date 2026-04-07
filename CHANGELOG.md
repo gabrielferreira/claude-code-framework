@@ -7,6 +7,15 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.16.1] — 2026-04-07
+
+### Corrigido
+
+- Todas as referencias a specs/backlog agora respeitam modo Notion (CLAUDE.template.md, spec-driven, CONCEPTUAL_MAP, docs/README)
+- Categoria 1 do setup e update diferencia arquivos obrigatorios por modo (repo/Notion/externo)
+- verify.sh detecta modo Notion e pula checks de specs locais; avisa sobre arquivos locais desnecessarios
+- `/spec` em modo Notion: Pequeno agora cria pagina explicitamente (NAO pula)
+
 ## [2.16.0] — 2026-04-07
 
 ### Adicionado
