@@ -277,7 +277,88 @@ Consolidar todos os comandos encontrados:
 - Se `CLAUDE.md` existe: ler e extrair informacoes uteis (descricao do projeto, regras, comandos)
 - Essas informacoes serao usadas como base na Fase 3
 
-### 1.6 Apresentar resumo ao usuario
+### 1.6 Deteccao de padroes de codigo
+
+Alem de detectar stack e estrutura, analisar o **codigo-fonte real** do projeto para identificar padroes, libs internas e convencoes que o time ja usa. Isso permite customizar skills (logging, code-quality, etc.) com exemplos reais em vez de exemplos genericos.
+
+**Como escanear:**
+1. Selecionar ~10-15 arquivos de codigo representativos (nao testes, nao vendor/node_modules):
+   - Priorizar arquivos em `src/`, `pkg/`, `internal/`, `lib/`, `app/`, `services/`, `routes/`, `controllers/`
+   - Pegar arquivos de diferentes diretorios para cobrir variedade
+   - Usar Glob para encontrar, Read para ler os primeiros ~50 linhas (imports + inicializacao)
+
+2. **Extrair padroes por categoria:**
+
+#### Logging
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Import/require de logger | `import { logger } from "..."`, `require("winston")`, `log "github.com/x/slog"` |
+| Instanciacao de logger | `const logger = createLogger(...)`, `var log = elogger.New(...)` |
+| Chamadas de log no codigo | `logger.info(...)`, `log.Error(...)`, `console.error(...)`, `logging.warning(...)` |
+
+**Resultado:** nome da lib (ex: `elogger`, `zap`, `winston`, `logrus`, `slog`, `logging`, `console`), formato de chamada (ex: `elogger.Error(ctx, "msg", fields)` vs `console.error("[MODULE]", msg)`), e se usa log estruturado.
+
+#### Error handling
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Import de lib de erros | `import "github.com/pkg/errors"`, `from errors import ...`, `require("http-errors")` |
+| Padrao de wrap/criacao | `errors.Wrap(err, "ctx")`, `fmt.Errorf("...: %w", err)`, `erros.New(...)`, `new AppError(...)` |
+| Tipos de erro customizados | `type AppError struct`, `class CustomError extends Error`, structs/classes de erro |
+
+**Resultado:** lib usada (ex: lib interna `erros`, `pkg/errors`, `fmt.Errorf`, `http-errors`), padrao de wrapping, tipos customizados.
+
+#### HTTP client / requests
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Import de client HTTP | `import "net/http"`, `require("axios")`, `import requests` |
+| Client customizado | `httpClient.Do(...)`, `api.Get(...)`, `fetch(...)` com wrapper |
+
+#### Patterns gerais
+
+| O que procurar | Exemplos de deteccao |
+|---|---|
+| Dependency injection | Construtores com `New*(deps)`, `@Inject()`, providers |
+| Middleware pattern | `app.use(...)`, middleware chain, interceptors |
+| Config/env loading | `viper`, `dotenv`, `os.Getenv`, config struct |
+| Validacao | `validator`, `zod`, `joi`, custom validation |
+| ORM/DB access | `gorm`, `sqlx`, `prisma`, `drizzle`, `sqlalchemy`, query builders |
+
+3. **Guardar resultado como `CODE_PATTERNS`** para uso na Fase 3:
+
+```
+CODE_PATTERNS = {
+  logging: {
+    lib: "elogger",                           // nome da lib real
+    import: 'import "company/pkg/elogger"',   // import exato
+    levels: ["Debug", "Info", "Warn", "Error"],// niveis usados
+    format: "elogger.Error(ctx, msg, fields)", // formato de chamada
+    structured: true                           // se usa campos estruturados
+  },
+  errors: {
+    lib: "erros",                              // nome da lib real
+    import: 'import "company/pkg/erros"',      // import exato
+    wrap: "erros.Wrap(err, msg)",              // padrao de wrap
+    new: "erros.New(msg)",                     // padrao de criacao
+    types: ["NotFoundError", "ValidationError"] // tipos customizados
+  },
+  http_client: {
+    lib: "internal/httpclient",
+    pattern: "httpclient.Do(ctx, req)"
+  },
+  validation: { lib: "zod", pattern: "schema.parse(input)" },
+  orm: { lib: "sqlx", pattern: "db.QueryContext(ctx, query, args...)" },
+  config: { lib: "viper", pattern: "viper.GetString(key)" }
+}
+```
+
+**Se nenhum padrao claro for detectado** numa categoria, deixar como `null` — a skill usara os exemplos genericos do template.
+
+**Se o projeto for novo (poucos arquivos de codigo):** pular esta etapa e informar que as skills virao com exemplos genericos para customizar depois.
+
+### 1.7 Apresentar resumo ao usuario
 
 Mostrar ao usuario um resumo estruturado do que foi detectado:
 
@@ -299,6 +380,14 @@ Mostrar ao usuario um resumo estruturado do que foi detectado:
 - Build: {comando}
 - Lint: {comando}
 - Migrate: {comando}
+
+**Padroes de codigo detectados:**
+- Logging: {lib} — ex: `{formato de chamada}`
+- Erros: {lib} — ex: `{padrao de wrap}`
+- HTTP client: {lib} — ex: `{padrao de chamada}`
+- Validacao: {lib}
+- ORM/DB: {lib}
+- Config: {lib}
 ```
 
 Perguntar: "Esta analise esta correta? Quer corrigir ou adicionar algo antes de continuar?"
@@ -579,6 +668,17 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
 - Secao "Skills" → mapeamento baseado na selecao do Bloco 4
 - Secao "Testes" → coverage configurado no Bloco 5
 - Secao "Regras de seguranca" → regras do Bloco 5
+- Secao "Regras de codigo" → **usar CODE_PATTERNS da Fase 1.6** para preencher regras de consistencia:
+  - Se `CODE_PATTERNS.logging` detectado: adicionar regra "Usar `{lib}` para logging — nunca `{alternativas da stdlib}`"
+  - Se `CODE_PATTERNS.errors` detectado: adicionar regra "Usar `{lib}` para erros — nunca `{alternativas genericas}`"
+  - Se `CODE_PATTERNS.http_client` detectado: adicionar regra "Usar `{lib}` para HTTP — nunca `{stdlib direto}`"
+  - Se `CODE_PATTERNS.validation` detectado: adicionar regra "Usar `{lib}` para validacao"
+  - Se `CODE_PATTERNS.orm` detectado: adicionar regra "Usar `{lib}` para acesso a dados"
+  - Manter as regras genericas do template (testes passando, error handling explicito, verify.sh obrigatorio)
+- Secao "Padroes" → **usar CODE_PATTERNS** para substituir exemplos genericos por exemplos reais:
+  - Subsecao "Backend" → adaptar error handling, logging, HTTP patterns ao projeto real
+  - Subsecao "Auth" → usar lib de validacao real se detectada
+  - Manter subsecoes sem padroes detectados com exemplos genericos do template
 - Secao "Fases do roadmap" → fases do Bloco 3
 - Secao "Estrutura" → estrutura real do projeto detectada
 - Secao "Contexto de negocio" → baseado no dominio do Bloco 1
@@ -684,6 +784,60 @@ Para cada skill selecionada no Bloco 4:
 - `skills/prd-creator/SKILL.md`
 
 **Se modelo externo:** adaptar `/spec`, `/backlog-update` e `/prd` (se opt-in) para referenciar IDs externos.
+
+#### 3.6.1 Customizacao de skills com CODE_PATTERNS
+
+Apos copiar as skills, **customizar o conteudo** usando os padroes detectados na Fase 1.6. Isso garante que exemplos de codigo nas skills reflitam as libs e convencoes reais do projeto.
+
+**Skill `logging`** — se `CODE_PATTERNS.logging` foi detectado:
+
+1. **Substituir a tabela de niveis de log** com a lib real:
+   - Trocar `console.error("[MODULE]", ...)` pelo formato real (ex: `elogger.Error(ctx, "msg", fields)`)
+   - Adaptar cada nivel ao que a lib oferece
+   - Se a lib usa log estruturado, mostrar exemplos com campos/fields em vez de string concatenada
+
+2. **Substituir exemplos de codigo** nos padroes de error handling:
+   - Trocar `console.error("[SERVICE] Erro:", ...)` pelo padrao real
+   - Adaptar imports nos blocos de codigo
+
+3. **Adicionar secao "Inicializacao do logger"** se detectado padrao de instanciacao (ex: `var log = elogger.New(config)`)
+
+Exemplo — projeto Go com `elogger`:
+```markdown
+| Nivel | Quando usar | Exemplo |
+|---|---|---|
+| `elogger.Error(ctx, msg, fields)` | Erro que precisa de acao | `elogger.Error(ctx, "payment failed", elogger.F("order_id", id))` |
+| `elogger.Info(ctx, msg, fields)` | Evento de negocio relevante | `elogger.Info(ctx, "order created", elogger.F("order_id", id))` |
+| `elogger.Warn(ctx, msg, fields)` | Condicao degradada | `elogger.Warn(ctx, "pool connections high", elogger.F("pct", 80))` |
+| `elogger.Debug(ctx, msg, fields)` | **NUNCA em producao.** | Somente local com nivel DEBUG ativo. |
+```
+
+**Skill `code-quality`** — se `CODE_PATTERNS.errors` foi detectado:
+
+1. **Adaptar "Padroes suspeitos"** para buscar pela lib real:
+   - Trocar `console.log` por equivalente da stack (ex: `fmt.Println` em Go)
+   - Adicionar check para uso incorreto da lib de erros (ex: `fmt.Errorf` quando deveria ser `erros.Wrap`)
+
+2. **Adaptar exemplos de grep/busca** nos checklists para patterns reais do projeto
+
+3. **Adicionar regra de consistencia:** "Usar `{lib detectada}` para {categoria}. Nao misturar com alternativas."
+
+Exemplo — projeto Go com lib interna `erros`:
+```markdown
+## Regra de consistencia
+
+- **Logging:** usar `elogger` — nunca `fmt.Println`, `log.Printf` ou `fmt.Fprintf(os.Stderr, ...)`
+- **Erros:** usar `erros.New()` / `erros.Wrap()` — nunca `fmt.Errorf()` ou `errors.New()` da stdlib
+- **HTTP client:** usar `httpclient.Do()` — nunca `http.Get()` direto
+```
+
+**Skill `security-review`** — se `CODE_PATTERNS.errors` ou `CODE_PATTERNS.validation` detectados:
+- Adaptar exemplos de validacao com a lib real (ex: `zod` em vez de validacao manual)
+- Adaptar exemplos de error handling seguro com a lib real
+
+**Para skills sem CODE_PATTERNS relevante:** manter os exemplos genericos do template. Os placeholders `{ADAPTAR:...}` permanecem para o usuario customizar depois.
+
+**Regra:** nunca remover os placeholders `{ADAPTAR:...}` — apenas substituir os exemplos concretos que precedem os placeholders. O usuario pode ter padroes adicionais que os placeholders cobrem.
 
 ### 3.7 scripts/verify.sh
 
