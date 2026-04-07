@@ -1048,51 +1048,120 @@ O Claude Code **concatena** todos os CLAUDE.md do path: ao abrir sessao em `back
 
 **Conteudo do CLAUDE.md L2 por sub-projeto:**
 
-> **Como o Claude sabe qual skill usar:** Ao abrir sessao dentro de `backend/`, o Claude Code concatena L0 (raiz) + L2 (`backend/CLAUDE.md`). O L2 tem a tabela de Skills com paths **relativos ao sub-projeto** (ex: `.claude/skills/logging/README.md` aponta para `backend/.claude/skills/logging/README.md`). Skills universais (L0) usam path absoluto desde a raiz. O Claude segue o CLAUDE.md mais proximo — se o L2 diz "usar `.claude/skills/logging/README.md`", ele le o do sub-projeto, nao o da raiz.
+> **Como o Claude sabe qual skill usar:** Ao abrir sessao dentro de `backend/`, o Claude Code concatena L0 (raiz) + L2 (`backend/CLAUDE.md`). O L2 tem a tabela de Skills com paths que podem apontar para 3 lugares:
+> 1. **Skill L2 propria** (`.claude/skills/...`) — relativa ao sub-projeto, tem exemplos da sua stack
+> 2. **Skill compartilhada da raiz** (`../../.claude/skills/...`) — usada por varios sub-projetos que tem o mesmo padrao
+> 3. **Sem override** — se a skill nao aparece no L2, o Claude usa a do L0 (raiz) por padrao via concatenacao
+>
+> **O L2 so precisa listar skills que diferem do L0.** Se o sub-projeto usa a mesma skill da raiz, nao precisa repetir — a concatenacao L0+L2 ja garante. O L2 **so precisa de entrada** quando:
+> - Tem skill L2 propria (override)
+> - Quer forcar path especifico (ex: apontar pra skill compartilhada da raiz quando tem ambiguidade)
 
-```markdown
-# CLAUDE.md — {nome do sub-projeto}
+**Modelo misto — exemplo real:**
 
-## Stack
-{stack detectada — ex: Go 1.22, GORM, elogger}
-
-## Comandos
-```bash
-# Testes
-{comando — ex: go test ./...}
-# Build
-{comando — ex: go build ./cmd/api}
-# Lint
-{comando — ex: golangci-lint run}
-# Verify
-bash scripts/verify.sh
+```
+raiz/
+├── .claude/skills/
+│   ├── spec-driven/           ← universal (processo)
+│   ├── definition-of-done/    ← universal (processo)
+│   ├── logging/               ← compartilhada: backend + api-gateway usam (ambos Go + elogger)
+│   └── code-quality/          ← compartilhada: backend + api-gateway usam (mesmo linter)
+├── backend/                   ← usa logging/code-quality da RAIZ (nao precisa de L2 propria)
+├── api-gateway/               ← usa logging/code-quality da RAIZ (mesmo padrao)
+├── frontend/
+│   └── .claude/skills/
+│       ├── logging/           ← L2 propria: React, console patterns
+│       └── code-quality/      ← L2 propria: ESLint, TS patterns
+└── ml/
+    └── .claude/skills/
+        └── testing/           ← L2 propria: pytest (so testing difere, resto usa da raiz)
 ```
 
-## Testes
-{coverage policy, framework de teste}
+**CLAUDE.md L2 do `backend/`** (usa tudo da raiz, nao precisa de override de skills):
+```markdown
+# CLAUDE.md — Backend (Go)
 
-## Skills — ler ANTES de codificar
+## Stack
+Go 1.22, GORM, elogger (github.com/your-org/backend-libs/elogger)
 
-> Skills deste sub-projeto ficam em `.claude/skills/` (relativo a este diretorio).
-> Skills universais ficam na raiz do monorepo em `../../.claude/skills/`.
+## Comandos
+- Test: `go test ./...`
+- Build: `go build ./cmd/api`
+- Lint: `golangci-lint run`
+- Verify: `bash scripts/verify.sh`
+
+## Regras especificas
+- Usar `erros.Wrap()` / `erros.New()` — nunca `fmt.Errorf()`
+- Usar `elogger` — nunca `fmt.Println` ou `log.Printf`
+```
+
+> Nao precisa de tabela de Skills — usa tudo da raiz via concatenacao L0+L2. Logging da raiz ja tem exemplos de elogger.
+
+**CLAUDE.md L2 do `frontend/`** (tem skills proprias que substituem as da raiz):
+```markdown
+# CLAUDE.md — Frontend (React)
+
+## Stack
+React 18, TypeScript, Vite, Vitest
+
+## Comandos
+- Test: `npx vitest`
+- Build: `npx vite build`
+- Lint: `npx eslint .`
+- Verify: `bash scripts/verify.sh`
+
+## Skills — overrides para este sub-projeto
+
+> As skills abaixo substituem as da raiz para este sub-projeto.
+> Skills nao listadas aqui usam a versao da raiz (spec-driven, definition-of-done, etc.)
 
 | # | Trigger | Skill | Obrigatorio? |
 |---|---|---|---|
-| 1 | Vai implementar feature? | `../../.claude/skills/spec-driven/README.md` | ⛔ Sempre |
-| 2 | Vai escrever/modificar testes? | `.claude/skills/testing/README.md` | ⛔ Sempre |
-| 3 | Vai adicionar log ou try/catch? | `.claude/skills/logging/README.md` | ⛔ Sempre |
-| 4 | Vai refatorar ou criar modulo? | `.claude/skills/code-quality/README.md` | Recomendado |
-| 5 | Vai finalizar entrega? | `../../.claude/skills/definition-of-done/README.md` | ⛔ Sempre |
-{Adaptar: mapeamento completo — skills L2 com path relativo, skills L0 com path ate a raiz}
-
-## Agents
-{mapeamento para .claude/agents/ deste sub-projeto + agents da raiz}
+| 1 | Vai adicionar log ou try/catch? | `.claude/skills/logging/README.md` | ⛔ Sempre |
+| 2 | Vai refatorar ou criar modulo? | `.claude/skills/code-quality/README.md` | Recomendado |
 
 ## Regras especificas
-{regras que so se aplicam a este sub-projeto — ex: "usar erros.Wrap, nunca fmt.Errorf"}
+- Usar `console.error("[MODULE]", ...)` — nunca `console.log`
+- Componentes: sempre com TypeScript strict
 ```
 
-**Regra critica:** o CLAUDE.md L2 e o que garante que ao trabalhar dentro de um sub-projeto, o Claude le as skills certas. Se o L2 nao mapeia as skills L2, o Claude vai usar as da raiz (que podem ter exemplos de outra stack). Sempre gerar a tabela de Skills no L2 com paths corretos.
+> So lista logging e code-quality porque sao as que tem versao L2 propria. O resto (spec-driven, definition-of-done, testing) vem da raiz automaticamente.
+
+**CLAUDE.md L2 do `ml/`** (so testing difere):
+```markdown
+# CLAUDE.md — ML Pipeline (Python)
+
+## Stack
+Python 3.12, PyTorch, pytest
+
+## Comandos
+- Test: `pytest`
+- Lint: `ruff check .`
+- Verify: `bash scripts/verify.sh`
+
+## Skills — overrides para este sub-projeto
+
+| # | Trigger | Skill | Obrigatorio? |
+|---|---|---|---|
+| 1 | Vai escrever/modificar testes? | `.claude/skills/testing/README.md` | ⛔ Sempre |
+
+## Regras especificas
+- Usar `logging` stdlib — nunca `print()`
+```
+
+> So lista testing porque e a unica com versao L2. Logging usa a da raiz (que pode ter exemplos genericos ou uma secao Python).
+
+**Regras para o setup gerar o CLAUDE.md L2:**
+
+1. **So incluir tabela de Skills no L2 se o sub-projeto tem pelo menos 1 skill L2 propria.** Se usa tudo da raiz, nao criar tabela — a concatenacao resolve.
+2. **Na tabela, so listar skills que sao override** (L2 propria). Nao repetir skills da raiz.
+3. **Adicionar nota:** "Skills nao listadas aqui usam a versao da raiz."
+4. **Path relativo:** `.claude/skills/...` aponta para `{subdir}/.claude/skills/...`
+5. **Se o sub-projeto compartilha skill da raiz com outros** (ex: backend e api-gateway usam mesma logging), nao criar L2 — a da raiz ja serve.
+
+**Regra critica para o update:** ao atualizar skills, verificar o modelo de cada sub-projeto:
+- Sub-projeto sem tabela de Skills no L2 → usa tudo da raiz → atualizar so na raiz
+- Sub-projeto com tabela de Skills no L2 → tem overrides → atualizar os L2 com CODE_PATTERNS do sub-projeto + atualizar as da raiz que nao tem override
 
 ### 3.9 scripts/reports.sh e scripts de report
 
