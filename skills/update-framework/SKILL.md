@@ -575,15 +575,33 @@ Apos aplicar as atualizacoes e gerar o relatorio, rodar uma auditoria automatica
 
 Verificar que todos os arquivos obrigatorios e opcionais existem no projeto:
 
-| Arquivo | Severidade se ausente |
-|---|---|
-| `CLAUDE.md` | 🔴 critico |
-| `SPECS_INDEX.md` | 🔴 critico |
-| `.claude/specs/TEMPLATE.md` | 🔴 critico |
-| `.claude/specs/backlog.md` | 🔴 critico |
-| `scripts/verify.sh` | 🔴 critico |
-| `.claude/specs/STATE.md` | 🟠 alto |
-| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio |
+**Primeiro:** detectar modelo de specs do projeto lendo o CLAUDE.md:
+- Tem `## Integracao Notion (specs)` → **modo Notion**
+- Tem referencia a ferramenta externa (Jira/Linear/etc.) → **modo externo**
+- Nenhum dos dois → **modo repo**
+
+| Arquivo | Modo repo | Modo Notion | Modo externo |
+|---|---|---|---|
+| `CLAUDE.md` | 🔴 critico | 🔴 critico | 🔴 critico |
+| `SPECS_INDEX.md` | 🔴 critico | 🔴 critico (ponte local→Notion) | 🔴 critico |
+| `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
+| `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
+| `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |
+| `.claude/specs/STATE.md` | 🟠 alto | 🟠 alto (util para memoria entre sessoes) | 🟠 alto |
+| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
+
+**Se modo Notion e encontrou arquivos desnecessarios** (`TEMPLATE.md`, `backlog.md`, `DESIGN_TEMPLATE.md`):
+```
+⚠️ O projeto usa Notion para specs, mas encontrei arquivos locais desnecessarios:
+- .claude/specs/backlog.md — o backlog vive no Notion, nao precisa de arquivo local
+- .claude/specs/TEMPLATE.md — templates vivem na database do Notion
+- .claude/specs/DESIGN_TEMPLATE.md — templates vivem na database do Notion
+
+Opcoes:
+1. Remover todos (recomendado)
+2. Manter (caso use modo hibrido)
+3. Selecionar quais remover
+```
 | `PROJECT_CONTEXT.md` | 🟡 medio |
 | `scripts/reports.sh` | 🟡 medio |
 | `scripts/backlog-report.cjs` | 🟡 medio |

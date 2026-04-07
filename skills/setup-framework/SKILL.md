@@ -1422,15 +1422,17 @@ Apos criar todos os arquivos, rodar uma auditoria automatica para verificar que 
 
 Verificar que todos os arquivos obrigatorios e opcionais existem no projeto:
 
-| Arquivo | Severidade se ausente |
-|---|---|
-| `CLAUDE.md` | 🔴 critico |
-| `SPECS_INDEX.md` | 🔴 critico |
-| `.claude/specs/TEMPLATE.md` | 🔴 critico |
-| `.claude/specs/backlog.md` | 🔴 critico |
-| `scripts/verify.sh` | 🔴 critico |
-| `.claude/specs/STATE.md` | 🟠 alto |
-| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio |
+A severidade depende do modelo de specs escolhido no Bloco 2:
+
+| Arquivo | Modo repo | Modo Notion | Modo externo |
+|---|---|---|---|
+| `CLAUDE.md` | 🔴 critico | 🔴 critico | 🔴 critico |
+| `SPECS_INDEX.md` | 🔴 critico | 🔴 critico (ponte local→Notion) | 🔴 critico |
+| `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ nao deve existir | ⚪ nao deve existir |
+| `.claude/specs/backlog.md` | 🔴 critico | ⚪ nao deve existir | ⚪ nao deve existir |
+| `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |
+| `.claude/specs/STATE.md` | 🟠 alto | 🟠 alto | 🟠 alto |
+| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio | ⚪ nao deve existir | ⚪ nao deve existir |
 | `PROJECT_CONTEXT.md` | 🟡 medio |
 | `scripts/reports.sh` | 🟡 medio |
 | `scripts/backlog-report.cjs` | 🟡 medio |
