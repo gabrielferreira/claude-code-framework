@@ -306,6 +306,7 @@ O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/
    - Header já vem com a tag correta
    - Se é skill com `{placeholders}` → avisar: "Arquivo instalado com placeholders. Customize conforme o projeto."
    - **Se instalou agent/skill novo:** avisar que precisa ser adicionado ao CLAUDE.md (a auditoria na Fase 5b vai detectar e oferecer corrigir)
+   - **Se instalou slash command novo (SKILL.md):** avisar que so fica disponivel apos iniciar **nova sessao** (ou `/clear`)
 
 ### 3.5 Remover obsoletos
 
@@ -509,6 +510,7 @@ Após salvar:
 - Informar o que foi feito
 - Listar pendências de revisão manual
 - Sugerir: "Revise os arquivos `manual` listados acima e ajuste conforme seu projeto."
+- **Se instalou skills novas com SKILL.md (slash commands):** avisar: "Skills novas instaladas so ficam disponiveis como slash commands apos iniciar uma **nova sessao** (ou `/clear`)."
 
 ---
 
@@ -553,6 +555,11 @@ Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-rep
 ### Categoria 3 — Skills
 
 Para cada skill core em `[spec-driven, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[spec-creator, backlog-update, prd-creator]`:
+
+> **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
+> - `spec-driven` = processo/metodologia de desenvolvimento (README.md de referencia)
+> - `spec-creator` = slash command que cria uma spec nova (SKILL.md)
+> Validar que AMBAS existem. Se uma falta, e 🔴 critico. Ambas se aplicam independente do modelo de specs (repo, Notion, externo).
 
 1. **Arquivo existe** em `.claude/skills/{nome}/README.md` ou `SKILL.md`? → 🔴 para core, 🟡 para condicionais
 2. **Framework-tag** presente? → 🟡 se nao
