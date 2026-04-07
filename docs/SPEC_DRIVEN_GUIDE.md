@@ -442,6 +442,7 @@ Sub-agents rodam em **context windows isolados** com seus próprios tokens. Isso
 
 | Abordagem | Como funciona | Trade-off |
 |---|---|---|
+| **`/clear` (mais rápido)** | Limpa o contexto da sessão atual. Mantém o mesmo terminal/processo. | Context limpo instantaneamente. Histórico de arquivos editados preservado. Não precisa de STATE.md para continuidade simples. |
 | **Sessões separadas (RPI clássico)** | Cada fase em sessão nova. STATE.md preserva continuidade. | Context 100% limpo, mas perde continuidade. Precisa de STATE.md. |
 | **Sub-agents na mesma sessão** | Research e tasks `[P]` delegados a sub-agents. Sessão principal mantém contexto. | Continuidade mantida, mas [usa 4-7x mais tokens](https://dev.to/onlineeric/claude-code-sub-agents-burn-out-your-tokens-4cd8). Sessão principal ainda acumula os summaries. |
 
@@ -512,7 +513,7 @@ Na prática:
 - **Pequeno/Médio:** cabe numa sessão só
 - **Grande:** considerar 1 sessão por grupo de tasks
 - **Complexo:** 1 sessão por fase (research, plan, implement) + sub-sessões por grupo de tasks `[P]`
-- Ao perceber que a sessão está ficando longa: parar, registrar estado no `STATE.md`, e abrir nova sessão
+- Ao perceber que a sessão está ficando longa: parar, registrar estado no `STATE.md`, e limpar contexto com `/clear` (ou abrir nova sessão)
 
 ### STATE.md — memória persistente entre sessões
 

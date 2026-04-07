@@ -65,7 +65,7 @@ Para features classificadas como **Grande** ou **Complexo**, separar o trabalho 
 - Salvar como arquivos permanentes (spec.md, design.md)
 - Atualizar `STATE.md` com decisões tomadas
 
-**Implement (sessão nova — limpa):**
+**Implement (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md
 - Implementar tasks na ordem definida no breakdown
 - Tasks marcadas `[P]` podem ser delegadas a **sub-agents paralelos**:
