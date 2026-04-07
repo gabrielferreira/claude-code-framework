@@ -63,7 +63,13 @@ Antes de qualquer coisa:
      - Guardar o path como `FRAMEWORK_PATH` para uso nas fases seguintes
      - **Dica para o usuario:** se nao tem o framework clonado, clonar com `git clone <url> /tmp/claude-code-framework` e informar `/tmp/claude-code-framework`
 
-2. **Verificar se esta na raiz do repositorio:**
+2. **Ler a versao do framework (`FRAMEWORK_VERSION`):**
+   - Ler `${FRAMEWORK_PATH}/../VERSION` (se FRAMEWORK_PATH aponta para templates/) ou `${FRAMEWORK_PATH}/VERSION` (se aponta para raiz do clone)
+   - Se nao encontrar VERSION: extrair a versao do primeiro `framework-tag` encontrado em qualquer .md do FRAMEWORK_PATH (ex: `grep -m1 "framework-tag: v" ${FRAMEWORK_PATH}/*.md`)
+   - Guardar como `FRAMEWORK_VERSION` (ex: `2.17.0`)
+   - **REGRA CRITICA:** todo `framework-tag` escrito em qualquer arquivo gerado DEVE usar `FRAMEWORK_VERSION`. Nunca usar `v0.0.0`, nunca inventar versao, nunca omitir. Se nao conseguiu determinar a versao, **parar e perguntar ao usuario**.
+
+3. **Verificar se esta na raiz do repositorio:**
    - Confirmar que existe `.git/` no diretorio atual
    - Se nao: avisar e abortar
 
@@ -717,6 +723,8 @@ Sugerir templates baseados no projeto:
 ## Fase 3 — Geracao e estruturacao
 
 Criar arquivos na seguinte ordem. **REGRA: NUNCA sobrescrever arquivo existente sem perguntar.**
+
+**REGRA DE VERSAO:** Todo arquivo gerado que contenha `framework-tag` DEVE usar `FRAMEWORK_VERSION` (lido no Passo 0). Ao usar um template como base, **preservar o framework-tag exatamente como esta no template** — nao substituir por `v0.0.0` nem omitir. Se gerar um arquivo que nao veio de template (raro), usar `<!-- framework-tag: v{FRAMEWORK_VERSION} framework-file: {path} -->`.
 
 Se arquivo existe: perguntar "Ja existe {arquivo}. Quer fazer merge (preservar existente + adicionar novo), backup + recriar, ou pular?"
 
