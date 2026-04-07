@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.17.2] — 2026-04-07
+
+### Corrigido
+
+- Update Fase 3.0 reescrita com instrucoes operacionais concretas (comandos bash, tabela de padroes, procedimento passo-a-passo) — versao anterior era descritiva demais e o Claude nao executava
+
 ## [2.17.1] — 2026-04-07
 
 ### Corrigido

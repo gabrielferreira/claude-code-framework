@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// framework-tag: v2.17.1 framework-file: scripts/backlog-report.cjs
+// framework-tag: v2.17.2 framework-file: scripts/backlog-report.cjs
 /**
  * Backlog Report — HTML navegável
  *
