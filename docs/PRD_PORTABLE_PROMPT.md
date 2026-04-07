@@ -137,6 +137,19 @@ Validar que o PRD e epic-level, nao task-level:
 **Se <3 acoes:** avisar que pode ser mais adequado como spec unica ou item de backlog.
 **Se acoes sao muito tecnicas:** sugerir reformulacao em nivel mais alto (o que resolver, nao como implementar).
 
+### Passo 10 — Diagrama de padronizacao
+
+Gere automaticamente um diagrama Mermaid que visualiza as 4 camadas do PRD:
+
+1. **🔴 Problema:** impacto no usuario + job que falha (passo 2)
+2. **🟠 Causas — Camada do usuario:** sintomas observaveis, comentarios, dados de uso, evidencias (passos 3-4)
+3. **🟡 Porques — Camada da plataforma:** causas raiz categorizadas como: Inexistencia da solucao, Caracteristicas ou regras, Limitacoes tecnicas, UX, Erros ou Bugs, Questoes alheias a Tecnologia, Direcional estrategico, ou Hipotese (necessita validacao) (passos 5-6)
+4. **🟢 Como resolver — Solucoes:** acoes derivadas das causas raiz. Cada acao ou combinacao pode virar 1 ou N tasks, stories, bugs (passo 8)
+
+O diagrama usa `flowchart TD` com subgraphs coloridos para cada camada e setas mostrando o fluxo de cima para baixo.
+
+Apresentar o diagrama ao usuario para validacao antes de finalizar.
+
 ## Verificacao pos-criacao
 
 Antes de entregar o PRD, valide que as secoes obrigatorias foram preenchidas:
@@ -331,6 +344,14 @@ Gere o PRD no formato abaixo. Substitua os placeholders pelo conteudo coletado n
 | Tipo | Descricao | Impacto |
 |------|-----------|---------|
 | {Tecnica/Negocio/Externa} | {descricao} | {o que limita} |
+
+## Diagrama de padronizacao
+
+*Visualizacao das 4 camadas do PRD: problema → causas (usuario) → porques (plataforma) → solucoes.*
+
+{Gerar diagrama Mermaid flowchart TD com 4 subgraphs coloridos: problema (vermelho), causas (laranja), porques (amarelo), comos (verde). Preencher com dados reais do PRD. Cada acao na camada Como pode gerar 1 ou N tasks/stories/bugs.}
+
+> **Categorias da camada Porques:** Inexistencia da solucao | Caracteristicas ou regras | Limitacoes tecnicas | UX | Erros ou Bugs | Questoes alheias a Tecnologia | Direcional estrategico | Hipotese (necessita validacao)
 
 ## Verificacao pos-conclusao
 
