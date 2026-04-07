@@ -7,6 +7,13 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.14.1] — 2026-04-07
+
+### Corrigido
+
+- Categoria 6 (relevancia): agora obriga gerar sugestao concreta de substituicao antes de perguntar ao usuario — nunca mais reseta campos sem mostrar o que vai ficar no lugar
+- Adicionadas regras 9 e 10 ao setup e update: nunca resetar conteudo customizado, sempre perguntar especificamente com opcoes numeradas
+
 ## [2.14.0] — 2026-04-07
 
 ### Adicionado

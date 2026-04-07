@@ -1,6 +1,6 @@
 {
   "name": "claude-code-framework",
-  "version": "2.14.0",
+  "version": "2.14.1",
   "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
   "repository": "https://github.com/gabrielferreira/claude-code-framework",
   "author": "Gabriel Ferreira",
