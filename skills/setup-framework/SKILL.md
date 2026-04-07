@@ -759,9 +759,9 @@ Alguns arquivos são essenciais para o framework funcionar. Se o usuario pular u
 | Arquivo | Obrigatório? | Se pular |
 |---|---|---|
 | `CLAUDE.md` | **Sim** — sem ele o Claude não tem regras | Avisar: "Sem CLAUDE.md o framework não funciona." Registrar pendência. |
-| `.claude/specs/TEMPLATE.md` | **Sim** — `/spec` depende dele | Avisar e registrar pendência. |
-| `.claude/specs/backlog.md` | **Sim** — `/backlog-update` depende dele | Avisar e registrar pendência. |
-| `SPECS_INDEX.md` | **Sim** — `/spec` e `/backlog-update` dependem dele | Avisar e registrar pendência. |
+| `.claude/specs/TEMPLATE.md` | **Sim (modo repo)** — `/spec` depende dele. No Notion/externo: NAO criar | Avisar e registrar pendência (so modo repo). |
+| `.claude/specs/backlog.md` | **Sim (modo repo)** — `/backlog-update` depende dele. No Notion/externo: NAO criar (backlog vive na ferramenta) | Avisar e registrar pendência (so modo repo). |
+| `SPECS_INDEX.md` | **Sim** — `/spec` e `/backlog-update` dependem dele (em todos os modos, serve como indice/ponte) | Avisar e registrar pendência. |
 | `scripts/verify.sh` | **Sim** — DoD depende dele | Avisar e registrar pendência. |
 | `.claude/specs/STATE.md` | Opcional — útil mas não bloqueia | Pular sem aviso. |
 | `.claude/specs/DESIGN_TEMPLATE.md` | Opcional — só pra Grande/Complexo | Pular sem aviso. |
