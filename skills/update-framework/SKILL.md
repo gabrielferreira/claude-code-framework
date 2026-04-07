@@ -232,35 +232,68 @@ Ações disponíveis:
 
 ### 3.0 Filtro por modo spec (ANTES de aplicar qualquer arquivo)
 
-Antes de aplicar qualquer arquivo, detectar o modo spec do projeto:
+**Esta fase e OBRIGATORIA e deve ser executada ANTES de qualquer outra sub-fase (3.1, 3.2, etc.).**
 
-1. **Ler o CLAUDE.md do projeto** e verificar se contem `## Integracao Notion (specs)`
-   - Se sim: `SPEC_MODE=notion`
-   - Se nao: `SPEC_MODE=repo`
+#### Passo 1 — Detectar modo spec
 
-2. **Se `SPEC_MODE=notion`, EXCLUIR da lista de aplicacao:**
-   - `.claude/specs/TEMPLATE.md` — templates vivem no Notion
-   - `.claude/specs/backlog.md` — backlog vive no Notion
-   - `.claude/specs/DESIGN_TEMPLATE.md` — templates vivem no Notion
-   - `.claude/specs/backlog-format.md` — formato do backlog vive no Notion
+Ler o `CLAUDE.md` do projeto e verificar se contem a string `## Integracao Notion`:
+- Se sim: `SPEC_MODE=notion`
+- Se nao: `SPEC_MODE=repo`
 
-   Estes arquivos NAO devem ser copiados, atualizados, nem mencionados como pendencia.
+Se `SPEC_MODE=repo`, pular para a Fase 3.1. Os passos abaixo sao APENAS para `SPEC_MODE=notion`.
 
-3. **Se `SPEC_MODE=notion`, LIMPAR artefatos locais desnecessarios:**
-   - Verificar se existem no projeto: `.claude/specs/backlog.md`, `.claude/specs/TEMPLATE.md`, `.claude/specs/DESIGN_TEMPLATE.md`, `.claude/specs/backlog-format.md`
-   - Para cada arquivo encontrado:
-     - Informar: "Detectei `{arquivo}` no projeto, mas o modo e Notion — este arquivo e desnecessario (o backlog/templates vivem no Notion)."
-     - Fazer backup em `.claude/.update-backup/{tag}/{path}`
-     - **Remover o arquivo** (nao perguntar — em modo Notion estes arquivos so causam confusao)
-   - Verificar se o CLAUDE.md tem secoes que referenciam artefatos locais incompativeis com Notion:
-     - `### Padrao do backlog` referenciando `.claude/specs/backlog.md` → remover secao (backlog e no Notion)
-     - Linhas mencionando "Specs tecnicas locais: `.claude/specs/`" → substituir por referencia ao Notion
-     - Qualquer referencia a `backlog.md` como arquivo local → remover ou substituir
-   - Informar no relatorio: "Removidos {N} artefatos locais desnecessarios em modo Notion."
+#### Passo 2 — Remover arquivos locais desnecessarios
 
-4. **Se `SPEC_MODE=repo`, aplicar normalmente** — todos os arquivos de specs sao relevantes.
+Executar estes comandos exatos. Para cada arquivo que existir, fazer backup e remover:
 
-> **Regra:** o filtro se aplica a TODAS as sub-fases (3.1 overwrite, 3.2 structural, 3.3 manual, 3.4 novos). Nenhuma sub-fase deve criar/copiar arquivos excluidos pelo filtro.
+```bash
+# Backup
+mkdir -p .claude/.update-backup/notion-cleanup
+cp .claude/specs/backlog.md .claude/.update-backup/notion-cleanup/ 2>/dev/null
+cp .claude/specs/TEMPLATE.md .claude/.update-backup/notion-cleanup/ 2>/dev/null
+cp .claude/specs/DESIGN_TEMPLATE.md .claude/.update-backup/notion-cleanup/ 2>/dev/null
+cp .claude/specs/backlog-format.md .claude/.update-backup/notion-cleanup/ 2>/dev/null
+
+# Remover (sem perguntar — em Notion estes arquivos nao devem existir)
+rm -f .claude/specs/backlog.md
+rm -f .claude/specs/TEMPLATE.md
+rm -f .claude/specs/DESIGN_TEMPLATE.md
+rm -f .claude/specs/backlog-format.md
+```
+
+Informar ao usuario quais arquivos foram removidos.
+
+#### Passo 3 — Limpar CLAUDE.md de referencias a artefatos locais
+
+O CLAUDE.md do projeto pode ter secoes geradas pelo setup que referenciam arquivos locais que nao existem mais em modo Notion. **Ler o CLAUDE.md inteiro** e procurar CADA um destes padroes. Para cada padrao encontrado, aplicar a acao descrita:
+
+| # | O que procurar | Acao |
+|---|---|---|
+| 1 | Secao `### Padrao do backlog` (qualquer H3 que mencione "backlog" e referencie `.claude/specs/backlog.md`) | **Remover a secao inteira** (H3 ate o proximo H2/H3). Backlog vive no Notion. |
+| 2 | Linha contendo `Specs tecnicas locais:` ou `specs/` seguido de `(ativas)` e `done/` | **Substituir** por: `Specs: consultar SPECS_INDEX.md para localizar. Specs vivem na database do Notion (ver secao "Integracao Notion").` |
+| 3 | Qualquer referencia a `.claude/specs/backlog.md` como local de backlog | **Remover** a linha ou substituir por referencia ao Notion |
+| 4 | Linha tipo `backlog.md` na secao de estrutura de arquivos do projeto | **Remover** a linha |
+| 5 | Secao mencionando `TEMPLATE.md` como template local para specs | **Remover** ou substituir por: "Templates vivem no Notion (ver secao Integracao Notion)." |
+
+**Procedimento para cada padrao:**
+1. Usar `grep -n` no CLAUDE.md para encontrar as linhas
+2. Mostrar ao usuario o que encontrou e o que vai fazer
+3. Aplicar a edicao (remover ou substituir)
+4. Confirmar que a edicao foi aplicada
+
+Se nenhum padrao for encontrado, informar: "CLAUDE.md ja esta limpo de referencias locais."
+
+#### Passo 4 — Excluir da lista de aplicacao
+
+Os seguintes arquivos NAO devem ser tocados em NENHUMA sub-fase posterior (3.1, 3.2, 3.3, 3.4):
+- `.claude/specs/TEMPLATE.md`
+- `.claude/specs/backlog.md`
+- `.claude/specs/DESIGN_TEMPLATE.md`
+- `.claude/specs/backlog-format.md`
+
+Se algum deles aparece no diff do framework, **ignorar silenciosamente**. Nao copiar, nao atualizar, nao mencionar como pendencia.
+
+Informar no relatorio final: "Modo Notion detectado. Removidos {N} arquivos locais desnecessarios. CLAUDE.md limpo de {M} referencias a artefatos locais."
 
 ### 3.1 Aplicar overwrite
 
