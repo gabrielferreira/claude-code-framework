@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Checklist estruturado com thresholds numericos para tamanho, responsabilidades e acoplamento de componentes.
 worktree: false
 ---
-<!-- framework-tag: v2.16.1 framework-file: agents/component-audit.md -->
+<!-- framework-tag: v2.17.0 framework-file: agents/component-audit.md -->
 # Agent: Component Audit
 
 > Sub-agente autônomo que analisa a arquitetura de componentes e módulos.
