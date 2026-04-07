@@ -47,7 +47,7 @@ Antes de comecar, classifique o escopo do problema:
 
 Na duvida entre dois niveis, classificar para cima.
 
-## Fluxo de analise de causa raiz (9 passos)
+## Fluxo de analise de causa raiz (10 passos)
 
 Conduza a analise fazendo **uma pergunta de cada vez**. Espere a resposta do usuario antes de avancar para a proxima. Nao pule etapas.
 
@@ -149,6 +149,8 @@ Gere automaticamente um diagrama Mermaid que visualiza as 4 camadas do PRD:
 O diagrama usa `flowchart TD` com subgraphs coloridos para cada camada e setas mostrando o fluxo de cima para baixo.
 
 Apresentar o diagrama ao usuario para validacao antes de finalizar.
+
+Apos validacao, perguntar se o usuario quer exportar para ferramenta visual (Miro, FigJam, Lucidchart, etc.). Se a plataforma tiver integracao disponivel, criar o diagrama direto na ferramenta. Caso contrario, informar que o codigo Mermaid pode ser copiado manualmente.
 
 ## Verificacao pos-criacao
 

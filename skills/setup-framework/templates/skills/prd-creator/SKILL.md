@@ -89,7 +89,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
    - Complexidade: conforme classificacao
    - Data: hoje
 
-5. **Guiar analise de causa raiz (9 passos):**
+5. **Guiar analise de causa raiz (10 passos):**
 
    Conduzir a analise fazendo **uma pergunta de cada vez**. Esperar a resposta antes de avancar. Nao pular etapas.
 
@@ -291,6 +291,48 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
 
    Apresentar o diagrama ao usuario para validacao: "Gerei o diagrama de padronizacao do PRD. Ele mostra as 4 camadas: problema → causas (usuario) → porques (plataforma) → solucoes. Confere?"
 
+   **Apos validacao, oferecer exportacao para ferramenta visual:**
+
+   Perguntar: "Quer exportar o diagrama para uma ferramenta visual? Posso criar direto no Miro, FigJam, Lucidchart, ou outra ferramenta se houver integracao MCP disponivel."
+
+   **Detectar ferramentas visuais disponiveis:**
+
+   Verificar se algum MCP de ferramenta visual esta configurado no ambiente:
+
+   | Ferramenta | MCP / Integracao | Como detectar |
+   |---|---|---|
+   | **Miro** | `miro` MCP server | Verificar se tools `miro_*` ou `miro-*` estao disponiveis (ex: `miro_create_sticky_note`, `miro_create_shape`, `miro_create_connector`) |
+   | **FigJam** | `figma` MCP server | Verificar se tools `figma_*` estao disponiveis |
+   | **Lucidchart** | `lucidchart` MCP server | Verificar se tools `lucidchart_*` estao disponiveis |
+   | **Excalidraw** | `excalidraw` MCP server | Verificar se tools `excalidraw_*` estao disponiveis |
+   | **Outra** | Qualquer MCP de diagramacao | Listar tools disponiveis que parecem ser de ferramenta visual |
+
+   **Se ferramenta visual disponivel:**
+
+   1. Criar um board/frame dedicado ao PRD com titulo "PRD — {ID}: {Titulo} — Diagrama de Padronizacao"
+   2. Criar as 4 camadas como areas/frames/sections com cores correspondentes:
+      - Vermelho (#f8d7da) para Problema
+      - Laranja (#ffe0b2) para Causas
+      - Amarelo (#fff9c4) para Porques
+      - Verde (#c8e6c9) para Solucoes
+   3. Criar cada no como shape/sticky note dentro da camada correspondente
+   4. Criar conectores/setas entre as camadas
+   5. Informar URL do board criado ao usuario
+
+   **Exemplo com Miro (se MCP disponivel):**
+   ```
+   1. miro_create_frame → frame "PRD — {ID}" no board
+   2. miro_create_shape → retangulo vermelho "Problema: {titulo}"
+   3. miro_create_sticky_note → sticky laranja para cada causa
+   4. miro_create_sticky_note → sticky amarelo para cada porque
+   5. miro_create_sticky_note → sticky verde para cada solucao
+   6. miro_create_connector → setas entre os nos
+   ```
+
+   **Se nenhuma ferramenta visual disponivel:**
+
+   Informar: "Nenhuma integracao com ferramenta visual detectada. O diagrama Mermaid foi incluido no PRD. Se quiser, voce pode copiar o codigo Mermaid para o Miro, FigJam, ou qualquer ferramenta que suporte importacao de diagramas."
+
    ---
 
    > Nao e necessario preencher tudo de uma vez. O usuario pode deixar campos como placeholder e iterar depois. O importante e capturar o maximo possivel na primeira passada.
@@ -350,12 +392,13 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
 
 2. **Classificar complexidade:** mesma logica do modo repo. Pequeno = nao cria PRD.
 
-3. **Coletar informacoes** (guiar analise de causa raiz — **mesmos 9 passos do modo repo**):
+3. **Coletar informacoes** (guiar analise de causa raiz — **mesmos 10 passos do modo repo**):
    - Passo 1-2: Problema + validacao
    - Passo 3-4: Causas + evidencias
    - Passo 5-6: Porques encadeados + mapa causal
    - Passo 7: Quem e afetado
    - Passo 8-9: Como resolver encadeado + calibracao de escopo
+   - Passo 10: Diagrama de padronizacao (incluir no body da pagina + oferecer exportacao para ferramenta visual)
    - Se `--from` foi usado, usar dados extraidos como base
 
    > **REGRA:** Nunca criar pagina no Notion com body vazio ou so com placeholders.
@@ -444,7 +487,7 @@ Quando PRDs vivem em Jira, Confluence, Google Docs, ou outra ferramenta.
 Quando o usuario passa `--export` ou o projeto tem `prd_mode: export` no CLAUDE.md. O PRD e gerado como output formatado na conversa, sem criar arquivo nem registrar em nenhum index.
 
 1. **Classificar complexidade** (mesma logica)
-2. **Coletar informacoes** (mesmos 9 passos de analise de causa raiz)
+2. **Coletar informacoes** (mesmos 10 passos de analise de causa raiz)
 3. **Gerar PRD formatado** usando a estrutura do `PRD_TEMPLATE.md`:
    - Output completo em markdown na conversa
    - Incluir header, todas as secoes preenchidas (com validacao, porques encadeados, mapa causal, derivacao de comos, calibracao), e checklist
