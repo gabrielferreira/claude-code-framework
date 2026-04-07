@@ -652,15 +652,20 @@ Perguntar: "O time usa analise de causa raiz / PRD antes de criar specs tecnicas
 
 Apresentar recomendacao baseada na analise:
 
-**Sempre incluidas (core):**
-- spec-driven
+**Sempre incluidas (core) — copiar TODAS, sem excecao:**
+- spec-driven ← fluxo de desenvolvimento (README.md de referencia, NAO e slash command)
 - definition-of-done
 - testing
 - code-quality
 - logging
 - docs-sync
-- spec-creator (slash command `/spec-creator`)
-- backlog-update (slash command `/backlog-update`)
+- spec-creator ← slash command `/spec-creator` (cria specs)
+- backlog-update ← slash command `/backlog-update` (atualiza backlog)
+
+> **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
+> - `spec-driven` = processo/metodologia de desenvolvimento (README.md)
+> - `spec-creator` = slash command que cria uma spec nova (SKILL.md)
+> Nao pular nenhuma. Ambas se aplicam independente do modelo de specs (repo, Notion, externo).
 
 **Agents (sempre incluidos):**
 - security-audit
