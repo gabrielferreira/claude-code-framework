@@ -7,6 +7,18 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.17.0] — 2026-04-07
+
+### Adicionado
+
+- Suporte a multiplas specs por referencia externa (Fonte): N specs podem referenciar o mesmo card (Jira, Linear, etc.)
+- Coluna `Fonte` adicionada ao SPECS_INDEX.template.md com exemplo de N:1
+
+### Corrigido
+
+- Auditoria completa de consistencia: 10 issues resolvidos (docs/README index, SKILLS_MAP, migration sed, template syncs, etc.)
+- Migration files nao sao mais contaminados pelo sed de framework-tags durante release
+
 ## [2.16.1] — 2026-04-07
 
 ### Corrigido
