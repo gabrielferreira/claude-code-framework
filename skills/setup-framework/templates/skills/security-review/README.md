@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.15.0 framework-file: skills/security-review/README.md -->
+<!-- framework-tag: v2.15.1 framework-file: skills/security-review/README.md -->
 # Skill: Security Review
 
 > Use esta skill ao implementar novas features, endpoints ou modificar lógica existente.
