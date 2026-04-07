@@ -7,6 +7,24 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.14.0] — 2026-04-07
+
+### Adicionado
+
+- Setup: Fase 1.6 — deteccao automatica de padroes de codigo (logging, error handling, HTTP client, validacao, ORM, config) a partir do codigo-fonte real do projeto
+- Setup: Fase 3.6.1 — customizacao de skills (logging, code-quality, security-review) com exemplos baseados nos padroes detectados em vez de exemplos genericos
+- Setup/Update: Categoria 6 na auditoria de completude — validacao de relevancia de conteudo:
+  - 6.1: Exemplos de codigo incompativeis com a stack (ex: JS em projeto Go)
+  - 6.2: Libs e padroes divergentes dos detectados (ex: fmt.Errorf quando projeto usa lib erros)
+  - 6.3: Skills e agents irrelevantes para o tipo de projeto (ex: ux-review em backend puro)
+  - 6.4: Secoes do CLAUDE.md irrelevantes (ex: Mindset Frontend em API)
+  - 6.5: Docs irrelevantes
+  - 6.6: Evolucao do projeto — detecta mudancas desde ultimo setup (exclusivo do update)
+  - 6.7: Procedimento de remocao completa (arquivo + referencias no CLAUDE.md + verify.sh)
+- Update: Fase 0.6 — deteccao de CODE_PATTERNS para validar conteudo existente a cada execucao
+- PRD Creator: geracao de diagrama causal (.mmd) e export para ferramentas visuais (Miro, FigJam)
+- Bug Investigation: criacao automatica de card no Jira apos investigacao
+
 ## [2.13.3] — 2026-04-06
 
 ### Corrigido
