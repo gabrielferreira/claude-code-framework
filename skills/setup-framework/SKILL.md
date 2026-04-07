@@ -726,6 +726,16 @@ Criar arquivos na seguinte ordem. **REGRA: NUNCA sobrescrever arquivo existente 
 
 **REGRA DE VERSAO:** Todo arquivo gerado que contenha `framework-tag` DEVE usar `FRAMEWORK_VERSION` (lido no Passo 0). Ao usar um template como base, **preservar o framework-tag exatamente como esta no template** — nao substituir por `v0.0.0` nem omitir. Se gerar um arquivo que nao veio de template (raro), usar `<!-- framework-tag: v{FRAMEWORK_VERSION} framework-file: {path} -->`.
 
+**FILTRO POR MODO SPEC (aplicar ANTES de criar qualquer arquivo):**
+Se o modelo de specs escolhido no Bloco 2 foi **Notion ou externo**, NAO criar os seguintes arquivos em nenhuma circunstancia:
+- `.claude/specs/TEMPLATE.md` — templates vivem na ferramenta externa
+- `.claude/specs/backlog.md` — backlog vive na ferramenta externa
+- `.claude/specs/DESIGN_TEMPLATE.md` — templates vivem na ferramenta externa
+- `.claude/specs/backlog-format.md` — formato do backlog vive na ferramenta externa
+- `.claude/specs/STATE.md` — estado vive na ferramenta externa (opcional: criar se o usuario quiser memoria local entre sessoes)
+
+Este filtro se aplica a TODAS as sub-fases (3.1 a 3.6). Nenhuma sub-fase deve criar arquivos excluidos pelo filtro, nem registrar pendencia por eles faltarem.
+
 Se arquivo existe: perguntar "Ja existe {arquivo}. Quer fazer merge (preservar existente + adicionar novo), backup + recriar, ou pular?"
 
 **Auditoria de secoes obrigatorias no CLAUDE.md existente:**
