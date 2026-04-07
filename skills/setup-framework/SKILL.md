@@ -882,7 +882,7 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
   - Manter coluna `Owner` (opcional — util para times onde specs têm responsaveis diferentes)
 - Se **modelo externo:**
   - Usar a variante external comentada no template (descomentar e remover a variante local)
-  - Colunas: `ID | Título na ferramenta | External ID | Status | Owner | Resumo`
+  - Colunas: `ID | Spec | Status | Owner | Fonte | Resumo` (mesma estrutura, Fonte = External ID)
   - Preencher regras de acesso com a ferramenta escolhida no Bloco 2
   - Adicionar instrucao: "Specs completas vivem em {ferramenta}. Este indice serve como ponte."
 

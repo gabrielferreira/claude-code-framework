@@ -58,7 +58,12 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
 4. **Registrar referencia no header da spec:**
    - Adicionar `> Fonte: [{tipo}]({url})` logo apos a data
 
-5. **Informar ao usuario:** o que foi extraido e o que precisa de input manual.
+5. **Verificar se ja existem specs para esta fonte:**
+   - Buscar no `SPECS_INDEX.md` por entradas com a mesma fonte/External ID
+   - Se encontrou: informar ao usuario: "Ja existem specs para {fonte}: {lista de IDs}. Criar mais uma? Isso e normal quando um card grande e quebrado em multiplas specs."
+   - **Multiplas specs por fonte e permitido e encorajado** para cards grandes (ex: epic do Jira → N specs no framework)
+
+6. **Informar ao usuario:** o que foi extraido e o que precisa de input manual.
 
 ---
 
@@ -89,7 +94,8 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - **Se o projeto NAO usa PRDs:** pular este passo silenciosamente (nao perguntar)
 5. **Registrar no SPECS_INDEX.md:**
    - Identificar o domínio correto
-   - Adicionar linha com status `rascunho`
+   - Adicionar linha com status `rascunho` e coluna Fonte (ID externo se `--from` foi usado, `—` caso contrario)
+   - Formato: `| {ID} | {path ou link Notion} | rascunho | {autor} | {fonte ou —} | {resumo} |`
 6. **Registrar no backlog** (se não existir):
    - Usar `/backlog-update {ID} add` ou adicionar manualmente
 7. **Verificação pós-criação** (OBRIGATÓRIO):
@@ -192,7 +198,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 
 6. **Registrar no SPECS_INDEX.md** (se existir):
    - Adicionar linha com link para a página criada no Notion
-   - Formato: `| {ID} | {Título} | [Notion]({url}) | rascunho | — | {resumo} |`
+   - Formato: `| {ID} | [Notion]({url}) | rascunho | — | {fonte ou —} | {resumo} |`
 
 7. **Verificação pós-criação** (OBRIGATÓRIO):
    Ler a página criada no Notion via `notion-fetch` e validar que o conteúdo foi preenchido:
@@ -235,6 +241,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 - **Modo Notion:** criar via `notion-create-pages` com template correto — nunca criar arquivo local. **Sempre preencher o body** com conteúdo coletado (Contexto, Requisitos, Critérios). Nunca criar página com body vazio
 - **Modo Notion — campo "Arquivo":** se a database do Notion tem uma property "Arquivo" (ou similar referenciando path no repo), deixar vazio — a spec vive no Notion, nao como arquivo local. Se o projeto usa modo hibrido (spec no Notion + implementacao no repo), o campo pode conter o path do branch ou PR associado, mas nao um path de arquivo .md
 - **`--from`:** quando fornecido, resolver fonte externa ANTES de criar a spec. Registrar referencia no header
+- **Multiplas specs por fonte:** um card/epic externo pode gerar N specs. Cada spec tem seu proprio ID unico, mas todas referenciam a mesma Fonte. Isso e normal e encorajado para cards grandes. A coluna Fonte no SPECS_INDEX.md permite rastrear quais specs vieram do mesmo card
 - Seções obrigatórias do template devem ser mantidas (podem ficar com placeholder)
 - Pequeno: **modo repo** = só backlog (sem spec). **Modo Notion** = cria página com template Pequeno
 - Grande/Complexo = oferecer design doc
