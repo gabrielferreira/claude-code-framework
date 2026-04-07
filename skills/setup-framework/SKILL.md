@@ -659,6 +659,8 @@ Apresentar recomendacao baseada na analise:
 - code-quality
 - logging
 - docs-sync
+- spec-creator (slash command `/spec-creator`)
+- backlog-update (slash command `/backlog-update`)
 
 **Agents (sempre incluidos):**
 - security-audit
@@ -898,13 +900,11 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
 
 ### 3.6 Skills
 
-Para cada skill selecionada no Bloco 4:
+Para cada skill listada no Bloco 4 (incluindo as core):
 - Copiar o diretorio inteiro de `${FRAMEWORK_PATH}/skills/{nome}/` para `.claude/skills/{nome}/`
 - Incluir tanto README.md (skills de referencia) quanto SKILL.md (slash commands)
 
-**Sempre copiar:**
-- `skills/backlog-update/SKILL.md`
-- `skills/spec-creator/SKILL.md`
+> **CRITICO:** `spec-creator` e `backlog-update` sao slash commands essenciais — ja estao na lista core do Bloco 4. Se por qualquer motivo nao estiverem na lista de skills a copiar, adicionar. O projeto nao funciona sem `/spec-creator` e `/backlog-update`.
 
 **Se PRD opt-in (Bloco 2b):**
 - `skills/prd-creator/SKILL.md`
