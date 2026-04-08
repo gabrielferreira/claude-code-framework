@@ -42,6 +42,11 @@ O verify.sh pega patterns mecânicos (secrets, SQL concat), mas não avalia **de
 - [ ] Commits seguem Conventional Commits
 - [ ] Commits atômicos — cada commit faz exatamente uma coisa
 
+### Entrega
+- [ ] **Abrir PR** para `main` (ou branch de integração) — nunca push direto
+- [ ] Título do PR segue Conventional Commits
+- [ ] Descrição do PR inclui contexto da mudança e link/referência para a spec
+
 ## Checklists específicos por tipo
 
 ### Nova feature
