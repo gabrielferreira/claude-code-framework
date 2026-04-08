@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Validacao estruturada de specs contra PRD com criterios claros de cobertura e completude.
 worktree: false
 ---
-<!-- framework-tag: v2.20.0 framework-file: agents/product-review.md -->
+<!-- framework-tag: v2.21.0 framework-file: agents/product-review.md -->
 
 # Agent: Product Review
 
