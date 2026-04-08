@@ -86,10 +86,11 @@ Para cada par de partes que rodam em paralelo, confirmar:
 
 1. **Plano vive na conversa ou no arquivo da spec** — não criar arquivo separado. Se a spec tem seção "Breakdown de tasks", preencher lá.
 2. **Máximo paralelismo com zero sobreposição.** Nunca duas partes editam o mesmo arquivo ao mesmo tempo.
-3. **Revisitar o plano se surgirem surpresas.** Se durante a implementação o escopo muda (arquivo extra, dependência não prevista) → atualizar o plano antes de continuar.
-4. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes.
-5. **Sessão principal nunca delega decisão.** Sub-agents executam e reportam ambiguidades. Quem decide é a sessão principal.
-6. **Sessão principal faz a integração.** Verificar que as partes se encaixam é responsabilidade da sessão principal, não de sub-agents.
+3. **Plano pronto = delegar implementação.** Após o execution-plan estar concluído na sessão principal, NÃO implementar no mesmo contexto — delegar cada parte para sub-agents. A sessão principal planeja, orquestra e integra; sub-agents executam. Implementar no contexto de planejamento mistura dois papéis e degrada o contexto.
+4. **Revisitar o plano se surgirem surpresas.** Se durante a implementação o escopo muda (arquivo extra, dependência não prevista) → atualizar o plano antes de continuar.
+5. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes.
+6. **Sessão principal nunca delega decisão.** Sub-agents executam e reportam ambiguidades. Quem decide é a sessão principal.
+7. **Sessão principal faz a integração.** Verificar que as partes se encaixam é responsabilidade da sessão principal, não de sub-agents.
 
 ## Checklist
 

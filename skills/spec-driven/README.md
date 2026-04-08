@@ -17,9 +17,11 @@
 | Tamanho | Critério | O que criar | Fluxo |
 |---|---|---|---|
 | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog | Backlog → implementa → testa → commit |
-| **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → TDD → commit |
-| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → tasks → TDD → commit |
-| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → tasks → sub-agents → commit |
+| **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → **sub-agents** → integra → commit |
+| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → execution-plan → **sub-agents** → integra → commit |
+| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → execution-plan → **sub-agents** → integra → commit |
+
+> **Regra de delegação (Médio+):** após o execution-plan estar pronto na sessão principal, **não implementar no mesmo contexto** — delegar cada parte para sub-agents. Sessão principal planeja, orquestra e integra. Sub-agents executam.
 
    Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
@@ -51,7 +53,7 @@ Se a spec assume X mas o código mostra Y → PARAR e reportar a divergência. A
 
 **Exceção para Pequeno:** mudanças classificadas como Pequeno (≤3 arquivos, <30min, sem regra de negócio) não precisam de spec formal, mas o teste de regressão é criado ANTES do fix e a entrada no backlog é obrigatória.
 
-## Fluxo RPI — Research, Plan, Implement (Grande/Complexo)
+## Fluxo RPI — Research, Plan, Implement (Médio+)
 
 Para features classificadas como **Grande** ou **Complexo**, separar o trabalho em fases:
 
@@ -67,14 +69,14 @@ Para features classificadas como **Grande** ou **Complexo**, separar o trabalho 
 
 **Implement (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md
-- Implementar tasks na ordem definida no breakdown
-- Tasks marcadas `[P]` podem ser delegadas a **sub-agents paralelos**:
-  - Cada sub-agent recebe: a task + spec + design doc + STATE.md
+- Delegar cada parte do execution-plan para **sub-agents** — não implementar no contexto principal:
+  - Cada sub-agent recebe: a task + spec + design doc + STATE.md + briefing completo
   - Sub-agent NÃO pesquisa codebase de novo — já tem tudo no breakdown
   - Manter main context lean: orquestrar e integrar, não implementar
   - Após sub-agents concluírem: integrar, rodar testes, verificar conflitos
+- Tasks `[P]` (independentes) podem ser delegadas a sub-agents **em paralelo**
 
-**Princípio:** contexto de implementação recebe APENAS o necessário para executar.
+**Princípio:** contexto de implementação recebe APENAS o necessário para executar. Quem planejou não implementa — delega.
 
 ### Context budget
 
