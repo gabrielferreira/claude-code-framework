@@ -7,6 +7,17 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.19.1] — 2026-04-08
+
+### Corrigido
+
+- `backlog-update done` (Notion): Responsavel não era preenchido — agora resolve identidade via `notion-get-users self` e inclui no update
+- `spec-creator` (Notion): verificação pós-criação agora valida properties obrigatórias (Tipo, Severidade, Fase, Complexidade, Domínio, Impacto, Autor, campos adicionais obrigatórios) além do body; pergunta ao usuário e atualiza via `notion-update-page` se vazio
+- `execution-plan`: nova regra explícita — plano pronto = delegar implementação para sub-agents, não implementar no mesmo contexto de planejamento
+- `spec-driven`: tabela de fluxo inclui sub-agents para Médio/Grande/Complexo; fluxo RPI expandido para Médio+ com o princípio "quem planejou não implementa — delega"
+- `definition-of-done`: nova seção "Entrega" no checklist universal com PR obrigatório (nunca push direto), título Conventional Commits e descrição com link para spec
+- `spec-driven`: passo 4 em Pós-implementação — abrir PR, nunca push direto para main
+
 ## [2.19.0] — 2026-04-08
 
 ### Adicionado
