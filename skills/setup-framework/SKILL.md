@@ -3,7 +3,7 @@ name: setup-framework
 description: Wizard interativo para implantar o claude-code-framework em um repositorio existente
 user_invocable: true
 ---
-<!-- framework-tag: v2.18.0 framework-file: skills/setup-framework/SKILL.md -->
+<!-- framework-tag: v2.19.0 framework-file: skills/setup-framework/SKILL.md -->
 
 # /setup-framework — Setup interativo do Claude Code Framework
 
@@ -609,7 +609,19 @@ O framework se integra nativamente com Notion via MCP. O setup nao configura aut
    - Complexo → 3. [TEMPLATE] Spec Grande/Complexa + 4. Design Doc (obrigatório)
    ```
 4. **Se nao encontrar templates:** avisar e perguntar se quer criar specs sem template (so propriedades)
-5. **Guardar configuracao** para uso pelo `/spec` e `/backlog-update` (ver secao 3.2)
+5. **Detectar campos adicionais da database:**
+   A partir do schema retornado pelo `notion-fetch`, identificar properties que NAO estao na lista padrao do framework:
+   > Lista padrao: `Titulo`, `Status`, `Complexidade`, `Tipo`, `Severidade`, `Fase`, `Camadas`, `Impacto`, `Estimativa`, `Dominio`, `Projeto`, `Spec detail`, `Autor`, `Responsavel`, `Concluida em`
+
+   Para cada propriedade extra encontrada no schema:
+   - Apresentar ao usuario: nome, tipo (select, url, text, number, etc.), opcoes disponiveis se select
+   - Perguntar: "Este campo deve ser preenchido ao criar specs? Como?"
+     - **Perguntar ao usuario** → registrar como `Perguntar ao usuario`. Para campos select: registrar as opcoes disponiveis na coluna "Opcoes" (separadas por virgula) para que o `/spec` possa apresenta-las sem precisar consultar o Notion novamente
+     - **Preencher com a URL/key do --from (origem)** → registrar como `auto: url-from`
+     - **Preencher com o nome do projeto** → registrar como `auto: projeto`
+     - **Deixar vazio** → registrar como `deixar vazio`
+   - Se nao houver campos extras: omitir a secao "Campos adicionais" na configuracao
+6. **Guardar configuracao** para uso pelo `/spec` e `/backlog-update` (ver secao 3.2)
 
 **Se ferramenta != Notion:**
 - Perguntar formato de referencia: URL base (ex: `https://empresa.atlassian.net/browse/`) e prefixo de IDs (ex: `PROJ-`)
@@ -873,6 +885,11 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados colet
       | Médio | {nome} | {id} | — |
       | Grande | {nome} | {id} | {id} (opcional) |
       | Complexo | {nome} | {id} | {id} (obrigatório) |
+    - **Campos adicionais:** (incluir apenas se houver campos custom alem dos padrao)
+      | Campo Notion | Tipo | Obrigatorio | Como preencher | Opcoes |
+      |---|---|---|---|---|
+      | Frente de produto | select | sim | Perguntar ao usuario | Mobile, Web, Backend, Plataforma |
+      | Origem | url | nao | auto: url-from | — |
 
     ### Regras de integracao
     - `/spec` cria pagina no Notion usando `notion-create-pages` com o template correto

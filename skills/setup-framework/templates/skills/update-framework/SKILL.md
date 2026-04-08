@@ -3,7 +3,7 @@ name: update-framework
 description: Atualiza o claude-code-framework em um repositório que já o utiliza
 user_invocable: true
 ---
-<!-- framework-tag: v2.18.0 framework-file: skills/update-framework/SKILL.md -->
+<!-- framework-tag: v2.19.0 framework-file: skills/update-framework/SKILL.md -->
 
 # /update-framework — Atualização do Claude Code Framework
 
@@ -502,8 +502,9 @@ Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O 
    - **Se retornar erro 401/403:** o MCP Notion nao esta autenticado ou a database nao esta compartilhada com a integration. Orientar: (1) verificar token no settings.json (`NOTION_TOKEN`), (2) compartilhar database com a integration no Notion (menu "..." → "Connections")
 4. Detectar data_source_id, schema e templates
 5. Apresentar templates encontrados e pedir mapeamento por complexidade (mesmo fluxo do `/setup-framework` Bloco 2)
-5. **Inserir a seção `## Integracao Notion (specs)` no CLAUDE.md existente** — adicionar antes da última seção, sem alterar o restante do arquivo
-6. Confirmar com o usuário que a seção foi adicionada
+6. **Detectar campos adicionais** — mesmo fluxo do `/setup-framework` Bloco 2, passo 5: identificar properties extra no schema, perguntar regra de preenchimento para cada uma, gravar opcoes de select
+7. **Inserir a seção `## Integracao Notion (specs)` no CLAUDE.md existente** — incluindo tabela "Campos adicionais" se houver — adicionar antes da última seção, sem alterar o restante do arquivo
+8. Confirmar com o usuário que a seção foi adicionada
 
 > **Importante:** esta é a única situação em que o `/update-framework` modifica o CLAUDE.md sem ser por diff do template. A seção Notion é config do projeto, não conteúdo do framework.
 
@@ -513,6 +514,10 @@ Este é o caso mais comum em projetos que atualizaram de v2.0.0 para v2.1.0+. O 
 2. Comparar template IDs configurados com os templates que existem na database
 3. Se algum template foi removido/renomeado → avisar e sugerir atualizar a tabela
 4. Se há templates novos na database que não estão mapeados → informar
+5. **Verificar campos adicionais** (se a tabela "Campos adicionais" existir no CLAUDE.md):
+   - Comparar cada campo listado com o schema atual da database
+   - Se algum campo foi removido/renomeado na database → avisar: "Campo '{nome}' não encontrado na database. Atualizar a tabela 'Campos adicionais' em `## Integracao Notion (specs)`."
+   - Se campo do tipo `select` e as opções mudaram → informar as novas opções e perguntar se quer atualizar a coluna "Opcoes" no CLAUDE.md
 
 ### Cenário C — Não usa Notion
 

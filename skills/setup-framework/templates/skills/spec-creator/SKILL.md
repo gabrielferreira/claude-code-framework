@@ -3,7 +3,7 @@ name: spec
 description: Cria uma nova spec a partir do template, atualiza SPECS_INDEX e backlog
 user_invocable: true
 ---
-<!-- framework-tag: v2.18.0 framework-file: skills/spec-creator/SKILL.md -->
+<!-- framework-tag: v2.19.0 framework-file: skills/spec-creator/SKILL.md -->
 
 # /spec — Criar nova spec
 
@@ -13,6 +13,8 @@ Cria uma nova spec a partir do TEMPLATE.md, registra no SPECS_INDEX.md e no back
 
 ```
 /spec {ID} {Título}
+/spec --from {url-ou-key}
+/spec {ID} {Título} --from {url-ou-key}
 ```
 
 Exemplos:
@@ -21,6 +23,8 @@ Exemplos:
 - `/spec SEC2 Rate limiting por IP`
 - `/spec AUTH3 Autenticação com SSO --from PROJ-456` (preenche a partir de um card do Jira)
 - `/spec FEAT5 Dashboard --from https://notion.so/page/abc123` (preenche a partir de pagina do Notion)
+- `/spec --from PROJ-456` (ID e Título extraídos automaticamente do card)
+- `/spec --from https://empresa.atlassian.net/browse/PROJ-456`
 
 ## Instruções
 
@@ -64,6 +68,11 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - **Multiplas specs por fonte e permitido e encorajado** para cards grandes (ex: epic do Jira → N specs no framework)
 
 6. **Informar ao usuario:** o que foi extraido e o que precisa de input manual.
+
+7. **Se ID ou Título não foram fornecidos na linha de comando:** usar os dados extraídos da fonte:
+   - **ID ausente:** sugerir o issue key da fonte como ID (ex: `PROJ-123`). Confirmar com o usuário — ele pode aceitar ou digitar outro.
+   - **Título ausente:** usar o título extraído da fonte como default. Confirmar com o usuário.
+   Isso permite `/spec --from {url}` sem informar ID nem título manualmente.
 
 ---
 
@@ -134,6 +143,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 1. **Ler configuração do CLAUDE.md:**
    - `data_source_id` — ID da collection no Notion
    - Tabela de templates por complexidade (template IDs + Design Doc IDs)
+   - Tabela **"Campos adicionais"** (se existir) — lista de campos custom com regra de preenchimento (`Perguntar ao usuario`, `auto: url-from`, `auto: projeto`, `deixar vazio`)
 
 2. **Classificar complexidade:**
    - **Pequeno** (≤3 arquivos, <30min): **criar pagina** com template Pequeno (NAO pular — no Notion todas as complexidades criam pagina)
@@ -146,8 +156,13 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 3. **Coletar informações para properties** (perguntar ao usuário):
    - Título da spec
    - Domínio, Tipo, Severidade, Fase, Camadas, Impacto
-   - Estimativa (opcional)
+   - Estimativa — sempre perguntar; aceitar resposta vazia para deixar em branco
    - Projeto (nome do repositório atual)
+   - **Campos adicionais** — para cada campo na tabela "Campos adicionais" do CLAUDE.md (se existir):
+     - `Perguntar ao usuario`: perguntar o valor ao usuário. Se o campo for select, apresentar as opções listadas na coluna "Opcoes" da tabela. Campo obrigatório: bloquear criação até ser preenchido.
+     - `auto: url-from`: preencher automaticamente com a URL/key do `--from` (se disponível; senão omitir)
+     - `auto: projeto`: preencher com o nome do repositório atual
+     - `deixar vazio`: não incluir nas properties
 
 4. **Coletar conteúdo da spec** (OBRIGATÓRIO — não criar página vazia):
    Antes de criar a página, coletar o conteúdo que vai no body. Se `--from` foi usado, usar dados extraídos. Caso contrário, perguntar ao usuário ou inferir da conversa:
@@ -174,17 +189,20 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
        "Fase": "{fase}",
        "Camadas": "{camadas como JSON array}",
        "Impacto": "{impacto}",
-       "Estimativa": "{estimativa}",
+       "Estimativa": "{estimativa, se coletado}",
        "Domínio": "{domínio}",
        "Projeto": "{nome do projeto}",
        "Spec detail": "{sem spec|light|completa}",
-       "Autor": "{nome do usuario que solicitou}"
+       "Autor": "{nome do usuario que solicitou}",
+       // + campos adicionais coletados no Passo 3 (incluir apenas os que têm valor):
+       "{Campo adicional 1}": "{valor coletado}"
      },
      content: "{conteúdo coletado no passo 4, formatado em markdown}"
    }]
    ```
    Se o template do Notion já tem seções (H2/H3), o content preenche dentro dessas seções.
    Se não tem template, usar a estrutura do `TEMPLATE.md` como referência para o body.
+   **`template_id` é best-effort:** se o MCP retornar erro indicando que o campo não é suportado, reenviar a chamada sem `template_id` — o `content` sempre garante que o body está preenchido.
 
    **Atualizar "Spec detail"** conforme o que foi preenchido:
    - `sem spec` — só properties, sem body (NÃO PERMITIDO — sempre preencher algo)
