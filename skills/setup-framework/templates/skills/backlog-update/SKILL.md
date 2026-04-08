@@ -3,7 +3,7 @@ name: backlog-update
 description: Atualiza o backlog — adiciona, conclui ou edita itens seguindo o padrão do projeto
 user_invocable: true
 ---
-<!-- framework-tag: v2.19.1 framework-file: skills/backlog-update/SKILL.md -->
+<!-- framework-tag: v2.20.0 framework-file: skills/backlog-update/SKILL.md -->
 
 # /backlog-update — Atualizar backlog
 
