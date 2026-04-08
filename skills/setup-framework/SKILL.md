@@ -1308,7 +1308,7 @@ Os SKILL.md de `/spec` e `/backlog-update` ja suportam Notion nativamente — ba
    - Se nao: pular e registrar no relatorio
 3. product-review: so instalar se PRD foi ativado no Bloco 2b
 
-Todos sao `overwrite` — nao tem conteudo customizado do projeto. Cada agent define `model:` no frontmatter — o Claude Code usa esse modelo automaticamente. Projetos podem ajustar editando o frontmatter.
+Todos sao `structural` — agents podem ter conteudo customizado pelo projeto (`{Adaptar:}` preenchidos pelo setup, `model:` editado pelo projeto). O update preserva conteudo customizado e adiciona secoes novas do framework.
 
 ---
 
@@ -1484,11 +1484,11 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 |---|---|---|---|
 | `CLAUDE.md` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `SPECS_INDEX.md` | 🔴 critico | 🔴 critico (ponte local→Notion) | 🔴 critico |
-| `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ nao deve existir | ⚪ nao deve existir |
-| `.claude/specs/backlog.md` | 🔴 critico | ⚪ nao deve existir | ⚪ nao deve existir |
+| `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
+| `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
 | `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `.claude/specs/STATE.md` | 🟠 alto | 🟠 alto | 🟠 alto |
-| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio | ⚪ nao deve existir | ⚪ nao deve existir |
+| `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
 | `PROJECT_CONTEXT.md` | 🟡 medio |
 | `scripts/reports.sh` | 🟡 medio |
 | `scripts/backlog-report.cjs` | 🟡 medio |
@@ -1542,6 +1542,8 @@ Verificar presenca de cada H2 esperada:
 | Entrega via Pull Request | 🟠 alto | GIT_CONVENTIONS |
 | Contexto de negocio | ⚪ info | — |
 
+> O setup preserva secoes customizadas do CLAUDE.md existente. Se o CLAUDE.md ja existe, aplica como manual (diff + merge seletivo).
+
 #### Categoria 5 — Integridade de conteudo
 
 1. **`{placeholders}` nao preenchidos** no CLAUDE.md — contar e listar os que ainda tem `{Adaptar:` ou `{placeholder}`. 🟡 cada
@@ -1549,6 +1551,7 @@ Verificar presenca de cada H2 esperada:
 3. **Scripts sem permissao de execucao** (`verify.sh`, `reports.sh`). 🟡 cada
 4. **SPECS_INDEX.md vazio** (sem nenhuma spec registrada). ⚪ info (normal pos-setup)
 5. **Secao "Agents" no CLAUDE.md lista agent que nao existe** em `.claude/agents/`. 🟠 cada
+6. **`.gitignore` sem entradas do framework** — verificar se `.claude/worktrees/` e `.claude/.update-backup/` estao no `.gitignore`. 🟠 se `.claude/worktrees/` falta (worktrees podem ser committed acidentalmente), 🟡 se `.claude/.update-backup/` falta. Se entradas faltam: sugerir adicionar e pedir confirmacao ao usuario.
 
 #### Categoria 6 — Relevancia de conteudo
 
@@ -1754,6 +1757,30 @@ Quer resolver agora item por item? [Sim/Pular para depois]
 
 Se "Sim": percorrer cada item 🟠 e 🟡, perguntar ao usuario com as opcoes descritas acima.
 Se "Pular": registrar como pendencias manuais no SETUP_REPORT.md.
+
+#### Categoria 7 — Coerencia de customizacao
+
+Verificar que remocoes ou customizacoes feitas pelo projeto nao deixam referencias orfas:
+
+##### 7.1 Se CLAUDE.md nao tem secao "TDD obrigatorio"
+
+Verificar que skills `spec-driven`, `definition-of-done` e `execution-plan` nao exigem TDD incondicionalmente. Se exigem, avisar: "Projeto nao usa TDD, mas skills ainda referenciam TDD. Considerar ajustar as skills."
+
+##### 7.2 Se CLAUDE.md nao tem secao "Worktrees e subagents" ou "Execucao por agents"
+
+Verificar que skills `execution-plan` e `spec-driven` nao exigem delegacao a sub-agents incondicionalmente. Se exigem, avisar: "Projeto nao usa sub-agents, mas skills ainda referenciam delegacao. Confirmar se execution-plan deve ser seguido em modo sequencial."
+
+##### 7.3 Para cada agent listado na tabela "Agents" do CLAUDE.md
+
+Verificar que o arquivo `.claude/agents/{nome}.md` existe. Se nao existe, avisar: "Agent {nome} listado no CLAUDE.md mas arquivo nao encontrado."
+
+##### 7.4 Para cada skill listada na tabela "Skills" do CLAUDE.md
+
+Verificar que o path referenciado existe. Se nao existe, avisar: "Skill {path} listada no CLAUDE.md mas arquivo nao encontrado."
+
+##### 7.5 Skills que referenciam agents removidos
+
+Verificar que definition-of-done nao referencia agents que o projeto nao possui (ex: `security-audit` removido mas DoD ainda menciona).
 
 #### Formato do output no SETUP_REPORT.md
 

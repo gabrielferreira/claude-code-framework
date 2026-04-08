@@ -176,7 +176,6 @@ Agrupar por ação necessária:
 Estes arquivos são genéricos e serão substituídos diretamente:
 - .claude/agents/security-audit.md (modificado)
 - .claude/agents/code-review.md (modificado)
-- .claude/specs/TEMPLATE.md (modificado)
 
 ### 📝 Atualização estrutural (structural)
 Estes arquivos têm seções novas ou removidas. Conteúdo customizado será preservado:
@@ -356,6 +355,22 @@ Apos aplicar o merge structural em cada arquivo, executar esta validacao ANTES d
 3. **Para cada secao nova (nao existia no backup):**
    - Verificar se tem placeholders — avisar que precisa customizar
 4. **Registrar no relatorio:** quais secoes foram preservadas, quais foram adicionadas, quais falharam
+
+### 3.2b Aplicar content patches (mudancas intra-secao)
+
+Apos o merge structural, verificar se o migration desta versao contem **content patches** — mudancas de conteudo dentro de secoes existentes que o merge structural nao aplica automaticamente.
+
+1. **Ler o migration** (`migrations/v{ANTERIOR}-to-v{NOVA}.md`) e localizar a secao "Content patches" (se existir)
+2. **Para cada content patch:**
+   - Identificar o arquivo e secao afetada
+   - Verificar se o arquivo esta no projeto
+   - Mostrar ao usuario: texto antigo → texto novo + motivo da mudanca
+   - Perguntar: "Aplicar esta mudanca? [S/n/ver diff]"
+   - Se sim: aplicar a substituicao no arquivo do projeto
+   - Se nao: registrar no relatorio como "patch nao aplicado — revisar manualmente"
+3. **Se o migration nao tem content patches:** pular esta fase
+
+> **Por que content patches existem:** o merge structural preserva conteudo customizado — isso e correto. Mas quando o framework muda uma regra, tabela ou instrucao DENTRO de uma secao existente (ex: reescreve a tabela de classificacao, torna TDD condicional), essa mudanca precisa ser surfaced manualmente. Content patches sao o mecanismo para isso.
 
 ### 3.3 Aplicar manual
 
@@ -608,7 +623,7 @@ Salvar em `.claude/UPDATE_REPORT.md` (append, não overwrite):
 ### Aplicados
 | Arquivo | Estratégia | Ação |
 |---|---|---|
-| .claude/agents/security-audit.md | overwrite | Atualizado |
+| .claude/agents/security-audit.md | structural | Atualizado (customização preservada) |
 | .claude/skills/definition-of-done/README.md | structural | 1 seção nova, 3 referências atualizadas |
 | .claude/agents/component-audit.md | new | Instalado |
 
@@ -968,6 +983,30 @@ Quer resolver agora item por item? [Sim/Pular para depois]
 
 Se "Sim": percorrer cada item 🟠 e 🟡, perguntar ao usuario com as opcoes descritas acima.
 Se "Pular": registrar como pendencias manuais no UPDATE_REPORT.md.
+
+### Categoria 7 — Coerencia de customizacao
+
+Verificar que remocoes ou customizacoes feitas pelo projeto nao deixam referencias orfas:
+
+#### 7.1 Se CLAUDE.md nao tem secao "TDD obrigatorio"
+
+Verificar que skills `spec-driven`, `definition-of-done` e `execution-plan` nao exigem TDD incondicionalmente. Se exigem, avisar: "Projeto nao usa TDD, mas skills ainda referenciam TDD. Considerar ajustar as skills."
+
+#### 7.2 Se CLAUDE.md nao tem secao "Worktrees e subagents" ou "Execucao por agents"
+
+Verificar que skills `execution-plan` e `spec-driven` nao exigem delegacao a sub-agents incondicionalmente. Se exigem, avisar: "Projeto nao usa sub-agents, mas skills ainda referenciam delegacao. Confirmar se execution-plan deve ser seguido em modo sequencial."
+
+#### 7.3 Para cada agent listado na tabela "Agents" do CLAUDE.md
+
+Verificar que o arquivo `.claude/agents/{nome}.md` existe. Se nao existe, avisar: "Agent {nome} listado no CLAUDE.md mas arquivo nao encontrado."
+
+#### 7.4 Para cada skill listada na tabela "Skills" do CLAUDE.md
+
+Verificar que o path referenciado existe. Se nao existe, avisar: "Skill {path} listada no CLAUDE.md mas arquivo nao encontrado."
+
+#### 7.5 Skills que referenciam agents removidos
+
+Verificar que definition-of-done nao referencia agents que o projeto nao possui (ex: `security-audit` removido mas DoD ainda menciona).
 
 ### Formato do output no UPDATE_REPORT.md
 

@@ -66,7 +66,7 @@ Wizard interativo que implanta o framework num repositório existente.
 │  │  • Configurar Notion (se MCP disponível)                      │
 │  ▼                                                               │
 │  Fase 3 ─ Geração de arquivos                                    │
-│  │  • Copiar agents (overwrite)                                  │
+│  │  • Copiar agents (structural — preserva customização)          │
 │  │  • Copiar skills com {placeholders} preenchidos               │
 │  │  • Gerar CLAUDE.md a partir do template                       │
 │  │  • Criar specs/, docs/, scripts/                              │
@@ -228,7 +228,7 @@ Atualiza o framework já instalado quando sai versão nova.
 │  │  • Classificar cada arquivo pela estratégia do MANIFEST:      │
 │  │                                                               │
 │  │    ┌───────────┬────────────────────────────────────┐         │
-│  │    │ overwrite │ Substitui direto (agents, specs)   │         │
+│  │    │ overwrite │ Substitui direto (plugin, migrat.)  │         │
 │  │    │ structural│ Preserva conteúdo, add/rm seções   │         │
 │  │    │ manual    │ Mostra diff, nunca aplica sozinho   │         │
 │  │    │ skip      │ Nunca toca (backlog, STATE, specs)  │         │
@@ -321,8 +321,8 @@ Como cada tipo de arquivo é tratado no update:
   Framework Source                          Projeto
   ─────────────────                         ────────────────────
 
-  agents/security-audit.md  ──overwrite──▶  .claude/agents/security-audit.md
-  (sem customização)                        (substituído inteiro)
+  agents/security-audit.md  ──structural─▶  .claude/agents/security-audit.md
+  (preserva model: e {Adaptar:})            (seções novas adicionadas)
 
   skills/testing/README.md  ──structural─▶  .claude/skills/testing/README.md
   (seções novas/removidas)                  (conteúdo customizado preservado)

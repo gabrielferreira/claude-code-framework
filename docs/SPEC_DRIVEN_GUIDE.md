@@ -166,10 +166,12 @@ Os templates prontos para copiar estão organizados por tipo de setup. Use A se 
 
     | Tamanho | Critério | O que criar | Fluxo |
     |---|---|---|---|
-    | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog | Backlog → implementa → testa → commit |
-    | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → TDD → commit |
-    | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → tasks → TDD → commit |
-    | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | Fluxo RPI → spec → design → tasks → sub-agents → commit |
+    | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
+    | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
+    | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → execution-plan → implementa → commit |
+    | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | Fluxo RPI → spec → design → execution-plan → implementa → commit |
+
+    > Toda mudança tem spec. A complexidade determina o nível de detalhe, não se a spec existe. Se o projeto usa sub-agents, a implementação de Médio+ é delegada após o execution-plan.
 
     Na dúvida, classificar para cima (Médio vira Grande). Se ao listar tasks aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 

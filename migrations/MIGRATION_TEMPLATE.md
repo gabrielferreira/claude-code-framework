@@ -33,7 +33,7 @@ cp {framework_path}/{source} {project_path}/{dest}
 
 ---
 
-### 📝 Structural (adicionar/remover secoes)
+### 📝 Structural — secoes novas/removidas
 
 > Estes arquivos tem conteudo customizado pelo projeto. Apenas secoes novas/removidas sao listadas.
 
@@ -54,6 +54,29 @@ Adicionar apos a secao `## {secao anterior}`:
 Remover a secao `## {secao obsoleta}` (substituida por {alternativa}).
 
 **Impacto se nao aplicar:** {o que perde}
+
+---
+
+### 🔧 Content patches — mudancas dentro de secoes existentes
+
+> O merge structural preserva conteudo customizado — NAO atualiza conteudo dentro de secoes existentes.
+> Estas mudancas precisam ser aplicadas manualmente (ou aceitas via prompt do `/update-framework`).
+
+#### {numero}. `{path no projeto}` — secao `{nome da secao}`
+
+**Motivo:** {por que essa mudanca foi feita — ex: "tabela de classificacao reescrita para unificar criterios", "TDD tornada condicional para projetos sem testes"}
+
+**Texto antigo** (encontrar e substituir):
+```markdown
+{trecho do texto antigo — suficiente para identificar unicamente}
+```
+
+**Texto novo:**
+```markdown
+{texto novo completo que deve substituir o antigo}
+```
+
+**Impacto se nao aplicar:** {consequencia — ex: "projeto continua com tabela desatualizada", "skills exigem TDD mesmo que o projeto nao use"}
 
 ---
 
@@ -120,6 +143,7 @@ Apos aplicar, verifique:
 
 - [ ] Arquivos overwrite substituidos
 - [ ] Secoes novas adicionadas nos arquivos structural
+- [ ] Content patches aplicados (ou revisados e decididos)
 - [ ] Arquivos manual revisados
 - [ ] Arquivos novos instalados (os relevantes)
 - [ ] Framework-tags atualizados para v{TO}
