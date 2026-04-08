@@ -178,9 +178,22 @@ Antes de começar a implementar, verificar: **quantos itens do backlog estão no
 
 > **Regra:** nunca tratar múltiplos itens do backlog como "partes paralelas de um só trabalho". Cada item tem seu ciclo independente. Exceção: o usuário pedir explicitamente execução paralela.
 
-### Paralelismo dentro de um item
+### Decomposicao e paralelismo dentro de um item (obrigatorio para medio+)
 
-Dentro de um único item, sub-tasks **independentes** (arquivos diferentes, sem overlap) podem rodar em paralelo. Usar a skill **execution-plan** (`.claude/skills/execution-plan/README.md`) para decompor e identificar o que pode ser paralelo.
+Antes de executar qualquer item nao-trivial (>2 arquivos ou >30min), **decompor a tarefa em partes independentes** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`).
+
+Fluxo da sessao principal:
+1. Ler o item/spec
+2. Invocar execution-plan para gerar plano de decomposicao
+3. Identificar partes independentes (sem overlap de arquivos)
+4. Despachar sub-agents para as partes independentes em paralelo
+5. Integrar os resultados e validar
+
+**Regra:** decomposicao e dispatch de sub-agents e o modo padrao de trabalho para itens medios+. Nao implementar tudo sequencialmente quando partes podem rodar em paralelo.
+
+Excecoes:
+- Item trivial (1-2 arquivos, <30min): implementar direto, sem decomposicao
+- O usuario pediu execucao linear explicitamente
 
 ### Regras de delegação
 
@@ -261,6 +274,26 @@ Aplicar a skill **Definition of Done** (`.claude/skills/definition-of-done/READM
 8. **Se mudança é user-facing:** E2E/testes de integração devem cobrir o fluxo. `{comando e2e}` passando.
 9. **Docs atualizados.** Se feature/endpoint/tela/regra de negócio mudou → atualizar docs relevantes (ver skill docs-sync).
 
+## Entrega via Pull Request (obrigatorio)
+
+Sessoes de trabalho NUNCA fazem push direto para `main` (ou branch principal). Toda entrega e via Pull Request.
+
+### Fluxo
+
+1. Trabalhar na branch da feature/fix (ex: `feat/xyz`, `fix/abc`)
+2. Ao concluir: abrir PR seguindo o formato de `docs/GIT_CONVENTIONS.md`
+3. Aguardar review/CI (nao fazer merge do proprio PR, a menos que o time permita explicitamente)
+
+### Formato do PR
+
+{Adaptar: formato do PR conforme as convencoes do projeto. O padrao esta em docs/GIT_CONVENTIONS.md secao "Pull Requests". Se o projeto tem template de PR (.github/pull_request_template.md), seguir o template.}
+
+### Regras absolutas
+
+- **NUNCA `git push` direto para `main`.** Sempre via PR.
+- **NUNCA `git push --force` para `main`.** Sem excecoes.
+- Se o projeto usa branch `develop`, mesma regra: nunca push direto, sempre PR.
+
 ## Estrutura
 
 ```
@@ -321,18 +354,28 @@ Detalhes → `.claude/skills/testing/README.md`
 
 {Adaptar: worktrees conforme a preferencia do time. Remover esta secao se nao quiser usar worktrees.}
 
-<!-- SUGESTÃO: Worktree por sessão
-Cada sessão de trabalho deve rodar numa worktree isolada para não interferir no working directory principal.
-Worktrees ficam em `.claude/worktrees/` (já no .gitignore).
--->
+### Worktree por sessao (recomendado)
 
-<!-- SUGESTÃO: Subagents e isolamento
-Subagents que APENAS LEEM (auditoria, validação, report) NÃO devem usar worktree — rodam no mesmo working directory para ser mais rápido e ver o estado atual do código.
+Cada sessao de trabalho deve rodar numa worktree isolada para nao interferir no working directory principal.
+Worktrees ficam em `.claude/worktrees/` (ja no .gitignore).
 
-Subagents que ESCREVEM de forma exploratória (refactor, spike, prototipagem) DEVEM usar worktree (isolation: "worktree") para não poluir o working directory. Se as mudanças forem boas, o merge traz de volta.
+Ao iniciar sessao em feature/fix:
+- Criar ou reutilizar worktree para a branch (ex: `feat/xyz` → `.claude/worktrees/feat-xyz`)
+- Todo o trabalho da sessao acontece nessa worktree
+- Ao finalizar (PR aberto) → limpar worktree
 
-Regra simples: agent read-only → sem worktree. Agent que edita código → worktree.
--->
+### Subagents e isolamento
+
+Subagents despachados pela sessao seguem estas regras:
+
+| Tipo de subagent | Onde roda | Motivo |
+|---|---|---|
+| **Read-only** (auditoria, validacao, report, explore) | Na worktree da sessao (sem worktree nova) | Ve o codigo em progresso, nao o main. Rapido, sem overhead. |
+| **Write exploratorio** (refactor, spike, prototipagem) | Worktree propria (nova) | Isola mudancas experimentais. Se boas, merge traz de volta. |
+
+**Regra simples:** subagent read-only → roda na worktree da sessao. Subagent que edita codigo de forma exploratoria → worktree nova propria.
+
+> **Importante:** subagents read-only NAO rodam no working directory principal (main). Eles rodam NA WORKTREE DA SESSAO para ver o estado atual do trabalho em andamento.
 
 ## Contexto de negócio
 
