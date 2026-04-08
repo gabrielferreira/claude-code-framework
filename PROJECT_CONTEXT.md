@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.20.0 framework-file: PROJECT_CONTEXT.md -->
+<!-- framework-tag: v2.21.0 framework-file: PROJECT_CONTEXT.md -->
 # {NOME_DO_PROJETO} — Contexto do Projeto
 
 > **Como usar este arquivo**

@@ -7,6 +7,36 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.21.0] — 2026-04-08
+
+### Adicionado
+
+- **Content patches:** mecanismo para surfacar mudanças intra-seção no update (migration template + fase 3.2b no update-framework)
+- **Categoria 7 "Coerência de customização":** auditoria em setup e update verifica referências órfãs quando projeto remove TDD, sub-agents ou agents
+- **Gate obrigatório (Médio+):** spec-driven exige spec aprovada + execution-plan escrito antes de implementar
+- **Próximos passos no spec-creator:** após criar spec, direciona para spec-driven e execution-plan conforme complexidade
+- **Bootstrap checks:** spec-creator e backlog-update criam dirs/arquivos automaticamente se não existem
+- **Seção "Planejamento" no definition-of-done:** checklist verifica existência de execution-plan para Médio+
+
+### Mudado
+
+- **Toda mudança cria spec:** Pequeno cria spec light (contexto + critério mínimo), não só entrada no backlog. Unificado entre modo repo e Notion
+- **MANIFEST: agents, templates de spec e backlog-format agora structural** (antes overwrite). Preserva `{Adaptar:}`, `model:` editado e seções custom do projeto
+- **TDD e sub-agents condicionais:** skills degradam gracefully quando projeto remove seção TDD ou sub-agents do CLAUDE.md
+- **Exceção TDD unificada:** duas exceções claras (Pequeno + bug urgente em produção) em spec-driven e CLAUDE.template
+- **Emojis de complexidade diferenciados:** ⚪ Pequeno, 🔵 Médio, 🟣 Grande, ⬛ Complexo (não conflitam mais com severidade 🔴🟠🟡⚪)
+- **Severidade padronizada cross-agents:** performance-audit usa Crítico/Alto/Médio/Info (antes P1/P2/P3)
+- **backlog-format.md:** corrigido para modelo de arquivo único (antes descrevia 2 arquivos)
+- **"Antes de commitar" reduzido:** delega detalhes ao Definition of Done, sem duplicação
+- **verify.sh consolidado:** menção única em Regras de operação, demais seções referenciam
+
+### Corrigido
+
+- Tabela de classificação de complexidade existia em 6 lugares com divergências — agora spec-driven é fonte canônica
+- SPEC_DRIVEN_GUIDE.md não incluía execution-plan no fluxo Médio — sincronizado
+- Auditoria setup vs update violava regra 11 (wording Notion, check .gitignore, numeração Cat.6) — sincronizado
+- Contradição no spec-creator: SPECS_INDEX.md "se existir" vs obrigatório — unificado
+
 ## [2.20.0] — 2026-04-08
 
 ### Adicionado
