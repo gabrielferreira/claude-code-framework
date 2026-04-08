@@ -7,6 +7,19 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.20.0] — 2026-04-08
+
+### Adicionado
+
+- GitHub Actions CI (`ci.yml`): valida framework-tags, version sync, source-template sync e migration exists em cada push/PR
+- `scripts/check-sync.sh`: verifica que cada arquivo em `templates/` está em sincronia com seu source via `framework-file:` tag (64 pares)
+- Notificação automática no Google Chat ao final do CI com sucesso — release envia resumo do CHANGELOG formatado com emojis; push para main envia versão + commit
+
+### Corrigido
+
+- Sincronização perdida entre `CLAUDE.template.md` e `templates/CLAUDE.md` (divergência desde v2.18.0)
+- Notificação Google Chat disparava em falha; agora só dispara em sucesso total
+
 ## [2.19.1] — 2026-04-08
 
 ### Corrigido
