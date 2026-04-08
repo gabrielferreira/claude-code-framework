@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.17.2 framework-file: specs/DESIGN_TEMPLATE.md -->
+<!-- framework-tag: v2.18.0 framework-file: specs/DESIGN_TEMPLATE.md -->
 # Design — {ID}
 
 > Spec relacionada: `.claude/specs/{id}.md`
