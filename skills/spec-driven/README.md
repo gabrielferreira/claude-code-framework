@@ -174,3 +174,4 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 1. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
 2. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
 3. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
+4. **Abrir PR** — nunca push direto para `main`. Título segue Conventional Commits; descrição inclui link/referência para a spec implementada.
