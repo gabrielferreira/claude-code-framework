@@ -7,6 +7,24 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.18.0] — 2026-04-08
+
+### Adicionado
+
+- Secao "Worktrees e subagents" ativada com regras concretas (worktree por sessao, isolamento de subagents read-only vs write)
+- Secao "Entrega via Pull Request" obrigatoria no CLAUDE.template.md (nunca push direto para main)
+- Subsecao "Regra de entrega" em GIT_CONVENTIONS.md
+- Decomposicao e paralelismo agora obrigatorios para itens medio+ (antes era opcional)
+- Passo 3.1b no setup: .gitignore para artefatos do framework (.claude/worktrees/, .claude/plans/, etc.)
+- Pergunta sobre formato de PR no Bloco 5 do setup
+- Check de .gitignore na Categoria 5 do update (auditoria de integridade)
+- marketplace.json para distribuicao no plugin marketplace
+
+### Corrigido
+
+- marketplace.json adicionado ao MANIFEST.md (faltava entrada)
+- Worktrees e subagents promovido de info para medio nas tabelas de auditoria (setup + update)
+
 ## [2.17.2] — 2026-04-07
 
 ### Corrigido

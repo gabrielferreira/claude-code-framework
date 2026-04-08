@@ -154,6 +154,7 @@ Manifesto do plugin para instalação via `claude plugin`.
 | Path no projeto | Template source | Estratégia |
 |---|---|---|
 | `.claude-plugin/plugin.json` | `.claude-plugin/plugin.json` | overwrite |
+| `.claude-plugin/marketplace.json` | `.claude-plugin/marketplace.json` | overwrite |
 
 ### Skills de gestao do framework (NAO copiadas para o projeto)
 
