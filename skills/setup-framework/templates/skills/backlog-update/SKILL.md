@@ -132,16 +132,18 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, o backlog �
 #### Ação: `done`
 
 1. **Buscar a spec no Notion** — usar `notion-search` ou buscar por título/ID na database
-2. **Atualizar propriedades** via `notion-update-page`:
+2. **Resolver identidade do responsável** — chamar `notion-get-users` com `user_id: "self"` para obter o usuário da sessão atual
+3. **Atualizar propriedades** via `notion-update-page`:
    ```
    command: "update_properties"
    properties: {
      "Status": "concluída",
      "date:Concluída em:start": "{data de hoje YYYY-MM-DD}",
-     "date:Concluída em:is_datetime": 0
+     "date:Concluída em:is_datetime": 0,
+     "Responsavel": "{user_id obtido no passo 2}"
    }
    ```
-3. Se existir SPECS_INDEX.md local, atualizar status lá também
+4. Se existir SPECS_INDEX.md local, atualizar status lá também
 
 #### Ação: `update`
 
@@ -161,5 +163,5 @@ Se existir `scripts/backlog-report.cjs`, regenerar o relatório HTML local.
 - **Nunca** deixar item em Pendentes e Concluídos ao mesmo tempo
 - Seguir classificações do CLAUDE.md seção "Classificações do backlog"
 - **Modo repo:** ao concluir item com spec, sempre mover a spec e atualizar SPECS_INDEX
-- **Modo Notion:** atualizar Status e Concluída em direto na página do Notion
+- **Modo Notion:** ao concluir (`done`), atualizar Status, Concluída em **e Responsavel** (via `notion-get-users self`) direto na página do Notion
 - **Sempre** regenerar `docs/backlog-report.html` ao final (se script existir)
