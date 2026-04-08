@@ -70,6 +70,13 @@ jobs:
           RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           VERSION=$(cat VERSION)
 
+          # Push to main from a release commit — tag push will notify, skip here
+          COMMIT_MSG=$(git log -1 --format="%s")
+          if [[ "$REF" == refs/heads/* && "$COMMIT_MSG" == release:* ]]; then
+            echo "Release commit on main — skipping, tag push will notify"
+            exit 0
+          fi
+
           if [[ "$REF" == refs/tags/v* ]]; then
             TAG="${REF#refs/tags/}"
             # Extract and format changelog entry for this version
