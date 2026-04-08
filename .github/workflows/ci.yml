@@ -62,62 +62,38 @@ jobs:
           echo "✅ Migration found: $MIGRATION"
 
       - name: Notify Google Chat
-        if: always() && github.event_name == 'push'
+        if: success() && github.event_name == 'push'
         env:
           WEBHOOK: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
         run: |
           REF="${GITHUB_REF}"
           RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          OVERALL="${{ job.status }}"
-          STATUS_ICON=$([[ "$OVERALL" == "success" ]] && echo "✅" || echo "❌")
-
-          # Collect step results
-          TAGS_STATUS="${{ steps.tags.outcome }}"
-          VERSION_STATUS="${{ steps.version.outcome }}"
-          SYNC_STATUS="${{ steps.sync.outcome }}"
-          MIGRATION_STATUS="${{ steps.migration.outcome }}"
-
-          format_step() {
-            local name="$1" status="$2"
-            case "$status" in
-              success)  echo "✅ $name" ;;
-              failure)  echo "❌ $name" ;;
-              skipped)  echo "⏭️ $name (skipped)" ;;
-              *)        echo "— $name" ;;
-            esac
-          }
-
-          CHECKS="$(format_step "Framework tags" "$TAGS_STATUS")
-          $(format_step "Version sync" "$VERSION_STATUS")
-          $(format_step "Source-template sync" "$SYNC_STATUS")
-          $(format_step "Migration exists" "$MIGRATION_STATUS")"
+          VERSION=$(cat VERSION)
 
           if [[ "$REF" == refs/tags/v* ]]; then
             TAG="${REF#refs/tags/}"
-            VERSION="${TAG#v}"
-            # Extract changelog entry for this version
-            CHANGES=$(awk "/^## \[${VERSION}\]/{found=1; next} found && /^## \[/{exit} found && NF{print}" CHANGELOG.md | head -15)
-            TEXT="${STATUS_ICON} *Release ${TAG} — claude-code-framework*
+            # Extract and format changelog entry for this version
+            CHANGES=$(awk "/^## \[${VERSION}\]/{found=1; next} found && /^## \[/{exit} found && NF{print}" CHANGELOG.md \
+              | sed 's/^### Adicionado$/🆕 *Adicionado*/g' \
+              | sed 's/^### Corrigido$/🔧 *Corrigido*/g' \
+              | sed 's/^### Removido$/🗑️ *Removido*/g' \
+              | sed 's/^- /• /g' \
+              | head -25)
+            TEXT="🚀 *Release ${TAG} — claude-code-framework*
 
-          ${CHECKS}
-
-          *Mudanças:*
           ${CHANGES}
 
           ${RUN_URL}"
           else
             COMMIT_MSG=$(git log -1 --format="%s")
             SHORT_SHA=$(git rev-parse --short HEAD)
-            TEXT="${STATUS_ICON} *claude-code-framework* — CI ${OVERALL}
+            TEXT="✅ *claude-code-framework v${VERSION}* — CI passou
 
-          Commit: \`${SHORT_SHA}\` ${COMMIT_MSG}
-
-          ${CHECKS}
+          \`${SHORT_SHA}\` ${COMMIT_MSG}
 
           ${RUN_URL}"
           fi
 
-          # Escape for JSON
           JSON_TEXT=$(echo "$TEXT" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))")
           curl -s -X POST "$WEBHOOK" \
             -H "Content-Type: application/json" \
