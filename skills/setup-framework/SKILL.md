@@ -704,6 +704,7 @@ Perguntar: "Quer incluir todas as recomendadas ou selecionar?"
    - Healthtech: HIPAA/LGPD, dados de saude criptografados
    - E-commerce: anti-fraude, reconciliacao
    - Geral: OWASP Top 10, LGPD/GDPR
+4. **Pull Request format:** "O projeto tem formato especifico para Pull Requests (ex: `.github/pull_request_template.md`)? Se sim, informar o formato ou path do template. Se nao, o padrao de `docs/GIT_CONVENTIONS.md` sera usado."
 
 ### Bloco 6 — Docs
 
@@ -796,6 +797,26 @@ mkdir -p docs
 # Se PRD opt-in (Bloco 2b):
 mkdir -p .claude/prds/done
 ```
+
+### 3.1b .gitignore para artefatos do framework
+
+Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, adicionar.
+
+**Entradas obrigatorias:**
+
+```
+# Claude Code Framework
+.claude/worktrees/
+.claude/projects/
+.claude/plans/
+.claude/.update-backup/
+```
+
+**Procedimento:**
+1. Se `.gitignore` nao existe → criar com as entradas acima
+2. Se existe → verificar cada entrada; adicionar as faltantes ao final
+3. NUNCA sobrescrever o .gitignore existente — apenas append de entradas faltantes
+4. Informar: "Adicionei {N} entradas ao .gitignore para ignorar artefatos do framework."
 
 ### 3.2 CLAUDE.md
 
@@ -1500,7 +1521,8 @@ Verificar presenca de cada H2 esperada:
 | Antes de commitar | 🟡 medio | definition-of-done |
 | Estrutura | 🟡 medio | — |
 | Padroes | 🟡 medio | — |
-| Worktrees e subagents | ⚪ info | — |
+| Worktrees e subagents | 🟡 medio | — |
+| Entrega via Pull Request | 🟠 alto | GIT_CONVENTIONS |
 | Contexto de negocio | ⚪ info | — |
 
 #### Categoria 5 — Integridade de conteudo

@@ -87,6 +87,10 @@ security/<nome>   ← correções de segurança (tratadas como urgentes)
 
 ## Pull Requests
 
+### Regra de entrega
+
+Toda entrega e via Pull Request. Push direto para `main` (ou branch de integracao) e proibido. Esta regra se aplica a sessoes humanas e a sessoes de IA.
+
 **Título:** segue conventional commits (`feat(auth): implement passwordless login flow`)
 
 **Descrição obrigatória:**

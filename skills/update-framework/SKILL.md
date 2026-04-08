@@ -721,7 +721,8 @@ Verificar presenca de cada H2 esperada:
 | Antes de commitar | 🟡 medio | definition-of-done |
 | Estrutura | 🟡 medio | — |
 | Padroes | 🟡 medio | — |
-| Worktrees e subagents | ⚪ info | — |
+| Worktrees e subagents | 🟡 medio | — |
+| Entrega via Pull Request | 🟠 alto | GIT_CONVENTIONS |
 | Contexto de negocio | ⚪ info | — |
 
 > O update nunca remove secoes customizadas do CLAUDE.md. Apenas adiciona as que faltam.
@@ -733,6 +734,7 @@ Verificar presenca de cada H2 esperada:
 3. **Scripts sem permissao de execucao** (`verify.sh`, `reports.sh`). 🟡 cada
 4. **SPECS_INDEX.md vazio** (sem nenhuma spec registrada). ⚪ info
 5. **Secao "Agents" no CLAUDE.md lista agent que nao existe** em `.claude/agents/`. 🟠 cada
+6. **`.gitignore` sem entradas do framework** — verificar se `.claude/worktrees/` e `.claude/.update-backup/` estao no `.gitignore`. 🟠 se `.claude/worktrees/` falta (worktrees podem ser committed acidentalmente), 🟡 se `.claude/.update-backup/` falta. Se entradas faltam: sugerir adicionar e pedir confirmacao ao usuario.
 
 ### Categoria 6 — Relevancia de conteudo
 
