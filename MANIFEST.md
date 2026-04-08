@@ -14,25 +14,25 @@
 
 ## Arquivos e estratégias
 
-### Agents (overwrite)
+### Agents (structural)
 
-Agents são genéricos — sem customização de projeto.
+Agents podem ter customização de projeto: `{Adaptar:}` preenchidos pelo setup (ex: seo-audit, code-review) e frontmatter `model:` editado pelo projeto. Update preserva conteúdo customizado e adiciona seções novas.
 
 | Path no projeto | Template source | Estratégia |
 |---|---|---|
-| `.claude/agents/security-audit.md` | `agents/security-audit.md` | overwrite |
-| `.claude/agents/spec-validator.md` | `agents/spec-validator.md` | overwrite |
-| `.claude/agents/coverage-check.md` | `agents/coverage-check.md` | overwrite |
-| `.claude/agents/backlog-report.md` | `agents/backlog-report.md` | overwrite |
-| `.claude/agents/code-review.md` | `agents/code-review.md` | overwrite |
-| `.claude/agents/component-audit.md` | `agents/component-audit.md` | overwrite |
-| `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | overwrite |
-| `.claude/agents/product-review.md` | `agents/product-review.md` | overwrite |
-| `.claude/agents/refactor-agent.md` | `agents/refactor-agent.md` | overwrite |
-| `.claude/agents/test-generator.md` | `agents/test-generator.md` | overwrite |
-| `.claude/agents/dx-audit.md` | `agents/dx-audit.md` | overwrite |
-| `.claude/agents/performance-audit.md` | `agents/performance-audit.md` | overwrite |
-| `.claude/agents/infra-audit.md` | `agents/infra-audit.md` | overwrite |
+| `.claude/agents/security-audit.md` | `agents/security-audit.md` | structural |
+| `.claude/agents/spec-validator.md` | `agents/spec-validator.md` | structural |
+| `.claude/agents/coverage-check.md` | `agents/coverage-check.md` | structural |
+| `.claude/agents/backlog-report.md` | `agents/backlog-report.md` | structural |
+| `.claude/agents/code-review.md` | `agents/code-review.md` | structural (`{Adaptar:}` para constantes de negócio) |
+| `.claude/agents/component-audit.md` | `agents/component-audit.md` | structural |
+| `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | structural (`{Adaptar:}` para páginas públicas) |
+| `.claude/agents/product-review.md` | `agents/product-review.md` | structural |
+| `.claude/agents/refactor-agent.md` | `agents/refactor-agent.md` | structural |
+| `.claude/agents/test-generator.md` | `agents/test-generator.md` | structural |
+| `.claude/agents/dx-audit.md` | `agents/dx-audit.md` | structural |
+| `.claude/agents/performance-audit.md` | `agents/performance-audit.md` | structural |
+| `.claude/agents/infra-audit.md` | `agents/infra-audit.md` | structural |
 
 ### Skills (structural)
 
@@ -134,9 +134,9 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `SPECS_INDEX.md` | skip |
 | `.claude/specs/backlog.md` | skip |
 | `.claude/specs/STATE.md` | skip |
-| `.claude/specs/TEMPLATE.md` | overwrite |
-| `.claude/specs/DESIGN_TEMPLATE.md` | overwrite |
-| `.claude/specs/backlog-format.md` | overwrite |
+| `.claude/specs/TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |
+| `.claude/specs/DESIGN_TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |
+| `.claude/specs/backlog-format.md` | structural (projeto customiza Fases, Camadas e pode adicionar colunas) |
 | `.claude/specs/*.md` (specs do projeto) | skip |
 | `.claude/specs/done/*.md` | skip |
 | `.claude/prds/PRD_TEMPLATE.md` | structural |

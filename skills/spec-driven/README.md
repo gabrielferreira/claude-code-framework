@@ -16,14 +16,23 @@
 
 | Tamanho | Critério | O que criar | Fluxo |
 |---|---|---|---|
-| **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog | Backlog → implementa → testa → commit |
-| **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → **sub-agents** → integra → commit |
-| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → execution-plan → **sub-agents** → integra → commit |
-| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → execution-plan → **sub-agents** → integra → commit |
+| **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
+| **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
+| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → execution-plan → implementa → commit |
+| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → execution-plan → implementa → commit |
 
-> **Regra de delegação (Médio+):** após o execution-plan estar pronto na sessão principal, **não implementar no mesmo contexto** — delegar cada parte para sub-agents. Sessão principal planeja, orquestra e integra. Sub-agents executam.
+> **Toda mudança tem spec.** A complexidade determina o nível de detalhe, não se a spec existe. Pequeno = spec light (2 frases de contexto + critério de aceitação). Médio+ = spec completa conforme template.
+
+> **Regra de delegação (Médio+, se o projeto usa sub-agents):** após o execution-plan estar pronto na sessão principal, **não implementar no mesmo contexto** — delegar cada parte para sub-agents. Sessão principal planeja, orquestra e integra. Sub-agents executam. **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan.
 
    Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
+
+> **Gate obrigatório (Médio+):** Antes de escrever a primeira linha de código, deve existir:
+> 1. Spec com status `aprovada` (não `rascunho`)
+> 2. Execution plan escrito (skill execution-plan) — plano mental não conta
+> 3. Se o projeto usa sub-agents: decomposição em partes com briefing
+>
+> Se qualquer item estiver faltando → **PARAR e completar.** Implementar sem plan é violação do fluxo.
 
 6. **Ao criar spec nova:** adicionar entrada no `SPECS_INDEX.md` no domínio correto.
 7. **Dependências entre specs:** Consultar a seção "Dependências entre specs" no final do `SPECS_INDEX.md`. Limite: máximo 2 specs dependentes por tarefa.
@@ -42,6 +51,8 @@ Se a spec assume X mas o código mostra Y → PARAR e reportar a divergência. A
 
 ## TDD obrigatório — testes ANTES de implementar
 
+{Se o projeto usa TDD (ver seção "⛔ TDD obrigatório" no CLAUDE.md). Se a seção foi removida, seguir a política de testes do projeto.}
+
 **Esta é a regra mais importante do projeto.** Toda implementação segue TDD rigoroso:
 
 1. **Ler a spec** — critérios de aceitação definem os cenários de teste.
@@ -51,7 +62,9 @@ Se a spec assume X mas o código mostra Y → PARAR e reportar a divergência. A
 
 **Nunca implementar código e depois criar testes para cobrir.** Isso é test-after, não TDD. A ordem importa: testes que falham ANTES da implementação garantem que os testes realmente testam algo.
 
-**Exceção para Pequeno:** mudanças classificadas como Pequeno (≤3 arquivos, <30min, sem regra de negócio) não precisam de spec formal, mas o teste de regressão é criado ANTES do fix e a entrada no backlog é obrigatória.
+**Exceções:**
+- **Pequeno (≤3 arquivos, <30min, sem regra de negócio):** teste de regressão ANTES do fix, mas spec light é suficiente (sem spec formal completa).
+- **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 
 ## Fluxo RPI — Research, Plan, Implement (Médio+)
 
@@ -69,14 +82,15 @@ Para features classificadas como **Grande** ou **Complexo**, separar o trabalho 
 
 **Implement (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md
-- Delegar cada parte do execution-plan para **sub-agents** — não implementar no contexto principal:
+- **Se o projeto usa sub-agents:** delegar cada parte do execution-plan para sub-agents — não implementar no contexto principal:
   - Cada sub-agent recebe: a task + spec + design doc + STATE.md + briefing completo
   - Sub-agent NÃO pesquisa codebase de novo — já tem tudo no breakdown
   - Manter main context lean: orquestrar e integrar, não implementar
   - Após sub-agents concluírem: integrar, rodar testes, verificar conflitos
-- Tasks `[P]` (independentes) podem ser delegadas a sub-agents **em paralelo**
+  - Tasks `[P]` (independentes) podem ser delegadas a sub-agents **em paralelo**
+- **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan. Manter foco em uma parte por vez.
 
-**Princípio:** contexto de implementação recebe APENAS o necessário para executar. Quem planejou não implementa — delega.
+**Princípio:** contexto de implementação recebe APENAS o necessário para executar. Se usa sub-agents: quem planejou não implementa — delega. Se não usa: seguir o plano parte a parte.
 
 ### Context budget
 
@@ -152,12 +166,13 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 
 **Camadas:** {Adaptar: tags do projeto. Ex: FE BE DB IA DOC INF MOB}
 
-**Complexidade:**
+**Complexidade:** (mesma escala da tabela "Classificar complexidade" acima)
 | Emoji | Nível | Referência |
 |---|---|---|
-| 🟢 | Baixa | 1-2 arquivos, mudança pontual, <30 min |
-| 🟡 | Média | 3-5 arquivos, lógica nova moderada, 1-3h |
-| 🔴 | Alta | 6+ arquivos ou lógica complexa, >3h |
+| ⚪ | Pequeno | ≤3 arquivos, <30min, sem regra de negócio |
+| 🔵 | Médio | <10 tasks, escopo claro, 1-3h |
+| 🟣 | Grande | Multi-componente, >10 tasks, >3h |
+| ⬛ | Complexo | Ambiguidade, domínio novo, >20 tasks |
 
 **Estimativa:** `15min` | `30min` | `1h` | `2h` | `4h` | `1d` | `2d` | `1sem`
 

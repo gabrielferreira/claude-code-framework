@@ -20,7 +20,7 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 
 > Estas regras se aplicam a TODA interacao. Nao pular nenhuma, mesmo que o pedido pareca simples.
 
-1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar specs existentes (via `SPECS_INDEX.md` ou Notion, conforme configurado) e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec e a mudanca nao e trivial (>3 arquivos ou >30min) → criar spec antes de codar.
+1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar specs existentes (via `SPECS_INDEX.md` ou Notion, conforme configurado) e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec → **PARAR e criar spec** antes de qualquer codigo. Toda mudanca tem spec — a complexidade determina o nivel de detalhe (spec light para Pequeno, spec completa para Medio+).
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
 4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
@@ -80,7 +80,9 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 **Ciclo:** red (teste falha) → green (implementação mínima) → refactor
 
 - **Nunca** implementar código e depois criar testes. Testes que falham ANTES da implementação garantem que testam comportamento real, não a implementação que acabou de ser escrita.
-- **Exceção única:** bug urgente em produção (<30min) — nesse caso, implementar fix + criar teste de regressão imediatamente após.
+- **Exceções:**
+  - **Pequeno (≤3 arquivos, <30min, sem regra de negócio):** teste de regressão ANTES do fix, mas spec light é suficiente.
+  - **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 - **Na prática:** ler critérios de aceitação da spec → escrever testes que validam cada critério → rodar e ver falhar → implementar o mínimo para passar → refatorar se necessário.
 
 {Adaptar: se o projeto nao usa TDD estrito, ajustar para "testes obrigatorios" sem a exigencia de ordem. Remover esta secao se testes nao se aplicam.}
@@ -103,7 +105,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 1. **Testes passando = pré-requisito.** Zero falhas antes de qualquer entrega.
 2. **Error handling explícito.** Erros específicos, nunca genéricos.
 3. **Análise de índices.** Query com WHERE/JOIN/ORDER BY em coluna não-PK -> avaliar índice.
-4. **`verify.sh` é obrigatório.** Deve passar antes de qualquer commit.
+4. **`verify.sh` é obrigatório.** (ver regra 4 em "Regras de operação")
 {Adaptar: regras da stack — asyncHandler, transactions, validacao de params, etc.}
 
 ## Skills — ler ANTES de codificar
@@ -113,7 +115,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | # | Trigger | Skill | Obrigatório? |
 |---|---------|-------|-------------|
 | 1 | Vai implementar qualquer item? | `.claude/skills/spec-driven/README.md` | ⛔ Sempre |
-| 2 | Item médio+ (3+ arquivos, 1h+)? | `.claude/skills/execution-plan/README.md` | ⛔ Sempre |
+| 2 | Item médio+ (3+ arquivos, 1h+)? | `.claude/skills/execution-plan/README.md` — plano escrito obrigatório ANTES de implementar | ⛔ Sempre |
 | 3 | Vai escrever/modificar testes? | `.claude/skills/testing/README.md` | ⛔ Sempre |
 | 4 | Vai criar/modificar rota, endpoint ou service? | `.claude/skills/security-review/README.md` | ⛔ Sempre |
 | 5 | Vai finalizar entrega? | `.claude/skills/definition-of-done/README.md` | ⛔ Sempre |
@@ -178,21 +180,23 @@ Antes de começar a implementar, verificar: **quantos itens do backlog estão no
 
 > **Regra:** nunca tratar múltiplos itens do backlog como "partes paralelas de um só trabalho". Cada item tem seu ciclo independente. Exceção: o usuário pedir explicitamente execução paralela.
 
-### Decomposicao e paralelismo dentro de um item (obrigatorio para medio+)
+### Decomposicao e planejamento dentro de um item (obrigatorio para medio+)
 
-Antes de executar qualquer item nao-trivial (>2 arquivos ou >30min), **decompor a tarefa em partes independentes** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`).
+Antes de executar qualquer item Medio+ (3+ arquivos ou 1h+), **criar execution-plan escrito** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`). Se nao existe execution-plan escrito, **NAO iniciar implementacao.**
 
 Fluxo da sessao principal:
 1. Ler o item/spec
 2. Invocar execution-plan para gerar plano de decomposicao
 3. Identificar partes independentes (sem overlap de arquivos)
-4. Despachar sub-agents para as partes independentes em paralelo
+4. Implementar seguindo o plano (ver modo de execucao abaixo)
 5. Integrar os resultados e validar
 
-**Regra:** decomposicao e dispatch de sub-agents e o modo padrao de trabalho para itens medios+. Nao implementar tudo sequencialmente quando partes podem rodar em paralelo.
+**Modo de execucao (depende do projeto):**
+- **Com sub-agents:** despachar sub-agents para as partes independentes em paralelo. Nao implementar tudo sequencialmente quando partes podem rodar em paralelo.
+- **Sem sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan, uma parte por vez.
 
 Excecoes:
-- Item trivial (1-2 arquivos, <30min): implementar direto, sem decomposicao
+- Item Pequeno (≤3 arquivos, <30min): implementar direto, sem execution-plan
 - O usuario pediu execucao linear explicitamente
 
 ### Regras de delegação
@@ -262,17 +266,14 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 
 ## Antes de commitar (obrigatório)
 
-Aplicar a skill **Definition of Done** (`.claude/skills/definition-of-done/README.md`). Além do DoD:
+Aplicar a skill **Definition of Done** (`.claude/skills/definition-of-done/README.md`). Gates mínimos:
 
-1. **Testes passando.** `{comando testes}` — zero falhas. Não pular este passo.
-2. **Coverage.** `{comando coverage}` — {X}% statements nos módulos críticos. Teste passando ≠ coverage suficiente.
-3. **verify.sh.** `bash scripts/verify.sh` — zero ❌. Se falhar, corrigir antes de commitar.
-4. **Verificação manual contra spec.** Além dos scripts, confirmar cada critério de aceitação da spec no código — 1 por 1, não de memória.
-5. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
-6. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial — {detalhe}` e criar sub-itens no backlog.
-7. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
-8. **Se mudança é user-facing:** E2E/testes de integração devem cobrir o fluxo. `{comando e2e}` passando.
-9. **Docs atualizados.** Se feature/endpoint/tela/regra de negócio mudou → atualizar docs relevantes (ver skill docs-sync).
+1. **Testes passando** — `{comando testes}` zero falhas
+2. **Coverage** — `{comando coverage}` {X}% nos módulos críticos
+3. **verify.sh** — `bash scripts/verify.sh` zero ❌ (ver regra 4)
+4. **Spec verificada** — cada critério de aceitação confirmado no código, 1 por 1
+
+Detalhes completos (verificação de spec, status parcial, docs, regras novas) → ver skill Definition of Done.
 
 ## Entrega via Pull Request (obrigatorio)
 

@@ -37,6 +37,32 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
 
 ### Modo Repo (backlog local)
 
+**Passo 0 — Bootstrap check:** Se `.claude/specs/backlog.md` não existe, criar com estrutura padrão:
+```markdown
+# Backlog — {NOME_DO_PROJETO}
+
+> Última atualização: {data de hoje}
+
+## Pendentes
+
+| ID | Fase | Item | Sev. | Impacto | Tipo | Camadas | Compl. | Est. | Deps | Origem | Spec |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+
+## Concluídos
+
+| ID | Item | Concluído em |
+|---|---|---|
+
+## Decisões futuras
+
+| ID | Decisão | Gatilho para reavaliar | Recomendação | Ref |
+|---|---|---|---|---|
+
+## Notas
+
+{Nenhuma nota por enquanto.}
+```
+
 #### Ação: `add`
 
 1. Verificar se o ID já existe no backlog — se sim, avisar e perguntar
@@ -67,6 +93,7 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    | {ID} | {descrição resumida} | {data de hoje YYYY-MM-DD} |
    ```
 6. Se existir spec associada:
+   - Se `.claude/specs/done/` não existe, criar antes de mover
    - Mover arquivo de `.claude/specs/` para `.claude/specs/done/`
    - Atualizar status da spec para `concluída`
    - Atualizar path no `SPECS_INDEX.md`

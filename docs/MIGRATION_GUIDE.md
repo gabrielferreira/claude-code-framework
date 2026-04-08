@@ -56,8 +56,8 @@ O `/update-framework` trata cada arquivo conforme sua estrategia no MANIFEST:
 
 | Estrategia | O que acontece | Seus arquivos |
 |---|---|---|
-| **overwrite** | Substituido direto. Sem customizacao. | Agents, templates de spec |
-| **structural** | Secoes novas adicionadas, removidas se obsoletas. Conteudo customizado preservado. | Skills, docs |
+| **overwrite** | Substituido direto. Sem customizacao. | Plugin, migrations |
+| **structural** | Secoes novas adicionadas, removidas se obsoletas. Conteudo customizado preservado. Content patches intra-secao surfaced via migration. | Agents, skills, docs, templates de spec |
 | **manual** | Mostra diff completo. Voce decide o que aplicar. | CLAUDE.md, PROJECT_CONTEXT.md, scripts |
 | **skip** | Nunca tocado. 100% seu. | Specs, backlog, STATE.md |
 

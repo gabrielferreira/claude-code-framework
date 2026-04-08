@@ -13,7 +13,15 @@ O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que p
 
 > O verify.sh cobre: testes passam, console.log, test.skip/only, contagens nos docs, prepared statements, secrets hardcoded, OWASP checks mecânicos, specs indexadas. Se o verify.sh passa, esses itens estão ok — não precisa verificar manualmente.
 
+### Planejamento (inteligência)
+
+- [ ] Spec existe para este item (light para Pequeno, completa para Médio+)
+- [ ] **Se Médio+:** execution-plan foi criado e seguido (plano escrito, não mental)
+- [ ] **Se Médio+ e projeto usa sub-agents:** implementação delegada a sub-agents (sessão principal não implementou direto)
+
 ### Testes — cobertura e qualidade (inteligência)
+
+{Se o projeto usa TDD/testes (ver CLAUDE.md). Pular se testes não se aplicam.}
 
 O verify.sh confirma que testes passam, mas não sabe se os **testes certos** existem. Isso precisa de julgamento:
 
@@ -29,7 +37,7 @@ O verify.sh pega patterns mecânicos (secrets, SQL concat), mas não avalia **de
 - [ ] Endpoints novos têm auth middleware — sem auth = justificativa documentada
 - [ ] Ownership check: ID do recurso vem do JWT/session, não do body (IDOR)
 - [ ] Dados sensíveis removidos das respostas
-- [ ] Se mudança tocou em segurança: consultar agent `security-audit`
+- [ ] Se mudança tocou em segurança e o projeto tem agent `security-audit`: consultá-lo
 
 ### Documentação (inteligência)
 - [ ] `CLAUDE.md` atualizado se houve mudança de regra, convenção ou estrutura
@@ -63,13 +71,13 @@ Tudo do checklist universal, mais:
 Tudo do checklist universal, mais:
 - [ ] Teste reproduz o bug ANTES do fix (TDD reverso)
 - [ ] Root cause documentado no commit message
-- [ ] Se era bug de segurança: audit atualizado, verificar OWASP top 10 (agent `security-audit`)
+- [ ] Se era bug de segurança: audit atualizado, verificar OWASP top 10 (agent `security-audit` se disponível)
 - [ ] Se afetava dados: verificar se há dados corrompidos a corrigir
 
 ### Novo endpoint / rota
 
 Tudo do checklist universal, mais:
-- [ ] Checklist OWASP aplicado (agent `security-audit`, seção por tipo de mudança)
+- [ ] Checklist OWASP aplicado (agent `security-audit` se disponível, ou verificação manual)
 - [ ] Testes de integração cobrem todos os status: 200, 400, 401, 403, 404, 500
 - [ ] Rate limit configurado
 - [ ] Docs de API atualizados
@@ -149,7 +157,7 @@ Tudo do checklist universal, mais:
    - Marcar `- [x]` se confirmado
    - Se NÃO implementado: implementar agora OU criar sub-item no backlog
 4. **Atualizar metadata da spec:**
-   - Status: `concluída` (ou `parcial — itens X, Y pendentes`)
+   - Status: `concluída` (ou `parcial — {detalhe}`, ex: `parcial — RF-001 e RF-003 implementados, RF-002 pendente`)
    - Responsavel: identidade de quem implementou. No modo Notion, usar `notion-get-users` com `user_id: "self"` para property tipo People. No modo repo, tentar `git config user.name`; se disponivel, usar como default e confirmar; senao, perguntar
    - Concluida em: data de hoje
    - No Notion: atualizar as properties "Responsavel" e "Concluida em" via `notion-update-page`

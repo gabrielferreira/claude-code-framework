@@ -546,8 +546,8 @@ cp -r /caminho/do/claude-code-framework/skills/update-framework ~/.claude/skills
 1. **Detecta versao instalada** — le os headers `<!-- framework-tag: vX.Y.Z -->` nos arquivos do projeto
 2. **Compara com framework source** — usa `git diff` entre a tag instalada e a tag atual
 3. **Classifica cada mudanca** pelo [`MANIFEST.md`](../MANIFEST.md):
-   - **overwrite** → substitui direto (agents, templates genericos)
-   - **structural** → preserva customizacoes, adiciona secoes novas (skills, docs)
+   - **overwrite** → substitui direto (plugin.json, migrations)
+   - **structural** → preserva customizacoes, adiciona secoes novas (agents, skills, docs, templates de spec)
    - **manual** → mostra diff, pede confirmacao (CLAUDE.md, scripts)
    - **skip** → nunca toca (specs, backlog, STATE)
 4. **Aplica com backup** — salva versao anterior em `.claude/.update-backup/{tag}/`

@@ -69,17 +69,17 @@ Diretório raiz do projeto + contexto de qual área investigar (backend, fronten
 
 ## Findings
 
-### 🔴 P1 — {título}
+### 🔴 Crítico — {título}
 - **Arquivo:** {path}:{linha}
 - **Problema:** {descrição concisa}
 - **Impacto:** {estimativa — ex: +200ms por request, 3x mais RAM}
 - **Sugestão:** {ação concreta}
 
-### 🟠 P2 — {título}
+### 🟠 Alto — {título}
 ...
 ```
 
-**Severidade:** 🔴 P1 (impacto mensurável em produção) | 🟠 P2 (impacto potencial) | 🟡 P3 (otimização) | ⚪ info
+**Severidade:** 🔴 Crítico (impacto mensurável em produção) | 🟠 Alto (impacto potencial) | 🟡 Médio (otimização) | ⚪ Info
 
 ## Regras
 
@@ -90,6 +90,6 @@ Diretório raiz do projeto + contexto de qual área investigar (backend, fronten
 
 ## Próximos passos
 
-- P1 → criar spec ou item no backlog com prioridade alta
-- P2 → avaliar custo-benefício antes de criar spec
+- Crítico → criar spec ou item no backlog com prioridade alta
+- Alto → avaliar custo-benefício antes de criar spec
 - Use a skill `performance-profiling` para investigação mais profunda

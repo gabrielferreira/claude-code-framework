@@ -42,8 +42,8 @@ Para cada parte:
 - **Arquivos:** quais arquivos afeta (do mapa acima)
 - **Funções/componentes:** o que criar/modificar
 - **Não tocar:** o que NÃO modificar (previne overlap)
-- **Sub-agent?** Sim/Não — se sim, incluir briefing completo
-- **TDD:** quais testes escrever primeiro
+- **Sub-agent?** Sim/Não (se o projeto usa sub-agents) — se sim, incluir briefing completo
+- **Testes:** quais testes escrever (TDD se o projeto adota, senão testes junto com a implementação)
 - **Dependências:** depende de outra parte? Qual?
 - **Critério de "pronto":** como saber que esta parte está completa
 - **Contratos:** se outra parte consome o output, definir interface/formato
@@ -86,7 +86,9 @@ Para cada par de partes que rodam em paralelo, confirmar:
 
 1. **Plano vive na conversa ou no arquivo da spec** — não criar arquivo separado. Se a spec tem seção "Breakdown de tasks", preencher lá.
 2. **Máximo paralelismo com zero sobreposição.** Nunca duas partes editam o mesmo arquivo ao mesmo tempo.
-3. **Plano pronto = delegar implementação.** Após o execution-plan estar concluído na sessão principal, NÃO implementar no mesmo contexto — delegar cada parte para sub-agents. A sessão principal planeja, orquestra e integra; sub-agents executam. Implementar no contexto de planejamento mistura dois papéis e degrada o contexto.
+3. **Plano pronto = implementar conforme o projeto.** Após o execution-plan estar concluído na sessão principal:
+   - **Se o projeto usa sub-agents:** NÃO implementar no mesmo contexto — delegar cada parte para sub-agents. A sessão principal planeja, orquestra e integra; sub-agents executam. Implementar no contexto de planejamento mistura dois papéis e degrada o contexto.
+   - **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do plano, uma parte por vez. Manter foco na parte atual antes de avançar para a próxima.
 4. **Revisitar o plano se surgirem surpresas.** Se durante a implementação o escopo muda (arquivo extra, dependência não prevista) → atualizar o plano antes de continuar.
 5. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes.
 6. **Sessão principal nunca delega decisão.** Sub-agents executam e reportam ambiguidades. Quem decide é a sessão principal.

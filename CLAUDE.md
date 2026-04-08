@@ -147,11 +147,16 @@ Apos o bump e antes do commit de release, gerar o arquivo de migration para esta
 
 3. **Gerar `migrations/v{ANTERIOR}-to-v{NOVA}.md`** usando o template `migrations/MIGRATION_TEMPLATE.md`:
    - Para cada arquivo **overwrite**: listar o path e descrever o que mudou (resumo do diff)
-   - Para cada arquivo **structural**: listar secoes H2/H3 adicionadas ou removidas
+   - Para cada arquivo **structural**: listar secoes H2/H3 adicionadas ou removidas. **Alem disso**, identificar **mudancas de conteudo dentro de secoes existentes** (ex: tabela reescrita, regra adicionada, linguagem alterada). Para cada mudanca intra-secao significativa, incluir um bloco "content patch" com:
+     - Arquivo e secao afetada
+     - Texto antigo (resumo ou trecho)
+     - Texto novo (completo)
+     - Motivo da mudanca
+     > **Importante:** o merge structural do update so adiciona/remove secoes — nao atualiza conteudo dentro de secoes existentes. Mudancas intra-secao precisam ser documentadas no migration para que o usuario aplique manualmente.
    - Para cada arquivo **manual**: incluir o diff relevante para o usuario decidir
    - Para cada arquivo **novo**: descrever o que e, para que serve, e quando e relevante
    - Para cada arquivo **removido**: explicar o motivo e apontar substituto
-   - Agrupar por estrategia, na ordem: overwrite → structural → manual → novos → removidos
+   - Agrupar por estrategia, na ordem: overwrite → structural (secoes novas) → structural (content patches) → manual → novos → removidos
    - Omitir secoes vazias (ex: se nao tem arquivos removidos, nao incluir a secao)
 
 4. **Validar:** o migration deve ser auto-contido — alguem sem acesso ao Claude Code consegue ler e aplicar cada passo manualmente.

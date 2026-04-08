@@ -78,10 +78,17 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
 
 ### Modo Repo (specs locais)
 
+0c. **Bootstrap check (modo repo):** verificar que a infraestrutura existe antes de operar:
+   - Se `.claude/specs/` não existe → criar diretório
+   - Se `.claude/specs/done/` não existe → criar diretório
+   - Se `.claude/specs/TEMPLATE.md` não existe → avisar: "Template de spec não encontrado. Rodar `/setup-framework` ou criar manualmente."
+   - Se `SPECS_INDEX.md` não existe → criar com estrutura mínima (header + seção vazia do domínio)
+   - Se `.claude/specs/backlog.md` não existe → criar com estrutura padrão (4 seções vazias: Pendentes, Concluídos, Decisões futuras, Notas)
+
 1. **Validar ID:** verificar se já existe em `SPECS_INDEX.md`. Se sim, avisar.
-1b. **Classificar complexidade:** antes de criar a spec, avaliar o tamanho:
-   - **Pequeno** (≤3 arquivos, <30min, sem regra de negócio): **MODO REPO APENAS** → criar APENAS entrada no backlog via `/backlog-update {ID} add`. Não criar spec. Informar: "Classificado como Pequeno — só precisa de entrada no backlog." Parar aqui. (**No modo Notion, Pequeno cria pagina normalmente — ver secao Modo Notion.**)
-   - **Médio** (<10 tasks, escopo claro): criar spec breve — preencher apenas Contexto, Requisitos Funcionais e Critérios de aceitação. Demais seções opcionais.
+1b. **Classificar complexidade:** antes de criar a spec, avaliar o tamanho. Toda mudança cria spec — a complexidade determina o nível de detalhe:
+   - **Pequeno** (≤3 arquivos, <30min, sem regra de negócio): criar spec light — preencher apenas Contexto (2 frases) e Critério de aceitação mínimo.
+   - **Médio** (<10 tasks, escopo claro): criar spec breve — preencher Contexto, Requisitos Funcionais e Critérios de aceitação. Demais seções opcionais.
    - **Grande** (multi-componente, >10 tasks): criar spec completa + oferecer: "Quer criar um design doc também? (recomendado para features grandes)"
    - **Complexo** (ambiguidade, domínio novo, >20 tasks): criar spec completa + criar design doc + sugerir fluxo RPI: "Feature complexa — recomendo pesquisar em sessão separada, planejar, e implementar em sessão limpa."
    Na dúvida, classificar para cima.
@@ -110,13 +117,13 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
 7. **Verificação pós-criação** (OBRIGATÓRIO):
    Ler o arquivo criado e validar que o conteúdo foi preenchido:
 
-   | Seção | Médio | Grande/Complexo |
-   |---|---|---|
-   | Contexto | obrigatório — deve ter ≥2 frases concretas, não placeholder | obrigatório |
-   | Requisitos Funcionais | obrigatório — deve ter ≥1 RF-XXX com descrição real | obrigatório |
-   | Critérios de aceitação | obrigatório — deve ter ≥1 critério testável | obrigatório |
-   | Escopo | — | obrigatório |
-   | Breakdown de tasks | — | obrigatório |
+   | Seção | Pequeno | Médio | Grande/Complexo |
+   |---|---|---|---|
+   | Contexto | obrigatório — ≥2 frases | obrigatório — ≥2 frases concretas, não placeholder | obrigatório |
+   | Requisitos Funcionais | — | obrigatório — ≥1 RF-XXX com descrição real | obrigatório |
+   | Critérios de aceitação | obrigatório — ≥1 critério | obrigatório — ≥1 critério testável | obrigatório |
+   | Escopo | — | — | obrigatório |
+   | Breakdown de tasks | — | — | obrigatório |
 
    **Se alguma seção obrigatória está vazia ou só tem placeholder** (`{...}`, `*...*`, `TBD`):
    - Perguntar ao usuário as informações faltantes
@@ -134,6 +141,17 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - Se Grande/Complexo: lembrar de criar design doc e breakdown de tasks
    - Lembrar que spec `rascunho` precisa ser aprovada antes de implementar
 
+9. **Próximos passos obrigatórios** (informar conforme complexidade):
+
+   | Complexidade | Próximos passos |
+   |---|---|
+   | **Pequeno** | Aprovar spec → ler `.claude/skills/spec-driven/README.md` → implementar → testar → commit |
+   | **Médio** | Aprovar spec → ler `.claude/skills/spec-driven/README.md` → criar **execution-plan** (`.claude/skills/execution-plan/README.md`) → implementar → commit |
+   | **Grande** | Aprovar spec → criar design doc → ler spec-driven → criar **execution-plan** → implementar → commit |
+   | **Complexo** | Aprovar spec → criar design doc → fluxo RPI (research → plan → implement em sessões separadas) |
+
+   > **Gate:** Para Médio+, **não iniciar implementação sem execution-plan escrito.** Ver skill `spec-driven` para o fluxo completo.
+
 ---
 
 ### Modo Notion (specs externas via MCP)
@@ -145,13 +163,11 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - Tabela de templates por complexidade (template IDs + Design Doc IDs)
    - Tabela **"Campos adicionais"** (se existir) — lista de campos custom com regra de preenchimento (`Perguntar ao usuario`, `auto: url-from`, `auto: projeto`, `deixar vazio`)
 
-2. **Classificar complexidade:**
-   - **Pequeno** (≤3 arquivos, <30min): **criar pagina** com template Pequeno (NAO pular — no Notion todas as complexidades criam pagina)
+2. **Classificar complexidade:** Toda mudança cria spec — a complexidade determina o nível de detalhe:
+   - **Pequeno** (≤3 arquivos, <30min): usar template Pequeno (spec light)
    - **Médio** (<10 tasks, escopo claro): usar template Médio
    - **Grande** (>10 tasks): usar template Grande/Complexa + oferecer Design Doc
    - **Complexo** (>20 tasks, domínio novo): usar template Grande/Complexa + Design Doc obrigatório + sugerir RPI
-
-   > **Diferença do modo repo:** no Notion, **todas as complexidades criam página** (incluindo Pequeno). O template da database define o nível de detalhe — não pular a criação.
 
 3. **Coletar informações para properties** (perguntar ao usuário):
    - Título da spec
@@ -267,10 +283,21 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - Se Grande/Complexo: URL do Design Doc também
    - Lembrar que spec `rascunho` precisa ser aprovada antes de implementar
 
+9. **Próximos passos obrigatórios** (mesma tabela do modo repo — informar conforme complexidade):
+
+   | Complexidade | Próximos passos |
+   |---|---|
+   | **Pequeno** | Aprovar spec → ler `.claude/skills/spec-driven/README.md` → implementar → testar → commit |
+   | **Médio** | Aprovar spec → ler `.claude/skills/spec-driven/README.md` → criar **execution-plan** → implementar → commit |
+   | **Grande** | Aprovar spec → criar design doc → ler spec-driven → criar **execution-plan** → implementar → commit |
+   | **Complexo** | Aprovar spec → criar design doc → fluxo RPI (research → plan → implement em sessões separadas) |
+
+   > **Gate:** Para Médio+, **não iniciar implementação sem execution-plan escrito.** Ver skill `spec-driven` para o fluxo completo.
+
 ## Regras
 
 - Spec criada sempre começa como `rascunho`
-- Sempre registrar no SPECS_INDEX.md (se existir)
+- Sempre registrar no SPECS_INDEX.md. Se não existir, criar com estrutura mínima (ver passo 0c)
 - **Autor:** preencher na criacao com a identidade de quem solicitou a spec. Resolucao de identidade por modo: **Notion** → usar `notion-get-users` com `user_id: "self"` para obter o usuario logado. **Repo** → tentar `git config user.name`; se disponivel, usar como default e confirmar com o usuario; se nao, perguntar. No Notion, preencher a property "Autor" (tipo People). No modo repo, preencher o campo `> Autor:` no header
 - **Responsavel:** preencher APENAS ao concluir a spec — e quem implementou (o usuario da sessao que executou a implementacao). Mesma logica de resolucao de identidade do Autor por modo. No Notion, preencher a property "Responsavel" (tipo People). No modo repo, preencher o campo `> Responsavel:` no header
 - **Concluida em:** preencher APENAS ao marcar status como `concluida` — data do dia. No Notion, preencher a property "Concluida em". No modo repo, preencher o campo `> Concluida em:` no header
@@ -280,7 +307,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 - **`--from`:** quando fornecido, resolver fonte externa ANTES de criar a spec. Registrar referencia no header
 - **Multiplas specs por fonte:** um card/epic externo pode gerar N specs. Cada spec tem seu proprio ID unico, mas todas referenciam a mesma Fonte. Isso e normal e encorajado para cards grandes. A coluna Fonte no SPECS_INDEX.md permite rastrear quais specs vieram do mesmo card
 - Seções obrigatórias do template devem ser mantidas (podem ficar com placeholder)
-- Pequeno: **modo repo** = só backlog (sem spec). **Modo Notion** = cria página com template Pequeno
+- Pequeno: cria spec light (contexto + critério mínimo) em ambos os modos. No modo repo: arquivo `.claude/specs/{id}.md`. No modo Notion: página com template Pequeno
 - Grande/Complexo = oferecer design doc
 - Complexo = sugerir fluxo RPI (research → plan → implement em sessões separadas)
 - Na dúvida sobre complexidade, classificar para cima
