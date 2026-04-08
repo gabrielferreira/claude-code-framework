@@ -219,7 +219,26 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - Formato: `| {ID} | [Notion]({url}) | rascunho | — | {fonte ou —} | {resumo} |`
 
 7. **Verificação pós-criação** (OBRIGATÓRIO):
-   Ler a página criada no Notion via `notion-fetch` e validar que o conteúdo foi preenchido:
+   Ler a página criada no Notion via `notion-fetch` e validar **duas dimensões**: properties e conteúdo.
+
+   **7a. Validar properties:**
+   Verificar que os campos obrigatórios foram de fato gravados na página:
+
+   | Property | Obrigatório |
+   |---|---|
+   | Tipo | sim |
+   | Severidade | sim |
+   | Fase | sim |
+   | Complexidade | sim |
+   | Domínio | sim |
+   | Impacto | sim |
+   | Autor | sim |
+   | Estimativa | não (mas perguntar se vazio) |
+   | Campos adicionais marcados como "sim" na tabela do CLAUDE.md | sim |
+
+   **Se algum campo obrigatório está vazio:** perguntar ao usuário o valor e atualizar via `notion-update-page` antes de continuar.
+
+   **7b. Validar conteúdo do body:**
 
    | Seção | Pequeno | Médio | Grande/Complexo |
    |---|---|---|---|
