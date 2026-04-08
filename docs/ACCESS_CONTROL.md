@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.18.0 framework-file: docs/ACCESS_CONTROL.md -->
+<!-- framework-tag: v2.19.0 framework-file: docs/ACCESS_CONTROL.md -->
 # Controle de Acesso — {NOME_DO_PROJETO}
 
 > Documentar fluxos de autenticação, autorização, sessões e roles.

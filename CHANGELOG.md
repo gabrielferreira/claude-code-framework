@@ -7,6 +7,19 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.19.0] — 2026-04-08
+
+### Adicionado
+
+- `/spec --from {url}` agora aceita uso sem ID e Título: ambos são extraídos da fonte (Jira key, título do card) e confirmados com o usuário
+- Suporte a **campos adicionais (custom fields)** no Notion: `setup-framework` detecta properties extra no schema e documenta regra de preenchimento + opções de select no CLAUDE.md
+- `/spec` lê tabela "Campos adicionais" do CLAUDE.md e preenche campos custom ao criar página no Notion (perguntar, auto: url-from, auto: projeto, ou deixar vazio)
+- Campo `Estimativa` agora sempre perguntado (era marcado como opcional)
+- `template_id` no `notion-create-pages` documentado como best-effort com fallback automático
+- `update-framework` (Cenário A) agora detecta e configura campos adicionais ao criar a seção Notion do zero
+- `update-framework` (Cenário B) valida campos adicionais existentes contra o schema da database e alerta sobre opções de select desatualizadas
+- Documentação de campos adicionais e problemas comuns em `docs/NOTION_INTEGRATION.md`
+
 ## [2.18.0] — 2026-04-08
 
 ### Adicionado
