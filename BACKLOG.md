@@ -8,7 +8,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | CE1 ✅ | Análise GSD |
 
 ### Fase 2 — Autonomia & Automação
 
@@ -91,6 +90,7 @@ Itens que foram avaliados e descartados conscientemente — mantidos aqui para e
 | MO2 | ~~**Web dashboard**: visualização de progresso via interface web~~ | 2026-04-09 | Contra a filosofia markdown-first do framework. `backlog.md` e `STATE.md` já são o dashboard. Adicionar uma camada web cria dependência de infra sem benefício claro. |
 | MO5 | ~~**Slack/Discord integration**: rotear perguntas do agent para o dev via chat~~ | 2026-04-09 | Fora do escopo do framework — é feature de produto diferente. O framework não é um agente autônomo que precisa escalar dúvidas; é um conjunto de skills e specs para uso interativo. |
 | MO7 | ~~**i18n das skills**: suporte a múltiplos idiomas nas skills~~ | 2026-04-09 | Skills são instruções para o Claude (LLM), não UI para usuário final. O Claude processa qualquer idioma sem tradução de skill — a i18n não gera valor real aqui. |
+| CE6 | ~~**Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify~~ | 2026-04-09 | Mesma filosofia de AU3 — automação cega remove o controle do dev sobre o que vai para o histórico do git. O dev deve decidir o que commita e como agrupa as mudanças. |
 
 ---
 
@@ -125,7 +125,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 
 | ID | Deps | Nota |
 |----|------|------|
-| **CE6** | CE1 ✅ | Auto-commit por task |
 | **AU1** | — | Stuck detection |
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
