@@ -166,7 +166,7 @@ Os templates prontos para copiar estão organizados por tipo de setup. Use A se 
 
     | Tamanho | Critério | O que criar | Fluxo |
     |---|---|---|---|
-    | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
+    | **Pequeno** | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
     | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
     | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → execution-plan → implementa → commit |
     | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | Fluxo RPI (skill research) → spec → design → execution-plan → implementa → commit |
@@ -413,7 +413,7 @@ Este conceito é central para escalar o fluxo spec-driven sem gerar overhead des
 
 | Tamanho | Critério | O que criar | Fluxo |
 |---|---|---|---|
-| **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog | Backlog → implementa → testa → commit |
+| **Pequeno** | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova | Só entrada no backlog | Backlog → implementa → testa → commit |
 | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → TDD → commit |
 | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → tasks → TDD → commit |
 | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI (skill research) → spec → design → tasks → sub-agents → commit |
@@ -645,7 +645,7 @@ Inevitavelmente vai aparecer: Auth depende de Notifications (enviar email de ver
 
 O auto-sizing resolve essa questão. A tabela de complexidade define o threshold:
 
-- **Pequeno** (≤3 arquivos, <30min, sem regra de negócio): só backlog, sem spec
+- **Pequeno** (≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova): só backlog, sem spec
 - **Médio** (escopo claro, <10 tasks): spec breve
 - **Grande/Complexo**: spec completa
 

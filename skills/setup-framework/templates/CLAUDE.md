@@ -81,7 +81,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 
 - **Nunca** implementar código e depois criar testes. Testes que falham ANTES da implementação garantem que testam comportamento real, não a implementação que acabou de ser escrita.
 - **Exceções:**
-  - **Pequeno (≤3 arquivos, <30min, sem regra de negócio):** teste de regressão ANTES do fix, mas spec light é suficiente.
+  - **Pequeno (≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova):** teste de regressão ANTES do fix, mas spec light é suficiente.
   - **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 - **Na prática:** ler critérios de aceitação da spec → escrever testes que validam cada critério → rodar e ver falhar → implementar o mínimo para passar → refatorar se necessário.
 
@@ -201,7 +201,7 @@ Fluxo da sessao principal:
 - **Sem sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan, uma parte por vez.
 
 Excecoes:
-- Item Pequeno (≤3 arquivos, <30min): implementar direto, sem execution-plan
+- Item Pequeno (≤3 arquivos, sem nova abstração, sem mudança de schema): implementar direto, sem execution-plan
 - O usuario pediu execucao linear explicitamente
 
 ### Regras de delegação

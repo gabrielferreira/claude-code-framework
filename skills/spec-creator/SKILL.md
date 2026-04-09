@@ -87,7 +87,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
 
 1. **Validar ID:** verificar se já existe em `SPECS_INDEX.md`. Se sim, avisar.
 1b. **Classificar complexidade:** antes de criar a spec, avaliar o tamanho. Toda mudança cria spec — a complexidade determina o nível de detalhe:
-   - **Pequeno** (≤3 arquivos, <30min, sem regra de negócio): criar spec light — preencher apenas Contexto (2 frases) e Critério de aceitação mínimo.
+   - **Pequeno** (≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova): criar spec light — preencher apenas Contexto (2 frases) e Critério de aceitação mínimo.
    - **Médio** (<10 tasks, escopo claro): criar spec breve — preencher Contexto, Requisitos Funcionais e Critérios de aceitação. Demais seções opcionais.
    - **Grande** (multi-componente, >10 tasks): criar spec completa + oferecer: "Quer criar um design doc também? (recomendado para features grandes)"
    - **Complexo** (ambiguidade, domínio novo, >20 tasks): criar spec completa + criar design doc + sugerir fluxo RPI: "Feature complexa — recomendo pesquisar em sessão separada, planejar, e implementar em sessão limpa."
@@ -165,7 +165,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - Tabela **"Campos adicionais"** (se existir) — lista de campos custom com regra de preenchimento (`Perguntar ao usuario`, `auto: url-from`, `auto: projeto`, `deixar vazio`)
 
 2. **Classificar complexidade:** Toda mudança cria spec — a complexidade determina o nível de detalhe:
-   - **Pequeno** (≤3 arquivos, <30min): usar template Pequeno (spec light)
+   - **Pequeno** (≤3 arquivos, sem nova abstração, sem mudança de schema): usar template Pequeno (spec light)
    - **Médio** (<10 tasks, escopo claro): usar template Médio
    - **Grande** (>10 tasks): usar template Grande/Complexa + oferecer Design Doc
    - **Complexo** (>20 tasks, domínio novo): usar template Grande/Complexa + Design Doc obrigatório + sugerir RPI

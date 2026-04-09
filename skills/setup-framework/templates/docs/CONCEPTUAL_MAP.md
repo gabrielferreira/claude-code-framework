@@ -56,7 +56,7 @@
 ## Quando usar o que
 
 ```
-Mudanca trivial? (<=3 arquivos, <30min, sem ambiguidade)
+Mudanca trivial? (<=3 arquivos, sem nova abstração, sem mudança de schema, sem ambiguidade)
 │
 ├── SIM → /backlog-update add → implementa direto
 │
@@ -75,7 +75,7 @@ Mudanca trivial? (<=3 arquivos, <30min, sem ambiguidade)
 
 | Tamanho | Criterio | Artefatos | Exemplo |
 |---|---|---|---|
-| **Pequeno** | <=3 arquivos, <30min | Backlog item | Fix de typo, ajuste de estilo |
+| **Pequeno** | <=3 arquivos, sem nova abstração, sem mudança de schema | Backlog item | Fix de typo, ajuste de estilo |
 | **Medio** | 4-10 arquivos, escopo claro | Spec | CRUD simples, novo endpoint |
 | **Grande** | >10 arquivos, multiplos modulos | PRD + Specs | Sistema de auth, novo modulo |
 | **Complexo** | Multiplas causas, incerteza tecnica | PRD + Specs + Design doc | Migracao de banco, reescrita de core |

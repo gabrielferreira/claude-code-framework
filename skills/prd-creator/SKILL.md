@@ -74,7 +74,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de iniciar a a
 1. **Validar ID:** verificar se ja existe PRD com esse ID no `PRDS_INDEX.md` (em `.claude/prds/PRDS_INDEX.md`). Se sim, avisar.
 
 2. **Classificar complexidade:**
-   - **Pequeno** (<=3 arquivos, <30min): PRD nao se aplica. Informar: "Classificado como Pequeno — nao precisa de PRD. Use `/spec` ou `/backlog-update` direto." Parar aqui.
+   - **Pequeno** (<=3 arquivos, sem nova abstração, sem mudança de schema): PRD nao se aplica. Informar: "Classificado como Pequeno — nao precisa de PRD. Use `/spec` ou `/backlog-update` direto." Parar aqui.
    - **Medio** (<10 tasks, escopo claro): criar PRD light — preencher secoes obrigatorias. Demais secoes opcionais.
    - **Grande** (multi-componente, >10 tasks): criar PRD completo com todas as secoes.
    - **Complexo** (ambiguidade, dominio novo, >20 tasks): criar PRD completo + sugerir sessao de pesquisa antes: "Feature complexa — recomendo uma sessao de pesquisa/discovery antes de preencher o PRD."

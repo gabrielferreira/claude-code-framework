@@ -188,7 +188,7 @@ Ideia → Backlog → Spec → Implementação → Testes → Docs → Verifica�
 
 | Tamanho | Critério | O que criar |
 |---|---|---|
-| **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog |
+| **Pequeno** | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova | Só entrada no backlog |
 | **Médio** | <10 tasks, escopo claro | Spec breve (contexto + requisitos + critérios) |
 | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) |
 | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + fluxo RPI |
@@ -402,7 +402,7 @@ Documentação mais detalhada que não cabe no CLAUDE.md.
 1. Usuário pede feature/fix
      │
 2. /spec {ID} {Título} — classifica complexidade automaticamente
-     ├─ Pequeno (≤3 arquivos, <30min) → só backlog, sem spec. Implementa + testa + commit
+     ├─ Pequeno (≤3 arquivos, sem nova abstração, sem mudança de schema) → só backlog, sem spec. Implementa + testa + commit
      ├─ Médio → spec breve (contexto + requisitos + critérios)
      ├─ Grande → spec completa + oferece design doc
      └─ Complexo → spec + design doc + sugere fluxo RPI

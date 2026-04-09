@@ -593,7 +593,7 @@ Problema → /spec → Aprovar → Implementar → Verificar → /backlog-update
 
 Alguem identificou um bug, oportunidade ou feedback.
 
-- **Se trivial** (≤3 arquivos, <30min): crie direto no backlog com `/backlog-update {ID} add`
+- **Se trivial** (≤3 arquivos, sem nova abstração, sem mudança de schema): crie direto no backlog com `/backlog-update {ID} add`
 - **Se precisa de spec**: rode `/spec {ID} {Título}`. O comando classifica a complexidade e cria a spec (no repo ou no Notion, conforme configurado)
 
 ### 2. Preencher e aprovar a spec

@@ -105,8 +105,9 @@ O ciclo de desenvolvimento com o framework instalado.
                          │       ▼
                          │  ┌──────────────────┐
                          │  │ Tarefa trivial?   │
-                         │  │ (<3 arquivos,     │
-                         │  │  <30min)          │
+                         │  │ (<=3 arquivos,    │
+                         │  │  sem abstração    │
+                         │  │  ou schema)       │
                          │  └──┬────────┬───────┘
                          │  Sim│        │Não
                          │     │        ▼
