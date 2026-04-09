@@ -193,7 +193,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    - **Contexto:** por que essa mudança é necessária
    - **Requisitos Funcionais:** o que o sistema deve fazer (RF-001, RF-002...)
    - **Critérios de aceitação:** condições testáveis para considerar pronto
-   - Se **Grande/Complexo:** também coletar Escopo, Riscos, Breakdown de tasks (incluindo Grafo de dependências com colunas Task | Depende de | Arquivos | Tipo | Parallelizável?)
+   - Se **Grande/Complexo:** também coletar Escopo, Riscos, Breakdown de tasks (incluindo Grafo de dependências com colunas Task | Depende de | Arquivos | Tipo | Paralelizável?)
 
    > **REGRA:** Nunca criar a página no Notion com body vazio ou só com placeholders do template.
    > O template do Notion fornece a estrutura, mas o conteúdo DEVE ser preenchido pela skill.

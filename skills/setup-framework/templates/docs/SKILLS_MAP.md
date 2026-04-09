@@ -7,15 +7,16 @@
 ## Fluxo principal (ordem recomendada)
 
 ```
-spec-driven → execution-plan → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
+spec-driven → research (se Grande/Complexo) → execution-plan (com waves) → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
 ```
 
-O fluxo comeca com `spec-driven` (que spec implementar), passa por `execution-plan` (decompor em partes) e `context-fresh` (despachar para sub-agents, se o projeto usa), segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done` e `docs-sync`.
+O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Complexo, passa por `research` (investigar codebase antes de planejar). Depois `execution-plan` (decompor em partes e derivar waves de execucao) e `context-fresh` (despachar waves para sub-agents, se o projeto usa). Segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done` e `docs-sync`.
 
 ## Dependencias especificas
 
 | Skill | Depende de | Complementa |
 |---|---|---|
+| research | spec-driven (item classificado antes de pesquisar) | execution-plan (achados alimentam o plan) |
 | testing | spec-driven (specs definem o que testar) | golden-tests, code-quality |
 | code-quality | — | dba-review (se toca DB), testing |
 | security-review | — | definition-of-done (security e pre-requisito) |
@@ -29,7 +30,7 @@ O fluxo comeca com `spec-driven` (que spec implementar), passa por `execution-pl
 | docs-sync | definition-of-done | — |
 | golden-tests | testing | — |
 | syntax-check | — | code-quality |
-| context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done |
+| context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done. Waves de execucao do execution-plan alimentam o despacho |
 
 ## Legenda
 
@@ -42,6 +43,7 @@ O fluxo comeca com `spec-driven` (que spec implementar), passa por `execution-pl
 | Skill | Quando usar |
 |---|---|
 | logging | Qualquer implementacao que adicione ou modifique logs |
+| research | Ao investigar codebase antes de planejar (Grande/Complexo, dominio novo) |
 | execution-plan | Ao planejar implementacao de spec Medio+ (3+ arquivos) |
 | context-fresh | Ao despachar tasks para sub-agents com contexto limpo (Medio+ com sub-agents) |
 | bug-investigation | Ao investigar bug antes de criar spec de correcao |

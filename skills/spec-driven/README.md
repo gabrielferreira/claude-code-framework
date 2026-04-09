@@ -18,8 +18,8 @@
 |---|---|---|---|
 | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
 | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
-| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → execution-plan → implementa → commit |
-| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → execution-plan → implementa → commit |
+| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → execution-plan (waves) → implementa → commit |
+| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI (skill research) → spec → design → execution-plan (waves) → implementa → commit |
 
 > **Toda mudança tem spec.** A complexidade determina o nível de detalhe, não se a spec existe. Pequeno = spec light (2 frases de contexto + critério de aceitação). Médio+ = spec completa conforme template.
 
@@ -81,7 +81,7 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 **Fases por tamanho:**
 - **Pequeno:** `execute → verify → done` (spec light serve como plan)
 - **Médio:** `plan → execute → verify → done`
-- **Grande/Complexo:** `research → plan → execute → verify → done`
+- **Grande/Complexo:** `research (skill research) → plan → execute (waves) → verify → done`
 
 **Regras de transição:**
 - Ao iniciar qualquer item: atualizar STATE.md seção "Execução ativa" com a fase correspondente.
@@ -91,8 +91,10 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 ### Detalhamento das fases
 
 **Research (sessão 1 — exploratória, Grande/Complexo):**
-- Explorar codebase, ler docs, pesquisar APIs, entender o domínio
+- Seguir protocolo da skill `.claude/skills/research/README.md`
+- Investigar 6 eixos: stack, código existente, patterns de reuso, dependências, riscos, gaps
 - Salvar achados em `.claude/specs/{id}-research.md` (descartável, só referência)
+- Output alimenta a fase Plan: spec, design doc e execution-plan são escritos a partir dos achados
 - Esta sessão vai consumir muitos tokens explorando — é esperado
 
 **Plan (mesma sessão ou nova):**
@@ -101,14 +103,16 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 - Atualizar `STATE.md` com decisões tomadas
 
 **Execute (`/clear` ou sessão nova — contexto limpo):**
-- Carregar APENAS: spec + design doc + STATE.md
-- **Se o projeto usa sub-agents:** delegar cada parte do execution-plan para sub-agents — não implementar no contexto principal. Consultar `.claude/skills/context-fresh/README.md` para o protocolo completo de despacho.
-  - Cada sub-agent recebe: a task + spec + design doc + STATE.md + briefing completo
-  - Sub-agent NÃO pesquisa codebase de novo — já tem tudo no breakdown
+- Carregar APENAS: spec + design doc + STATE.md + research notes (se existem)
+- Carregar execution-plan com waves derivadas do grafo de dependências
+- **Se o projeto usa sub-agents:** despachar waves via skill context-fresh (`.claude/skills/context-fresh/README.md`):
+  - Cada wave é despachada na ordem (Wave 1 antes de Wave 2, etc.)
+  - Dentro de cada wave: tasks `[P]` sem overlap rodam em **paralelo** (múltiplos sub-agents simultâneos)
+  - Tasks sequenciais na mesma wave: uma por vez
+  - Cada sub-agent recebe briefing auto-contido (task + contexto mínimo da spec)
   - Manter main context lean: orquestrar e integrar, não implementar
-  - Após sub-agents concluírem: integrar, rodar testes, verificar conflitos
-  - Tasks `[P]` (independentes) podem ser delegadas a sub-agents **em paralelo**
-- **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan. Manter foco em uma parte por vez.
+  - Após cada wave: integrar, verificar contracts, rodar testes
+- **Se o projeto não usa sub-agents:** implementar seguindo a ordem das waves, uma parte por vez.
 
 **Verify:**
 - Rodar verify.sh, aplicar Definition of Done, verificar cada critério da spec 1 a 1

@@ -22,6 +22,8 @@ Skill obrigatória para itens de complexidade média ou superior (3+ arquivos, 1
 
 O que vai ser feito, por que, e qual spec/item do backlog.
 
+> Se existe `{id}-research.md` da fase research, referenciar os achados relevantes — especialmente patterns de reuso, riscos e decisões sugeridas. O research alimenta o escopo e as decisões do plan.
+
 ### 2. Mapa de arquivos
 
 Listar **todos** os arquivos que serão lidos ou modificados, e a qual parte pertencem:
@@ -36,7 +38,7 @@ Listar **todos** os arquivos que serão lidos ou modificados, e a qual parte per
 
 ### 3. Decomposição em partes
 
-> Se a spec tem seção **"Grafo de dependências"**, usar como base para a decomposição. O grafo define dependências entre tasks — o execution-plan define como agrupá-las em fases respeitando essas dependências.
+> Se a spec tem seção **"Grafo de dependências"**, usar como base para a decomposição. O grafo define dependências entre tasks — o execution-plan agrupa-as em **waves** respeitando essas dependências. O termo "wave" é usado tanto aqui quanto na skill context-fresh (despacho para sub-agents).
 
 Para cada parte:
 
@@ -50,19 +52,28 @@ Para cada parte:
 - **Critério de "pronto":** como saber que esta parte está completa
 - **Contratos:** se outra parte consome o output, definir interface/formato
 
-### 4. Ordem de execução
+### 4. Waves de execução
+
+Derivar waves a partir do grafo de dependências da spec (ou da decomposição em partes):
+
+- **Wave 1:** partes sem dependências
+- **Wave 2:** partes cujas dependências estão todas na Wave 1
+- **Wave N:** partes cujas dependências estão em waves anteriores
+- Dentro de cada wave: partes sem overlap de arquivos podem rodar em **paralelo** (`[P]`)
 
 ```
-Fase 1 (sequencial): Parte 1 — backend auth
-Fase 2 (paralelo): Parte 2 + Parte 3 — frontend + testes E2E (sem overlap)
-Fase 3 (sequencial): Integração — verificar que partes se encaixam
+Wave 1 (sequencial): Parte 1 — backend auth
+Wave 2 (paralelo):   Parte 2 [P] + Parte 3 [P] — frontend + testes E2E (sem overlap)
+Wave 3 (integração):  Verificar que partes se encaixam
 ```
 
 Justificar paralelismo: "Parte 2 e 3 não compartilham arquivos" ou "Parte 2 depende de Parte 1".
 
+> Se o projeto usa sub-agents, as waves do plan mapeiam diretamente para as waves de despacho da skill context-fresh.
+
 ### 5. Análise de overlap
 
-> Se a spec tem grafo de dependências com coluna "Parallelizável?", usar como ponto de partida. Confirmar com a análise abaixo.
+> Se a spec tem grafo de dependências com coluna "Paralelizável?", usar como ponto de partida. Confirmar com a análise abaixo.
 
 Para cada par de partes que rodam em paralelo, confirmar:
 
@@ -73,6 +84,8 @@ Para cada par de partes que rodam em paralelo, confirmar:
 **Regra:** se há overlap de arquivos entre partes paralelas → tornar sequencial ou redesenhar a decomposição.
 
 ### 6. Riscos e decisões
+
+> Se a fase research foi executada, importar riscos de `{id}-research.md` e expandir/confirmar. Decisões sugeridas no research devem ser resolvidas aqui.
 
 - Risco 1: {descrição} → Mitigação: {ação}
 - Decisão 1: {escolha feita} → Motivo: {por quê}
@@ -103,7 +116,8 @@ Para cada par de partes que rodam em paralelo, confirmar:
 - [ ] Escopo e contexto definidos
 - [ ] Mapa de arquivos completo (todos os read + modify)
 - [ ] Decomposição em partes com critérios de pronto
-- [ ] Ordem de execução com justificativa de paralelismo
+- [ ] Waves de execução derivadas do grafo de dependências
+- [ ] Justificativa de paralelismo para waves com múltiplas partes
 - [ ] Análise de overlap para partes paralelas
 - [ ] Riscos identificados
 - [ ] Checklist pós-execução definido

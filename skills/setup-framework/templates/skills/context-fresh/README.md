@@ -29,7 +29,7 @@
 
 ### 1. Extrair tasks e dependências
 
-Ler o grafo de dependências da spec (tabela Task | Depende de | Arquivos | Tipo | Parallelizável?).
+Ler o grafo de dependências da spec (tabela Task | Depende de | Arquivos | Tipo | Paralelizável?).
 
 Montar waves de execução:
 - **Wave 1:** tasks sem dependências (Depende de = —)

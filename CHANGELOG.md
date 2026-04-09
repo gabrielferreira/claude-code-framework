@@ -28,7 +28,7 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - **CE1+SW5 — Context-fresh execution e task graph:**
   - `agents/task-runner.md`: novo agent para execução isolada de tasks com contexto limpo (worktree: true, model: sonnet)
   - `skills/context-fresh/README.md`: protocolo de orquestração — waves de execução, briefing template, completion log, regras de falha
-  - `specs/TEMPLATE.md`: seção "Grafo de dependências" com colunas Task/Depende de/Arquivos/Tipo/Parallelizável
+  - `specs/TEMPLATE.md`: seção "Grafo de dependências" com colunas Task/Depende de/Arquivos/Tipo/Paralelizável
   - `skills/execution-plan`: referências ao grafo da spec e protocolo context-fresh
   - `skills/spec-creator`: task graph obrigatório para Grande/Complexo (repo + Notion mode)
 

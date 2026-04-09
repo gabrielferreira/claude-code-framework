@@ -115,34 +115,35 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | # | Trigger | Skill | Obrigatório? |
 |---|---------|-------|-------------|
 | 1 | Vai implementar qualquer item? | `.claude/skills/spec-driven/README.md` | ⛔ Sempre |
-| 2 | Item médio+ (3+ arquivos, 1h+)? | `.claude/skills/execution-plan/README.md` — plano escrito obrigatório ANTES de implementar | ⛔ Sempre |
-| 3 | Item médio+ e projeto usa sub-agents? | `.claude/skills/context-fresh/README.md` — protocolo de despacho context-fresh para sub-agents | ⛔ Sempre (se sub-agents) |
-| 4 | Vai escrever/modificar testes? | `.claude/skills/testing/README.md` | ⛔ Sempre |
-| 5 | Vai criar/modificar rota, endpoint ou service? | `.claude/skills/security-review/README.md` | ⛔ Sempre |
-| 6 | Vai finalizar entrega? | `.claude/skills/definition-of-done/README.md` | ⛔ Sempre |
-| 7 | Vai commitar? | `.claude/skills/docs-sync/README.md` | ⛔ Sempre |
-| 8 | Vai adicionar log ou try/catch? | `.claude/skills/logging/README.md` | Recomendado |
-| 9 | Vai refatorar ou criar módulo novo? | `.claude/skills/code-quality/README.md` | Recomendado |
-| 10 | Vai mexer em tabelas, migrations ou queries? | `.claude/skills/dba-review/README.md` | ⛔ Sempre |
-| 11 | Vai criar/modificar componente visual? | `.claude/skills/ux-review/README.md` | Recomendado |
-| 12 | Vai adicionar integração externa ou mock? | `.claude/skills/mock-mode/README.md` | Recomendado |
-| 13 | Vai commitar código? | `.claude/skills/syntax-check/README.md` | ⛔ Sempre |
-| 14 | Vai mexer em página pública? | `.claude/skills/seo-performance/README.md` | Recomendado |
-| 15 | Vai escrever golden/snapshot tests? | `.claude/skills/golden-tests/README.md` | Recomendado |
-| 16 | Vai validar contratos de API? | `.claude/skills/api-testing/README.md` | Recomendado |
-| 17 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
-| 18 | Vai investigar performance? | `.claude/skills/performance-profiling/README.md` | Recomendado |
-| 19 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
-| 20 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
-| 21 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
-| 22 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 23 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-{23+. Skills específicas do domínio do projeto}
+| 2 | Item Grande/Complexo? Domínio novo? | `.claude/skills/research/README.md` — investigação estruturada antes do planning | ⛔ Sempre (Grande/Complexo) |
+| 3 | Item médio+ (3+ arquivos, 1h+)? | `.claude/skills/execution-plan/README.md` — plano escrito obrigatório ANTES de implementar (decomposição em waves) | ⛔ Sempre |
+| 4 | Item médio+ e projeto usa sub-agents? | `.claude/skills/context-fresh/README.md` — protocolo de despacho context-fresh para sub-agents | ⛔ Sempre (se sub-agents) |
+| 5 | Vai escrever/modificar testes? | `.claude/skills/testing/README.md` | ⛔ Sempre |
+| 6 | Vai criar/modificar rota, endpoint ou service? | `.claude/skills/security-review/README.md` | ⛔ Sempre |
+| 7 | Vai finalizar entrega? | `.claude/skills/definition-of-done/README.md` | ⛔ Sempre |
+| 8 | Vai commitar? | `.claude/skills/docs-sync/README.md` | ⛔ Sempre |
+| 9 | Vai adicionar log ou try/catch? | `.claude/skills/logging/README.md` | Recomendado |
+| 10 | Vai refatorar ou criar módulo novo? | `.claude/skills/code-quality/README.md` | Recomendado |
+| 11 | Vai mexer em tabelas, migrations ou queries? | `.claude/skills/dba-review/README.md` | ⛔ Sempre |
+| 12 | Vai criar/modificar componente visual? | `.claude/skills/ux-review/README.md` | Recomendado |
+| 13 | Vai adicionar integração externa ou mock? | `.claude/skills/mock-mode/README.md` | Recomendado |
+| 14 | Vai commitar código? | `.claude/skills/syntax-check/README.md` | ⛔ Sempre |
+| 15 | Vai mexer em página pública? | `.claude/skills/seo-performance/README.md` | Recomendado |
+| 16 | Vai escrever golden/snapshot tests? | `.claude/skills/golden-tests/README.md` | Recomendado |
+| 17 | Vai validar contratos de API? | `.claude/skills/api-testing/README.md` | Recomendado |
+| 18 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
+| 19 | Vai investigar performance? | `.claude/skills/performance-profiling/README.md` | Recomendado |
+| 20 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
+| 21 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
+| 22 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
+| 23 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+{24+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
 Quando várias skills se aplicam na mesma tarefa:
-1. **spec-driven** (entender o que fazer) → 2. **execution-plan** (decompor, se médio+) → 3. **context-fresh** (despachar, se sub-agents) → 4. **skill de domínio** (como fazer) → 5. **testing** (validar) → 6. **definition-of-done** (fechar)
+1. **spec-driven** (entender o que fazer) → 2. **research** (investigar, se Grande/Complexo) → 3. **execution-plan** (decompor em waves, se médio+) → 4. **context-fresh** (despachar, se sub-agents) → 5. **skill de domínio** (como fazer) → 6. **testing** (validar) → 7. **definition-of-done** (fechar)
 
 {Adaptar: ordem conforme o fluxo do projeto.}
 
@@ -189,10 +190,11 @@ Antes de executar qualquer item Medio+ (3+ arquivos ou 1h+), **criar execution-p
 Fluxo da sessao principal:
 0. Verificar STATE.md "Execucao ativa" — se ja tem item em andamento, retomar da fase atual em vez de comecar do zero
 1. Ler o item/spec
-2. Invocar execution-plan para gerar plano de decomposicao
-3. Identificar partes independentes (sem overlap de arquivos)
-4. Implementar seguindo o plano (ver modo de execucao abaixo)
-5. Integrar os resultados e validar
+2. Se Grande/Complexo e research ainda nao foi feito: seguir `.claude/skills/research/README.md` para investigar antes de planejar
+3. Invocar execution-plan para gerar plano de decomposicao (com waves derivadas do grafo de dependencias). Se houve research, os achados alimentam o plan.
+4. Identificar partes independentes (sem overlap de arquivos)
+5. Implementar seguindo o plano (ver modo de execucao abaixo)
+6. Integrar os resultados e validar
 
 **Modo de execucao (depende do projeto):**
 - **Com sub-agents:** seguir o protocolo da skill context-fresh (`.claude/skills/context-fresh/README.md`) para compor briefings e despachar task-runner agents. Tasks paralelas (`[P]`) sao despachadas simultaneamente; sequenciais uma por vez.
