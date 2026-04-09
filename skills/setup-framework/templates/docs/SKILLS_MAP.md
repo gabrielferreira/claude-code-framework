@@ -7,10 +7,10 @@
 ## Fluxo principal (ordem recomendada)
 
 ```
-spec-driven → {skill de dominio} → testing → definition-of-done → docs-sync
+spec-driven → execution-plan → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
 ```
 
-O fluxo comeca com `spec-driven` (que spec implementar), passa pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), segue para `testing` e `definition-of-done`, e finaliza com `docs-sync`.
+O fluxo comeca com `spec-driven` (que spec implementar), passa por `execution-plan` (decompor em partes) e `context-fresh` (despachar para sub-agents, se o projeto usa), segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done` e `docs-sync`.
 
 ## Dependencias especificas
 
@@ -29,6 +29,7 @@ O fluxo comeca com `spec-driven` (que spec implementar), passa pelas skills de d
 | docs-sync | definition-of-done | — |
 | golden-tests | testing | — |
 | syntax-check | — | code-quality |
+| context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done |
 
 ## Legenda
 
@@ -41,7 +42,8 @@ O fluxo comeca com `spec-driven` (que spec implementar), passa pelas skills de d
 | Skill | Quando usar |
 |---|---|
 | logging | Qualquer implementacao que adicione ou modifique logs |
-| execution-plan | Ao planejar implementacao de spec Grande/Complexa |
+| execution-plan | Ao planejar implementacao de spec Medio+ (3+ arquivos) |
+| context-fresh | Ao despachar tasks para sub-agents com contexto limpo (Medio+ com sub-agents) |
 | bug-investigation | Ao investigar bug antes de criar spec de correcao |
 | backlog-update | Apos concluir spec ou identificar trabalho adicional |
 | spec-creator (`/spec`) | Ao criar nova spec antes de iniciar implementacao |

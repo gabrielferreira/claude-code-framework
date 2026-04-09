@@ -377,10 +377,13 @@ Subagents despachados pela sessao seguem estas regras:
 |---|---|---|
 | **Read-only** (auditoria, validacao, report, explore) | Na worktree da sessao (sem worktree nova) | Ve o codigo em progresso, nao o main. Rapido, sem overhead. |
 | **Write exploratorio** (refactor, spike, prototipagem) | Worktree propria (nova) | Isola mudancas experimentais. Se boas, merge traz de volta. |
+| **task-runner** (execucao de task via context-fresh) | Worktree propria (nova) | Isola cada task. Sessao principal integra apos conclusao. |
 
-**Regra simples:** subagent read-only → roda na worktree da sessao. Subagent que edita codigo de forma exploratoria → worktree nova propria.
+**Regra simples:** subagent read-only → roda na worktree da sessao. Subagent que edita codigo (refactor, task-runner) → worktree nova propria.
 
 > **Importante:** subagents read-only NAO rodam no working directory principal (main). Eles rodam NA WORKTREE DA SESSAO para ver o estado atual do trabalho em andamento.
+
+> **Context-fresh:** quando a sessao principal despacha tasks via skill context-fresh, cada `task-runner` roda numa worktree isolada. Tasks paralelas (`[P]`) rodam em worktrees separadas simultaneamente. A sessao principal orquestra e integra os resultados.
 
 ## Contexto de negócio
 
