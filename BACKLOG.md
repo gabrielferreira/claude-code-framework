@@ -65,7 +65,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | v2.26.0 — 2026-04-09 |
+| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | pendente release — 2026-04-09 |
 | CE5 | **Refinar critérios de classificação "Pequeno"**: substituir `<30min` por critérios estruturais (`sem nova abstração, sem mudança de schema`) em spec-creator, spec-driven, execution-plan, prd-creator, CLAUDE.template.md e docs | v2.25.0 — 2026-04-09 |
 | TQ1 | **Repo de teste automatizado**: `scripts/test-setup.sh` simula setup em repo fake (39 checks) + CI job | v2.25.0 — 2026-04-09 |
 | TQ2 | **Validate-tags em CI**: já rodava em PRs via `ci.yml` — confirmado e documentado | v2.25.0 — 2026-04-09 |
