@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.23.1] — 2026-04-09
+
+### Corrigido
+
+- **spec-creator (modo Notion):** formato da pergunta de Severidade e Estimativa agora explícito — `Campo: **valor** *(sugestão para {complexidade})* — confirma ou ajusta?`
+
 ## [2.23.0] — 2026-04-09
 
 ### Alterado
