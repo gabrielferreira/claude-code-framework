@@ -126,13 +126,15 @@ Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for cl
 
 1. **VERSION** — atualizar com a nova versao
 2. **plugin.json** — atualizar campo `version`
-3. **Framework-tags** — atualizar todos os `<!-- framework-tag: vX.Y.Z -->` nos .md:
+3. **plugin.json template** — copiar para `skills/setup-framework/templates/.claude-plugin/plugin.json` (CI valida que ambos tem a mesma versao)
+4. **Framework-tags** — atualizar todos os `<!-- framework-tag: vX.Y.Z -->` nos .md:
    ```bash
    grep -rl "framework-tag: v" --include="*.md" . | xargs sed -i '' "s/framework-tag: v[0-9]*\.[0-9]*\.[0-9]*/framework-tag: vNOVA/g"
    ```
-4. **Commit** com mensagem `release: vX.Y.Z`
-5. **Tag** — `git tag vX.Y.Z`
-6. **Push** — perguntar ao usuario antes de `git push && git push --tags`
+5. **Sincronizar templates** — apos atualizar tags, copiar todos os sources afetados para templates (o sed so atualiza sources, nao templates). Rodar `bash scripts/check-sync.sh` para confirmar.
+6. **Commit** com mensagem `release: vX.Y.Z`
+7. **Tag** — `git tag vX.Y.Z`
+8. **Push** — perguntar ao usuario antes de `git push && git push --tags`
 
 ### 4. Gerar migration
 
