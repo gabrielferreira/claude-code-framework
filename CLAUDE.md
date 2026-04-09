@@ -253,15 +253,18 @@ O arquivo tem **5 secoes fixas**, nesta ordem:
 
 ### Ao adicionar item novo
 
-1. Classificar com todas as colunas (Sev, Impacto, Superficie, Tipo, Est, Deps, Origem)
+1. Classificar com todas as colunas (Sev, Impacto, Superficie, Destino, Tipo, Est, Deps, Origem)
 2. Colocar na fase correta (Fase 1-4, Testes)
 3. **Classificar Superficie:**
    - `🔺 Fluxo` — muda artefato, template, skill ou fluxo que o dev toca no dia a dia (template de spec, gate, ordem de execucao, formato de arquivo)
    - `⬜ Bastidor` — roda por baixo sem mudar como o dev trabalha (automacao, tooling, CI, instalacao, agents novos independentes)
-4. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
+4. **Classificar Destino:**
+   - `🏠 Framework` — beneficia o desenvolvimento/manutencao do proprio framework (CI, scripts, testes internos, processo de release)
+   - `📦 Projeto` — beneficia quem instala e usa o framework num projeto real (skills, agents, templates, fluxos, instalacao)
+5. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
    - `🔺 Fluxo`? → Wave 1 ou 2 (fazer primeiro — muda artefatos que outros itens consomem)
    - `⬜ Bastidor`? → Wave 3+ (pode rodar em paralelo)
-5. Se o item tem deps, documentar na coluna Deps e na secao de interdependencias
+6. Se o item tem deps, documentar na coluna Deps e na secao de interdependencias
 
 ### Ao concluir item
 
