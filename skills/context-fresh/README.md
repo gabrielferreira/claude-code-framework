@@ -134,6 +134,28 @@ Atualizar STATE.md campo "Tasks": "3/4 completas"
 | **PARTIAL** | Avaliar o que falta — completar na sessão principal ou criar sub-task |
 | **Conflito entre tasks** | Resolver na sessão principal (integração é responsabilidade dela) |
 
+### 5b. Detecção de loop
+
+Antes de cada retry, verificar os indicadores abaixo. **3 ou mais = loop detectado.**
+
+| Indicador | O que checar |
+|-----------|-------------|
+| Mesma chamada de ferramenta com parâmetros idênticos | Tool calls repetidas sem variação de argumento |
+| Mesmo erro após retry | Mensagem de erro idêntica ou equivalente na 2ª tentativa |
+| 3+ abordagens distintas tentadas para o mesmo problema | Log de tentativas no completion log |
+| Ciclo de arquivo (criado → deletado → criado) | Diff entre arquivos modificados nas tentativas |
+| Ciclo de teste (passou → falhou → passou → falhou) | Output de testes consecutivos da mesma task |
+
+**Quando loop detectado:**
+
+1. **Parar** — não fazer mais retries na task
+2. **Invocar `stuck-detector`** com: Task ID + lista de tentativas + erros encontrados
+3. **Aguardar diagnóstico** — ler o relatório do stuck-detector
+4. **Registrar no STATE.md** (seção "Blockers ativos") com root cause identificada
+5. **Apresentar ao usuário** o relatório + caminhos de resolução — não avançar sem decisão humana
+
+> **Relação com max 1 retry:** A regra "máximo 1 retry" ainda vale. A detecção de loop é uma salvaguarda anterior — para casos onde o padrão de loop é evidente antes mesmo de esgotar o retry.
+
 ### 6. Integrar
 
 Após cada wave completar:
