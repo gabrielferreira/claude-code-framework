@@ -237,23 +237,32 @@ O `BACKLOG.md` e o roadmap do framework. Deve ser auto-contido — qualquer sess
 
 O arquivo tem **5 secoes fixas**, nesta ordem:
 
-1. **Pendentes** — tabelas por fase, com colunas: `ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem`
+1. **Pendentes** — tabelas por fase, com colunas: `ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem`
 2. **Sugestao de execucao** — itens pendentes organizados em waves por impacto e interdependencia. Prioridade: Wave 1 (muda fluxo/template/spec) antes de Wave 2+ (isolados, automacao, infra)
 3. **Concluidos** — tabela com `ID | Item | Concluido em`
 4. **Decisoes futuras** — parking lot estrategico
 5. **Notas** — contexto relevante
 
+### Estrutura de Fase vs Wave
+
+- **Fase** = agrupamento tematico (por area de feature: Context Engineering, Autonomia, Skills novos, etc.). Agrupa itens por dominio, nao define ordem de execucao.
+- **Wave** (secao "Sugestao de execucao") = ordem de prioridade de implementacao. Wave 1 primeiro porque muda artefatos que outros itens consomem. Um item de Fase 3 pode estar na Wave 1 se for bloqueador; um item de Fase 1 pode estar na Wave 4 se for isolado.
+
 ### Ao adicionar item novo
 
-1. Classificar com todas as colunas (Sev, Impacto, Superficie, Destino, Tipo, Est, Deps, Origem)
-2. Colocar na fase correta (Fase 1-4, Testes)
+1. Classificar com todas as colunas (Sev, Impacto, Superficie, Destino, Compat., Tipo, Est, Deps, Origem)
+2. Colocar na fase tematica correta (Fase 1-4, Testes, Operacoes)
 3. **Classificar Superficie:**
    - `🔺 Fluxo` — muda artefato, template, skill ou fluxo que o dev toca no dia a dia (template de spec, gate, ordem de execucao, formato de arquivo)
    - `⬜ Bastidor` — roda por baixo sem mudar como o dev trabalha (automacao, tooling, CI, instalacao, agents novos independentes)
 4. **Classificar Destino:**
    - `🏠 Framework` — beneficia o desenvolvimento/manutencao do proprio framework (CI, scripts, testes internos, processo de release)
    - `📦 Projeto` — beneficia quem instala e usa o framework num projeto real (skills, agents, templates, fluxos, instalacao)
-5. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
+5. **Classificar Compat.** — impacto de atualizacao para projetos downstream (quem ja usa o framework):
+   - `✅ Aditivo` — adiciona capacidade nova sem tocar artefatos existentes (novo skill, agent, doc). Projeto desatualizado continua funcionando igual; projeto atualizado ganha a feature. Zero interferencia entre branch desatualizada e atualizada.
+   - `⚠️ Migravel` — muda formato ou comportamento de artefatos existentes, mas com caminho de migracao (update-framework guia ou aplica via structural merge). Projeto que nao atualizar fica com versao antiga funcional, mas divergente.
+   - `❌ Breaking` — quebra artefatos ou fluxo existente sem intervencao manual. Projeto que nao atualizar tera inconsistencia ou erros. Exige migration guide explicito no release.
+6. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
    - `🔺 Fluxo`? → Wave 1 ou 2 (fazer primeiro — muda artefatos que outros itens consomem)
    - `⬜ Bastidor`? → Wave 3+ (pode rodar em paralelo)
 6. Se o item tem deps, documentar na coluna Deps e na secao de interdependencias
