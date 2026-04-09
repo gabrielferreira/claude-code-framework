@@ -68,7 +68,7 @@ Condições que DEVEM ser verdadeiras para considerar a spec concluída. Escrito
 
 O grafo é a fonte de verdade para ordem de execução. A seção "Ordem de execução" abaixo é derivada do grafo.
 
-| Task | Depende de | Arquivos | Tipo | Parallelizável? |
+| Task | Depende de | Arquivos | Tipo | Paralelizável? |
 |------|-----------|----------|------|-----------------|
 | T1 | — | `src/auth.js`, `tests/auth.test.js` | implementação | — (primeira) |
 | T2 | T1 | `src/session.js` | implementação | Não (depende de T1) |
@@ -77,12 +77,12 @@ O grafo é a fonte de verdade para ordem de execução. A seção "Ordem de exec
 
 > Tipos: `implementação` · `teste` · `integração` · `config`
 
-### Ordem de execução
+### Ordem de execução (waves)
 
 ```
-Fase 1 (sequencial): T1 → T2
-Fase 2 (paralela):   T2 [P] | T3 [P]  (sem overlap de arquivos)
-Fase 3 (integração):  T4
+Wave 1 (sequencial): T1
+Wave 2 (paralela):   T2 [P] | T3 [P]  (sem overlap de arquivos)
+Wave 3 (integração):  T4
 ```
 
 ### T1: {título}

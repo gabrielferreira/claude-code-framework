@@ -90,6 +90,7 @@ Para detalhes completos sobre sizing, veja [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_
 |---|---|---|---|
 | PRD | `prds/PRD_TEMPLATE.md` | `/prd` | `product-review` |
 | Spec | `specs/TEMPLATE.md` | `/spec` | `spec-validator` |
+| Research notes | `.claude/specs/{id}-research.md` | skill research | — (descartavel) |
 | Design doc | `specs/DESIGN_TEMPLATE.md` | — (manual) | — |
 | Backlog | `specs/backlog.md` | `/backlog-update` | `backlog-report` |
 

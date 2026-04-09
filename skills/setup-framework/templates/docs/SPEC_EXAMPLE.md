@@ -62,7 +62,7 @@ Atualmente, membros do time so descobrem que uma spec mudou de status ao abrir o
 
 ### Grafo de dependencias
 
-| Task | Depende de | Arquivos | Tipo | Parallelizavel? |
+| Task | Depende de | Arquivos | Tipo | Paralelizavel? |
 |------|-----------|----------|------|-----------------|
 | T1 | — | `migrations/20260315_email_preferences.sql`, `src/models/email-preferences.ts` | implementacao | — (primeira) |
 | T2 | T1 | `src/services/email.service.ts` | implementacao | Nao (depende de T1) |
@@ -70,12 +70,12 @@ Atualmente, membros do time so descobrem que uma spec mudou de status ao abrir o
 | T4 | T1 | `src/pages/profile/notifications.tsx` | implementacao | Sim [P] (sem overlap com T3) |
 | T5 | T3, T4 | `tests/email.service.test.ts`, `tests/specs-status.integration.test.ts` | teste | Nao (integracao) |
 
-### Ordem de execucao
+### Ordem de execucao (waves)
 
 ```
-Fase 1 (sequencial): T1 → T2
-Fase 2 (paralela):   T3 [P] | T4 [P]  (sem overlap de arquivos)
-Fase 3 (integracao): T5
+Wave 1 (sequencial): T1 → T2
+Wave 2 (paralela):   T3 [P] | T4 [P]  (sem overlap de arquivos)
+Wave 3 (integracao): T5
 ```
 
 ### T1: Criar tabela e modelo de preferencias de email

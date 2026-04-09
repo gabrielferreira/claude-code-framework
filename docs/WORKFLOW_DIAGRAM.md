@@ -118,6 +118,18 @@ O ciclo de desenvolvimento com o framework instalado.
                          │     │         │
                          ▼     ▼         ▼
                     ┌─────────────────────────┐
+                    │  Grande/Complexo?        │
+                    └───────┬─────────┬───────┘
+                       Sim  │         │ Não
+                            ▼         │
+                    ┌──────────────┐   │
+                    │ Research     │   │  ← skill research
+                    │ (investigar  │   │    (6 eixos)
+                    │  codebase)   │   │
+                    └──────┬──────┘   │
+                           │          │
+                           ▼          ▼
+                    ┌─────────────────────────┐
                     │  Ler skill(s) aplicável │  ← ANTES de codar
                     │  (testing, code-quality, │
                     │   security-review, etc.) │

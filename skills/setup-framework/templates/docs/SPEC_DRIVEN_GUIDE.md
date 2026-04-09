@@ -168,8 +168,8 @@ Os templates prontos para copiar estão organizados por tipo de setup. Use A se 
     |---|---|---|---|
     | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
     | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
-    | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → execution-plan → implementa → commit |
-    | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | Fluxo RPI → spec → design → execution-plan → implementa → commit |
+    | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → execution-plan → implementa → commit |
+    | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | Fluxo RPI (skill research) → spec → design → execution-plan → implementa → commit |
 
     > Toda mudança tem spec. A complexidade determina o nível de detalhe, não se a spec existe. Se o projeto usa sub-agents, a implementação de Médio+ é delegada após o execution-plan.
 
@@ -190,7 +190,7 @@ Os templates prontos para copiar estão organizados por tipo de setup. Use A se 
 
     - Pequeno/Médio: cabe numa sessão só
     - Grande: considerar 1 sessão por grupo de tasks
-    - Complexo: 1 sessão por fase (research, plan, implement) + sub-sessões por grupo de tasks [P]
+    - Complexo: 1 sessão por fase (research, plan, implement) + sub-sessões por wave de tasks [P]
 
     ### Caminho das specs
     - Specs locais: `./specs/` (submodule ou pasta sincronizada)
@@ -415,8 +415,8 @@ Este conceito é central para escalar o fluxo spec-driven sem gerar overhead des
 |---|---|---|---|
 | **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Só entrada no backlog | Backlog → implementa → testa → commit |
 | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → TDD → commit |
-| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → spec → design → tasks → TDD → commit |
-| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI → spec → design → tasks → sub-agents → commit |
+| **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → tasks → TDD → commit |
+| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI (skill research) → spec → design → tasks → sub-agents → commit |
 
 Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
@@ -432,9 +432,9 @@ O padrão RPI surgiu na comunidade de AI coding, popularizado pela [HumanLayer](
 
 Para tarefas grandes ou complexas, dividir em sessões separadas:
 
-1. **Research:** investigar código, dependências, padrões existentes. Output: lista de achados + riscos.
-2. **Plan:** escrever spec, design doc, breakdown de tasks. Output: spec aprovada + tasks priorizadas.
-3. **Implement:** executar tasks em ordem (sequenciais → paralelas → integração). Output: código + testes.
+1. **Research:** seguir protocolo da skill research (`.claude/skills/research/README.md`). Investigar código existente, patterns de reuso, dependências, riscos. Output: `.claude/specs/{id}-research.md` com achados estruturados por 6 eixos.
+2. **Plan:** escrever spec, design doc, breakdown de tasks a partir dos achados do research. Output: spec aprovada + tasks priorizadas.
+3. **Implement:** executar tasks em waves (sequenciais → paralelas → integração). Output: código + testes.
 
 Cada fase roda numa sessão separada com context limpo. A fundamentação: pesquisa sobre *task interference* (EMNLP 2024) mostrou que **trocar de tipo de tarefa na mesma sessão degrada performance significativamente**, mesmo em modelos frontier. Research acumula muitos file reads (alta densidade de distratores), Plan toma decisões arquiteturais, e Implement precisa de foco em código. Misturar as três numa mesma sessão força o modelo a navegar entre contextos conflitantes.
 
@@ -514,7 +514,7 @@ A combinação de **sessões focadas** (1 assunto por sessão), **fluxo RPI** (r
 Na prática:
 - **Pequeno/Médio:** cabe numa sessão só
 - **Grande:** considerar 1 sessão por grupo de tasks
-- **Complexo:** 1 sessão por fase (research, plan, implement) + sub-sessões por grupo de tasks `[P]`
+- **Complexo:** 1 sessão por fase (research, plan, implement) + sub-sessões por wave de tasks `[P]`
 - Ao perceber que a sessão está ficando longa: parar, registrar estado no `STATE.md`, e limpar contexto com `/clear` (ou abrir nova sessão)
 
 ### STATE.md — memória persistente entre sessões
@@ -923,11 +923,11 @@ Para features grandes ou complexas, o breakdown de tasks na spec permite execuç
 ```markdown
 ## Breakdown de tasks
 
-### Ordem de execução
+### Ordem de execução (waves)
 
-Fase 1 (sequencial): T1 → T2 → T3
-Fase 2 (paralela):   T4 [P] | T5 [P] | T6 [P]
-Fase 3 (integração):  T7 → T8
+Wave 1 (sequencial): T1 → T2 → T3
+Wave 2 (paralela):   T4 [P] | T5 [P] | T6 [P]
+Wave 3 (integração):  T7 → T8
 
 ### T1: Criar schema do banco
 - **O que:** Criar migration com tabelas X, Y, Z

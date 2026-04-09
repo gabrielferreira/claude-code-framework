@@ -61,6 +61,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
 | `.claude/skills/context-fresh/README.md` | `skills/context-fresh/README.md` | structural |
+| `.claude/skills/research/README.md` | `skills/research/README.md` | structural |
 | `.claude/skills/execution-plan/README.md` | `skills/execution-plan/README.md` | structural |
 | `.claude/skills/bug-investigation/SKILL.md` | `skills/bug-investigation/SKILL.md` | structural |
 

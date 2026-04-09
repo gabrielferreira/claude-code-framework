@@ -8,8 +8,6 @@
 
 | ID | Item | Sev. | Impacto | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|------|------|------|--------|
-| CE2 | **Waves paralelas**: adicionar ao `spec-driven` noção de dependências entre tasks e execução em waves (tasks independentes rodam em paralelo) | 🟠 | 🔧 Interno | Feature | 6h | CE1 ✅ | Análise GSD |
-| CE4 | **Research phase**: adicionar etapa de pesquisa antes do planning no workflow de specs — investigar stack, patterns, riscos antes de planejar | 🟠 | 👤 Usuário | Feature | 4h | — | Análise GSD |
 | CE5 | **Quick mode**: path simplificado para tasks ad-hoc que não precisam de spec completa (equivalente ao `/gsd:quick`) | 🟡 | 👤 Usuário | Feature | 3h | — | Análise GSD |
 | CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | Feature | 3h | CE1 | Análise GSD |
 
@@ -69,10 +67,12 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| CE2 | **Waves paralelas**: terminologia unificada Fase→Wave, wave derivation explícito no execution-plan, conexão direta com context-fresh | v2.25.0 — 2026-04-09 |
+| CE4 | **Research phase**: skill `research/README.md` com protocolo de 6 eixos, formato de saída estruturado, integração com execution-plan e spec-driven | v2.25.0 — 2026-04-09 |
 | CE1 | **Context-fresh execution**: agent `task-runner.md` + skill `context-fresh/README.md` com protocolo de orquestração, waves e briefing template | v2.24.0 — 2026-04-09 |
 | CE3 | **Resume/state machine**: STATE.md com seção "Execução ativa" (fase, entry/exit criteria, log de transições) + gates em spec-driven e definition-of-done | v2.24.0 — 2026-04-09 |
 | SW2 | **Spec state machine**: gates de transição de status (rascunho→aprovada→em andamento→concluída) com critérios explícitos em spec-driven | v2.24.0 — 2026-04-09 |
-| SW5 | **Task graph com dependências**: seção "Grafo de dependências" no TEMPLATE.md (Task/Depende de/Arquivos/Tipo/Parallelizável) | v2.24.0 — 2026-04-09 |
+| SW5 | **Task graph com dependências**: seção "Grafo de dependências" no TEMPLATE.md (Task/Depende de/Arquivos/Tipo/Paralelizável) | v2.24.0 — 2026-04-09 |
 | — | (framework nasceu em 2026-03-31, backlog criado em 2026-04-03) | — |
 
 ---
