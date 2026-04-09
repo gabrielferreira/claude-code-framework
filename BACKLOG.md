@@ -190,10 +190,12 @@ Pesquisa ampla de ferramentas spec-driven em 2026. Ferramentas analisadas:
 
 | Ferramenta | Stars | Foco principal | O que tem de único |
 |---|---|---|---|
-| **GSD** | ~47k | Orquestração autônoma | Context-fresh execution, waves paralelas, auto-mode |
-| **Spec Kit** (GitHub) | ~72k | Scaffolding SDD multi-agent | Constitution file, specify CLI, 22+ agents |
+| **GSD v1** | ~50k | Orquestração autônoma (prompt framework) | Context-fresh execution, waves paralelas, auto-mode |
+| **GSD v2** | ~5k | Orquestração autônoma (CLI/SDK) | Reescrita TypeScript autônoma — referência para DF1 |
+| **GitHub Spec Kit** | ~55k | Metodologia SDD (quem criou a tendência, set/2024) | Constitution file, specify CLI, 22+ agents |
+| **AWS Kiro** | — | IDE spec-driven completo (jul/2025, powered by Claude) | Requirements→Design→Implementation como fases nativas — popularizou o modelo |
 | **OpenSpec** | ~37k | Brownfield iteration | Delta markers (ADDED/MODIFIED/REMOVED), state machine (proposal→apply→archive) |
-| **cc-sdd** | ~3k | Kiro-style workflow | EARS format, Mermaid diagrams, validation gates, 13 idiomas |
+| **cc-sdd** | ~3k | Kiro-style workflow (community) | EARS format, Mermaid diagrams, validation gates, 13 idiomas |
 | **Taskmaster AI** | ~25k | Task decomposition | PRD→task graph, dependency-aware, complexity scores |
 
 **Posicionamento do nosso framework**: nenhuma dessas ferramentas tem profundidade de domínio comparável (22 skills especializados + 10 agents de auditoria). Todas focam em "como estruturar e executar", nenhuma foca em "o que verificar por domínio". Somos complementares a todas.
