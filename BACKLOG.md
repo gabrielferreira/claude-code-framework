@@ -172,27 +172,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 
 ## Detalhes por item
 
-Specs detalhadas em `.claude/item-specs/`. Ler o arquivo do item antes de implementar.
-
-| ID | Spec |
-|---|---|
-| AU1 | [`.claude/item-specs/AU1.md`](.claude/item-specs/AU1.md) |
-| AU4 | [`.claude/item-specs/AU4.md`](.claude/item-specs/AU4.md) |
-| SA1 | [`.claude/item-specs/done/SA1.md`](.claude/item-specs/done/SA1.md) ✅ |
-| SA2 | [`.claude/item-specs/SA2.md`](.claude/item-specs/SA2.md) |
-| SA3 | [`.claude/item-specs/SA3.md`](.claude/item-specs/SA3.md) |
-| SA4 | [`.claude/item-specs/SA4.md`](.claude/item-specs/SA4.md) |
-| SW1 | [`.claude/item-specs/SW1.md`](.claude/item-specs/SW1.md) |
-| SW9 | [`.claude/item-specs/SW9.md`](.claude/item-specs/SW9.md) |
-| SW3 | [`.claude/item-specs/SW3.md`](.claude/item-specs/SW3.md) |
-| SW7 | [`.claude/item-specs/SW7.md`](.claude/item-specs/SW7.md) |
-| MR1 | [`.claude/item-specs/MR1.md`](.claude/item-specs/MR1.md) |
-| MR2 | [`.claude/item-specs/MR2.md`](.claude/item-specs/MR2.md) |
-| MR3 | [`.claude/item-specs/MR3.md`](.claude/item-specs/MR3.md) |
-| MR4 | [`.claude/item-specs/MR4.md`](.claude/item-specs/MR4.md) |
-| MO4 | [`.claude/item-specs/MO4.md`](.claude/item-specs/MO4.md) |
-| MO8 | [`.claude/item-specs/MO8.md`](.claude/item-specs/MO8.md) |
-| OP1 | [`.claude/item-specs/OP1.md`](.claude/item-specs/OP1.md) |
+Ver [`.claude/item-specs/INDEX.md`](.claude/item-specs/INDEX.md) — índice completo com pendentes e concluídos.
 
 ---
 
