@@ -226,6 +226,7 @@ Specs detalhadas em `.claude/item-specs/`. Ler o arquivo do item antes de implem
 | SA3 | [`.claude/item-specs/SA3.md`](.claude/item-specs/SA3.md) |
 | SA4 | [`.claude/item-specs/SA4.md`](.claude/item-specs/SA4.md) |
 | SW1 | [`.claude/item-specs/SW1.md`](.claude/item-specs/SW1.md) |
+| SW9 | [`.claude/item-specs/SW9.md`](.claude/item-specs/SW9.md) |
 | SW3 | [`.claude/item-specs/SW3.md`](.claude/item-specs/SW3.md) |
 | SW7 | [`.claude/item-specs/SW7.md`](.claude/item-specs/SW7.md) |
 | MR1 | [`.claude/item-specs/MR1.md`](.claude/item-specs/MR1.md) |
