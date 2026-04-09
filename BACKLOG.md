@@ -53,6 +53,12 @@
 | MO6 | **Multi-agent support (instalação em outros ambientes)**: adaptar instalação/setup para Cursor, Copilot, Windsurf e outros — foco em como o framework é distribuído e ativado em cada ambiente de editor/agent (diferente de MO1 que trata formato das skills) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 8h | — | cc-sdd + OpenSpec |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 
+### Operações do framework
+
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| OP1 | **Monitoramento do ecossistema**: GitHub Action com cron mensal que verifica novos releases dos repos de referência (`references/ECOSYSTEM.md`), compara com última versão conhecida e notifica no Google Chat se houver novidade relevante — evita perder features de concorrentes | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Automação | 4h | — | Discussão 2026-04-09 |
+
 ### Testes e qualidade
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
@@ -128,6 +134,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **CE6** | CE1 ✅ | Auto-commit por task |
 | **AU1** | — | Stuck detection |
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
+| **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
 
 ### Wave 4 — Skills/agents novos (independentes)
 
