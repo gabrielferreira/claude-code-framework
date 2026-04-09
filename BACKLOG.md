@@ -9,25 +9,25 @@
 | ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|------|------|------|--------|
 | CE5 | **Quick mode**: path simplificado para tasks ad-hoc que não precisam de spec completa (equivalente ao `/gsd:quick`) | 🟡 | 👤 Usuário | 🔺 Fluxo | Feature | 3h | — | Análise GSD |
-| CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | ⬜ Infra | Feature | 3h | CE1 | Análise GSD |
+| CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | ⬜ Bastidor | Feature | 3h | CE1 | Análise GSD |
 
 ### Fase 2 — Autonomia & Automação
 
 | ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|------|------|------|--------|
-| AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | ⬜ Infra | Feature | 4h | — | Análise GSD |
-| AU2 | **Cost tracking básico**: registrar tokens/custo por task em log persistente | 🟡 | 💰 Negócio | ⬜ Infra | Feature | 3h | — | Análise GSD |
-| AU3 | **Auto-advance**: após completar uma task, avançar automaticamente para a próxima do spec/backlog | 🟡 | 👤 Usuário | ⬜ Infra | Feature | 4h | CE1 ✅, CE3 ✅ | Análise GSD |
-| AU4 | **Crash recovery**: persistir estado de execução para retomar após interrupção (crash, timeout, context limit) | 🟡 | 🔧 Interno | ⬜ Infra | Feature | 6h | CE3 ✅ | Análise GSD |
+| AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
+| AU2 | **Cost tracking básico**: registrar tokens/custo por task em log persistente | 🟡 | 💰 Negócio | ⬜ Bastidor | Feature | 3h | — | Análise GSD |
+| AU3 | **Auto-advance**: após completar uma task, avançar automaticamente para a próxima do spec/backlog | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 4h | CE1 ✅, CE3 ✅ | Análise GSD |
+| AU4 | **Crash recovery**: persistir estado de execução para retomar após interrupção (crash, timeout, context limit) | 🟡 | 🔧 Interno | ⬜ Bastidor | Feature | 6h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
 
 | ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|------|------|------|--------|
-| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns de um projeto existente (similar ao GSD map-codebase) | 🟠 | 👤 Usuário | ⬜ Infra | Feature | 4h | — | Análise GSD |
+| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns de um projeto existente (similar ao GSD map-codebase) | 🟠 | 👤 Usuário | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
 | SA2 | **Agent `plan-checker`**: valida planos de implementação contra requirements antes de executar (cc-sdd tem validate-gap, validate-design, validate-impl como gates separados) | 🟡 | 🔧 Interno | 🔺 Fluxo | Feature | 3h | — | Análise GSD + cc-sdd |
-| SA3 | **Agent `debugger`**: diagnóstico automático de falhas com contexto de task + erro + código relevante | 🟡 | 👤 Usuário | ⬜ Infra | Feature | 4h | — | Análise GSD |
-| SA4 | **Skill `/discuss`**: modo conversacional para esclarecer gray areas antes de planejar (assumptions mode) | 🟡 | 👤 Usuário | ⬜ Infra | Feature | 3h | — | Análise GSD |
+| SA3 | **Agent `debugger`**: diagnóstico automático de falhas com contexto de task + erro + código relevante | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
+| SA4 | **Skill `/discuss`**: modo conversacional para esclarecer gray areas antes de planejar (assumptions mode) | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 3h | — | Análise GSD |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
 
@@ -44,21 +44,21 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|------|------|------|--------|
-| MO1 | **Multi-runtime**: suporte a OpenCode, Gemini CLI, Codex (adaptar skills para formatos de cada runtime) | 🟡 | 👤 Usuário | ⬜ Infra | Feature | 8h | — | Análise GSD |
-| MO2 | **Web dashboard**: visualização de progresso do projeto (specs, backlog, coverage, agents) | ⚪ | 👤 Usuário | ⬜ Infra | Feature | 12h | — | Análise GSD |
-| MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | ⬜ Infra | Feature | 4h | — | Análise GSD |
-| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | ⬜ Infra | Feature | 4h | CE1 ✅ | Análise GSD |
-| MO5 | **Slack/Discord integration**: rotear perguntas que o agent não consegue resolver para o dev via chat | ⚪ | 👤 Usuário | ⬜ Infra | Feature | 6h | — | Análise GSD |
-| MO6 | **Multi-agent support (8+ runtimes)**: adaptar instalação para Cursor, Copilot, Windsurf, OpenCode, Gemini CLI, Codex (cc-sdd suporta 8, OpenSpec suporta 20+) | 🟡 | 👤 Usuário | ⬜ Infra | Feature | 8h | — | cc-sdd + OpenSpec |
-| MO7 | **i18n das skills**: suporte a múltiplos idiomas nas skills (cc-sdd suporta 13 idiomas) | ⚪ | 👤 Usuário | ⬜ Infra | Feature | 6h | — | cc-sdd |
-| MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Infra | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
+| MO1 | **Multi-runtime**: suporte a OpenCode, Gemini CLI, Codex (adaptar skills para formatos de cada runtime) | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 8h | — | Análise GSD |
+| MO2 | **Web dashboard**: visualização de progresso do projeto (specs, backlog, coverage, agents) | ⚪ | 👤 Usuário | ⬜ Bastidor | Feature | 12h | — | Análise GSD |
+| MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
+| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | ⬜ Bastidor | Feature | 4h | CE1 ✅ | Análise GSD |
+| MO5 | **Slack/Discord integration**: rotear perguntas que o agent não consegue resolver para o dev via chat | ⚪ | 👤 Usuário | ⬜ Bastidor | Feature | 6h | — | Análise GSD |
+| MO6 | **Multi-agent support (8+ runtimes)**: adaptar instalação para Cursor, Copilot, Windsurf, OpenCode, Gemini CLI, Codex (cc-sdd suporta 8, OpenSpec suporta 20+) | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 8h | — | cc-sdd + OpenSpec |
+| MO7 | **i18n das skills**: suporte a múltiplos idiomas nas skills (cc-sdd suporta 13 idiomas) | ⚪ | 👤 Usuário | ⬜ Bastidor | Feature | 6h | — | cc-sdd |
+| MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Bastidor | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 
 ### Testes e qualidade
 
 | ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|------|------|------|--------|
-| TQ1 | **Repo de teste automatizado**: CI que roda `/setup-framework` + `/update-framework` num repo fake e valida resultado | 🟠 | 🔧 Interno | ⬜ Infra | Testes | 4h | — | Orgânico |
-| TQ2 | **Validate-tags em CI**: rodar `validate-tags.sh` automaticamente em PRs | 🟡 | 🔧 Interno | ⬜ Infra | Testes | 1h | TQ1 | Orgânico |
+| TQ1 | **Repo de teste automatizado**: CI que roda `/setup-framework` + `/update-framework` num repo fake e valida resultado | 🟠 | 🔧 Interno | ⬜ Bastidor | Testes | 4h | — | Orgânico |
+| TQ2 | **Validate-tags em CI**: rodar `validate-tags.sh` automaticamente em PRs | 🟡 | 🔧 Interno | ⬜ Bastidor | Testes | 1h | TQ1 | Orgânico |
 | TQ3 | **Testes de sincronia source↔template**: script que verifica se todos os sources estão sincronizados com templates | 🟡 | 🔧 Interno | Testes | 2h | — | Orgânico |
 
 ---
