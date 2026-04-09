@@ -32,6 +32,7 @@
 | SW3 | **EARS format para requirements**: formato Event-Action-Result-State para RFs mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
 | SW9 | **SPECS_INDEX ativo**: specs ativas no INDEX, concluídas movem para `SPECS_INDEX_ARCHIVE.md` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | SW2 ✅ | Discussão 2026-04-09 |
 | SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: restrições fixas que toda spec deve respeitar | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
+| SW10 | **Campos customizados por projeto em specs**: tabela `### Campos customizados` no CLAUDE.md onde o projeto declara campos extras (Squad, Sprint, Risk Level) — `/spec` e `/backlog-update` preenchem automaticamente em modo repo e Notion | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | worktree pensive-colden (2026-04-02) |
 
 ### Fase 4 — Melhorias orgânicas
 
@@ -124,6 +125,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 |----|------|------|
 | **AU1** | — | Stuck detection |
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
+| **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
 
 ### Wave 4 — Skills/agents novos (independentes)
