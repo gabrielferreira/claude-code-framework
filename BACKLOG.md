@@ -16,7 +16,6 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
-| AU2 | **Cost tracking básico**: registrar tokens/custo por task em log persistente | 🟡 | 💰 Negócio | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD |
 | AU4 | **Crash recovery / skill `/resume`**: CE3 ✅ criou o STATE.md com seção "Execução ativa", mas não tem protocolo explícito de retomada. AU4 seria uma skill `/resume` que lê STATE.md e reconstrói o contexto para continuar do ponto de interrupção (crash, timeout, context limit) — avaliar se STATE.md atual já é suficiente ou precisa de campos extras | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Feature | 4h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
@@ -143,7 +142,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **SA1** | `/map-codebase` — útil para onboarding |
 | **SA3** | Agent debugger |
 | **SA4** | `/discuss` — modo conversacional |
-| **AU2** | Cost tracking |
 | **MO3** | `/milestone` |
 
 ### Wave 5 — Distribuição e escala (quando houver demanda)
@@ -169,6 +167,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | DF4 | Adotar formato EARS para requirements ou manter formato livre | Quando SW3 for avaliado num projeto real | Testar EARS em 2-3 specs antes de adotar como padrão | cc-sdd |
 | DF5 | Spec state machine rígida (OpenSpec) ou flexível (atual) | Quando projetos reportarem specs pulando etapas | Começar com validação soft (warning) antes de gate hard (block) | OpenSpec |
 | DF6 | Constitution file separado (Spec Kit) ou embutido no PROJECT_CONTEXT.md | Quando SW7 for implementado | Embutir no PROJECT_CONTEXT.md como seção; separar só se crescer demais | Spec Kit |
+| AU2 | Implementar cost tracking (tokens/custo por task) — e se sim, via mecanismo manual ou hook, e onde armazenar | Quando Claude Code expor metadados de uso nativamente (token count por chamada via hook ou API) | Não implementar agora: log persistente cresce indefinidamente sem política de rotação; escrita manual pelo Claude é imprecisa; aguardar suporte nativo | Análise GSD |
 
 ---
 
