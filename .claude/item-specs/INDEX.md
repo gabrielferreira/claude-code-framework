@@ -45,4 +45,8 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Descartado em |
 |----|---------|--------------|
-| — | — | — |
+| AU3 | [discarded/AU3.md](discarded/AU3.md) | 2026-04-09 |
+| CE6 | [discarded/CE6.md](discarded/CE6.md) | 2026-04-09 |
+| MO2 | [discarded/MO2.md](discarded/MO2.md) | 2026-04-09 |
+| MO5 | [discarded/MO5.md](discarded/MO5.md) | 2026-04-09 |
+| MO7 | [discarded/MO7.md](discarded/MO7.md) | 2026-04-09 |
