@@ -265,6 +265,21 @@ O arquivo tem **5 secoes fixas**, nesta ordem:
 3. Remover da secao "Sugestao de execucao"
 4. Atualizar deps de outros itens que dependiam deste (adicionar ✅)
 
+### Ao descartar item
+
+Nao deletar — mover para a secao "Descartados" com motivo explicito. Isso evita reabrir a mesma discussao no futuro.
+
+1. Riscar o nome do item (~~texto~~)
+2. Registrar data e motivo objetivo (ex: "conflita com filosofia X", "fora do escopo", "CE3 ja resolve")
+3. Remover da tabela de Pendentes e da "Sugestao de execucao"
+4. Atualizar deps de outros itens que dependiam deste
+
+**Criterios para descartar** (nao e exaustivo):
+- Conflita com a filosofia core do framework (markdown-first, revisao humana, escopo de specs)
+- Ja resolvido por outro item concluido
+- Fora do escopo: feature de produto diferente, nao de framework de specs
+- Beneficio nao justifica complexidade para o publico-alvo atual
+
 ### Ao iniciar sessao de desenvolvimento do framework
 
 Ler o BACKLOG.md — especialmente a secao "Sugestao de execucao" — para saber o proximo item a implementar. Nao perguntar "o que fazer?" se o backlog ja tem a resposta.
