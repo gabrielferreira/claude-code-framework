@@ -7,6 +7,30 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.24.0] — 2026-04-09
+
+### Adicionado
+
+- **CE3+SW2 — State machine e spec gates:**
+  - `specs/STATE.md`: nova seção "Execução ativa" com fase atual (research/plan/execute/verify), entry/exit criteria e log de transições
+  - `skills/spec-driven`: fluxo RPI formalizado como state machine com tabela de fases por tamanho (Pequeno/Médio/Grande/Complexo)
+  - `skills/spec-driven`: gates de transição de status com critérios explícitos (rascunho→aprovada→em andamento→concluída)
+  - `skills/definition-of-done`: checks de fase verify, log de transições e limpeza ao done
+
+- **CE1+SW5 — Context-fresh execution e task graph:**
+  - `agents/task-runner.md`: novo agent para execução isolada de tasks com contexto limpo (worktree: true, model: sonnet)
+  - `skills/context-fresh/README.md`: protocolo de orquestração — waves de execução, briefing template, completion log, regras de falha
+  - `specs/TEMPLATE.md`: seção "Grafo de dependências" com colunas Task/Depende de/Arquivos/Tipo/Parallelizável
+  - `skills/execution-plan`: referências ao grafo da spec e protocolo context-fresh
+  - `skills/spec-creator`: task graph obrigatório para Grande/Complexo (repo + Notion mode)
+
+- **Documentação atualizada:**
+  - `CLAUDE.template.md`: skill #3 (context-fresh), agent #14 (task-runner), worktrees section, ordem de precedência
+  - `docs/SKILLS_MAP.md`: context-fresh no fluxo principal e tabela de dependências
+  - `docs/WORKFLOW_DIAGRAM.md`: task-runner e 3 agents faltantes na tabela
+  - `docs/SPEC_EXAMPLE.md`: breakdown de tasks atualizado com formato Grafo de dependências
+  - `setup-framework` e `update-framework`: listas hardcoded de agents/skills atualizadas
+
 ## [2.23.1] — 2026-04-09
 
 ### Corrigido
