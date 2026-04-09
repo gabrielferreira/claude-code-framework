@@ -2,6 +2,8 @@
 
 Este arquivo e para quem **desenvolve o framework**. NAO e copiado para projetos — projetos recebem o `CLAUDE.template.md` customizado pelo setup.
 
+@.claude/TASK_CHECKLIST.md
+
 ## O que e este projeto
 
 Framework de specs, skills, agents e verificacao para projetos com Claude Code. Gera estrutura completa via `/setup-framework` e mantém atualizado via `/update-framework`. Suporta Notion nativo via MCP.
@@ -32,19 +34,6 @@ claude-code-framework/
     ├── verify.sh              ← Copiado pro projeto (manual)
     ├── reports.sh             ← Copiado pro projeto (manual)
     └── install-skills.sh      ← NAO copiado — instalacao pessoal
-```
-
-## Regra de ouro: source + templates em sincronia
-
-Todo arquivo que vai pro projeto existe em **dois lugares**:
-1. **Source** (raiz): `agents/security-audit.md`, `skills/testing/README.md`, etc.
-2. **Template** (copia): `skills/setup-framework/templates/agents/security-audit.md`, etc.
-
-**Sempre que editar um source, copiar para o template correspondente.** O setup usa os templates, o update usa o source via git diff. Se divergirem, o framework quebra.
-
-```bash
-# Exemplo: editou agents/security-audit.md
-cp agents/security-audit.md skills/setup-framework/templates/agents/security-audit.md
 ```
 
 ## Posicao do framework-tag
@@ -184,10 +173,9 @@ Verificar que tudo ficou consistente:
 ## Fluxo de desenvolvimento
 
 1. Criar worktree para a sessao
-2. Fazer as mudancas nos sources
-3. Sincronizar com templates — **sempre** copiar source → template correspondente
-4. Atualizar MANIFEST se adicionou/removeu arquivo
-5. Antes de push, perguntar ao usuario se quer rodar as validacoes localmente:
+2. Fazer as mudancas nos sources (sources + templates em sincronia — ver TASK_CHECKLIST.md item 1)
+3. Atualizar MANIFEST se adicionou/removeu arquivo (ver TASK_CHECKLIST.md item 2)
+4. Antes de push, perguntar ao usuario se quer rodar as validacoes localmente:
    ```bash
    bash scripts/validate-tags.sh && bash scripts/check-sync.sh && bash scripts/test-setup.sh
    ```
@@ -198,24 +186,20 @@ Verificar que tudo ficou consistente:
 
 ## Regras
 
-1. **Nunca editar so o template sem editar o source** (ou vice-versa). Sempre os dois.
-2. **Nunca adicionar arquivo ao framework sem entrada completa no MANIFEST.** Cada entrada deve ter: path no projeto, template source, e estrategia (overwrite/structural/manual/skip). Se o arquivo vai para projetos, a copia em `skills/setup-framework/templates/` tambem e obrigatoria (vinculando com a regra 1).
-3. **Testar mudancas num repo real** antes de publicar. Instalar via `install-skills.sh` e rodar `/setup-framework` ou `/update-framework` num repo de teste.
-4. **Skills dual-mode (repo + Notion):** `/spec` e `/backlog-update` detectam `## Integracao Notion (specs)` no CLAUDE.md do projeto. Qualquer mudanca nessas skills precisa funcionar nos dois modos.
-5. **Agents sao read-only.** Todos tem `worktree: false`. Se criar agent que edita codigo, marcar `worktree: true`.
-6. **O framework nao configura MCP.** Setup/update apenas usam o MCP Notion se ja estiver configurado. Nunca pedir token ou configurar autenticacao.
-7. **CLAUDE.md do projeto e intocavel por overwrite.** Sempre `manual` — mostrar diff, nunca aplicar sozinho.
-8. **Agents definem `model:` no frontmatter.** Ao criar ou editar agent, escolher modelo pela complexidade:
+> Para a checklist completa de verificação durante execução de tarefas, ver `@.claude/TASK_CHECKLIST.md` (carregado automaticamente).
+
+1. **Testar mudancas num repo real** antes de publicar. Instalar via `install-skills.sh` e rodar `/setup-framework` ou `/update-framework` num repo de teste.
+2. **Agents sao read-only.** Todos tem `worktree: false`. Se criar agent que edita codigo, marcar `worktree: true`.
+3. **O framework nao configura MCP.** Setup/update apenas usam o MCP Notion se ja estiver configurado. Nunca pedir token ou configurar autenticacao.
+4. **CLAUDE.md do projeto e intocavel por overwrite.** Sempre `manual` — mostrar diff, nunca aplicar sozinho.
+5. **Agents definem `model:` no frontmatter.** Ao criar ou editar agent, escolher modelo pela complexidade:
    - `opus` — raciocinio profundo, consequencia real de erro (ex: security). Usar com parcimonia.
    - `sonnet` — checklists estruturados, analise com heuristicas claras. Default recomendado para novos agents.
    - `haiku` — leitura e formatacao sem julgamento complexo.
    Regra pratica: se o agent tem checklist com thresholds numericos → sonnet. Se precisa correlacionar findings ou julgar severidade → opus. Se so le e formata → haiku.
    Incluir `model-rationale:` no frontmatter com 1 frase justificando a escolha (ex: `model-rationale: checklist com thresholds numericos, sem julgamento subjetivo`). Isso garante rastreabilidade e facilita revisao.
-9. **Skills devem ter exemplos concretos.** Toda skill deve conter pelo menos 1 exemplo concreto por bloco de codigo, alem dos placeholders `{Adaptar:...}`. Placeholders sozinhos nao sao suficientes — o exemplo concreto serve de referencia para quem customiza no projeto.
-10. **Docs portaveis sincronizados com skills.** Quando editar `skills/prd-creator/SKILL.md` ou `prds/PRD_TEMPLATE.md`, verificar se `docs/PRD_PORTABLE_PROMPT.md` precisa da mesma mudanca. O doc portavel e a versao standalone do workflow da skill — metodologia, classificacao de complexidade, template de saida e regras devem refletir o que a skill faz. Aplicar a mesma logica para futuros docs portaveis de outras skills.
-11. **Auditoria de completude em sincronia entre setup e update.**
-12. **Qualquer mudanca afeta projetos downstream.** Este framework e distribuido para projetos via `/setup-framework` e `/update-framework`. Mudancas em skills, agents, docs, templates ou fluxos descritos em qualquer arquivo chegam a projetos reais de outras pessoas — que podem ter conteudo customizado dentro dessas secoes. Ao implementar qualquer mudanca: (a) considerar que projetos downstream usam modo repo OU modo Notion — mudancas em skills de spec/backlog precisam funcionar nos dois; (b) considerar que projetos tem customizacoes preservadas pela estrategia `structural` — novas secoes nao sobrescrevem o que o projeto ja escreveu.
-13. **Ao finalizar qualquer mudanca, revisar docs e CLAUDE.template.md.** Nao so ao criar skill ou agent — qualquer alteracao de fluxo, comportamento ou arquivo distribuido pode tornar docs ou o CLAUDE.template.md desatualizados. Checklist minimo: `docs/SKILLS_MAP.md`, `docs/WORKFLOW_DIAGRAM.md`, `docs/SPEC_DRIVEN_GUIDE.md`, `docs/QUICK_START.md` e `CLAUDE.template.md` (lembrar que tem dois mirrors: `skills/setup-framework/templates/CLAUDE.template.md` e `skills/setup-framework/templates/CLAUDE.md`). A secao "5b. Auditoria de completude" existe tanto no `setup-framework/SKILL.md` quanto no `update-framework/SKILL.md`. As 6 categorias de checks (arquivos, agents, skills, secoes do CLAUDE.md, integridade de conteudo, relevancia de conteudo) devem ser identicas entre ambos. Ao adicionar ou remover um check em um, aplicar no outro. Diferencas permitidas: (a) o update cruza com a lista de arquivos recem-aplicados, (b) a Categoria 6 do update tem a subsecao 6.6 "Evolucao do projeto" que nao existe no setup.
+6. **Skills devem ter exemplos concretos.** Toda skill deve conter pelo menos 1 exemplo concreto por bloco de codigo, alem dos placeholders `{Adaptar:...}`. Placeholders sozinhos nao sao suficientes — o exemplo concreto serve de referencia para quem customiza no projeto.
+7. **Docs portaveis sincronizados com skills.** Quando editar `skills/prd-creator/SKILL.md` ou `prds/PRD_TEMPLATE.md`, verificar se `docs/PRD_PORTABLE_PROMPT.md` precisa da mesma mudanca. O doc portavel e a versao standalone do workflow da skill — metodologia, classificacao de complexidade, template de saida e regras devem refletir o que a skill faz. Aplicar a mesma logica para futuros docs portaveis de outras skills.
 
 ## Padrao para criar agents
 
