@@ -7,6 +7,14 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.22.0] — 2026-04-09
+
+### Adicionado
+
+- **Hook de verificação pós-commit:** setup-framework configura automaticamente `PostToolUse` em `.claude/settings.local.json` — roda `scripts/verify.sh` após cada `git commit`, silêncio quando passa, injeta apenas linhas `❌` quando falha
+- **Check no update-framework:** avisa no UPDATE_REPORT.md quando hook não está configurado, apontando para `docs/VERIFY_HOOK.md`
+- **`docs/VERIFY_HOOK.md`:** documentação do hook — por que usar, pré-requisitos, configuração manual, como testar
+
 ## [2.21.0] — 2026-04-08
 
 ### Adicionado
