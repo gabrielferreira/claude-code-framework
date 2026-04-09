@@ -13,7 +13,7 @@ Nesta ordem:
 | 1 | `CLAUDE.md` | Regras de desenvolvimento, estrutura do repo, processo de release, padrões para criar skills e agents |
 | 2 | `.claude/TASK_CHECKLIST.md` | Checklist que toda tarefa deve cumprir antes de ser considerada concluída |
 | 3 | `MANIFEST.md` | O que vai para projetos, com qual estratégia (overwrite/structural/manual/skip) |
-| 4 | `BACKLOG.md` | O que está pendente, o que foi descartado e por quê, ordem de execução sugerida — e specs inline dos itens refinados (seção `## Detalhes por item`) |
+| 4 | `BACKLOG.md` | O que está pendente, o que foi descartado e por quê, ordem de execução sugerida — e índice para specs detalhadas (seção `## Detalhes por item`) |
 
 > O Claude lê `CLAUDE.md` e `.claude/TASK_CHECKLIST.md` automaticamente a cada sessão. Quando trabalhar com Claude Code neste repo, esses arquivos já estarão no contexto.
 
@@ -142,22 +142,24 @@ As regras completas estão no `CLAUDE.md`. As mais críticas:
 ## Por onde começar
 
 1. Consulte a seção **"Sugestão de execução — Wave 1"** no `BACKLOG.md` para o próximo item de maior impacto.
-2. Se o item tiver entrada em **`## Detalhes por item`**, leia antes de começar — decisões de abordagem e restrições já estão documentadas lá.
+2. Se o item tiver entrada em **`## Detalhes por item`** do BACKLOG.md, leia o arquivo `.claude/item-specs/{ID}.md` antes de começar — decisões de abordagem e restrições já estão documentadas lá.
 3. Se não tiver detalhe, o item ainda não foi refinado — pode abrir uma sessão de discussão antes de implementar.
 
 Se preferir algo mais isolado (sem dependências), Wave 3 e Wave 4 têm itens independentes que podem ser implementados em qualquer ordem.
 
 ## Fluxo spec-driven simplificado
 
-O framework usa um spec-driven simplificado para seu próprio desenvolvimento — sem arquivos `.claude/specs/` separados. A spec de cada item vive inline no `BACKLOG.md` na seção `## Detalhes por item`.
+O framework usa um spec-driven simplificado para seu próprio desenvolvimento. Specs de itens do backlog vivem em `.claude/item-specs/{ID}.md` — arquivos pequenos, carregados cirurgicamente quando necessário.
 
-Ao refinar um item (em sessão de discussão com o Claude ou com o time), registrar em Detalhes:
+Ao refinar um item (em sessão de discussão com o Claude ou com o time), criar ou atualizar `.claude/item-specs/{ID}.md` com:
 - Por que o item existe e que problema resolve
 - A abordagem escolhida (e alternativas descartadas)
 - Critérios de aceitação verificáveis
 - Restrições e gates
 
-Ao concluir o item, remover o detalhe (o contexto fica no commit).
+O BACKLOG.md mantém apenas o índice (`## Detalhes por item`) com links para os arquivos.
+
+Ao concluir o item, deletar o arquivo de spec e remover do índice (o contexto fica no commit).
 
 ---
 
