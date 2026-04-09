@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.21.0 framework-file: docs/TROUBLESHOOTING.md -->
+<!-- framework-tag: v2.22.0 framework-file: docs/TROUBLESHOOTING.md -->
 
 # Solucao de Problemas
 
