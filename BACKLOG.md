@@ -41,17 +41,14 @@
 | MR2 | **Setup-framework detecta monorepo**: perguntar durante setup se é monorepo, listar sub-projetos encontrados, preencher seção `## Monorepo` no CLAUDE.md do projeto | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | MR1 | Discussão 2026-04-09 |
 | MR3 | **Spec-creator com detecção de escopo monorepo (dual-mode)**: lê `## Monorepo` do CLAUDE.md L0, identifica sub-projetos afetados, propõe path/propriedade, pede confirmação — repo mode: cria spec no subdiretório correto; Notion mode: cria página com propriedade `Sub-projeto` preenchida | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 6h | MR1, MR2 | Discussão 2026-04-09 |
 | MR4 | **Backlog-update com awareness monorepo (dual-mode)**: repo mode: agrupa specs por sub-projeto no backlog; Notion mode: filtra/etiqueta por propriedade `Sub-projeto` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | MR2, MR3 | Discussão 2026-04-09 |
-| MO1 | **Multi-runtime (formato de skills)**: adaptar o formato das skills para funcionar com OpenCode, Gemini CLI, Codex — foco em como as instruções são escritas/parseadas por cada runtime | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Feature | 8h | — | Análise GSD |
-| MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
 | MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
-| MO6 | **Multi-agent support (instalação em outros ambientes)**: adaptar instalação/setup para Cursor, Copilot, Windsurf e outros — foco em como o framework é distribuído e ativado em cada ambiente de editor/agent (diferente de MO1 que trata formato das skills) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 8h | — | cc-sdd + OpenSpec |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 
 ### Operações do framework
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| OP1 | **Monitoramento do ecossistema**: GitHub Action com cron mensal que verifica novos releases dos repos de referência (`references/ECOSYSTEM.md`), compara com última versão conhecida e notifica no Google Chat se houver novidade relevante — evita perder features de concorrentes | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Automação | 4h | — | Discussão 2026-04-09 |
+| OP1 | **Monitoramento do ecossistema**: GitHub Action semanal que verifica novos releases dos repos em `references/ECOSYSTEM.md`, compara com última versão registrada e adiciona linhas `🔔 pendente validação` diretamente no ECOSYSTEM.md — sem notificação externa, o time revisa quando quiser | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Automação | 4h | — | Discussão 2026-04-09 |
 
 ### Testes e qualidade
 
@@ -135,15 +132,12 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 |----|------|
 | **SA3** | Agent debugger |
 | **SA4** | `/discuss` — modo conversacional |
-| **MO3** | `/milestone` |
 
 ### Wave 5 — Distribuição e escala (quando houver demanda)
 
 | ID | Nota |
 |----|------|
 | **MO8** | NPX installer (maior impacto em adoção) |
-| **MO1** | Multi-runtime (formato de skills) |
-| **MO6** | Multi-agent (instalação em outros ambientes) |
 | **MO4** | Git isolation (worktree por task) |
 
 > **Princípio:** Wave 1 primeiro porque muda artefatos que tudo consome. Waves 3-5 podem rodar em paralelo conforme demanda. SW3 (EARS) fica na Wave 2 porque é decisão futura (DF4) — testar antes de adotar.
@@ -171,6 +165,8 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | DF12 | **Custom Schema / Artifacts Mandatórios por Domínio**: definir que certos tipos de change exigem artifacts extras antes de implementar — ex: mudança em auth exige `threat-model.md`, mudança em schema exige `migration-plan.md` | Quando domínios como security ou DBA reportarem que suas skills são ignoradas ou executadas after-the-fact em vez de before | Integrar com skills de domínio existentes (security, DBA): skill define quais artifacts são mandatórios; spec-driven verifica presença antes de avançar para implementation | cc-sdd |
 | DF13 | **Discovery Routing (pré-spec classification)**: antes de criar spec, classificar o work incoming em buckets (quick-task direto, spec única, multi-spec decomposition, brownfield brownfield) e rotear para o fluxo correto — evitar overhead de spec completa para tasks triviais | Quando CE5 (quick mode) for implementado e a fronteira "quando precisa de spec" precisar ser explicitada | Implementar como pergunta inicial do spec-creator: "Isso é uma task rápida, uma spec única ou uma iniciativa maior?" e rotear para CE5, `/spec` ou `/prd` conforme | cc-sdd + GitHub Spec Kit |
 | DF14 | **Tagged Task Lists (parallel feature tracks)**: sistema de tags que organiza tasks em contextos isolados por feature/branch/milestone, com IDs independentes por tag — permite trabalho paralelo em múltiplas tracks sem conflito de state | Quando times reportarem dificuldade de gerenciar múltiplas specs em andamento simultâneo ou quando STATE.md ficar confuso com múltiplos trabalhos paralelos | Implementar como extensão do STATE.md: seção "Tracks ativos" com tag + spec ativa + task atual por track. Cada wave do execution-plan pode ser uma track | Taskmaster AI |
+| MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | Quando projetos reportarem dificuldade de rastrear o que vai pra uma entrega específica (10+ specs no ciclo) | Não implementar agora: backlog.md já serve para agrupamento informal; precisa definir como milestones funcionam em Notion mode (propriedade? database separada?) antes de implementar | Análise GSD |
+| MO6 | **Distribuição em outros editores (Cursor, Copilot, Windsurf)**: adaptar instalação e ativação do framework para editores que não são Claude Code — cada editor tem seu mecanismo próprio (`.cursorrules`, `.github/copilot-instructions.md`, `.windsurfrules`) e não suporta features específicas do Claude Code (`@` imports, frontmatter de agents, CLAUDE.md automático no contexto) | Quando houver demanda real de usuários nesses editores — hoje o framework foi projetado especificamente para Claude Code | Antes de implementar: (1) mapear quais features do framework dependem exclusivamente do Claude Code vs quais são portáveis; (2) definir o que seria "suporte parcial" (só skills markdown) vs "suporte completo" (agents, setup, update); (3) avaliar se vale manter dois modos ou criar um fork separado — risco de diluir o foco e aumentar a superfície de manutenção | cc-sdd + OpenSpec |
 
 ---
 
@@ -232,6 +228,9 @@ Specs detalhadas em `.claude/item-specs/`. Ler o arquivo do item antes de implem
 | MR2 | [`.claude/item-specs/MR2.md`](.claude/item-specs/MR2.md) |
 | MR3 | [`.claude/item-specs/MR3.md`](.claude/item-specs/MR3.md) |
 | MR4 | [`.claude/item-specs/MR4.md`](.claude/item-specs/MR4.md) |
+| MO4 | [`.claude/item-specs/MO4.md`](.claude/item-specs/MO4.md) |
+| MO8 | [`.claude/item-specs/MO8.md`](.claude/item-specs/MO8.md) |
+| OP1 | [`.claude/item-specs/OP1.md`](.claude/item-specs/OP1.md) |
 
 ---
 
