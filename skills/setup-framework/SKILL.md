@@ -1080,7 +1080,7 @@ raiz/
 **Hooks (pre-commit, etc.) em monorepo:**
 - Se o time usa hooks (pre-commit, husky, lefthook), configurar para rodar o verify.sh do sub-projeto afetado, nao todos
 - Exemplo com lefthook: `glob: "backend/**"` → roda `backend/scripts/verify.sh`
-- O setup nao configura hooks automaticamente — apenas informa o modelo recomendado no SETUP_REPORT.md
+- O setup nao configura hooks de pre-commit (husky/lefthook) automaticamente — apenas informa o modelo recomendado no SETUP_REPORT.md. Para o hook de pos-commit do Claude Code (PostToolUse), ver passo 3.12.
 
 ### 3.8 docs/
 
@@ -1309,6 +1309,47 @@ Os SKILL.md de `/spec` e `/backlog-update` ja suportam Notion nativamente — ba
 3. product-review: so instalar se PRD foi ativado no Bloco 2b
 
 Todos sao `structural` — agents podem ter conteudo customizado pelo projeto (`{Adaptar:}` preenchidos pelo setup, `model:` editado pelo projeto). O update preserva conteudo customizado e adiciona secoes novas do framework.
+
+### 3.12 Hook de verificação pós-commit
+
+Configurar hook que roda `scripts/verify.sh` em background após cada `git commit`. Zero tokens quando passa; injeta apenas linhas de erro quando falha.
+
+**Detecção do script:**
+```bash
+VERIFY_SCRIPT=""
+if [ -f scripts/verify.sh ]; then VERIFY_SCRIPT="scripts/verify.sh"
+elif [ -f scripts/check.sh ]; then VERIFY_SCRIPT="scripts/check.sh"
+fi
+```
+
+**Pré-requisito:** `jq` disponível (`command -v jq`).
+
+**Se `VERIFY_SCRIPT` encontrado E `jq` disponível:**
+
+1. Definir o comando do hook:
+   ```
+   if echo "${CLAUDE_TOOL_INPUT_COMMAND:-}" | grep -q 'git commit'; then FAILS=$(bash {VERIFY_SCRIPT} 2>&1 | grep '❌' | head -20); if [ -n "$FAILS" ]; then echo "$FAILS" | jq -Rs '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":("verify.sh falhou:\n" + .)}}'; exit 2; fi; fi
+   ```
+   (substituir `{VERIFY_SCRIPT}` pelo caminho detectado)
+
+2. Fazer merge em `.claude/settings.local.json`:
+   - **Não existe:** criar o arquivo com o JSON do hook
+   - **Existe, sem `.hooks.PostToolUse`:** usar `jq` para adicionar a chave preservando o conteúdo existente:
+     ```bash
+     jq '.hooks.PostToolUse = [{"matcher":"Bash","hooks":[{"type":"command","command":"{CMD}"}]}]' \
+       .claude/settings.local.json > /tmp/settings.tmp && mv /tmp/settings.tmp .claude/settings.local.json
+     ```
+   - **Existe, já tem `PostToolUse` com matcher `Bash`:** não sobrescrever — informar: "Hook pós-commit já configurado em settings.local.json."
+
+3. Validar com `jq -e '.hooks.PostToolUse[0].hooks[0].command' .claude/settings.local.json`
+
+4. Registrar no SETUP_REPORT.md: `✅ Hook pós-commit configurado em .claude/settings.local.json (${VERIFY_SCRIPT})`
+
+**Se `jq` não disponível:**
+- Registrar no SETUP_REPORT.md: `⚠️ Hook pós-commit não configurado: instale jq (brew install jq) e veja docs/VERIFY_HOOK.md`
+
+**Se nenhum script encontrado:**
+- Omitir — não configurar o hook e não mencionar no relatório.
 
 ---
 

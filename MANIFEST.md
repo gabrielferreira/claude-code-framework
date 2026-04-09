@@ -86,6 +86,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/BUG_INVESTIGATION_PORTABLE_PROMPT.md` | `docs/BUG_INVESTIGATION_PORTABLE_PROMPT.md` | structural |
 | `docs/WORKFLOW_DIAGRAM.md` | `docs/WORKFLOW_DIAGRAM.md` | structural |
 | `docs/PROTECT_BACKLOG_HOOK.md` | `docs/PROTECT_BACKLOG_HOOK.md` | structural |
+| `docs/VERIFY_HOOK.md` | `docs/VERIFY_HOOK.md` | structural |
 
 ### Scripts (manual)
 
