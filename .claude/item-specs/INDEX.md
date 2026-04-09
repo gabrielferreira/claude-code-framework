@@ -17,6 +17,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | SW3 | [SW3.md](SW3.md) | Fase 3b | Wave 2 |
 | SW7 | [SW7.md](SW7.md) | Fase 3b | Wave 1 |
 | SW9 | [SW9.md](SW9.md) | Fase 3b | Wave 2 |
+| SW10 | [SW10.md](SW10.md) | Fase 3b | Wave 3 |
 | MR1 | [MR1.md](MR1.md) | Fase 4 | Wave 1 |
 | MR2 | [MR2.md](MR2.md) | Fase 4 | Wave 1 |
 | MR3 | [MR3.md](MR3.md) | Fase 4 | Wave 2 |
