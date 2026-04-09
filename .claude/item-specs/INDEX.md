@@ -2,7 +2,7 @@
 
 Specs detalhadas dos itens do backlog. Ler antes de implementar um item.
 
-Ao **concluir** um item: mover o arquivo para `done/`. Ao **descartar**: deletar o arquivo.
+Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **descartar**: mover para `discarded/` e atualizar tabela abaixo.
 
 ## Pendentes
 
@@ -40,3 +40,9 @@ Ao **concluir** um item: mover o arquivo para `done/`. Ao **descartar**: deletar
 | TQ1 | [done/TQ1.md](done/TQ1.md) | v2.25.0 |
 | TQ2 | [done/TQ2.md](done/TQ2.md) | v2.25.0 |
 | TQ3 | [done/TQ3.md](done/TQ3.md) | v2.25.0 |
+
+## Descartados
+
+| ID | Arquivo | Descartado em |
+|----|---------|--------------|
+| — | — | — |

@@ -159,7 +159,7 @@ Ao refinar um item (em sessão de discussão com o Claude ou com o time), criar 
 
 O BACKLOG.md apenas aponta para `.claude/item-specs/INDEX.md` — o índice completo (pendentes + concluídos) vive lá.
 
-Ao concluir o item, mover o arquivo para `.claude/item-specs/done/{ID}.md` e atualizar o INDEX (mover linha para "Concluídos"). Ao descartar, deletar o arquivo e remover do INDEX.
+Ao concluir o item, mover o arquivo para `.claude/item-specs/done/{ID}.md` e atualizar o INDEX (mover linha para "Concluídos"). Ao descartar, mover o arquivo para `.claude/item-specs/discarded/{ID}.md` e atualizar o INDEX (mover linha para "Descartados").
 
 ---
 
