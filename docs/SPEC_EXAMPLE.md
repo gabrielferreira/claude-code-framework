@@ -60,17 +60,28 @@ Atualmente, membros do time so descobrem que uma spec mudou de status ao abrir o
 
 ## Breakdown de tasks
 
+### Grafo de dependencias
+
+| Task | Depende de | Arquivos | Tipo | Parallelizavel? |
+|------|-----------|----------|------|-----------------|
+| T1 | — | `migrations/20260315_email_preferences.sql`, `src/models/email-preferences.ts` | implementacao | — (primeira) |
+| T2 | T1 | `src/services/email.service.ts` | implementacao | Nao (depende de T1) |
+| T3 | T2 | `src/routes/specs.ts` | implementacao | Sim [P] (sem overlap com T4) |
+| T4 | T1 | `src/pages/profile/notifications.tsx` | implementacao | Sim [P] (sem overlap com T3) |
+| T5 | T3, T4 | `tests/email.service.test.ts`, `tests/specs-status.integration.test.ts` | teste | Nao (integracao) |
+
 ### Ordem de execucao
 
 ```
 Fase 1 (sequencial): T1 → T2
-Fase 2 (paralela):   T3 [P] | T4 [P]
+Fase 2 (paralela):   T3 [P] | T4 [P]  (sem overlap de arquivos)
 Fase 3 (integracao): T5
 ```
 
 ### T1: Criar tabela e modelo de preferencias de email
 - **O que:** Migration SQL + modelo TypeScript para `email_preferences`
 - **Onde:** `migrations/20260315_email_preferences.sql`, `src/models/email-preferences.ts`
+- **Tipo:** implementacao
 - **Depende de:** — (primeiro)
 - **Reutiliza:** Padrao de migrations existente do projeto
 - **Pronto quando:** Migration roda sem erro e modelo exporta tipos corretos (RF-004)
@@ -78,6 +89,7 @@ Fase 3 (integracao): T5
 ### T2: Implementar servico de envio de email
 - **O que:** Servico que envia email via SendGrid com retry e tratamento de erro
 - **Onde:** `src/services/email.service.ts`
+- **Tipo:** implementacao
 - **Depende de:** T1 (precisa consultar preferencias)
 - **Reutiliza:** —
 - **Pronto quando:** Servico envia email e respeita preferencias do usuario (RF-001, RF-003)
@@ -85,6 +97,7 @@ Fase 3 (integracao): T5
 ### T3: Integrar notificacao na rota de mudanca de status [P]
 - **O que:** Chamar servico de email quando status da spec mudar via API
 - **Onde:** `src/routes/specs.ts`
+- **Tipo:** implementacao
 - **Depende de:** T2
 - **Reutiliza:** Middleware de autenticacao existente
 - **Pronto quando:** POST /api/specs/:id/status dispara email para usuarios associados (RF-001, RF-002)
@@ -92,6 +105,7 @@ Fase 3 (integracao): T5
 ### T4: Tela de preferencias de notificacao [P]
 - **O que:** Pagina no perfil do usuario para ativar/desativar notificacoes
 - **Onde:** `src/pages/profile/notifications.tsx`
+- **Tipo:** implementacao
 - **Depende de:** T1 (usa modelo de preferencias)
 - **Reutiliza:** Componentes de formulario do design system
 - **Pronto quando:** Usuario consegue desativar notificacoes e a preferencia persiste (RF-004)
@@ -99,6 +113,7 @@ Fase 3 (integracao): T5
 ### T5: Testes unitarios e de integracao
 - **O que:** Testes cobrindo envio, opt-out e falha do SendGrid
 - **Onde:** `tests/email.service.test.ts`, `tests/specs-status.integration.test.ts`
+- **Tipo:** teste
 - **Depende de:** T3, T4
 - **Reutiliza:** Fixtures de teste existentes
 - **Pronto quando:** Todos os cenarios dos criterios de aceitacao item 5 passam

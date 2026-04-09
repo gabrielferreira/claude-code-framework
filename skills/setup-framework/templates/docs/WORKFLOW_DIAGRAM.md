@@ -202,6 +202,11 @@ Agents são read-only: geram relatórios, nunca aplicam fixes diretamente.
   │ product-review     │ PRD vs implementação         │
   │ refactor-agent     │ Oportunidades de refactoring │
   │ test-generator     │ Sugestões de testes          │
+  │ dx-audit           │ DX: scripts, configs, docs   │
+  │ performance-audit  │ Queries, bundles, render      │
+  │ infra-audit        │ Deploy, CI/CD, monitoring     │
+  │ task-runner         │ Executa task individual       │
+  │                    │ (via skill context-fresh)     │
   └────────────────────┴──────────────────────────────┘
 ```
 

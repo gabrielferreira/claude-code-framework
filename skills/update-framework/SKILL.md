@@ -712,7 +712,7 @@ Opcoes:
 
 ### Categoria 2 — Agents
 
-Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator]`:
+Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator, dx-audit, performance-audit, infra-audit, task-runner]`:
 
 1. **Arquivo existe** em `.claude/agents/{nome}.md`? → 🔴 se nao
 2. **Frontmatter completo?** Campos: `description`, `model`, `worktree`, `model-rationale` → 🟠 por campo faltante
@@ -722,7 +722,7 @@ Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-rep
 
 ### Categoria 3 — Skills
 
-Para cada skill core em `[spec-driven, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[spec-creator, backlog-update, prd-creator]`:
+Para cada skill core em `[spec-driven, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling, context-fresh]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[spec-creator, backlog-update, prd-creator]`:
 
 > **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
 > - `spec-driven` = processo/metodologia de desenvolvimento (README.md de referencia)
