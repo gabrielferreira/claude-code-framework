@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-09
+> Última atualização: 2026-04-09 (monorepo items added)
 
 ## Pendentes
 
@@ -44,6 +44,10 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|------|------|------|--------|
+| MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: listar sub-projetos, paths e responsabilidades — fonte de verdade que skills leem para ter awareness de monorepo | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 2h | — | Discussão 2026-04-09 |
+| MR2 | **Setup-framework detecta monorepo**: perguntar durante setup se é monorepo, listar sub-projetos encontrados, preencher seção `## Monorepo` no CLAUDE.md do projeto | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 3h | MR1 | Discussão 2026-04-09 |
+| MR3 | **Spec-creator com detecção de escopo monorepo (dual-mode)**: lê `## Monorepo` do CLAUDE.md L0, identifica sub-projetos afetados, propõe path/propriedade, pede confirmação — repo mode: cria spec no subdiretório correto; Notion mode: cria página com propriedade `Sub-projeto` preenchida | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 6h | MR1 | Discussão 2026-04-09 |
+| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: repo mode: agrupa specs por sub-projeto no backlog; Notion mode: filtra/etiqueta por propriedade `Sub-projeto` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 4h | MR2, MR3 | Discussão 2026-04-09 |
 | MO1 | **Multi-runtime**: suporte a OpenCode, Gemini CLI, Codex (adaptar skills para formatos de cada runtime) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 8h | — | Análise GSD |
 | MO2 | **Web dashboard**: visualização de progresso do projeto (specs, backlog, coverage, agents) | ⚪ | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 12h | — | Análise GSD |
 | MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | ⬜ Bastidor | 📦 Projeto | Feature | 4h | — | Análise GSD |
@@ -89,18 +93,22 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 | Ordem | ID | Motivo da prioridade |
 |-------|-----|---------------------|
 | 1 | **SW7** | Constitution/steering — cria artefato que spec e plan devem respeitar. Quanto antes existir, mais itens subsequentes já nascem alinhados. |
-| 2 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
-| 3 | **CE5** | Quick mode — precisa reconciliar com gates baseados em artefato (v2.26.0). Definir o boundary "quando é OK pular spec completa" antes de mais itens de automação. |
-| 4 | **SA2** | Plan-checker — complementa o `{id}-plan.md` (v2.26.0). Gate de validação natural entre plan e execute. |
-| 5 | **SW6** | Spec archive — reconciliar com o fluxo de delete de research/plan no done (v2.26.0). |
-| 6 | **SW8** | PRD → task graph — depende de SW5 ✅. Gera grafo automaticamente a partir de PRD. |
+| 2 | **MR1** | Seção `## Monorepo` no CLAUDE.template.md — bloqueador de uso real em monorepos. Fonte de verdade para MR2–MR4. |
+| 3 | **MR2** | Setup detecta monorepo — preenche seção MR1 automaticamente. Sem isso, dev precisa preencher à mão. Deps: MR1. |
+| 4 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
+| 5 | **CE5** | Quick mode — precisa reconciliar com gates baseados em artefato (v2.26.0). Definir o boundary "quando é OK pular spec completa" antes de mais itens de automação. |
+| 6 | **SA2** | Plan-checker — complementa o `{id}-plan.md` (v2.26.0). Gate de validação natural entre plan e execute. |
+| 7 | **SW6** | Spec archive — reconciliar com o fluxo de delete de research/plan no done (v2.26.0). |
+| 8 | **SW8** | PRD → task graph — depende de SW5 ✅. Gera grafo automaticamente a partir de PRD. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|
-| 7 | **SW4** | Design docs Mermaid — muda DESIGN_TEMPLATE.md, sem conflito com outros itens. |
-| 8 | **SW3** | EARS format — muda formato de RF no TEMPLATE.md. Avaliar em projeto real antes (ver DF4). |
+| 9 | **MR3** | Spec-creator detecta sub-projeto afetado — sem isso, spec sempre vai pra raiz mesmo em monorepo. Deps: MR1, MR2. |
+| 10 | **MR4** | Backlog-update agrupa por sub-projeto — deps: MR2, MR3. |
+| 11 | **SW4** | Design docs Mermaid — muda DESIGN_TEMPLATE.md, sem conflito com outros itens. |
+| 12 | **SW3** | EARS format — muda formato de RF no TEMPLATE.md. Avaliar em projeto real antes (ver DF4). |
 
 ### Wave 3 — Automação e infra (não mudam fluxo)
 
