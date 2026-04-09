@@ -13,42 +13,42 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
-| AU4 | **Crash recovery / skill `/resume`**: CE3 ✅ criou o STATE.md com seção "Execução ativa", mas não tem protocolo explícito de retomada. AU4 seria uma skill `/resume` que lê STATE.md e reconstrói o contexto para continuar do ponto de interrupção (crash, timeout, context limit) — avaliar se STATE.md atual já é suficiente ou precisa de campos extras | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Feature | 4h | CE3 ✅ | Análise GSD |
+| AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | 🟠 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
+| AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Feature | 4h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| SA2 | **Agent `plan-checker`**: valida planos de implementação contra requirements antes de executar (cc-sdd tem validate-gap, validate-design, validate-impl como gates separados) | 🟡 | 🔧 Interno | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD + cc-sdd |
-| SA3 | **Agent `debugger`**: diagnóstico automático de falhas com contexto de task + erro + código relevante | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
-| SA4 | **Skill `/discuss`**: modo conversacional para esclarecer gray areas antes de planejar (assumptions mode) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD |
+| SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | 🟡 | 🔧 Interno | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD + cc-sdd |
+| SA3 | **Agent `debugger`**: coleta contexto de falha automaticamente e produz diagnóstico estruturado | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
+| SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
-| SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
-| SW9 | **SPECS_INDEX ativo**: manter SPECS_INDEX.md apenas com specs não-concluídas (rascunho + em andamento); specs concluídas movem para `SPECS_INDEX_ARCHIVE.md` — evita crescimento ilimitado do índice e consumo de contexto desnecessário em projetos com muitas specs | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | SW2 ✅ | Discussão 2026-04-09 |
-| SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: lista de restrições explícitas (stack, padrões, decisões arquiteturais fixas) que toda spec e plan deve respeitar — documentar na skill spec-creator que essa seção deve ser consultada antes de propor qualquer mudança | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
+| SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF em specs de alteração | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
+| SW3 | **EARS format para requirements**: formato Event-Action-Result-State para RFs mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
+| SW9 | **SPECS_INDEX ativo**: specs ativas no INDEX, concluídas movem para `SPECS_INDEX_ARCHIVE.md` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | SW2 ✅ | Discussão 2026-04-09 |
+| SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: restrições fixas que toda spec deve respeitar | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
 
 ### Fase 4 — Melhorias orgânicas
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: listar sub-projetos, paths e responsabilidades — fonte de verdade que skills leem para ter awareness de monorepo | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 2h | — | Discussão 2026-04-09 |
-| MR2 | **Setup-framework detecta monorepo**: perguntar durante setup se é monorepo, listar sub-projetos encontrados, preencher seção `## Monorepo` no CLAUDE.md do projeto | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | MR1 | Discussão 2026-04-09 |
-| MR3 | **Spec-creator com detecção de escopo monorepo (dual-mode)**: lê `## Monorepo` do CLAUDE.md L0, identifica sub-projetos afetados, propõe path/propriedade, pede confirmação — repo mode: cria spec no subdiretório correto; Notion mode: cria página com propriedade `Sub-projeto` preenchida | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 6h | MR1, MR2 | Discussão 2026-04-09 |
-| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: repo mode: agrupa specs por sub-projeto no backlog; Notion mode: filtra/etiqueta por propriedade `Sub-projeto` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | MR2, MR3 | Discussão 2026-04-09 |
-| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
-| MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
+| MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: fonte de verdade de sub-projetos para skills com awareness de monorepo | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 2h | — | Discussão 2026-04-09 |
+| MR2 | **Setup-framework detecta monorepo**: confirmação + mapeamento de sub-projetos + preenchimento da seção MR1 | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | MR1 | Discussão 2026-04-09 |
+| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: cria spec no sub-projeto correto (repo) ou preenche `Sub-projeto` (Notion) | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 6h | MR1, MR2 | Discussão 2026-04-09 |
+| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: agrupa por sub-projeto no backlog.md ou propriedade Notion | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | MR2, MR3 | Discussão 2026-04-09 |
+| MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
+| MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 
 ### Operações do framework
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| OP1 | **Monitoramento do ecossistema**: GitHub Action semanal que verifica novos releases dos repos em `references/ECOSYSTEM.md`, compara com última versão registrada e adiciona linhas `🔔 pendente validação` diretamente no ECOSYSTEM.md — sem notificação externa, o time revisa quando quiser | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Automação | 4h | — | Discussão 2026-04-09 |
+| OP1 | **Monitoramento do ecossistema**: GitHub Action semanal que detecta novos releases e registra `🔔` no ECOSYSTEM.md | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Automação | 4h | — | Discussão 2026-04-09 |
 
 ### Testes e qualidade
 
