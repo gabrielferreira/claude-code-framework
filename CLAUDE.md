@@ -172,17 +172,20 @@ Verificar que tudo ficou consistente:
 
 ## Fluxo de desenvolvimento
 
-1. Criar worktree para a sessao
-2. Fazer as mudancas nos sources (sources + templates em sincronia — ver TASK_CHECKLIST.md item 1)
-3. Atualizar MANIFEST se adicionou/removeu arquivo (ver TASK_CHECKLIST.md item 2)
-4. Antes de push, perguntar ao usuario se quer rodar as validacoes localmente:
+**Regra de branch:** nunca commitar diretamente na main. Todo trabalho acontece em branch separada e entra via Pull Request revisado.
+
+1. Criar branch a partir da main: `git checkout -b feat/nome-da-feature` (ou `fix/`, `docs/`, etc.)
+2. Criar worktree para a sessao se preferir isolamento: `git worktree add ../worktree-nome branch`
+3. Fazer as mudancas nos sources (sources + templates em sincronia — ver TASK_CHECKLIST.md item 1)
+4. Atualizar MANIFEST se adicionou/removeu arquivo (ver TASK_CHECKLIST.md item 2)
+5. Antes do PR, perguntar ao usuario se quer rodar as validacoes localmente:
    ```bash
    bash scripts/validate-tags.sh && bash scripts/check-sync.sh && bash scripts/test-setup.sh
    ```
    Os tres scripts rodam automaticamente no CI (GitHub Actions) em todo push/PR na main, mas rodar antes localmente evita feedback loop lento.
-6. Commitar com Conventional Commits
-7. Merge na main
-8. Release (processo acima)
+6. Commitar com Conventional Commits e abrir Pull Request para main
+7. Aguardar CI passar e revisao antes de mergear
+8. Release (processo acima) — feito na main apos merge
 
 ## Regras
 
