@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.24.1 framework-file: docs/VERIFY_HOOK.md -->
+<!-- framework-tag: v2.25.0 framework-file: docs/VERIFY_HOOK.md -->
 # Hook: Verificação pós-commit (verify.sh)
 
 Hook que roda `scripts/verify.sh` automaticamente após cada `git commit`, sem bloquear a sessão e sem gastar tokens quando passa.

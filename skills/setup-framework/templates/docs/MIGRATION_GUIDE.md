@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.24.1 framework-file: docs/MIGRATION_GUIDE.md -->
+<!-- framework-tag: v2.25.0 framework-file: docs/MIGRATION_GUIDE.md -->
 
 # Guia de Migracao
 

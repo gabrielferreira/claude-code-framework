@@ -7,6 +7,28 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.25.0] — 2026-04-09
+
+### Adicionado
+
+- **CE4 — Research phase:**
+  - `skills/research/README.md`: nova skill com protocolo estruturado de investigação antes do planning (6 eixos: stack, código existente, patterns de reuso, dependências, riscos, gaps de conhecimento)
+  - Formato de saída `{id}-research.md` com seções padronizadas (achados, tabelas de código/dependências/riscos, decisões sugeridas)
+  - Exemplo concreto: sistema de notificações em projeto Node.js + PostgreSQL
+  - Integração com spec-driven (fase research referencia a skill) e execution-plan (achados alimentam o plan)
+  - CLAUDE.template.md: skill #2 na tabela, ordem de precedência atualizada com research
+  - Docs atualizados: SKILLS_MAP, WORKFLOW_DIAGRAM, SPEC_DRIVEN_GUIDE, CONCEPTUAL_MAP
+
+- **CE2 — Waves paralelas:**
+  - Terminologia unificada: "Fase N" → "Wave N" na ordem de execução (disambigua de "fase" do lifecycle research/plan/execute/verify)
+  - `execution-plan`: wave derivation explícito com algoritmo (Wave 1 = sem deps, Wave 2 = deps em Wave 1, etc.) e conexão com context-fresh
+  - `specs/TEMPLATE.md`: seção "Ordem de execução (waves)" com exemplos Wave 1/2/3
+  - Todos os docs e exemplos alinhados com nova terminologia
+
+### Corrigido
+
+- **Ortografia:** "Parallelizável" → "Paralelizável" (português correto, 1 L) em 14 arquivos
+
 ## [2.24.1] — 2026-04-09
 
 ### Corrigido
