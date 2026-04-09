@@ -1,0 +1,20 @@
+{
+  "name": "claude-code-framework",
+  "owner": {
+    "name": "Estrategia HQ"
+  },
+  "metadata": {
+    "description": "Framework de specs, skills e verificacao para projetos com Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "claude-code-framework",
+      "source": {
+        "source": "github",
+        "repo": "estrategiahq/claude-code-framework"
+      },
+      "description": "Framework completo: skills, agents, docs e templates para projetos com Claude Code",
+      "version": "2.18.0"
+    }
+  ]
+}

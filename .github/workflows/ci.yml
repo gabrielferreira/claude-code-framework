@@ -44,6 +44,10 @@ jobs:
         id: sync
         run: bash scripts/check-sync.sh
 
+      - name: Test setup simulation
+        id: test-setup
+        run: bash scripts/test-setup.sh
+
       - name: Migration exists for tag
         id: migration
         if: startsWith(github.ref, 'refs/tags/v')
