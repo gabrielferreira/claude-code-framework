@@ -208,6 +208,17 @@ Pesquisa ampla de ferramentas spec-driven em 2026. Ferramentas analisadas:
 
 Specs inline para itens que passaram por sessão de refinamento. Só existem para itens pendentes — ao concluir ou descartar, remover o detalhe.
 
+### AU1 — Stuck detection
+
+**Contexto:** sem mecanismo explícito de detecção de loop, o Claude pode repetir a mesma ação N vezes sem progresso. AU1 força uma parada com diagnóstico quando isso acontece.
+**Abordagem:** instrução no task-runner (CE1 ✅) — se a mesma ação foi tentada ≥3 vezes sem mudança de estado, interromper e reportar o blocker ao invés de continuar.
+**Critérios de aceitação:**
+- [ ] task-runner detecta loop (≥3 tentativas sem progresso) e para com diagnóstico estruturado
+- [ ] diagnóstico inclui: o que foi tentado, quantas vezes, por que não avançou, próximos passos sugeridos
+- [ ] comportamento testado em cenário de loop real
+
+**Status:** dev em andamento (2026-04-09).
+
 ### SW3 — EARS format para requirements
 
 **Contexto:** adotar formato Event-Action-Result-State para requirements nos RFs, tornando-os mecanicamente verificáveis pelo Claude.
