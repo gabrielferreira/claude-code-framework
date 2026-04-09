@@ -138,7 +138,8 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 22 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
 | 23 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
 | 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-{24+. Skills específicas do domínio do projeto}
+| 25 | Vai iniciar trabalho em projeto desconhecido ou apos longa ausencia? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
+{25+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
