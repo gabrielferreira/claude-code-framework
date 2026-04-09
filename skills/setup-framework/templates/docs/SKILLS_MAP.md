@@ -51,4 +51,4 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | backlog-update | Apos concluir spec ou identificar trabalho adicional |
 | spec-creator (`/spec`) | Ao criar nova spec antes de iniciar implementacao |
 | prd-creator | Ao criar PRD antes de quebrar em specs |
-| map-codebase (`/map-codebase`) | Ao iniciar sessao em projeto desconhecido ou apos longa ausencia — mapear stack, arquitetura, convencoes e concerns antes de planejar |
+| map-codebase (`/map-codebase`) | Ao iniciar sessao em projeto desconhecido ou após longa ausência — mapear stack, arquitetura, convencoes e concerns antes de planejar |

@@ -24,7 +24,7 @@ Analisa o projeto em 4 dimensoes paralelas e gera um mapa estruturado: stack tec
 ## Quando usar
 
 - Onboarding em projeto existente (primeiro contato)
-- Inicio de sessao apos longa ausencia
+- Inicio de sessao após longa ausência
 - Antes de planejar feature em area desconhecida do codigo
 - Para entender convencoes antes de implementar
 
@@ -70,7 +70,7 @@ Analisa o projeto em 4 dimensoes paralelas e gera um mapa estruturado: stack tec
 
 **Fallback (se Agent tool indisponivel):** executar as 4 dimensoes sequencialmente na mesma sessao. Mencionar no output: `(analise sequencial — paralelo indisponivel)`.
 
-Cada dimensao e analisada de forma completamente independente — sem compartilhar estado. A sintese (Passo 2) so inicia apos todas as dimensoes serem concluidas. Nenhuma dimensao pode depender de resultados de outra durante a coleta.
+Cada dimensao e analisada de forma completamente independente — sem compartilhar estado. A sintese (Passo 2) so inicia após todas as dimensoes serem concluidas. Nenhuma dimensao pode depender de resultados de outra durante a coleta.
 
 ---
 
@@ -157,8 +157,8 @@ Avaliar no contexto do tipo de sistema (Dim B). Se um concern nao se aplica ao t
 - **Performance:** hotspots de complexidade (arquivos >300 linhas), queries sem indice visivel, loops aninhados suspeitos. *(Exemplos ilustrativos — adaptar ao tipo de sistema detectado)*
 - **Seguranca:** padroes de risco (env vars com SECRET/TOKEN/KEY sem protecao, queries concatenadas, inputs nao sanitizados)
 - **Manutencao:** TODOs/HACKs/FIXMEs (contar e localizar), arquivos com alta complexidade aparente, acoplamento excessivo
-- **Testabilidade:** ratio arquivos com testes vs. sem testes, ausencia de mocks/interfaces, logica embedded em handlers
-- **Observabilidade:** ausencia de logs estruturados, falta de tracing, erros silenciados
+- **Testabilidade:** ratio arquivos com testes vs. sem testes, ausência de mocks/interfaces, logica embedded em handlers
+- **Observabilidade:** ausência de logs estruturados, falta de tracing, erros silenciados
 
 ### Passo 2 — Sintetizar
 
@@ -256,7 +256,7 @@ Com base nos concerns detectados, sugerir (nao executar):
 2. **Guardrail de escopo e profundidade:** analisar apenas arquivos rastreados pelo git. Nunca entrar em `node_modules/`, `vendor/`, `dist/`, `build/` ou arquivos gerados. Dependencias: apenas manifestos, nunca conteudo de pacotes externos. Sem rastreamento transitivo de imports. Priorizar visao geral — ler no maximo 50–80 linhas por arquivo. Nao aprofundar excessivamente em nenhum arquivo individual.
 3. **Limite por dimensao:** maximo 30 arquivos por agente. Garantir minimos obrigatorios antes de amostrar o restante.
 4. **Paralelismo preferencial:** lançar ate 4 agents em paralelo (preferencialmente na mesma mensagem quando suportado). Ter fallback sequencial — indicar `(analise sequencial — paralelo indisponivel)` no output quando usado.
-5. **Paralelismo determinístico:** cada dimensao (A–D) e analisada de forma completamente independente, sem compartilhar estado. A sintese (Passo 2) so inicia apos todas as dimensoes serem concluidas. A ordem de execucao nao deve afetar o resultado.
+5. **Paralelismo determinístico:** cada dimensao (A–D) e analisada de forma completamente independente, sem compartilhar estado. A sintese (Passo 2) so inicia após todas as dimensoes serem concluidas. A ordem de execucao nao deve afetar o resultado.
 6. **Marcar incertezas:** usar `(inferido)` para achados nao diretamente evidentes, `(nao detectado)` se sem dados, `(nao aplicavel)` se o concern nao se aplica ao tipo de sistema.
 7. **Nao inventar stack:** sem evidencia direta, nao incluir. Preferir `(nao detectado)` a suposicao.
 8. **Concerns sao observacoes, nao prescricoes:** listar o que foi encontrado. Nao recomendar mudancas arquiteturais nem criticar escolhas do projeto.
