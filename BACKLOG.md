@@ -77,6 +77,69 @@
 
 ---
 
+## Sugestão de execução
+
+Ordem recomendada para os itens pendentes, agrupada por impacto e interdependências.
+
+### Wave 1 — Itens que mudam fluxo/template/spec (fazer primeiro)
+
+Estes alteram artefatos que outros itens consomem. Implementar antes evita retrabalho.
+
+| Ordem | ID | Motivo da prioridade |
+|-------|-----|---------------------|
+| 1 | **SW7** | Constitution/steering — cria artefato que spec e plan devem respeitar. Quanto antes existir, mais itens subsequentes já nascem alinhados. |
+| 2 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
+| 3 | **CE5** | Quick mode — precisa reconciliar com gates baseados em artefato (v2.26.0). Definir o boundary "quando é OK pular spec completa" antes de mais itens de automação. |
+| 4 | **SA2** | Plan-checker — complementa o `{id}-plan.md` (v2.26.0). Gate de validação natural entre plan e execute. |
+| 5 | **SW6** | Spec archive — reconciliar com o fluxo de delete de research/plan no done (v2.26.0). |
+| 6 | **SW8** | PRD → task graph — depende de SW5 ✅. Gera grafo automaticamente a partir de PRD. |
+
+### Wave 2 — Itens que mudam template mas são isolados
+
+| Ordem | ID | Motivo |
+|-------|-----|--------|
+| 7 | **SW4** | Design docs Mermaid — muda DESIGN_TEMPLATE.md, sem conflito com outros itens. |
+| 8 | **SW3** | EARS format — muda formato de RF no TEMPLATE.md. Avaliar em projeto real antes (ver DF4). |
+
+### Wave 3 — Automação e infra (não mudam fluxo)
+
+Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
+
+| ID | Deps | Nota |
+|----|------|------|
+| **CE6** | CE1 ✅ | Auto-commit por task |
+| **AU1** | — | Stuck detection |
+| **AU3** | CE1 ✅, CE3 ✅ | Auto-advance entre tasks |
+| **AU4** | CE3 ✅ | Crash recovery |
+| **TQ1** | — | CI com repo fake (habilita TQ2) |
+| **TQ3** | — | Testes de sync source↔template |
+
+### Wave 4 — Skills/agents novos (independentes)
+
+| ID | Nota |
+|----|------|
+| **SA1** | `/map-codebase` — útil para onboarding |
+| **SA3** | Agent debugger |
+| **SA4** | `/discuss` — modo conversacional |
+| **AU2** | Cost tracking |
+
+### Wave 5 — Distribuição e escala (quando houver demanda)
+
+| ID | Nota |
+|----|------|
+| **MO8** | NPX installer (maior impacto em adoção) |
+| **MO1** | Multi-runtime |
+| **MO6** | Multi-agent 8+ runtimes |
+| **MO4** | Git isolation (worktree por task) |
+| **MO3** | `/milestone` |
+| **MO7** | i18n |
+| **MO2** | Web dashboard |
+| **MO5** | Slack/Discord |
+
+> **Princípio:** Wave 1 primeiro porque muda artefatos que tudo consome. Waves 3-5 podem rodar em paralelo conforme demanda. SW3 (EARS) fica na Wave 2 porque é decisão futura (DF4) — testar antes de adotar.
+
+---
+
 ## Decisões futuras
 
 | ID | Decisão | Gatilho para reavaliar | Recomendação | Ref |
