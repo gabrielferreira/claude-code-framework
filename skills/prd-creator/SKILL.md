@@ -420,7 +420,7 @@ Quando a secao `## Integracao Notion (PRDs)` existe no CLAUDE.md, ou o `prd_data
      properties: {
        "Titulo": "PRD — {ID}: {titulo}",
        "Status": "rascunho",
-       "Complexidade": "{Medio|Grande|Complexo}",
+       "Complexidade": "{🔵 Médio|🟣 Grande|⬛ Complexo}",
        "Tipo": "PRD",
        "Projeto": "{nome do projeto}"
      },
