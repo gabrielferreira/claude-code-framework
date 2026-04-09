@@ -245,7 +245,7 @@ O `BACKLOG.md` e o roadmap do framework. Deve ser auto-contido — qualquer sess
 
 O arquivo tem **5 secoes fixas**, nesta ordem:
 
-1. **Pendentes** — tabelas por fase, com colunas: `ID | Item | Sev. | Impacto | Tipo | Est. | Deps | Origem`
+1. **Pendentes** — tabelas por fase, com colunas: `ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem`
 2. **Sugestao de execucao** — itens pendentes organizados em waves por impacto e interdependencia. Prioridade: Wave 1 (muda fluxo/template/spec) antes de Wave 2+ (isolados, automacao, infra)
 3. **Concluidos** — tabela com `ID | Item | Concluido em`
 4. **Decisoes futuras** — parking lot estrategico
@@ -253,14 +253,15 @@ O arquivo tem **5 secoes fixas**, nesta ordem:
 
 ### Ao adicionar item novo
 
-1. Classificar com todas as colunas (Sev, Impacto, Tipo, Est, Deps, Origem)
+1. Classificar com todas as colunas (Sev, Impacto, Superficie, Tipo, Est, Deps, Origem)
 2. Colocar na fase correta (Fase 1-4, Testes)
-3. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
-   - Muda fluxo, template ou spec? → Wave 1 ou 2
-   - Automacao, infra, tooling? → Wave 3
-   - Skill/agent novo independente? → Wave 4
-   - Distribuicao e escala? → Wave 5
-4. Se o item tem deps, documentar na coluna Deps e na secao de interdependencias
+3. **Classificar Superficie:**
+   - `🔺 Fluxo` — muda artefato, template, skill ou fluxo que o dev toca no dia a dia (template de spec, gate, ordem de execucao, formato de arquivo)
+   - `⬜ Infra` — roda por baixo sem mudar como o dev trabalha (automacao, tooling, CI, instalacao, agents novos independentes)
+4. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
+   - `🔺 Fluxo`? → Wave 1 ou 2 (fazer primeiro — muda artefatos que outros itens consomem)
+   - `⬜ Infra`? → Wave 3+ (pode rodar em paralelo)
+5. Se o item tem deps, documentar na coluna Deps e na secao de interdependencias
 
 ### Ao concluir item
 
