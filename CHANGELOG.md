@@ -7,6 +7,16 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.27.0] — 2026-04-09
+
+### Adicionado
+
+- **`marketplace.json` distribuído para projetos:** arquivo `marketplace.json` agora incluído no template do setup — projetos que rodam `/setup-framework` ou `/update-framework` recebem o arquivo em `.claude-plugin/marketplace.json`
+
+### Corrigido
+
+- **Classificação Pequeno:** critério `<30min` substituído por critérios estruturais (`sem nova abstração, sem mudança de schema, sem regra de negócio nova`) — tempo estimado não é critério confiável para classificação de complexidade. Atualizado em `spec-creator`, `spec-driven`, `execution-plan`, `prd-creator`, `CLAUDE.template.md`, `specs/backlog-format.md` e docs relacionados
+
 ## [2.26.0] — 2026-04-09
 
 ### Adicionado

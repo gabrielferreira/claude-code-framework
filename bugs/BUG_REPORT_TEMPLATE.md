@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.26.0 framework-file: bugs/BUG_REPORT_TEMPLATE.md -->
+<!-- framework-tag: v2.27.0 framework-file: bugs/BUG_REPORT_TEMPLATE.md -->
 
 > Severidade: `critico` | `alto` | `medio` | `baixo`
 > Status: `investigando` | `confirmado` | `escalado` | `resolvido` | `nao-reproduzivel`
