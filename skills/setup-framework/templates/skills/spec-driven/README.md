@@ -27,12 +27,13 @@
 
    Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
-> **Gate obrigatório (Médio+):** Antes de escrever a primeira linha de código, deve existir:
-> 1. Spec com status `aprovada` (não `rascunho`)
-> 2. Execution plan escrito (skill execution-plan) — plano mental não conta
-> 3. Se o projeto usa sub-agents: decomposição em partes com briefing completo (skill context-fresh)
+> **Gate obrigatório (Médio+):** Antes de escrever a primeira linha de código, devem existir **como arquivos no disco**:
+> 1. Spec com status `aprovada` (arquivo em `.claude/specs/` ou página no Notion)
+> 2. Execution plan em `.claude/specs/{id}-plan.md` (skill execution-plan) — plano na conversa ou mental não conta
+> 3. Se Grande/Complexo: research em `.claude/specs/{id}-research.md` (skill research)
+> 4. Se o projeto usa sub-agents: decomposição em partes com briefing completo (skill context-fresh)
 >
-> Se qualquer item estiver faltando → **PARAR e completar.** Implementar sem plan é violação do fluxo.
+> Se qualquer arquivo estiver faltando → **PARAR e criar.** Implementar sem artefatos persistidos é violação do fluxo.
 
 6. **Ao criar spec nova:** adicionar entrada no `SPECS_INDEX.md` no domínio correto.
 7. **Dependências entre specs:** Consultar a seção "Dependências entre specs" no final do `SPECS_INDEX.md`. Limite: máximo 2 specs dependentes por tarefa.
@@ -100,11 +101,13 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 **Plan (mesma sessão ou nova):**
 - Criar spec, design doc e breakdown de tasks a partir do research
 - Salvar como arquivos permanentes (spec.md, design.md)
+- Criar execution-plan e salvar em `.claude/specs/{id}-plan.md` (skill execution-plan)
 - Atualizar `STATE.md` com decisões tomadas
+- O plan é artefato descartável — deletado na fase done após verificação
 
 **Execute (`/clear` ou sessão nova — contexto limpo):**
-- Carregar APENAS: spec + design doc + STATE.md + research notes (se existem)
-- Carregar execution-plan com waves derivadas do grafo de dependências
+- Carregar APENAS: spec + design doc + STATE.md + `{id}-research.md` (se existe) + `{id}-plan.md`
+- O plan persistido em arquivo permite iniciar a execução em sessão nova sem perder o planejamento
 - **Se o projeto usa sub-agents:** despachar waves via skill context-fresh (`.claude/skills/context-fresh/README.md`):
   - Cada wave é despachada na ordem (Wave 1 antes de Wave 2, etc.)
   - Dentro de cada wave: tasks `[P]` sem overlap rodam em **paralelo** (múltiplos sub-agents simultâneos)
@@ -127,7 +130,7 @@ Antes de avançar o status de uma spec, validar o gate correspondente. Se o gate
 | Transição | Gate (validar ANTES de avançar) |
 |-----------|--------------------------------|
 | `rascunho → aprovada` | Requisitos funcionais listados, escopo definido, critérios de aceitação testáveis |
-| `aprovada → em andamento` | Execution-plan escrito (se Médio+), STATE.md "Execução ativa" preenchido |
+| `aprovada → em andamento` | Execution-plan salvo em `{id}-plan.md` (se Médio+), research salvo em `{id}-research.md` (se Grande/Complexo), STATE.md "Execução ativa" preenchido |
 | `em andamento → concluída` | DoD completa, verify.sh passa, spec criteria verificados 1 a 1 |
 | `em andamento → parcial` | O que foi feito documentado, itens pendentes criados no backlog |
 | `* → descontinuada` | Motivo documentado na spec, spec substituta referenciada (se existe) |

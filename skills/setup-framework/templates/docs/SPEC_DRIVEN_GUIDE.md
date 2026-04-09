@@ -462,6 +462,50 @@ Sub-agents rodam em **context windows isolados** com seus próprios tokens. Isso
 
 **Na prática:** muitos projetos usam uma abordagem híbrida — Research em sub-agent (evita poluir a sessão principal com dezenas de file reads), Plan na sessão principal (decisões ficam no contexto), Implement com tasks `[P]` em sub-agents paralelos.
 
+### Lifecycle com artefatos persistidos (Grande/Complexo)
+
+O fluxo completo para itens Grande/Complexo com artefatos que persistem entre sessões:
+
+```
+1. Usuário: "implementa spec X"
+2. Claude lê spec-driven → classifica como Grande/Complexo
+3. Fase research: skill research → salva .claude/specs/{id}-research.md
+4. Fase plan: skill execution-plan → salva .claude/specs/{id}-plan.md
+5. STATE.md atualizado: fase plan → exit criteria satisfeito
+   ── pausa natural: artefatos existem como arquivos ──
+   O usuário pode:
+   a) Revisar e continuar na mesma sessão
+   b) Fechar, revisar depois, abrir sessão nova
+   c) Pedir para outro agente validar o plano
+6. Fase execute: sessão nova ou /clear
+   → carrega {id}-plan.md + spec + {id}-research.md + STATE.md
+   → implementa seguindo waves do plan
+7. Fase verify: definition-of-done compara implementação contra o plan
+8. Fase done: spec → done/ (ou status concluída no Notion)
+   → deleta {id}-research.md e {id}-plan.md (já verificados)
+```
+
+**Artefatos e seu ciclo de vida:**
+
+| Artefato | Criado na fase | Consumido na fase | Destino no done |
+|----------|---------------|-------------------|-----------------|
+| Spec | plan | execute, verify | `done/` (repo) ou status concluída (Notion) |
+| Design doc | plan | execute | `done/` (repo) ou status concluída (Notion) |
+| `{id}-research.md` | research | plan | Deletado (absorvido pela spec) |
+| `{id}-plan.md` | plan | execute, verify | Deletado (verificado contra implementação) |
+
+**Por que persistir em arquivo:**
+- Gate `plan → execute` é verificável: arquivo existe no disco, não depende de instrução
+- Sessão nova carrega o plan sem depender do contexto anterior
+- `verify.sh` pode checar: spec Médio+ sem `{id}-plan.md` = erro
+- Definition-of-done compara implementação contra o plan salvo
+
+**Por que deletar no done:**
+- Research e plan são artefatos de trabalho, não permanentes
+- Achados do research já foram absorvidos pela spec
+- Plan já foi verificado contra a implementação
+- `git log` e a spec (permanente) preservam o contexto histórico
+
 ## Context budget — evitar alucinação por excesso de contexto
 
 Em sessões longas, o modelo acumula contexto e começa a perder precisão. O trade-off é: quanto mais contexto consumido na janela, menos espaço para raciocínio de qualidade.
