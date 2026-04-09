@@ -7,6 +7,14 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.24.1] — 2026-04-09
+
+### Corrigido
+
+- **Complexidade com emojis no Notion:** options da database agora incluem prefixo emoji (⚪ Pequeno, 🔵 Médio, 🟣 Grande, ⬛ Complexo) — alinhado com framework docs
+- **Skills atualizadas para novos nomes:** `spec-creator`, `backlog-update` e `prd-creator` usam os valores com emoji ao setar `Complexidade` no Notion
+- **SETUP_GUIDE atualizado:** tabela de templates e propriedades recomendadas com emojis de complexidade
+
 ## [2.24.0] — 2026-04-09
 
 ### Adicionado
