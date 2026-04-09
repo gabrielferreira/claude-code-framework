@@ -312,6 +312,141 @@ Avaliar durante implementação se STATE.md precisa de campos extras (ex: últim
 
 **Restrições:** não reconstruir contexto inventando — se STATE.md estiver incompleto, perguntar ao dev em vez de assumir.
 
+### MR1 — Seção `## Monorepo` no CLAUDE.template.md
+
+**Contexto:** skills que operam em monorepo (spec-creator, backlog-update, setup, update) precisam saber quais são os sub-projetos, seus paths e responsabilidades. Hoje essa informação não existe de forma estruturada — cada skill tenta inferir do codebase.
+
+**Abordagem:** nova seção `## Monorepo` no CLAUDE.template.md, colocada após `## Contexto de negócio` (última seção atual). Seção **opcional** — projetos single-repo não a criam. Formato:
+
+```markdown
+## Monorepo
+
+{Adaptar se aplicável. Remover se single-repo.}
+
+### Estrutura
+
+| Sub-projeto | Path | Stack | Responsabilidade |
+|---|---|---|---|
+| Backend API | `backend/` | Go, PostgreSQL | APIs, negócio |
+| Frontend Web | `frontend/` | React, TypeScript | Web UI |
+
+### Distribuição de framework
+
+- **Skills:** {na raiz / por sub-projeto / misto}
+- **Agents:** {na raiz / por sub-projeto}
+- **Specs/Backlog:** {unificado na raiz / distribuído / Notion}
+```
+
+**Impacto no framework:**
+
+| Arquivo | Mudança | Compat. |
+|---|---|---|
+| `CLAUDE.template.md` + mirror | Nova seção após "## Contexto de negócio" | `structural` — update oferece via merge |
+| `skills/setup-framework/SKILL.md` | Fase 0.5 referencia a seção como fonte de verdade | `⚠️ Migrável` |
+| `skills/update-framework/SKILL.md` | Fase 0.4-0.5 lê seção para validar sub-projetos detectados | `⚠️ Migrável` |
+
+**Critérios de aceitação:**
+- [ ] Seção adicionada ao `CLAUDE.template.md` com exemplo preenchido e placeholders
+- [ ] Seção marcada como opcional — setup/update só criam se confirmado monorepo (MR2)
+- [ ] update-framework oferece seção para projetos monorepo existentes via structural merge
+- [ ] Projetos single-repo: seção inexistente não causa erro em nenhuma skill
+
+**Restrições:** não tornar obrigatória. Não descrever processo de setup/update na seção — ela é declarativa (estado), não procedimental.
+
+---
+
+### MR2 — Setup-framework detecta monorepo
+
+**Contexto:** o setup atual menciona monorepo mas não tem fluxo estruturado: não pergunta confirmação explícita, não mapeia sub-projetos e não preenche a seção `## Monorepo` no CLAUDE.md gerado.
+
+**Abordagem:** inserir duas novas etapas na Fase 1 do setup, após detecção de stack:
+
+1. **Fase 1.2.A — Confirmação:** se detectou indicadores de monorepo (`package.json` com `workspaces`, `lerna.json`, `turbo.json`, `nx.json`, `pnpm-workspace.yaml`, ou múltiplos manifestos em sub-diretórios) → perguntar: "Detectei indicadores de monorepo. Isso é um monorepo?" Se não detectou → perguntar igualmente (dev pode ter estrutura customizada).
+
+2. **Fase 1.2.B — Mapeamento:** se confirmado, escanear sub-diretórios (até 2 níveis) procurando manifestos (`package.json`, `go.mod`, `pyproject.toml`, `Cargo.toml`). Listar candidatos, pedir confirmação do dev, permitir adicionar/remover manualmente.
+
+3. **Fase 3 — Preenchimento:** ao gerar CLAUDE.md, preencher seção `## Monorepo` com os sub-projetos confirmados. Perguntar responsabilidade de cada um.
+
+**Critérios de aceitação:**
+- [ ] Pergunta de confirmação aparece em todo setup (não só quando indicadores detectados)
+- [ ] Mapeamento lista sub-projetos com path e stack detectada
+- [ ] CLAUDE.md gerado tem seção `## Monorepo` preenchida se monorepo confirmado
+- [ ] Se single-repo: seção `## Monorepo` não é criada
+
+**Restrições:** nunca assumir sub-projetos sem confirmar com o dev. Nunca criar seção em single-repo.
+
+**Deps:** MR1
+
+---
+
+### MR3 — Spec-creator com detecção de escopo monorepo (dual-mode)
+
+**Contexto:** toda spec criada via `/spec` vai para `.claude/specs/` na raiz, independente do sub-projeto afetado. Em monorepo, não há como saber qual sub-projeto é responsável pela spec sem ler o conteúdo.
+
+**Abordagem:** novo **Passo 1b** no fluxo do spec-creator, entre "Validar ID" e "Classificar complexidade":
+
+1. Ler seção `## Monorepo` do CLAUDE.md raiz
+2. Se seção vazia/ausente → avisar e usar raiz como fallback
+3. Se sub-projetos listados → perguntar "Qual sub-projeto este spec afeta?" (com opção "root" para specs de infraestrutura/cross-cutting)
+4. **Repo mode:** criar spec em `.{subproject}/.claude/specs/{id}.md`; bootstrap check garante que o diretório existe; registrar no SPECS_INDEX.md com coluna "Sub-projeto"
+5. **Notion mode:** preencher property "Sub-projeto" na página criada; verificar se property existe na database (avisar se não)
+
+**Impacto no framework:**
+
+| Arquivo | Mudança |
+|---|---|
+| `skills/spec-creator/SKILL.md` + template | Passo 1b, ajuste no Passo 2 (path), ajuste no SPECS_INDEX |
+| `SPECS_INDEX.md` template | Nova coluna "Sub-projeto" |
+
+**Critérios de aceitação:**
+- [ ] Passo 1b implementado com lógica de leitura de `## Monorepo`
+- [ ] Repo mode: spec criada em `.{subproject}/.claude/specs/{id}.md` quando sub-projeto escolhido
+- [ ] Repo mode: SPECS_INDEX registra coluna "Sub-projeto"
+- [ ] Notion mode: property "Sub-projeto" preenchida na página
+- [ ] Fallback para raiz se `## Monorepo` vazia, com aviso
+- [ ] Opção "root" disponível para specs cross-cutting
+
+**Restrições:** nunca assumir sub-projeto sem perguntar. Se afeta múltiplos sub-projetos, criar specs separadas por sub-projeto — nunca uma spec para múltiplos.
+
+**Deps:** MR1, MR2
+
+---
+
+### MR4 — Backlog-update com awareness monorepo (dual-mode)
+
+**Contexto:** `/backlog-update` trata todas as specs da mesma forma, sem distinção por sub-projeto. Em monorepo, o backlog vira uma lista plana sem contexto de escopo.
+
+**Abordagem:**
+
+**Repo mode:** ao adicionar item, ler `## Monorepo` e perguntar sub-projeto. Estruturar `backlog.md` com subseções por sub-projeto na seção Pendentes:
+```markdown
+## Pendentes
+
+### frontend
+| ID | Item | ... |
+
+### backend
+| ID | Item | ... |
+```
+Seção `## Concluídos` permanece flat (sem subseções — histórico não precisa de agrupamento).
+
+**Notion mode:** ao adicionar item, preencher property `Sub-projeto` (obrigatória). Permite filtrar/visualizar por sub-projeto via views nativas do Notion.
+
+**Compatibilidade:** projetos single-repo (sem `## Monorepo`) continuam com comportamento atual — sem subseções, sem pergunta de sub-projeto.
+
+**Critérios de aceitação:**
+- [ ] `/backlog-update add` detecta `## Monorepo` e pergunta sub-projeto em projetos monorepo
+- [ ] Repo mode: backlog.md cria subseções por sub-projeto em Pendentes
+- [ ] Repo mode: `update` permite mover item entre sub-projetos
+- [ ] Notion mode: property `Sub-projeto` preenchida automaticamente
+- [ ] Single-repo: comportamento idêntico ao atual (nenhuma mudança visível)
+
+**Restrições:** property `Sub-projeto` no Notion é obrigatória se monorepo — rejeitar itens sem ela. IDs podem se repetir entre sub-projetos diferentes.
+
+**Deps:** MR2, MR3
+
+---
+
 ### SW1 — Delta markers para brownfield
 
 **Contexto:** specs de features novas e specs de alterações em código existente têm o mesmo formato hoje. O Claude precisa inferir o que criar vs modificar vs remover — o que aumenta o risco de sobrescrever código existente ou criar duplicatas.
