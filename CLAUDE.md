@@ -243,7 +243,7 @@ O arquivo tem **8 secoes fixas**, nesta ordem:
 4. **Sugestao de execucao** — itens pendentes organizados em waves por impacto e interdependencia. Prioridade: Wave 1 (muda fluxo/template/spec) antes de Wave 2+ (isolados, automacao, infra)
 5. **Decisoes futuras** — parking lot estrategico com gatilho e recomendacao
 6. **Notas** — contexto relevante (analises, benchmarks, decisoes historicas)
-7. **Detalhes por item** — specs inline para itens que passaram por refinamento (ver secao abaixo)
+7. **Detalhes por item** — indice com links para `.claude/item-specs/{ID}.md` (ver secao abaixo)
 8. **Legenda** — referencia de colunas, valores e distincao Fase vs Wave
 
 ### Estrutura de Fase vs Wave
@@ -292,16 +292,14 @@ Nao deletar — mover para a secao "Descartados" com motivo explicito. Isso evit
 - Fora do escopo: feature de produto diferente, nao de framework de specs
 - Beneficio nao justifica complexidade para o publico-alvo atual
 
-### Detalhes por item (spec inline)
+### Detalhes por item
 
-O framework usa um fluxo spec-driven simplificado: a spec vive como subssecao dentro do proprio BACKLOG.md, na secao `## Detalhes por item`. Nao ha arquivos `.claude/specs/` separados.
-
-**Quando criar um detalhe:** apos qualquer conversa de refinamento que produza decisoes nao obvias — abordagem escolhida, restricoes identificadas, alternativas descartadas. Nao e necessario para itens triviais com descricao auto-explicativa.
+Cada item com spec detalhada tem um arquivo dedicado em `.claude/item-specs/{ID}.md`. Ler antes de implementar.
 
 **Formato obrigatorio:**
 
 ```markdown
-### {ID} — {Titulo curto}
+# {ID} — {Titulo curto}
 
 **Contexto:** por que este item existe e que problema resolve.
 **Abordagem:** decisao tomada sobre como implementar. Incluir alternativas descartadas se relevante.
@@ -312,13 +310,15 @@ O framework usa um fluxo spec-driven simplificado: a spec vive como subssecao de
 **Restricoes:** o que NAO fazer, dependencias, gates.
 ```
 
-**Quando atualizar:** sempre que uma decisao for tomada ou revisada em sessao de refinamento. O detalhe deve refletir o estado atual do entendimento, nao o historico da conversa.
+**Quando criar:** apos qualquer conversa de refinamento que produza decisoes nao obvias. Nao e necessario para itens triviais com descricao auto-explicativa.
 
-**Quando remover:** ao mover o item para Concluidos ou Descartados. O contexto historico fica no commit.
+**Quando atualizar:** sempre que uma decisao for tomada ou revisada. O arquivo deve refletir o estado atual do entendimento, nao o historico da conversa.
+
+**Quando remover:** ao mover o item para Concluidos ou Descartados — deletar o arquivo. O contexto historico fica no commit.
 
 ### Ao iniciar sessao de desenvolvimento do framework
 
-Ler o BACKLOG.md — especialmente a secao "Sugestao de execucao" e `## Detalhes por item` — para saber o proximo item a implementar e o contexto de decisoes ja tomadas. Nao perguntar "o que fazer?" se o backlog ja tem a resposta.
+Ler o BACKLOG.md — especialmente a secao "Sugestao de execucao" e `## Detalhes por item` — para saber o proximo item a implementar. Para itens com spec detalhada, ler `.claude/item-specs/{ID}.md` antes de comecar. Nao perguntar "o que fazer?" se o backlog ja tem a resposta.
 
 ## Notion (integracao nativa)
 
