@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-03
+> Última atualização: 2026-04-09
 
 ## Pendentes
 
@@ -8,9 +8,7 @@
 
 | ID | Item | Sev. | Impacto | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|------|------|------|--------|
-| CE1 | **Context-fresh execution**: criar agent orquestrador que despacha tasks em subagents com contexto limpo (200k tokens cada), evitando context rot | 🔴 | 🔧 Interno | Feature | 8h | — | Análise GSD |
-| CE2 | **Waves paralelas**: adicionar ao `spec-driven` noção de dependências entre tasks e execução em waves (tasks independentes rodam em paralelo) | 🟠 | 🔧 Interno | Feature | 6h | CE1 | Análise GSD |
-| CE3 | **Resume/state machine**: evoluir STATE.md para ter fases explícitas (research → plan → execute → verify) com transições claras e validação | 🟠 | 🔧 Interno | Feature | 4h | — | Análise GSD |
+| CE2 | **Waves paralelas**: adicionar ao `spec-driven` noção de dependências entre tasks e execução em waves (tasks independentes rodam em paralelo) | 🟠 | 🔧 Interno | Feature | 6h | CE1 ✅ | Análise GSD |
 | CE4 | **Research phase**: adicionar etapa de pesquisa antes do planning no workflow de specs — investigar stack, patterns, riscos antes de planejar | 🟠 | 👤 Usuário | Feature | 4h | — | Análise GSD |
 | CE5 | **Quick mode**: path simplificado para tasks ad-hoc que não precisam de spec completa (equivalente ao `/gsd:quick`) | 🟡 | 👤 Usuário | Feature | 3h | — | Análise GSD |
 | CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | Feature | 3h | CE1 | Análise GSD |
@@ -21,8 +19,8 @@
 |----|------|------|---------|------|------|------|--------|
 | AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | Feature | 4h | — | Análise GSD |
 | AU2 | **Cost tracking básico**: registrar tokens/custo por task em log persistente | 🟡 | 💰 Negócio | Feature | 3h | — | Análise GSD |
-| AU3 | **Auto-advance**: após completar uma task, avançar automaticamente para a próxima do spec/backlog | 🟡 | 👤 Usuário | Feature | 4h | CE1, CE3 | Análise GSD |
-| AU4 | **Crash recovery**: persistir estado de execução para retomar após interrupção (crash, timeout, context limit) | 🟡 | 🔧 Interno | Feature | 6h | CE3 | Análise GSD |
+| AU3 | **Auto-advance**: após completar uma task, avançar automaticamente para a próxima do spec/backlog | 🟡 | 👤 Usuário | Feature | 4h | CE1 ✅, CE3 ✅ | Análise GSD |
+| AU4 | **Crash recovery**: persistir estado de execução para retomar após interrupção (crash, timeout, context limit) | 🟡 | 🔧 Interno | Feature | 6h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
 
@@ -38,13 +36,11 @@
 | ID | Item | Sev. | Impacto | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|------|------|------|--------|
 | SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | Feature | 4h | — | OpenSpec |
-| SW2 | **Spec state machine**: specs passam por fases explícitas (proposal → approved → implementing → verifying → done) com gates entre cada transição — impede pular etapas | 🟠 | 🔧 Interno | Feature | 4h | — | OpenSpec |
 | SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | Feature | 3h | — | cc-sdd |
 | SW4 | **Design docs com Mermaid**: adicionar diagramas Mermaid (sequence, component, ER) no DESIGN_TEMPLATE.md como parte do workflow de specs médias/grandes | 🟡 | 👤 Usuário | Feature | 2h | — | cc-sdd |
-| SW5 | **Task graph com dependências**: decomposição de specs em tasks com dependência explícita (task B depende de task A) — base para execução paralela (CE2) | 🟠 | 🔧 Interno | Feature | 4h | — | Taskmaster AI + cc-sdd |
 | SW6 | **Spec archive**: mover specs concluídas para diretório de arquivo com metadata de conclusão, mantendo `.claude/specs/` limpo | 🟡 | 👤 Usuário | Feature | 2h | — | OpenSpec |
 | SW7 | **Constitution/steering**: arquivo de princípios inegociáveis do projeto (padrões, restrições, decisões arquiteturais) que toda spec e plan deve respeitar | 🟠 | 👤 Usuário | Feature | 3h | — | Spec Kit + cc-sdd |
-| SW8 | **PRD → task decomposition automática**: converter PRD em task graph com complexidade e dependências (como Taskmaster AI faz com tasks.json) | 🟡 | 👤 Usuário | Feature | 4h | SW5 | Taskmaster AI |
+| SW8 | **PRD → task decomposition automática**: converter PRD em task graph com complexidade e dependências (como Taskmaster AI faz com tasks.json) | 🟡 | 👤 Usuário | Feature | 4h | SW5 ✅ | Taskmaster AI |
 
 ### Fase 4 — Melhorias orgânicas
 
@@ -53,7 +49,7 @@
 | MO1 | **Multi-runtime**: suporte a OpenCode, Gemini CLI, Codex (adaptar skills para formatos de cada runtime) | 🟡 | 👤 Usuário | Feature | 8h | — | Análise GSD |
 | MO2 | **Web dashboard**: visualização de progresso do projeto (specs, backlog, coverage, agents) | ⚪ | 👤 Usuário | Feature | 12h | — | Análise GSD |
 | MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | Feature | 4h | — | Análise GSD |
-| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | Feature | 4h | CE1 | Análise GSD |
+| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO5 | **Slack/Discord integration**: rotear perguntas que o agent não consegue resolver para o dev via chat | ⚪ | 👤 Usuário | Feature | 6h | — | Análise GSD |
 | MO6 | **Multi-agent support (8+ runtimes)**: adaptar instalação para Cursor, Copilot, Windsurf, OpenCode, Gemini CLI, Codex (cc-sdd suporta 8, OpenSpec suporta 20+) | 🟡 | 👤 Usuário | Feature | 8h | — | cc-sdd + OpenSpec |
 | MO7 | **i18n das skills**: suporte a múltiplos idiomas nas skills (cc-sdd suporta 13 idiomas) | ⚪ | 👤 Usuário | Feature | 6h | — | cc-sdd |
@@ -73,6 +69,10 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| CE1 | **Context-fresh execution**: agent `task-runner.md` + skill `context-fresh/README.md` com protocolo de orquestração, waves e briefing template | v2.24.0 — 2026-04-09 |
+| CE3 | **Resume/state machine**: STATE.md com seção "Execução ativa" (fase, entry/exit criteria, log de transições) + gates em spec-driven e definition-of-done | v2.24.0 — 2026-04-09 |
+| SW2 | **Spec state machine**: gates de transição de status (rascunho→aprovada→em andamento→concluída) com critérios explícitos em spec-driven | v2.24.0 — 2026-04-09 |
+| SW5 | **Task graph com dependências**: seção "Grafo de dependências" no TEMPLATE.md (Task/Depende de/Arquivos/Tipo/Parallelizável) | v2.24.0 — 2026-04-09 |
 | — | (framework nasceu em 2026-03-31, backlog criado em 2026-04-03) | — |
 
 ---
@@ -81,9 +81,9 @@
 
 | ID | Decisão | Gatilho para reavaliar | Recomendação | Ref |
 |----|---------|----------------------|--------------|-----|
-| DF1 | Adotar Pi SDK como runtime (como GSD v2) ou manter pure-markdown | Quando context engineering (CE1-CE3) estiver implementado e limitações ficarem claras | Começar pure-markdown; migrar para SDK só se necessário | Análise GSD |
+| DF1 | Adotar Pi SDK como runtime (como GSD v2) ou manter pure-markdown | CE1-CE3 implementados ✅ — avaliar limitações em uso real | Começar pure-markdown; migrar para SDK só se necessário | Análise GSD |
 | DF2 | Manter compatibilidade apenas com Claude Code ou expandir multi-runtime | Quando houver demanda real de usuários usando OpenCode/Gemini | Focar em Claude Code; abstrair só se demanda justificar | MO1 |
-| DF3 | Integrar com GSD como layer complementar ou competir | Quando CE1-CE3 estiverem prontos e pudermos medir se a orquestração própria é suficiente | Evoluir independente; documentar como coexistir | Análise GSD |
+| DF3 | Integrar com GSD como layer complementar ou competir | CE1-CE3 implementados ✅ — medir se orquestração própria é suficiente em uso real | Evoluir independente; documentar como coexistir | Análise GSD |
 | DF4 | Adotar formato EARS para requirements ou manter formato livre | Quando SW3 for avaliado num projeto real | Testar EARS em 2-3 specs antes de adotar como padrão | cc-sdd |
 | DF5 | Spec state machine rígida (OpenSpec) ou flexível (atual) | Quando projetos reportarem specs pulando etapas | Começar com validação soft (warning) antes de gate hard (block) | OpenSpec |
 | DF6 | Constitution file separado (Spec Kit) ou embutido no PROJECT_CONTEXT.md | Quando SW7 for implementado | Embutir no PROJECT_CONTEXT.md como seção; separar só se crescer demais | Spec Kit |
