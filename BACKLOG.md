@@ -33,7 +33,6 @@
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
 | SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
-| SW4 | **Design docs com Mermaid**: adicionar diagramas Mermaid (sequence, component, ER) no DESIGN_TEMPLATE.md como parte do workflow de specs médias/grandes | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 2h | — | cc-sdd |
 | SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: lista de restrições explícitas (stack, padrões, decisões arquiteturais fixas) que toda spec e plan deve respeitar — documentar na skill spec-creator que essa seção deve ser consultada antes de propor qualquer mudança | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
 | SW8 | **PRD → task decomposition automática**: converter PRD em task graph com complexidade e dependências (como Taskmaster AI faz com tasks.json) | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 4h | SW5 ✅ | Taskmaster AI |
 
@@ -119,7 +118,6 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 |-------|-----|--------|
 | 9 | **MR3** | Spec-creator detecta sub-projeto afetado — sem isso, spec sempre vai pra raiz mesmo em monorepo. Deps: MR1, MR2. |
 | 10 | **MR4** | Backlog-update agrupa por sub-projeto — deps: MR2, MR3. |
-| 11 | **SW4** | Design docs Mermaid — muda DESIGN_TEMPLATE.md, sem conflito com outros itens. |
 | 12 | **SW3** | EARS format — muda formato de RF no TEMPLATE.md. Avaliar em projeto real antes (ver DF4). |
 
 ### Wave 3 — Automação e infra (não mudam fluxo)
@@ -165,6 +163,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | DF4 | Adotar formato EARS para requirements ou manter formato livre | Quando SW3 for avaliado num projeto real | Testar EARS em 2-3 specs antes de adotar como padrão | cc-sdd |
 | DF5 | Spec state machine rígida (OpenSpec) ou flexível (atual) | Quando projetos reportarem specs pulando etapas | Começar com validação soft (warning) antes de gate hard (block) | OpenSpec |
 | AU2 | Implementar cost tracking (tokens/custo por task) — e se sim, via mecanismo manual ou hook, e onde armazenar | Quando Claude Code expor metadados de uso nativamente (token count por chamada via hook ou API) | Não implementar agora: log persistente cresce indefinidamente sem política de rotação; escrita manual pelo Claude é imprecisa; aguardar suporte nativo | Análise GSD |
+| SW4 | Substituir diagrama ASCII no DESIGN_TEMPLATE.md por Mermaid (sequence, component, ER) | Quando renderers Mermaid forem ubíquos (Notion nativo, editores locais) ou quando projetos reportarem ASCII insuficiente para comunicar designs complexos | Não implementar agora: ASCII já funciona e o Claude produz correto; Mermaid cria dependência de renderer e o Claude às vezes gera sintaxe inválida; DESIGN_TEMPLATE.md já tem "Diagrama de fluxo" | cc-sdd |
 | SW6 | Arquivar specs concluídas em subdiretório separado (`.claude/specs/archive/`) para manter a pasta principal limpa | Quando projetos reportarem dificuldade de navegar em `.claude/specs/` com muitos arquivos (10+ specs acumuladas) | Não implementar agora: SW2 ✅ já cobre o estado "concluída"; Notion mode não se beneficia (filtro nativo); valor só aparece em projetos grandes | OpenSpec |
 
 ---
