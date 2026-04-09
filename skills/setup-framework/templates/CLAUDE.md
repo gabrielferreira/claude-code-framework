@@ -185,7 +185,7 @@ Antes de começar a implementar, verificar: **quantos itens do backlog estão no
 
 ### Decomposicao e planejamento dentro de um item (obrigatorio para medio+)
 
-Antes de executar qualquer item Medio+ (3+ arquivos ou 1h+), **criar execution-plan escrito** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`). Se nao existe execution-plan escrito, **NAO iniciar implementacao.**
+Antes de executar qualquer item Medio+ (3+ arquivos ou 1h+), **criar execution-plan e salvar em `.claude/specs/{id}-plan.md`** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`). Se o arquivo `{id}-plan.md` nao existe no disco, **NAO iniciar implementacao.** Plano na conversa ou mental nao conta — o artefato precisa ser verificavel.
 
 Fluxo da sessao principal:
 0. Verificar STATE.md "Execucao ativa" — se ja tem item em andamento, retomar da fase atual em vez de comecar do zero

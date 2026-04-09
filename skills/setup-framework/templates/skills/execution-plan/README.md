@@ -101,7 +101,7 @@ Para cada par de partes que rodam em paralelo, confirmar:
 
 ## Regras
 
-1. **Plano vive na conversa ou no arquivo da spec** — não criar arquivo separado. Se a spec tem seção "Breakdown de tasks", preencher lá.
+1. **Plano salvo em `.claude/specs/{id}-plan.md`** — obrigatório. O arquivo é o artefato que valida o gate `plan → execute`. Sem arquivo no disco, a fase plan não está concluída. O plan é descartável — deletado na fase done (após verificação contra a implementação).
 2. **Máximo paralelismo com zero sobreposição.** Nunca duas partes editam o mesmo arquivo ao mesmo tempo.
 3. **Plano pronto = implementar conforme o projeto.** Após o execution-plan estar concluído na sessão principal:
    - **Se o projeto usa sub-agents:** NÃO implementar no mesmo contexto — delegar cada parte para sub-agents. Seguir `.claude/skills/context-fresh/README.md` para o formato do briefing e protocolo de despacho. A sessão principal planeja, orquestra e integra; sub-agents executam. Implementar no contexto de planejamento mistura dois papéis e degrada o contexto.
@@ -110,6 +110,39 @@ Para cada par de partes que rodam em paralelo, confirmar:
 5. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes. O formato completo do briefing está na skill context-fresh (`.claude/skills/context-fresh/README.md`).
 6. **Sessão principal nunca delega decisão.** Sub-agents executam e reportam ambiguidades. Quem decide é a sessão principal.
 7. **Sessão principal faz a integração.** Verificar que as partes se encaixam é responsabilidade da sessão principal, não de sub-agents.
+
+## Formato do arquivo
+
+Salvar em `.claude/specs/{id}-plan.md`:
+
+```markdown
+# Execution Plan — {ID}
+
+> Spec: {link ou path da spec}
+> Data: YYYY-MM-DD
+> Descartável: sim — deletado na fase done após verificação
+
+## 1. Escopo e contexto
+{conteúdo}
+
+## 2. Mapa de arquivos
+{tabela}
+
+## 3. Decomposição em partes
+{partes com critérios}
+
+## 4. Waves de execução
+{waves derivadas do grafo}
+
+## 5. Análise de overlap
+{tabela de overlap}
+
+## 6. Riscos e decisões
+{riscos e decisões}
+
+## 7. Checklist pós-execução
+{checklist}
+```
 
 ## Checklist
 
@@ -121,3 +154,4 @@ Para cada par de partes que rodam em paralelo, confirmar:
 - [ ] Análise de overlap para partes paralelas
 - [ ] Riscos identificados
 - [ ] Checklist pós-execução definido
+- [ ] **Plan salvo em `.claude/specs/{id}-plan.md`**
