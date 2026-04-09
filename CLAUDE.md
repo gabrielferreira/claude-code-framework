@@ -323,7 +323,9 @@ Cada item com spec detalhada tem um arquivo dedicado em `.claude/item-specs/{ID}
 
 **Quando atualizar:** sempre que uma decisao for tomada ou revisada. O arquivo deve refletir o estado atual do entendimento, nao o historico da conversa.
 
-**Quando remover:** ao mover o item para Concluidos ou Descartados — deletar o arquivo. O contexto historico fica no commit.
+**Ao concluir item:** mover o arquivo para `.claude/item-specs/done/{ID}.md` — nao deletar. O arquivo serve de referencia historica para decisoes tomadas.
+
+**Ao descartar item:** deletar o arquivo (o contexto fica no commit).
 
 ### Ao iniciar sessao de desenvolvimento do framework
 

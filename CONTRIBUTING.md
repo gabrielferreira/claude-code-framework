@@ -159,7 +159,7 @@ Ao refinar um item (em sessão de discussão com o Claude ou com o time), criar 
 
 O BACKLOG.md mantém apenas o índice (`## Detalhes por item`) com links para os arquivos.
 
-Ao concluir o item, deletar o arquivo de spec e remover do índice (o contexto fica no commit).
+Ao concluir o item, mover o arquivo para `.claude/item-specs/done/{ID}.md` e marcar no índice com ✅. Ao descartar, deletar o arquivo (o contexto fica no commit).
 
 ---
 
