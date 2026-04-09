@@ -244,16 +244,15 @@ O `BACKLOG.md` e o roadmap do framework. Deve ser auto-contido — qualquer sess
 
 ### Estrutura obrigatoria
 
-O arquivo tem **8 secoes fixas**, nesta ordem:
+O arquivo tem **7 secoes fixas**, nesta ordem:
 
 1. **Pendentes** — tabelas por fase, com colunas: `ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem`
 2. **Concluidos** — tabela com `ID | Item | Concluido em`
 3. **Descartados** — tabela com `ID | Item | Descartado em | Motivo` — nunca deletar, mover aqui com motivo
 4. **Sugestao de execucao** — itens pendentes organizados em waves por impacto e interdependencia. Prioridade: Wave 1 (muda fluxo/template/spec) antes de Wave 2+ (isolados, automacao, infra)
 5. **Decisoes futuras** — parking lot estrategico com gatilho e recomendacao
-6. **Notas** — contexto relevante (analises, benchmarks, decisoes historicas)
-7. **Detalhes por item** — indice com links para `.claude/item-specs/{ID}.md` (ver secao abaixo)
-8. **Legenda** — referencia de colunas, valores e distincao Fase vs Wave
+6. **Detalhes por item** — indice com links para `.claude/item-specs/{ID}.md` (ver secao abaixo)
+7. **Legenda** — referencia de colunas, valores e distincao Fase vs Wave
 
 ### Estrutura de Fase vs Wave
 
