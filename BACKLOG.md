@@ -31,6 +31,7 @@
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
 | SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
+| SW9 | **SPECS_INDEX ativo**: manter SPECS_INDEX.md apenas com specs não-concluídas (rascunho + em andamento); specs concluídas movem para `SPECS_INDEX_ARCHIVE.md` — evita crescimento ilimitado do índice e consumo de contexto desnecessário em projetos com muitas specs | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | SW2 ✅ | Discussão 2026-04-09 |
 | SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: lista de restrições explícitas (stack, padrões, decisões arquiteturais fixas) que toda spec e plan deve respeitar — documentar na skill spec-creator que essa seção deve ser consultada antes de propor qualquer mudança | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
 
 ### Fase 4 — Melhorias orgânicas
@@ -115,6 +116,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 |-------|-----|--------|
 | 9 | **MR3** | Spec-creator detecta sub-projeto afetado — sem isso, spec sempre vai pra raiz mesmo em monorepo. Deps: MR1, MR2. |
 | 10 | **MR4** | Backlog-update agrupa por sub-projeto — deps: MR2, MR3. |
+| 11 | **SW9** | SPECS_INDEX ativo — muda estrutura do índice. Deps: SW2 ✅. Sem isso, índice cresce ilimitado em projetos grandes. |
 | 12 | **SW3** | EARS format — muda formato de RF no TEMPLATE.md. Avaliar em projeto real antes (ver DF4). |
 
 ### Wave 3 — Automação e infra (não mudam fluxo)
