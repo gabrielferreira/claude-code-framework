@@ -783,10 +783,10 @@ Se preferir configurar manualmente, adicione a secao abaixo no CLAUDE.md do proj
 - **Templates por complexidade:**
   | Complexidade | Template | Template ID | Design Doc |
   |---|---|---|---|
-  | Pequeno | [TEMPLATE] Spec Pequena | {template-id} | — |
-  | Médio | [TEMPLATE] Spec Média | {template-id} | — |
-  | Grande | [TEMPLATE] Spec Grande/Complexa | {template-id} | {design-doc-template-id} (opcional) |
-  | Complexo | [TEMPLATE] Spec Grande/Complexa | {template-id} | {design-doc-template-id} (obrigatório) |
+  | ⚪ Pequeno | [TEMPLATE] Spec Pequena | {template-id} | — |
+  | 🔵 Médio | [TEMPLATE] Spec Média | {template-id} | — |
+  | 🟣 Grande | [TEMPLATE] Spec Grande/Complexa | {template-id} | {design-doc-template-id} (opcional) |
+  | ⬛ Complexo | [TEMPLATE] Spec Grande/Complexa | {template-id} | {design-doc-template-id} (obrigatório) |
 
 ### Regras de integracao
 - `/spec` cria pagina no Notion usando `notion-create-pages` com o template correto
@@ -805,7 +805,7 @@ Nao e obrigatorio, mas o framework funciona melhor quando as propriedades da dat
 - **Status:** rascunho, aprovada, em andamento, concluida, parcial, descontinuada
 - **Severidade:** Critico, Alto, Medio, Baixo
 - **Fase:** F1, F2, F3, T
-- **Complexidade:** Pequeno, Medio, Grande, Complexo
+- **Complexidade:** ⚪ Pequeno, 🔵 Médio, 🟣 Grande, ⬛ Complexo
 - **Tipo:** Feature, Bug, Seguranca, Regra de Negocio, Refatoracao, Testes, Docs, Analise, Infra
 - **Camadas:** FE, BE, DB, IA, DOC, INF (multi-select)
 - **Impacto:** Usuario, Seguranca, Negocio, Interno

@@ -146,7 +146,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, o backlog �
        "Impacto": "{impacto}",
        "Tipo": "{tipo}",
        "Camadas": "{camadas}",
-       "Complexidade": "{complexidade}",
+       "Complexidade": "{⚪ Pequeno|🔵 Médio|🟣 Grande|⬛ Complexo}",
        "Estimativa": "{estimativa}",
        "Projeto": "{nome do projeto}",
        "Spec detail": "sem spec"
