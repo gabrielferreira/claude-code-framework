@@ -9,7 +9,8 @@ Usadas como referência no BACKLOG.md para identificar ideias a absorver.
 
 | Nome | GitHub | Stars (ref) | Foco principal | O que tem de único |
 |------|--------|-------------|---------------|-------------------|
-| **GSD** | [gsd-build/gsd-2](https://github.com/gsd-build/gsd-2) | ~35k | Orquestração autônoma | Context-fresh execution, waves paralelas, auto-mode |
+| **GSD v1** | [gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done) | ~50k | Orquestração autônoma (prompt framework) | Context-fresh execution, waves paralelas, spec-driven via slash commands — arquitetura mais próxima da nossa |
+| **GSD v2** | [gsd-build/gsd-2](https://github.com/gsd-build/gsd-2) | ~5k | Orquestração autônoma (CLI TypeScript/Pi SDK) | Reescrita autônoma com controle programático de agentes, state persistence, crash recovery, git isolation, cost tracking — referência para DF1 |
 | **Spec Kit** | [github/spec-kit](https://github.com/github/spec-kit) | ~72k | Scaffolding SDD multi-agent | Constitution file, specify CLI, 22+ agents |
 | **OpenSpec** | [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) | ~37k | Brownfield iteration | Delta markers (ADDED/MODIFIED/REMOVED), state machine |
 | **cc-sdd** | [gotalab/cc-sdd](https://github.com/gotalab/cc-sdd) | ~3k | Kiro-style workflow | EARS format, Mermaid, validation gates, 13 idiomas |
