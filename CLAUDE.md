@@ -324,7 +324,7 @@ Specs vivem em `.claude/item-specs/`. O indice completo (pendentes + concluidos)
 
 **Ao concluir item:** mover o arquivo para `.claude/item-specs/done/{ID}.md` e atualizar o INDEX (mover linha para secao "Concluidos"). Nao deletar — serve de referencia historica.
 
-**Ao descartar item:** deletar o arquivo, remover do INDEX (o contexto fica no commit).
+**Ao descartar item:** mover o arquivo para `.claude/item-specs/discarded/{ID}.md` e atualizar o INDEX (mover linha para secao "Descartados").
 
 ### Ao iniciar sessao de desenvolvimento do framework
 
