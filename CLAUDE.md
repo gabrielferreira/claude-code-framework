@@ -237,6 +237,42 @@ Ao criar uma nova skill, seguir este checklist:
 7. **MANIFEST** com entrada completa (regra 2)
 8. **CLAUDE.template.md** — adicionar a skill ao mapeamento na secao "Skills"
 
+## Gestao do BACKLOG.md
+
+O `BACKLOG.md` e o roadmap do framework. Deve ser auto-contido — qualquer sessao nova consegue ler e saber o que fazer sem perguntar.
+
+### Estrutura obrigatoria
+
+O arquivo tem **5 secoes fixas**, nesta ordem:
+
+1. **Pendentes** — tabelas por fase, com colunas: `ID | Item | Sev. | Impacto | Tipo | Est. | Deps | Origem`
+2. **Sugestao de execucao** — itens pendentes organizados em waves por impacto e interdependencia. Prioridade: Wave 1 (muda fluxo/template/spec) antes de Wave 2+ (isolados, automacao, infra)
+3. **Concluidos** — tabela com `ID | Item | Concluido em`
+4. **Decisoes futuras** — parking lot estrategico
+5. **Notas** — contexto relevante
+
+### Ao adicionar item novo
+
+1. Classificar com todas as colunas (Sev, Impacto, Tipo, Est, Deps, Origem)
+2. Colocar na fase correta (Fase 1-4, Testes)
+3. **Atualizar a secao "Sugestao de execucao":** posicionar o item na wave adequada:
+   - Muda fluxo, template ou spec? → Wave 1 ou 2
+   - Automacao, infra, tooling? → Wave 3
+   - Skill/agent novo independente? → Wave 4
+   - Distribuicao e escala? → Wave 5
+4. Se o item tem deps, documentar na coluna Deps e na secao de interdependencias
+
+### Ao concluir item
+
+1. Remover da tabela de Pendentes
+2. Adicionar na tabela de Concluidos com versao e data
+3. Remover da secao "Sugestao de execucao"
+4. Atualizar deps de outros itens que dependiam deste (adicionar ✅)
+
+### Ao iniciar sessao de desenvolvimento do framework
+
+Ler o BACKLOG.md — especialmente a secao "Sugestao de execucao" — para saber o proximo item a implementar. Nao perguntar "o que fazer?" se o backlog ja tem a resposta.
+
 ## Notion (integracao nativa)
 
 Skills `/spec` e `/backlog-update` suportam Notion via MCP. O setup detecta templates da database e gera a secao `## Integracao Notion (specs)` no CLAUDE.md do projeto.
