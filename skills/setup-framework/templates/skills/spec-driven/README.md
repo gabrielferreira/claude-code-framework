@@ -16,7 +16,7 @@
 
 | Tamanho | Critério | O que criar | Fluxo |
 |---|---|---|---|
-| **Pequeno** | ≤3 arquivos, <30min, sem regra de negócio | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
+| **Pequeno** | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
 | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
 | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → execution-plan (waves) → implementa → commit |
 | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI (skill research) → spec → design → execution-plan (waves) → implementa → commit |
@@ -64,7 +64,7 @@ Se a spec assume X mas o código mostra Y → PARAR e reportar a divergência. A
 **Nunca implementar código e depois criar testes para cobrir.** Isso é test-after, não TDD. A ordem importa: testes que falham ANTES da implementação garantem que os testes realmente testam algo.
 
 **Exceções:**
-- **Pequeno (≤3 arquivos, <30min, sem regra de negócio):** teste de regressão ANTES do fix, mas spec light é suficiente (sem spec formal completa).
+- **Pequeno (≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova):** teste de regressão ANTES do fix, mas spec light é suficiente (sem spec formal completa).
 - **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 
 ## Fluxo de fases — state machine (Médio+)
@@ -162,7 +162,7 @@ Regra: **"Está na definição da minha task? Se não, não toco."**
 Durante a implementação, ideias e descobertas vão surgir. Não agir sobre elas:
 
 1. **Melhoria ou ideia** → registrar em `STATE.md` seção "Ideias adiadas" + continuar task atual
-2. **Bug real encontrado** → registrar em `STATE.md` seção "Blockers ativos" ou resolver como Pequeno (se ≤3 arquivos, <30min)
+2. **Bug real encontrado** → registrar em `STATE.md` seção "Blockers ativos" ou resolver como Pequeno (se ≤3 arquivos, sem nova abstração, sem mudança de schema)
 3. **Tentação de scope creep** → criar entrada no backlog como novo item. Não misturar com a task atual
 
 O heurístico: "Se não está nos critérios de aceitação da minha task, não entra neste commit."
@@ -214,7 +214,7 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 **Complexidade:** (mesma escala da tabela "Classificar complexidade" acima)
 | Emoji | Nível | Referência |
 |---|---|---|
-| ⚪ | Pequeno | ≤3 arquivos, <30min, sem regra de negócio |
+| ⚪ | Pequeno | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova |
 | 🔵 | Médio | <10 tasks, escopo claro, 1-3h |
 | 🟣 | Grande | Multi-componente, >10 tasks, >3h |
 | ⬛ | Complexo | Ambiguidade, domínio novo, >20 tasks |

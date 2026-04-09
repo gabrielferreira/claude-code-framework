@@ -13,7 +13,7 @@ Skill obrigatória para itens de complexidade média ou superior (3+ arquivos, 1
 
 ## Quando NÃO usar
 
-- Item **Pequeno** (≤3 arquivos, <30min, sem regra de negócio) — implementar direto
+- Item **Pequeno** (≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova) — implementar direto
 - Correção trivial de bug com causa óbvia e fix de 1-2 linhas
 
 ## Formato do plano
