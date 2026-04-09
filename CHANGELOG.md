@@ -7,6 +7,21 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.26.0] — 2026-04-09
+
+### Adicionado
+
+- **Execution-plan persistido em `{id}-plan.md`:**
+  - `execution-plan`: regra 1 muda de "vive na conversa" para salvar obrigatoriamente em `.claude/specs/{id}-plan.md` com formato e template definidos
+  - `spec-driven`: gate "aprovada → em andamento" exige `{id}-plan.md` no disco (Médio+) e `{id}-research.md` (Grande/Complexo) — artefatos verificáveis, não instrucionais
+  - `definition-of-done`: novo check de verificação da implementação contra o plan salvo; artefatos de trabalho (`{id}-research.md` e `{id}-plan.md`) deletados na fase done
+  - `CLAUDE.template.md`: enforcement explícito — "se o arquivo não existe no disco, NÃO iniciar implementação"
+  - `docs/SPEC_DRIVEN_GUIDE.md`: nova seção "Lifecycle com artefatos persistidos" documentando fluxo completo com pausa natural entre plan e execute, tabela de ciclo de vida dos artefatos
+
+- **Checklist de release melhorado no CLAUDE.md:**
+  - Passo 3 (novo): copiar `plugin.json` para template após bump
+  - Passo 5 (novo): sincronizar templates após atualizar tags + rodar `check-sync.sh`
+
 ## [2.25.0] — 2026-04-09
 
 ### Adicionado
