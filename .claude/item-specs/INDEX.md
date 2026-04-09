@@ -1,0 +1,42 @@
+# Item Specs — Índice
+
+Specs detalhadas dos itens do backlog. Ler antes de implementar um item.
+
+Ao **concluir** um item: mover o arquivo para `done/`. Ao **descartar**: deletar o arquivo.
+
+## Pendentes
+
+| ID | Arquivo | Fase | Wave |
+|----|---------|------|------|
+| AU1 | [AU1.md](AU1.md) | Fase 2 | Wave 3 |
+| AU4 | [AU4.md](AU4.md) | Fase 2 | Wave 3 |
+| SA2 | [SA2.md](SA2.md) | Fase 3 | Wave 1 |
+| SA3 | [SA3.md](SA3.md) | Fase 3 | Wave 4 |
+| SA4 | [SA4.md](SA4.md) | Fase 3 | Wave 4 |
+| SW1 | [SW1.md](SW1.md) | Fase 3b | Wave 1 |
+| SW3 | [SW3.md](SW3.md) | Fase 3b | Wave 2 |
+| SW7 | [SW7.md](SW7.md) | Fase 3b | Wave 1 |
+| SW9 | [SW9.md](SW9.md) | Fase 3b | Wave 2 |
+| MR1 | [MR1.md](MR1.md) | Fase 4 | Wave 1 |
+| MR2 | [MR2.md](MR2.md) | Fase 4 | Wave 1 |
+| MR3 | [MR3.md](MR3.md) | Fase 4 | Wave 2 |
+| MR4 | [MR4.md](MR4.md) | Fase 4 | Wave 2 |
+| MO4 | [MO4.md](MO4.md) | Fase 4 | Wave 5 |
+| MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 5 |
+| OP1 | [OP1.md](OP1.md) | Operações | Wave 3 |
+
+## Concluídos
+
+| ID | Arquivo | Versão |
+|----|---------|--------|
+| SA1 | [done/SA1.md](done/SA1.md) | pendente release |
+| CE1 | [done/CE1.md](done/CE1.md) | v2.24.0 |
+| CE2 | [done/CE2.md](done/CE2.md) | v2.25.0 |
+| CE3 | [done/CE3.md](done/CE3.md) | v2.24.0 |
+| CE4 | [done/CE4.md](done/CE4.md) | v2.25.0 |
+| CE5 | [done/CE5.md](done/CE5.md) | v2.25.0 |
+| SW2 | [done/SW2.md](done/SW2.md) | v2.24.0 |
+| SW5 | [done/SW5.md](done/SW5.md) | v2.24.0 |
+| TQ1 | [done/TQ1.md](done/TQ1.md) | v2.25.0 |
+| TQ2 | [done/TQ2.md](done/TQ2.md) | v2.25.0 |
+| TQ3 | [done/TQ3.md](done/TQ3.md) | v2.25.0 |

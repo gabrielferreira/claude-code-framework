@@ -251,7 +251,7 @@ O arquivo tem **7 secoes fixas**, nesta ordem:
 3. **Descartados** — tabela com `ID | Item | Descartado em | Motivo` — nunca deletar, mover aqui com motivo
 4. **Sugestao de execucao** — itens pendentes organizados em waves por impacto e interdependencia. Prioridade: Wave 1 (muda fluxo/template/spec) antes de Wave 2+ (isolados, automacao, infra)
 5. **Decisoes futuras** — parking lot estrategico com gatilho e recomendacao
-6. **Detalhes por item** — indice com links para `.claude/item-specs/{ID}.md` (ver secao abaixo)
+6. **Detalhes por item** — uma linha apontando para `.claude/item-specs/INDEX.md` (ver secao abaixo)
 7. **Legenda** — referencia de colunas, valores e distincao Fase vs Wave
 
 ### Estrutura de Fase vs Wave
@@ -302,9 +302,9 @@ Nao deletar — mover para a secao "Descartados" com motivo explicito. Isso evit
 
 ### Detalhes por item
 
-Cada item com spec detalhada tem um arquivo dedicado em `.claude/item-specs/{ID}.md`. Ler antes de implementar.
+Specs vivem em `.claude/item-specs/`. O indice completo (pendentes + concluidos) esta em `.claude/item-specs/INDEX.md`. O BACKLOG.md so aponta para o INDEX — nao mantem lista propria.
 
-**Formato obrigatorio:**
+**Formato de cada spec (`{ID}.md`):**
 
 ```markdown
 # {ID} — {Titulo curto}
@@ -322,13 +322,13 @@ Cada item com spec detalhada tem um arquivo dedicado em `.claude/item-specs/{ID}
 
 **Quando atualizar:** sempre que uma decisao for tomada ou revisada. O arquivo deve refletir o estado atual do entendimento, nao o historico da conversa.
 
-**Ao concluir item:** mover o arquivo para `.claude/item-specs/done/{ID}.md` — nao deletar. O arquivo serve de referencia historica para decisoes tomadas.
+**Ao concluir item:** mover o arquivo para `.claude/item-specs/done/{ID}.md` e atualizar o INDEX (mover linha para secao "Concluidos"). Nao deletar — serve de referencia historica.
 
-**Ao descartar item:** deletar o arquivo (o contexto fica no commit).
+**Ao descartar item:** deletar o arquivo, remover do INDEX (o contexto fica no commit).
 
 ### Ao iniciar sessao de desenvolvimento do framework
 
-Ler o BACKLOG.md — especialmente a secao "Sugestao de execucao" e `## Detalhes por item` — para saber o proximo item a implementar. Para itens com spec detalhada, ler `.claude/item-specs/{ID}.md` antes de comecar. Nao perguntar "o que fazer?" se o backlog ja tem a resposta.
+Ler o BACKLOG.md — especialmente a secao "Sugestao de execucao" — para saber o proximo item a implementar. Para itens com spec, ler `.claude/item-specs/{ID}.md` (indice em `.claude/item-specs/INDEX.md`). Nao perguntar "o que fazer?" se o backlog ja tem a resposta.
 
 ## Notion (integracao nativa)
 

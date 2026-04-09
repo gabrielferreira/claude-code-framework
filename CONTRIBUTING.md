@@ -13,7 +13,7 @@ Nesta ordem:
 | 1 | `CLAUDE.md` | Regras de desenvolvimento, estrutura do repo, processo de release, padrões para criar skills e agents |
 | 2 | `.claude/TASK_CHECKLIST.md` | Checklist que toda tarefa deve cumprir antes de ser considerada concluída |
 | 3 | `MANIFEST.md` | O que vai para projetos, com qual estratégia (overwrite/structural/manual/skip) |
-| 4 | `BACKLOG.md` | O que está pendente, o que foi descartado e por quê, ordem de execução sugerida — e índice para specs detalhadas (seção `## Detalhes por item`) |
+| 4 | `BACKLOG.md` | O que está pendente, o que foi descartado e por quê, ordem de execução sugerida — aponta para `.claude/item-specs/INDEX.md` |
 
 > O Claude lê `CLAUDE.md` e `.claude/TASK_CHECKLIST.md` automaticamente a cada sessão. Quando trabalhar com Claude Code neste repo, esses arquivos já estarão no contexto.
 
@@ -142,7 +142,7 @@ As regras completas estão no `CLAUDE.md`. As mais críticas:
 ## Por onde começar
 
 1. Consulte a seção **"Sugestão de execução — Wave 1"** no `BACKLOG.md` para o próximo item de maior impacto.
-2. Se o item tiver entrada em **`## Detalhes por item`** do BACKLOG.md, leia o arquivo `.claude/item-specs/{ID}.md` antes de começar — decisões de abordagem e restrições já estão documentadas lá.
+2. Se o item tiver spec, leia `.claude/item-specs/{ID}.md` antes de começar (índice em `.claude/item-specs/INDEX.md`) — decisões de abordagem e restrições já estão documentadas lá.
 3. Se não tiver detalhe, o item ainda não foi refinado — pode abrir uma sessão de discussão antes de implementar.
 
 Se preferir algo mais isolado (sem dependências), Wave 3 e Wave 4 têm itens independentes que podem ser implementados em qualquer ordem.
@@ -157,9 +157,9 @@ Ao refinar um item (em sessão de discussão com o Claude ou com o time), criar 
 - Critérios de aceitação verificáveis
 - Restrições e gates
 
-O BACKLOG.md mantém apenas o índice (`## Detalhes por item`) com links para os arquivos.
+O BACKLOG.md apenas aponta para `.claude/item-specs/INDEX.md` — o índice completo (pendentes + concluídos) vive lá.
 
-Ao concluir o item, mover o arquivo para `.claude/item-specs/done/{ID}.md` e marcar no índice com ✅. Ao descartar, deletar o arquivo (o contexto fica no commit).
+Ao concluir o item, mover o arquivo para `.claude/item-specs/done/{ID}.md` e atualizar o INDEX (mover linha para "Concluídos"). Ao descartar, deletar o arquivo e remover do INDEX.
 
 ---
 
