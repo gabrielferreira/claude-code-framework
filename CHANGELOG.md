@@ -7,6 +7,18 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.28.0] — 2026-04-09
+
+### Adicionado
+
+- **SA1 — Skill `/map-codebase`:** análise paralela de codebase em 4 dimensões (stack tecnológico, arquitetura, convenções de código, concerns ativos) com confidence level por dimensão
+  - Modos: sem flag (exibe na conversa), `--save` (persiste em `.claude/CODEBASE_MAP.md`), `--quick` (resumo executivo)
+  - Princípio central: `Detecção → Especialização → Fallback genérico` — detecta stack antes de aplicar heurísticas
+  - Guardrails: read-only, max 30 arquivos/dimensão, nunca entra em `node_modules/vendor/dist/build/`
+  - Fallback sequencial quando Agent tool indisponível
+  - Alimenta `PROJECT_CONTEXT.md` com confirmação obrigatória (nunca aplica automaticamente)
+  - Integração com `/discuss`, `execution-plan` e `spec-creator`
+
 ## [2.27.0] — 2026-04-09
 
 ### Adicionado

@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Checklist estruturado com thresholds claros para meta tags, Core Web Vitals e acessibilidade.
 worktree: false
 ---
-<!-- framework-tag: v2.27.0 framework-file: agents/seo-audit.md -->
+<!-- framework-tag: v2.28.0 framework-file: agents/seo-audit.md -->
 # Agent: SEO Audit
 
 > Sub-agente autônomo que audita páginas públicas em SEO, Core Web Vitals e acessibilidade.
