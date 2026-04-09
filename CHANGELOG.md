@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.23.0] — 2026-04-09
+
+### Alterado
+
+- **spec-creator (modo Notion):** Severidade e Estimativa agora são obrigatórios e vêm com sugestão automática baseada na complexidade (Pequeno→baixa/<4h, Médio→media/1-2 dias, Grande→alta/1-2 semanas, Complexo→critica/>2 semanas). Se `--from` tem prioridade/story points, mapeia automaticamente.
+
 ## [2.22.0] — 2026-04-09
 
 ### Adicionado
