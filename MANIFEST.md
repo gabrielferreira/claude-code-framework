@@ -126,6 +126,8 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | `CHANGELOG.md` | Historico de versoes do framework |
 | `BACKLOG.md` | Backlog de evolução do framework |
 | `scripts/validate-tags.sh` | Validacao de framework-tags pre-release |
+| `scripts/check-sync.sh` | Validacao de sincronia source-template |
+| `scripts/test-setup.sh` | Teste automatizado de simulacao do setup |
 
 ### Projeto-específicos (skip)
 

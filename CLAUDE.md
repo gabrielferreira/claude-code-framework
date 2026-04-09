@@ -187,9 +187,14 @@ Verificar que tudo ficou consistente:
 2. Fazer as mudancas nos sources
 3. Sincronizar com templates — **sempre** copiar source → template correspondente
 4. Atualizar MANIFEST se adicionou/removeu arquivo
-5. Commitar com Conventional Commits
-6. Merge na main
-7. Release (processo acima)
+5. Antes de push, perguntar ao usuario se quer rodar as validacoes localmente:
+   ```bash
+   bash scripts/validate-tags.sh && bash scripts/check-sync.sh && bash scripts/test-setup.sh
+   ```
+   Os tres scripts rodam automaticamente no CI (GitHub Actions) em todo push/PR na main, mas rodar antes localmente evita feedback loop lento.
+6. Commitar com Conventional Commits
+7. Merge na main
+8. Release (processo acima)
 
 ## Regras
 

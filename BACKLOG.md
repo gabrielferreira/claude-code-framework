@@ -57,9 +57,7 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|------|------|------|--------|
-| TQ1 | **Repo de teste automatizado**: CI que roda `/setup-framework` + `/update-framework` num repo fake e valida resultado | 🟠 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Testes | 4h | — | Orgânico |
-| TQ2 | **Validate-tags em CI**: rodar `validate-tags.sh` automaticamente em PRs | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Testes | 1h | TQ1 | Orgânico |
-| TQ3 | **Testes de sincronia source↔template**: script que verifica se todos os sources estão sincronizados com templates | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Testes | 2h | — | Orgânico |
+*(todos concluídos — ver seção Concluídos)*
 
 ---
 
@@ -67,6 +65,9 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| TQ1 | **Repo de teste automatizado**: `scripts/test-setup.sh` simula setup em repo fake (39 checks) + CI job | pendente release — 2026-04-09 |
+| TQ2 | **Validate-tags em CI**: já rodava em PRs via `ci.yml` — confirmado e documentado | pendente release — 2026-04-09 |
+| TQ3 | **Testes de sincronia source↔template**: `check-sync.sh` ampliado com checks non-md + MANIFEST completeness (68+6+70 verificações) | pendente release — 2026-04-09 |
 | CE2 | **Waves paralelas**: terminologia unificada Fase→Wave, wave derivation explícito no execution-plan, conexão direta com context-fresh | v2.25.0 — 2026-04-09 |
 | CE4 | **Research phase**: skill `research/README.md` com protocolo de 6 eixos, formato de saída estruturado, integração com execution-plan e spec-driven | v2.25.0 — 2026-04-09 |
 | CE1 | **Context-fresh execution**: agent `task-runner.md` + skill `context-fresh/README.md` com protocolo de orquestração, waves e briefing template | v2.24.0 — 2026-04-09 |
@@ -111,8 +112,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **AU1** | — | Stuck detection |
 | **AU3** | CE1 ✅, CE3 ✅ | Auto-advance entre tasks |
 | **AU4** | CE3 ✅ | Crash recovery |
-| **TQ1** | — | CI com repo fake (habilita TQ2) |
-| **TQ3** | — | Testes de sync source↔template |
 
 ### Wave 4 — Skills/agents novos (independentes)
 
