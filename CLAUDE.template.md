@@ -24,7 +24,7 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
 4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
-5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao em feature existente → ler `.claude/specs/STATE.md` primeiro. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com decisoes, blockers e proximos passos.
+5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Execucao ativa" para saber a fase atual e o que falta (exit criteria pendente). Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual, transicoes e proximos passos.
 
 ## Mindset por domínio
 
@@ -185,6 +185,7 @@ Antes de começar a implementar, verificar: **quantos itens do backlog estão no
 Antes de executar qualquer item Medio+ (3+ arquivos ou 1h+), **criar execution-plan escrito** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`). Se nao existe execution-plan escrito, **NAO iniciar implementacao.**
 
 Fluxo da sessao principal:
+0. Verificar STATE.md "Execucao ativa" — se ja tem item em andamento, retomar da fase atual em vez de comecar do zero
 1. Ler o item/spec
 2. Invocar execution-plan para gerar plano de decomposicao
 3. Identificar partes independentes (sem overlap de arquivos)

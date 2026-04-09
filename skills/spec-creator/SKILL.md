@@ -303,7 +303,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 
 ## Regras
 
-- Spec criada sempre começa como `rascunho`
+- Spec criada sempre começa como `rascunho`. Para avançar de status, validar os gates de transição em `.claude/skills/spec-driven/README.md` seção "Gates de transição de status"
 - Sempre registrar no SPECS_INDEX.md. Se não existir, criar com estrutura mínima (ver passo 0c)
 - **Autor:** preencher na criacao com a identidade de quem solicitou a spec. Resolucao de identidade por modo: **Notion** → usar `notion-get-users` com `user_id: "self"` para obter o usuario logado. **Repo** → tentar `git config user.name`; se disponivel, usar como default e confirmar com o usuario; se nao, perguntar. No Notion, preencher a property "Autor" (tipo People). No modo repo, preencher o campo `> Autor:` no header
 - **Responsavel:** preencher APENAS ao concluir a spec — e quem implementou (o usuario da sessao que executou a implementacao). Mesma logica de resolucao de identidade do Autor por modo. No Notion, preencher a property "Responsavel" (tipo People). No modo repo, preencher o campo `> Responsavel:` no header
