@@ -6,60 +6,60 @@
 
 ### Fase 1 — Context Engineering & Orquestração (inspirado GSD)
 
-| ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
-|----|------|------|---------|-----------|------|------|------|--------|
-| CE5 | **Quick mode**: path simplificado para tasks ad-hoc que não precisam de spec completa (equivalente ao `/gsd:quick`) | 🟡 | 👤 Usuário | 🔺 Fluxo | Feature | 3h | — | Análise GSD |
-| CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | ⬜ Bastidor | Feature | 3h | CE1 | Análise GSD |
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| CE5 | **Quick mode**: path simplificado para tasks ad-hoc que não precisam de spec completa (equivalente ao `/gsd:quick`) | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 3h | — | Análise GSD |
+| CE6 | **Auto-commit atômico por task**: hook ou skill que commita automaticamente após cada task completar + rodar verify | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | Feature | 3h | CE1 | Análise GSD |
 
 ### Fase 2 — Autonomia & Automação
 
-| ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
-|----|------|------|---------|-----------|------|------|------|--------|
-| AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
-| AU2 | **Cost tracking básico**: registrar tokens/custo por task em log persistente | 🟡 | 💰 Negócio | ⬜ Bastidor | Feature | 3h | — | Análise GSD |
-| AU3 | **Auto-advance**: após completar uma task, avançar automaticamente para a próxima do spec/backlog | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 4h | CE1 ✅, CE3 ✅ | Análise GSD |
-| AU4 | **Crash recovery**: persistir estado de execução para retomar após interrupção (crash, timeout, context limit) | 🟡 | 🔧 Interno | ⬜ Bastidor | Feature | 6h | CE3 ✅ | Análise GSD |
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| AU1 | **Stuck detection**: detectar quando o Claude está em loop (retry sem progresso) e parar com diagnóstico | 🟠 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | Feature | 4h | — | Análise GSD |
+| AU2 | **Cost tracking básico**: registrar tokens/custo por task em log persistente | 🟡 | 💰 Negócio | ⬜ Bastidor | 📦 Projeto | Feature | 3h | — | Análise GSD |
+| AU3 | **Auto-advance**: após completar uma task, avançar automaticamente para a próxima do spec/backlog | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 4h | CE1 ✅, CE3 ✅ | Análise GSD |
+| AU4 | **Crash recovery**: persistir estado de execução para retomar após interrupção (crash, timeout, context limit) | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | Feature | 6h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
 
-| ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
-|----|------|------|---------|-----------|------|------|------|--------|
-| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns de um projeto existente (similar ao GSD map-codebase) | 🟠 | 👤 Usuário | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
-| SA2 | **Agent `plan-checker`**: valida planos de implementação contra requirements antes de executar (cc-sdd tem validate-gap, validate-design, validate-impl como gates separados) | 🟡 | 🔧 Interno | 🔺 Fluxo | Feature | 3h | — | Análise GSD + cc-sdd |
-| SA3 | **Agent `debugger`**: diagnóstico automático de falhas com contexto de task + erro + código relevante | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
-| SA4 | **Skill `/discuss`**: modo conversacional para esclarecer gray areas antes de planejar (assumptions mode) | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 3h | — | Análise GSD |
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns de um projeto existente (similar ao GSD map-codebase) | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 4h | — | Análise GSD |
+| SA2 | **Agent `plan-checker`**: valida planos de implementação contra requirements antes de executar (cc-sdd tem validate-gap, validate-design, validate-impl como gates separados) | 🟡 | 🔧 Interno | 🔺 Fluxo | 📦 Projeto | Feature | 3h | — | Análise GSD + cc-sdd |
+| SA3 | **Agent `debugger`**: diagnóstico automático de falhas com contexto de task + erro + código relevante | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 4h | — | Análise GSD |
+| SA4 | **Skill `/discuss`**: modo conversacional para esclarecer gray areas antes de planejar (assumptions mode) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 3h | — | Análise GSD |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
 
-| ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
-|----|------|------|---------|-----------|------|------|------|--------|
-| SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | 🔺 Fluxo | Feature | 4h | — | OpenSpec |
-| SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | Feature | 3h | — | cc-sdd |
-| SW4 | **Design docs com Mermaid**: adicionar diagramas Mermaid (sequence, component, ER) no DESIGN_TEMPLATE.md como parte do workflow de specs médias/grandes | 🟡 | 👤 Usuário | 🔺 Fluxo | Feature | 2h | — | cc-sdd |
-| SW6 | **Spec archive**: mover specs concluídas para diretório de arquivo com metadata de conclusão, mantendo `.claude/specs/` limpo | 🟡 | 👤 Usuário | 🔺 Fluxo | Feature | 2h | — | OpenSpec |
-| SW7 | **Constitution/steering**: arquivo de princípios inegociáveis do projeto (padrões, restrições, decisões arquiteturais) que toda spec e plan deve respeitar | 🟠 | 👤 Usuário | 🔺 Fluxo | Feature | 3h | — | Spec Kit + cc-sdd |
-| SW8 | **PRD → task decomposition automática**: converter PRD em task graph com complexidade e dependências (como Taskmaster AI faz com tasks.json) | 🟡 | 👤 Usuário | 🔺 Fluxo | Feature | 4h | SW5 ✅ | Taskmaster AI |
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 4h | — | OpenSpec |
+| SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 3h | — | cc-sdd |
+| SW4 | **Design docs com Mermaid**: adicionar diagramas Mermaid (sequence, component, ER) no DESIGN_TEMPLATE.md como parte do workflow de specs médias/grandes | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 2h | — | cc-sdd |
+| SW6 | **Spec archive**: mover specs concluídas para diretório de arquivo com metadata de conclusão, mantendo `.claude/specs/` limpo | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 2h | — | OpenSpec |
+| SW7 | **Constitution/steering**: arquivo de princípios inegociáveis do projeto (padrões, restrições, decisões arquiteturais) que toda spec e plan deve respeitar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 3h | — | Spec Kit + cc-sdd |
+| SW8 | **PRD → task decomposition automática**: converter PRD em task graph com complexidade e dependências (como Taskmaster AI faz com tasks.json) | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | Feature | 4h | SW5 ✅ | Taskmaster AI |
 
 ### Fase 4 — Melhorias orgânicas
 
-| ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
-|----|------|------|---------|-----------|------|------|------|--------|
-| MO1 | **Multi-runtime**: suporte a OpenCode, Gemini CLI, Codex (adaptar skills para formatos de cada runtime) | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 8h | — | Análise GSD |
-| MO2 | **Web dashboard**: visualização de progresso do projeto (specs, backlog, coverage, agents) | ⚪ | 👤 Usuário | ⬜ Bastidor | Feature | 12h | — | Análise GSD |
-| MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | ⬜ Bastidor | Feature | 4h | — | Análise GSD |
-| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | ⬜ Bastidor | Feature | 4h | CE1 ✅ | Análise GSD |
-| MO5 | **Slack/Discord integration**: rotear perguntas que o agent não consegue resolver para o dev via chat | ⚪ | 👤 Usuário | ⬜ Bastidor | Feature | 6h | — | Análise GSD |
-| MO6 | **Multi-agent support (8+ runtimes)**: adaptar instalação para Cursor, Copilot, Windsurf, OpenCode, Gemini CLI, Codex (cc-sdd suporta 8, OpenSpec suporta 20+) | 🟡 | 👤 Usuário | ⬜ Bastidor | Feature | 8h | — | cc-sdd + OpenSpec |
-| MO7 | **i18n das skills**: suporte a múltiplos idiomas nas skills (cc-sdd suporta 13 idiomas) | ⚪ | 👤 Usuário | ⬜ Bastidor | Feature | 6h | — | cc-sdd |
-| MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Bastidor | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| MO1 | **Multi-runtime**: suporte a OpenCode, Gemini CLI, Codex (adaptar skills para formatos de cada runtime) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 8h | — | Análise GSD |
+| MO2 | **Web dashboard**: visualização de progresso do projeto (specs, backlog, coverage, agents) | ⚪ | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 12h | — | Análise GSD |
+| MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | 🟡 | 💰 Negócio | ⬜ Bastidor | 📦 Projeto | Feature | 4h | — | Análise GSD |
+| MO4 | **Git isolation**: suporte a worktree por task (branch isolada, merge ao completar) | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | Feature | 4h | CE1 ✅ | Análise GSD |
+| MO5 | **Slack/Discord integration**: rotear perguntas que o agent não consegue resolver para o dev via chat | ⚪ | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 6h | — | Análise GSD |
+| MO6 | **Multi-agent support (8+ runtimes)**: adaptar instalação para Cursor, Copilot, Windsurf, OpenCode, Gemini CLI, Codex (cc-sdd suporta 8, OpenSpec suporta 20+) | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 8h | — | cc-sdd + OpenSpec |
+| MO7 | **i18n das skills**: suporte a múltiplos idiomas nas skills (cc-sdd suporta 13 idiomas) | ⚪ | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 6h | — | cc-sdd |
+| MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` (todos os concorrentes usam npx) | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 
 ### Testes e qualidade
 
-| ID | Item | Sev. | Impacto | Superfície | Tipo | Est. | Deps | Origem |
-|----|------|------|---------|-----------|------|------|------|--------|
-| TQ1 | **Repo de teste automatizado**: CI que roda `/setup-framework` + `/update-framework` num repo fake e valida resultado | 🟠 | 🔧 Interno | ⬜ Bastidor | Testes | 4h | — | Orgânico |
-| TQ2 | **Validate-tags em CI**: rodar `validate-tags.sh` automaticamente em PRs | 🟡 | 🔧 Interno | ⬜ Bastidor | Testes | 1h | TQ1 | Orgânico |
-| TQ3 | **Testes de sincronia source↔template**: script que verifica se todos os sources estão sincronizados com templates | 🟡 | 🔧 Interno | Testes | 2h | — | Orgânico |
+| ID | Item | Sev. | Impacto | Superfície | Destino | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|------|------|------|--------|
+| TQ1 | **Repo de teste automatizado**: CI que roda `/setup-framework` + `/update-framework` num repo fake e valida resultado | 🟠 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Testes | 4h | — | Orgânico |
+| TQ2 | **Validate-tags em CI**: rodar `validate-tags.sh` automaticamente em PRs | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Testes | 1h | TQ1 | Orgânico |
+| TQ3 | **Testes de sincronia source↔template**: script que verifica se todos os sources estão sincronizados com templates | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | Testes | 2h | — | Orgânico |
 
 ---
 
