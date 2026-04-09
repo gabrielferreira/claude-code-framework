@@ -205,6 +205,35 @@ Pesquisa ampla de ferramentas spec-driven em 2026. Ferramentas analisadas:
 
 ---
 
+## Detalhes por item
+
+Specs inline para itens que passaram por sessão de refinamento. Só existem para itens pendentes — ao concluir ou descartar, remover o detalhe.
+
+### SW3 — EARS format para requirements
+
+**Contexto:** adotar formato Event-Action-Result-State para requirements nos RFs, tornando-os mecanicamente verificáveis pelo Claude.
+**Abordagem:** não implementar sem teste em projeto real primeiro. Está em Wave 2 exatamente por isso — testar EARS em 2-3 specs antes de adotar como padrão no TEMPLATE.md.
+**Critérios de aceitação:**
+- [ ] EARS testado em ≥2 specs reais de projetos usando o framework
+- [ ] Dev que testou confirma que legibilidade é igual ou melhor que formato livre
+- [ ] TEMPLATE.md atualizado com seção de RFs em formato EARS
+- [ ] spec-creator instrui o Claude a escrever RFs em EARS
+
+**Restrições:** DF4 é o gate — não implementar até avaliar em uso real.
+
+### SW7 — Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md
+
+**Contexto:** formalizar um lugar para restrições não-negociáveis do projeto (stack fixo, padrões obrigatórios, decisões arquiteturais) que toda spec e plan deve respeitar.
+**Abordagem:** não criar arquivo separado (constitution file). Adicionar seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md existente. Documentar na skill spec-creator que essa seção deve ser consultada antes de propor mudanças.
+**Critérios de aceitação:**
+- [ ] `PROJECT_CONTEXT.md` (source + template) tem seção `## Restrições inegociáveis` com exemplos
+- [ ] spec-creator instrui a consultar essa seção antes de criar spec
+- [ ] update-framework oferece a seção para projetos existentes via structural merge
+
+**Restrições:** separar em arquivo próprio só se crescer demais (DF6 já removido — decisão tomada).
+
+---
+
 ## Legenda
 
 Referência para classificar itens ao adicionar ou revisar o backlog.
