@@ -19,6 +19,27 @@ Impedimentos que bloqueiam progresso. Remover quando resolvido (mover para Licoe
 |---|---|---|---|---|
 | B-001 | {O que esta bloqueado} | {O que nao pode avancar} | {Proximo passo para desbloquear} | YYYY-MM-DD |
 
+## Execucao ativa
+
+Item em andamento nesta sessao. Apenas 1 item ativo por vez (regra: um ciclo completo por vez).
+
+| Campo | Valor |
+|-------|-------|
+| **Item** | {ID do backlog} — {titulo} |
+| **Spec** | {path da spec ou URL Notion} |
+| **Fase atual** | `research` · `plan` · `execute` · `verify` |
+| **Entry criteria ✓** | {o que ja foi satisfeito para entrar nesta fase} |
+| **Exit criteria pendente** | {o que falta para avancar para a proxima fase} |
+| **Tasks** | {X/Y completas, ou N/A se Pequeno} |
+
+> Fases por tamanho: **Pequeno** = `execute → verify → done`. **Medio** = `plan → execute → verify → done`. **Grande/Complexo** = `research → plan → execute → verify → done`.
+
+### Log de transicoes
+
+| De | Para | Quando | Motivo |
+|----|------|--------|--------|
+| — | {fase} | {data} | {inicio / criterio atingido / rollback} |
+
 ## Licoes aprendidas
 
 Descobertas que informam trabalho futuro e evitam erros recorrentes.
@@ -47,6 +68,10 @@ O que a proxima sessao deve retomar ou verificar.
 ## Regras de manutencao
 
 - **Quando atualizar:** ao tomar decisao arquitetural, encontrar blocker, aprender algo nao obvio, descobrir ideia fora de escopo, ou encerrar sessao.
+- **Ao iniciar item:** preencher "Execucao ativa" com fase inicial (`research` para Grande/Complexo, `plan` para Medio, `execute` para Pequeno). Registrar transicao no log.
+- **Ao avancar de fase:** atualizar fase atual, mover exit criteria satisfeito para entry criteria, registrar transicao no log.
+- **Ao concluir item:** limpar "Execucao ativa" (todos os campos voltam para placeholder). O item vai para "Concluidos" do backlog.
+- **Ao retomar sessao:** ler "Execucao ativa" para saber exatamente onde parou e o que falta.
 - **Blockers resolvidos:** remover da tabela. Se a resolucao gerou aprendizado, adicionar em Licoes.
 - **Ideias adiadas promovidas:** quando virarem item real, mover para o backlog e remover daqui.
 - **Tamanho:** manter conciso. Se ultrapassar ~100 linhas, arquivar secoes antigas em `STATE.archive.md`.

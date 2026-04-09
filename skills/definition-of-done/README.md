@@ -18,6 +18,9 @@ O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que p
 - [ ] Spec existe para este item (light para Pequeno, completa para Médio+)
 - [ ] **Se Médio+:** execution-plan foi criado e seguido (plano escrito, não mental)
 - [ ] **Se Médio+ e projeto usa sub-agents:** implementação delegada a sub-agents (sessão principal não implementou direto)
+- [ ] **Se delegou via context-fresh:** completion log preenchido para todas as tasks
+- [ ] STATE.md "Execução ativa" está na fase `verify` (não pular direto para done)
+- [ ] Log de transições no STATE.md registra todas as fases percorridas
 
 ### Testes — cobertura e qualidade (inteligência)
 
@@ -108,6 +111,8 @@ Tudo do checklist universal, mais:
 - [ ] Todas as tasks do breakdown concluídas e marcadas
 - [ ] Tasks `[P]` integradas e testadas em conjunto (não só isoladamente)
 - [ ] `STATE.md` atualizado: lições, blockers resolvidos, ideias adiadas registradas
+- [ ] Ao marcar como done: limpar "Execução ativa" do STATE.md
+- [ ] Status da spec transicionou seguindo os gates (não pulou etapas — ver skill spec-driven)
 - [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
 - [ ] Design doc movido junto com spec para `done/` (se aplicável)
 

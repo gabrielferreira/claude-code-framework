@@ -23,14 +23,14 @@
 
 > **Toda mudança tem spec.** A complexidade determina o nível de detalhe, não se a spec existe. Pequeno = spec light (2 frases de contexto + critério de aceitação). Médio+ = spec completa conforme template.
 
-> **Regra de delegação (Médio+, se o projeto usa sub-agents):** após o execution-plan estar pronto na sessão principal, **não implementar no mesmo contexto** — delegar cada parte para sub-agents. Sessão principal planeja, orquestra e integra. Sub-agents executam. **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan.
+> **Regra de delegação (Médio+, se o projeto usa sub-agents):** após o execution-plan estar pronto na sessão principal, **não implementar no mesmo contexto** — delegar cada parte para sub-agents. Consultar `.claude/skills/context-fresh/README.md` para o protocolo completo de despacho. Sessão principal planeja, orquestra e integra. Sub-agents executam. **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan.
 
    Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
 > **Gate obrigatório (Médio+):** Antes de escrever a primeira linha de código, deve existir:
 > 1. Spec com status `aprovada` (não `rascunho`)
 > 2. Execution plan escrito (skill execution-plan) — plano mental não conta
-> 3. Se o projeto usa sub-agents: decomposição em partes com briefing
+> 3. Se o projeto usa sub-agents: decomposição em partes com briefing completo (skill context-fresh)
 >
 > Se qualquer item estiver faltando → **PARAR e completar.** Implementar sem plan é violação do fluxo.
 
@@ -66,11 +66,31 @@ Se a spec assume X mas o código mostra Y → PARAR e reportar a divergência. A
 - **Pequeno (≤3 arquivos, <30min, sem regra de negócio):** teste de regressão ANTES do fix, mas spec light é suficiente (sem spec formal completa).
 - **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 
-## Fluxo RPI — Research, Plan, Implement (Médio+)
+## Fluxo de fases — state machine (Médio+)
 
-Para features classificadas como **Grande** ou **Complexo**, separar o trabalho em fases:
+Toda implementação segue uma sequência de fases com critérios explícitos de entrada e saída. O tamanho do item determina quais fases percorre:
 
-**Research (sessão 1 — exploratória):**
+| Fase | Entry criteria | Exit criteria | Spec status |
+|------|---------------|---------------|-------------|
+| `research` | Item no backlog | Achados salvos, spec rascunho criada | `rascunho` |
+| `plan` | Spec existe | Spec `aprovada` + execution-plan (se Médio+) | `aprovada` |
+| `execute` | Plan pronto | Todas tasks completadas | `em andamento` |
+| `verify` | Código funcional | verify.sh + DoD + criteria verificados | `em andamento` → `concluída` |
+| `done` | Verificação completa | Spec em done/, backlog atualizado | `concluída` |
+
+**Fases por tamanho:**
+- **Pequeno:** `execute → verify → done` (spec light serve como plan)
+- **Médio:** `plan → execute → verify → done`
+- **Grande/Complexo:** `research → plan → execute → verify → done`
+
+**Regras de transição:**
+- Ao iniciar qualquer item: atualizar STATE.md seção "Execução ativa" com a fase correspondente.
+- Ao mudar de fase: verificar exit criteria da fase atual → registrar transição no log do STATE.md → atualizar fase.
+- Se exit criteria não satisfeito → **PARAR e completar** antes de avançar.
+
+### Detalhamento das fases
+
+**Research (sessão 1 — exploratória, Grande/Complexo):**
 - Explorar codebase, ler docs, pesquisar APIs, entender o domínio
 - Salvar achados em `.claude/specs/{id}-research.md` (descartável, só referência)
 - Esta sessão vai consumir muitos tokens explorando — é esperado
@@ -80,9 +100,9 @@ Para features classificadas como **Grande** ou **Complexo**, separar o trabalho 
 - Salvar como arquivos permanentes (spec.md, design.md)
 - Atualizar `STATE.md` com decisões tomadas
 
-**Implement (`/clear` ou sessão nova — contexto limpo):**
+**Execute (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md
-- **Se o projeto usa sub-agents:** delegar cada parte do execution-plan para sub-agents — não implementar no contexto principal:
+- **Se o projeto usa sub-agents:** delegar cada parte do execution-plan para sub-agents — não implementar no contexto principal. Consultar `.claude/skills/context-fresh/README.md` para o protocolo completo de despacho.
   - Cada sub-agent recebe: a task + spec + design doc + STATE.md + briefing completo
   - Sub-agent NÃO pesquisa codebase de novo — já tem tudo no breakdown
   - Manter main context lean: orquestrar e integrar, não implementar
@@ -90,7 +110,25 @@ Para features classificadas como **Grande** ou **Complexo**, separar o trabalho 
   - Tasks `[P]` (independentes) podem ser delegadas a sub-agents **em paralelo**
 - **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan. Manter foco em uma parte por vez.
 
+**Verify:**
+- Rodar verify.sh, aplicar Definition of Done, verificar cada critério da spec 1 a 1
+- Se tudo passa → transicionar para `done`
+
 **Princípio:** contexto de implementação recebe APENAS o necessário para executar. Se usa sub-agents: quem planejou não implementa — delega. Se não usa: seguir o plano parte a parte.
+
+### Gates de transição de status
+
+Antes de avançar o status de uma spec, validar o gate correspondente. Se o gate não passa → **PARAR e completar** antes de avançar.
+
+| Transição | Gate (validar ANTES de avançar) |
+|-----------|--------------------------------|
+| `rascunho → aprovada` | Requisitos funcionais listados, escopo definido, critérios de aceitação testáveis |
+| `aprovada → em andamento` | Execution-plan escrito (se Médio+), STATE.md "Execução ativa" preenchido |
+| `em andamento → concluída` | DoD completa, verify.sh passa, spec criteria verificados 1 a 1 |
+| `em andamento → parcial` | O que foi feito documentado, itens pendentes criados no backlog |
+| `* → descontinuada` | Motivo documentado na spec, spec substituta referenciada (se existe) |
+
+> **Notion mode:** o status é property da page. Os gates são os mesmos — validar antes de pedir atualização via `notion-update-page`.
 
 ### Context budget
 
