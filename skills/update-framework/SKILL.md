@@ -648,6 +648,20 @@ Após salvar:
 - Sugerir: "Revise os arquivos `manual` listados acima e ajuste conforme seu projeto."
 - **Se instalou skills novas com SKILL.md (slash commands):** avisar: "Skills novas instaladas so ficam disponiveis como slash commands apos iniciar uma **nova sessao** (ou `/clear`)."
 
+### Check: Hook de verificação pós-commit
+
+Se `scripts/verify.sh` ou `scripts/check.sh` existir no projeto:
+
+```bash
+HOOK_OK=$(jq -e '.hooks.PostToolUse // empty' .claude/settings.local.json 2>/dev/null)
+```
+
+- **Hook ausente ou settings.local.json não existe:** adicionar ao UPDATE_REPORT.md:
+  ```
+  💡 Hook pós-commit não configurado. Economiza tokens após cada git commit — ver docs/VERIFY_HOOK.md
+  ```
+- **Hook já presente:** silêncio (não mencionar).
+
 ---
 
 ## Fase 5b — Auditoria de completude

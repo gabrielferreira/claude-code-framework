@@ -61,6 +61,7 @@
 | Quick start | [`QUICK_START.md`](QUICK_START.md) |
 | Troubleshooting | [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) |
 | Hook de protecao do backlog | [`PROTECT_BACKLOG_HOOK.md`](PROTECT_BACKLOG_HOOK.md) |
+| Hook de verificacao pos-commit (verify.sh) | [`VERIFY_HOOK.md`](VERIFY_HOOK.md) |
 
 ---
 
