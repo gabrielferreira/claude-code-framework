@@ -64,17 +64,31 @@ Condições que DEVEM ser verdadeiras para considerar a spec concluída. Escrito
 
 > Obrigatório para Grande/Complexo. Opcional para Médio. Se ao listar tasks aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
+### Grafo de dependências
+
+O grafo é a fonte de verdade para ordem de execução. A seção "Ordem de execução" abaixo é derivada do grafo.
+
+| Task | Depende de | Arquivos | Tipo | Parallelizável? |
+|------|-----------|----------|------|-----------------|
+| T1 | — | `src/auth.js`, `tests/auth.test.js` | implementação | — (primeira) |
+| T2 | T1 | `src/session.js` | implementação | Não (depende de T1) |
+| T3 | T1 | `src/LoginForm.jsx`, `tests/LoginForm.test.jsx` | implementação | Sim [P] (sem overlap com T2) |
+| T4 | T2, T3 | `src/routes.js` | integração | Não (depende de T2 e T3) |
+
+> Tipos: `implementação` · `teste` · `integração` · `config`
+
 ### Ordem de execução
 
 ```
-Fase 1 (sequencial): T1 → T2 → T3
-Fase 2 (paralela):   T4 [P] | T5 [P] | T6 [P]
-Fase 3 (integração):  T7 → T8
+Fase 1 (sequencial): T1 → T2
+Fase 2 (paralela):   T2 [P] | T3 [P]  (sem overlap de arquivos)
+Fase 3 (integração):  T4
 ```
 
 ### T1: {título}
 - **O que:** {1 frase — o que entregar}
 - **Onde:** `path/to/file`
+- **Tipo:** implementação
 - **Depende de:** — (primeiro)
 - **Reutiliza:** {módulo/padrão existente ou —}
 - **Pronto quando:** {critério testável — referenciar RF-XXX}
@@ -82,6 +96,7 @@ Fase 3 (integração):  T7 → T8
 ### T2: {título} [P]
 - **O que:** {1 frase}
 - **Onde:** `path/to/file`
+- **Tipo:** implementação
 - **Depende de:** T1
 - **Reutiliza:** —
 - **Pronto quando:** {critério testável}

@@ -36,15 +36,17 @@ Listar **todos** os arquivos que serão lidos ou modificados, e a qual parte per
 
 ### 3. Decomposição em partes
 
+> Se a spec tem seção **"Grafo de dependências"**, usar como base para a decomposição. O grafo define dependências entre tasks — o execution-plan define como agrupá-las em fases respeitando essas dependências.
+
 Para cada parte:
 
 - **Escopo:** o que essa parte faz
 - **Arquivos:** quais arquivos afeta (do mapa acima)
 - **Funções/componentes:** o que criar/modificar
 - **Não tocar:** o que NÃO modificar (previne overlap)
-- **Sub-agent?** Sim/Não (se o projeto usa sub-agents) — se sim, incluir briefing completo
+- **Sub-agent?** Sim/Não (se o projeto usa sub-agents) — se sim, o formato do briefing segue a skill context-fresh (`.claude/skills/context-fresh/README.md`)
 - **Testes:** quais testes escrever (TDD se o projeto adota, senão testes junto com a implementação)
-- **Dependências:** depende de outra parte? Qual?
+- **Dependências:** depende de outra parte? Qual? (usar coluna "Depende de" do grafo da spec se disponível)
 - **Critério de "pronto":** como saber que esta parte está completa
 - **Contratos:** se outra parte consome o output, definir interface/formato
 
@@ -59,6 +61,8 @@ Fase 3 (sequencial): Integração — verificar que partes se encaixam
 Justificar paralelismo: "Parte 2 e 3 não compartilham arquivos" ou "Parte 2 depende de Parte 1".
 
 ### 5. Análise de overlap
+
+> Se a spec tem grafo de dependências com coluna "Parallelizável?", usar como ponto de partida. Confirmar com a análise abaixo.
 
 Para cada par de partes que rodam em paralelo, confirmar:
 
@@ -87,10 +91,10 @@ Para cada par de partes que rodam em paralelo, confirmar:
 1. **Plano vive na conversa ou no arquivo da spec** — não criar arquivo separado. Se a spec tem seção "Breakdown de tasks", preencher lá.
 2. **Máximo paralelismo com zero sobreposição.** Nunca duas partes editam o mesmo arquivo ao mesmo tempo.
 3. **Plano pronto = implementar conforme o projeto.** Após o execution-plan estar concluído na sessão principal:
-   - **Se o projeto usa sub-agents:** NÃO implementar no mesmo contexto — delegar cada parte para sub-agents. A sessão principal planeja, orquestra e integra; sub-agents executam. Implementar no contexto de planejamento mistura dois papéis e degrada o contexto.
+   - **Se o projeto usa sub-agents:** NÃO implementar no mesmo contexto — delegar cada parte para sub-agents. Seguir `.claude/skills/context-fresh/README.md` para o formato do briefing e protocolo de despacho. A sessão principal planeja, orquestra e integra; sub-agents executam. Implementar no contexto de planejamento mistura dois papéis e degrada o contexto.
    - **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do plano, uma parte por vez. Manter foco na parte atual antes de avançar para a próxima.
 4. **Revisitar o plano se surgirem surpresas.** Se durante a implementação o escopo muda (arquivo extra, dependência não prevista) → atualizar o plano antes de continuar.
-5. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes.
+5. **Sub-agents recebem briefing completo.** Ao delegar para sub-agent: arquivos exatos, linhas se possível, o que mudar, o que NÃO mudar, critério de pronto, contratos com outras partes. O formato completo do briefing está na skill context-fresh (`.claude/skills/context-fresh/README.md`).
 6. **Sessão principal nunca delega decisão.** Sub-agents executam e reportam ambiguidades. Quem decide é a sessão principal.
 7. **Sessão principal faz a integração.** Verificar que as partes se encaixam é responsabilidade da sessão principal, não de sub-agents.
 

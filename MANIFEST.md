@@ -33,6 +33,7 @@ Agents podem ter customização de projeto: `{Adaptar:}` preenchidos pelo setup 
 | `.claude/agents/dx-audit.md` | `agents/dx-audit.md` | structural |
 | `.claude/agents/performance-audit.md` | `agents/performance-audit.md` | structural |
 | `.claude/agents/infra-audit.md` | `agents/infra-audit.md` | structural |
+| `.claude/agents/task-runner.md` | `agents/task-runner.md` | structural |
 
 ### Skills (structural)
 
@@ -59,6 +60,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
+| `.claude/skills/context-fresh/README.md` | `skills/context-fresh/README.md` | structural |
 | `.claude/skills/execution-plan/README.md` | `skills/execution-plan/README.md` | structural |
 | `.claude/skills/bug-investigation/SKILL.md` | `skills/bug-investigation/SKILL.md` | structural |
 
