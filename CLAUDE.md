@@ -94,7 +94,7 @@ Antes de qualquer bump:
 - **Working directory limpo?** Se nao, commitar ou pedir pro usuario decidir.
 - **Source e templates em sincronia?** Comparar cada source com seu template (`diff source template`). Se divergirem, sincronizar e commitar antes.
 - **MANIFEST atualizado?** Se adicionou/removeu arquivo desde a ultima release, verificar se o MANIFEST reflete isso.
-- **CHANGELOG atualizado?** Adicionar entrada para a nova versao com commits agrupados por tipo (feat/fix/docs). Se `CHANGELOG.md` nao existe, criar.
+- **CHANGELOG atualizado?** Adicionar entrada para a nova versao com commits agrupados por tipo (feat/fix/docs), **incluindo apenas mudancas que chegam ao usuario final** (skills, agents, templates, docs distribuidos, scripts copiados para projetos). Omitir mudancas internas (BACKLOG, CONTRIBUTING, TASK_CHECKLIST, ECOSYSTEM, item-specs, CI, scripts de validacao do framework). Se `CHANGELOG.md` nao existe, criar.
 - **Framework-tags consistentes?** Rodar `scripts/validate-tags.sh` (ou `grep -r "framework-tag:" --include="*.md"`) e confirmar que todos apontam para a mesma versao.
 
 ### 2. Determinar o bump
@@ -104,12 +104,18 @@ Ler os commits desde a ultima tag:
 git log $(git describe --tags --abbrev=0)..HEAD --oneline --format="%s"
 ```
 
-Analisar **semanticamente** (nao so por prefixo):
-- Algum commit quebra compatibilidade com projetos que ja usam o framework? → **major**
-- Algum commit adiciona funcionalidade nova (skill, agent, campo, secao de template)? → **minor**
-- Todos os commits sao correcoes, ajustes de docs, refatoracao interna? → **patch**
+Analisar **semanticamente** (nao so por prefixo), **considerando apenas o que chega ao usuario final** (projetos que instalaram o framework):
 
-Mostrar brevemente: commits, bump detectado, versao resultante. Se o bump for claro, aplicar direto. So pausar se houver duvida real entre niveis.
+- Algum commit muda skill, agent, template, doc ou script distribuido para projetos? → conta para o bump
+- Commit afeta so arquivos internos do framework (BACKLOG.md, CONTRIBUTING.md, TASK_CHECKLIST.md, ECOSYSTEM.md, item-specs, CI, scripts de validacao)? → **nao conta para o bump**
+
+Regras de bump:
+- Algum commit chega ao usuario e quebra compatibilidade? → **major**
+- Algum commit chega ao usuario e adiciona funcionalidade nova? → **minor**
+- Todos os commits que chegam ao usuario sao correcoes ou ajustes? → **patch**
+- So commits internos desde a ultima tag? → **sem release** (aguardar mudancas que cheguem ao usuario)
+
+Mostrar brevemente: commits separados por "chega ao usuario" vs "interno", bump detectado, versao resultante. Se o bump for claro, aplicar direto. So pausar se houver duvida real entre niveis.
 
 ### 3. Aplicar o bump
 
