@@ -34,8 +34,7 @@
 | SW1 | **Delta markers para brownfield**: marcar ADDED/MODIFIED/REMOVED em specs de features que alteram código existente, para o Claude saber exatamente o que mudar vs criar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
 | SW3 | **EARS format para requirements**: adotar formato Event-Action-Result-State para requirements dentro das specs, tornando-os mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
 | SW4 | **Design docs com Mermaid**: adicionar diagramas Mermaid (sequence, component, ER) no DESIGN_TEMPLATE.md como parte do workflow de specs médias/grandes | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 2h | — | cc-sdd |
-| SW6 | **Spec archive**: mover specs concluídas para diretório de arquivo com metadata de conclusão, mantendo `.claude/specs/` limpo | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 2h | — | OpenSpec |
-| SW7 | **Constitution/steering**: arquivo de princípios inegociáveis do projeto (padrões, restrições, decisões arquiteturais) que toda spec e plan deve respeitar | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Spec Kit + cc-sdd |
+| SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: lista de restrições explícitas (stack, padrões, decisões arquiteturais fixas) que toda spec e plan deve respeitar — documentar na skill spec-creator que essa seção deve ser consultada antes de propor qualquer mudança | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
 | SW8 | **PRD → task decomposition automática**: converter PRD em task graph com complexidade e dependências (como Taskmaster AI faz com tasks.json) | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 4h | SW5 ✅ | Taskmaster AI |
 
 ### Fase 4 — Melhorias orgânicas
@@ -112,8 +111,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 | 4 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
 | 5 | **CE5** | Quick mode — definir o boundary "quando é OK pular spec completa" antes de mais itens de automação. |
 | 6 | **SA2** | Plan-checker — gate de validação natural entre plan e execute. Complementa o fluxo de `{id}-plan.md`. |
-| 7 | **SW6** | Spec archive — reconciliar com o diretório `done/` existente e fluxo de conclusão de specs. |
-| 8 | **SW8** | PRD → task graph — depende de SW5 ✅. Gera grafo automaticamente a partir de PRD. |
+| 7 | **SW8** | PRD → task graph — depende de SW5 ✅. Gera grafo automaticamente a partir de PRD. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
@@ -166,8 +164,8 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | DF3 | Integrar com GSD como layer complementar ou competir | ⚠️ Gatilho atingido (CE1-CE3 ✅) — medir se orquestração própria é suficiente em uso real agora | Evoluir independente; documentar como coexistir | Análise GSD |
 | DF4 | Adotar formato EARS para requirements ou manter formato livre | Quando SW3 for avaliado num projeto real | Testar EARS em 2-3 specs antes de adotar como padrão | cc-sdd |
 | DF5 | Spec state machine rígida (OpenSpec) ou flexível (atual) | Quando projetos reportarem specs pulando etapas | Começar com validação soft (warning) antes de gate hard (block) | OpenSpec |
-| DF6 | Constitution file separado (Spec Kit) ou embutido no PROJECT_CONTEXT.md | Quando SW7 for implementado | Embutir no PROJECT_CONTEXT.md como seção; separar só se crescer demais | Spec Kit |
 | AU2 | Implementar cost tracking (tokens/custo por task) — e se sim, via mecanismo manual ou hook, e onde armazenar | Quando Claude Code expor metadados de uso nativamente (token count por chamada via hook ou API) | Não implementar agora: log persistente cresce indefinidamente sem política de rotação; escrita manual pelo Claude é imprecisa; aguardar suporte nativo | Análise GSD |
+| SW6 | Arquivar specs concluídas em subdiretório separado (`.claude/specs/archive/`) para manter a pasta principal limpa | Quando projetos reportarem dificuldade de navegar em `.claude/specs/` com muitos arquivos (10+ specs acumuladas) | Não implementar agora: SW2 ✅ já cobre o estado "concluída"; Notion mode não se beneficia (filtro nativo); valor só aparece em projetos grandes | OpenSpec |
 
 ---
 
