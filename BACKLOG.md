@@ -170,44 +170,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 
 ---
 
-## Notas
-
-### Contexto: Análise GSD (2026-04-03)
-
-Comparação detalhada entre este framework e o GSD (Get Shit Done, ~47k stars).
-
-**Conclusão**: frameworks resolvem problemas complementares. GSD = orquestração de execução autônoma. Nosso = qualidade e disciplina de domínio. Não faz sentido abandonar — faz sentido absorver as melhores ideias de context engineering e orquestração.
-
-**Diferenciais nossos que GSD não tem**: profundidade de domínio (DBA, SEO, UX, security com OWASP, golden tests, mock mode, logging, performance profiling, docs sync), sistema de update com estratégias (overwrite/structural/manual/skip), integração Notion, TDD obrigatório no workflow.
-
-**Diferenciais do GSD que devemos absorver**: context-fresh execution, waves paralelas, auto-commit atômico, research phase, resume/state machine, quick mode, stuck detection, cost tracking.
-
-### Contexto: Análise do ecossistema SDD (2026-04-03)
-
-Pesquisa ampla de ferramentas spec-driven em 2026. Ferramentas analisadas:
-
-| Ferramenta | Stars | Foco principal | O que tem de único |
-|---|---|---|---|
-| **GSD v1** | ~50k | Orquestração autônoma (prompt framework) | Context-fresh execution, waves paralelas, auto-mode |
-| **GSD v2** | ~5k | Orquestração autônoma (CLI/SDK) | Reescrita TypeScript autônoma — referência para DF1 |
-| **GitHub Spec Kit** | ~55k | Metodologia SDD (quem criou a tendência, set/2024) | Constitution file, specify CLI, 22+ agents |
-| **AWS Kiro** | — | IDE spec-driven completo (jul/2025, powered by Claude) | Requirements→Design→Implementation como fases nativas — popularizou o modelo |
-| **OpenSpec** | ~37k | Brownfield iteration | Delta markers (ADDED/MODIFIED/REMOVED), state machine (proposal→apply→archive) |
-| **cc-sdd** | ~3k | Kiro-style workflow (community) | EARS format, Mermaid diagrams, validation gates, 13 idiomas |
-| **Taskmaster AI** | ~25k | Task decomposition | PRD→task graph, dependency-aware, complexity scores |
-
-**Posicionamento do nosso framework**: nenhuma dessas ferramentas tem profundidade de domínio comparável (22 skills especializados + 10 agents de auditoria). Todas focam em "como estruturar e executar", nenhuma foca em "o que verificar por domínio". Somos complementares a todas.
-
-**Categorização do mercado** (fonte: Augment Code):
-- **Living-spec platforms**: mantêm docs sincronizados com código (Intent, Kiro)
-- **Static-spec tools**: estruturam requirements upfront, reconciliação manual depois (Spec Kit, OpenSpec)
-- **Execution orchestrators**: focam em despachar e paralelizar tasks (GSD, Taskmaster)
-- **Quality frameworks**: focam em verificação e padrões por domínio (**nós** — categoria que ocupamos sozinhos)
-
-**Tendência 2026**: context engineering substituiu prompt engineering como disciplina crítica. Multi-agent orchestration cresceu 1.445% em consultas Q1/24→Q2/25. O mercado converge para: spec primeiro → plan com gates → execute com context fresco → verify automatizado.
-
----
-
 ## Detalhes por item
 
 Specs detalhadas em `.claude/item-specs/`. Ler o arquivo do item antes de implementar.
