@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.37.1] — 2026-04-10
+
+### Corrigido
+
+- **Setup/Update — substituição de `{NOME_DO_PROJETO}`:** adicionado passo explícito (seção 3.6.2) para substituir `{NOME_DO_PROJETO}` em todos os arquivos copiados. Projetos ficavam com placeholder literal nos títulos de skills, docs e specs.
+
 ## [2.37.0] — 2026-04-10
 
 ### Adicionado
