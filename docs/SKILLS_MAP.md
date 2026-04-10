@@ -1,10 +1,10 @@
 <!-- framework-tag: v2.37.2 framework-file: docs/SKILLS_MAP.md -->
 # Mapa de dependencias entre skills
 
-> Referencia visual de como as skills do framework se relacionam.
+> Referencia visual de como as skills do harness se relacionam.
 > Use para decidir quais skills consultar antes e durante a implementacao.
 
-## Fluxo principal (ordem recomendada)
+## Pipeline de orquestracao (ordem recomendada)
 
 ```
 spec-driven → research (se Grande/Complexo) → execution-plan (com waves) → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
