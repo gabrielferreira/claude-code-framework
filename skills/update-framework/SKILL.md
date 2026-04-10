@@ -159,10 +159,15 @@ Para cada arquivo alterado no framework source:
    - `structural` → análise de seções
    - `manual` → mostrar diff para decisão humana
    - `skip` → ignorar
-3. **Verificar se o arquivo existe no projeto:**
+3. **Verificar renames:** antes de classificar como "novo" ou "removido", consultar a seção "Renames" do MANIFEST:
+   - Para cada rename cuja versão "Desde" > versão instalada no projeto:
+     - Projeto tem o path antigo → classificar como `rename` (não como "novo" + "removido")
+     - Projeto já tem o path novo → skip (já migrado)
+     - Nenhum dos dois → tratar path novo como "novo" normalmente
+4. **Verificar se o arquivo existe no projeto:**
    - Existe → atualizar conforme estratégia
    - Não existe (arquivo novo no framework) → oferecer instalação
-4. **Verificar se o arquivo foi removido do framework:**
+5. **Verificar se o arquivo foi removido do framework:**
    - Arquivo existe no projeto mas não no framework → sugerir remoção
 
 ### 1.3 Gerar relatório de mudanças
@@ -171,6 +176,10 @@ Agrupar por ação necessária:
 
 ```markdown
 ## Atualizações disponíveis (v1.0.0 → v2.0.0)
+
+### 🔀 Arquivos renomeados
+Estes arquivos mudaram de path. Customizações serão preservadas via merge structural:
+- .claude/skills/resume/README.md → .claude/skills/resume/SKILL.md (slash command)
 
 ### 🔄 Atualização automática (overwrite)
 Estes arquivos são genéricos e serão substituídos diretamente:
@@ -323,6 +332,26 @@ Para arquivos `migrations/v{X}-to-v{Y}.md`, o comportamento é diferente do over
 4. **NAO copiar:** `migrations/MIGRATION_TEMPLATE.md` — só é útil para devs do framework, não para projetos.
 
 Informar ao usuário: "Migrations aplicadas: {lista de copiadas}. Migrations removidas: {lista de deletadas}."
+
+### 3.1b Aplicar renames
+
+Antes do merge structural, aplicar renames declarados na seção "Renames" do MANIFEST. Renames são arquivos que mudaram de path entre versões (ex: `README.md` → `SKILL.md` ao converter skill passiva em slash command).
+
+Para cada rename cuja versão "Desde" > versão instalada no projeto:
+
+1. **Se projeto tem o path antigo:**
+   a. **Backup:** copiar arquivo antigo para `.claude/.update-backup/{tag}/{path-antigo}`
+   b. **Ler** conteúdo customizado do arquivo antigo
+   c. **Merge structural** com o template do path novo:
+      - Frontmatter YAML: usar do template (novo — não existia no arquivo antigo)
+      - Framework-tag: usar do template (atualizado)
+      - Seções H2/H3: mesmo algoritmo do 3.2 (preservar customizações do projeto, adicionar seções novas do framework)
+   d. **Salvar** resultado no path novo
+   e. **Deletar** arquivo antigo
+   f. **Informar** ao dev: "Renomeado: {antigo} → {novo} (customizações preservadas)"
+
+2. **Se projeto já tem o path novo:** skip (já migrado)
+3. **Se nenhum dos dois existe:** tratar como arquivo novo (copiar template na Fase 3.4)
 
 ### 3.2 Aplicar structural
 
@@ -748,7 +777,7 @@ Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-rep
 
 ### Categoria 3 — Skills
 
-Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling, context-fresh, execution-plan, resume]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[spec-creator, backlog-update, prd-creator, map-codebase]`:
+Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[spec-creator, backlog-update, prd-creator, map-codebase, resume]`:
 
 > **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
 > - `spec-driven` = processo/metodologia de desenvolvimento (README.md de referencia)

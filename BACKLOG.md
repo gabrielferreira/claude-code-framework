@@ -59,7 +59,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md | v2.31.0 — 2026-04-10 |
+| AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md + slash command + lógica de rename no update | pendente release |
 | TQ5 | **Seções obrigatórias nas 16 skills distribuídas** (hard fail no validate-structure.sh) | v2.31.0 — 2026-04-10 |
 | SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md** | v2.31.0 — 2026-04-10 |
 | TQ4 | **Validação estrutural de skills e agents**: `validate-structure.sh` com checks de frontmatter, seções obrigatórias e MANIFEST — integrado ao CI | v2.30.0 — 2026-04-09 |
