@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.37.0] — 2026-04-10
+
+### Adicionado
+
+- **SA4 — Skill `/discuss`:** scout no codebase + identificação automática de gray areas + deep-dive guiado + spec gerada ao final. Dual-mode (repo + Notion), suporte a `--from` (Jira, Notion, Google Docs, Confluence), monorepo-aware. Complementa `/spec` como passo anterior para features com ambiguidades, domínio novo ou escopo vago.
+
 ## [2.36.0] — 2026-04-10
 
 ### Adicionado
