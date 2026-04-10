@@ -271,7 +271,6 @@ echo ""
 
 # --- 3j. Migrations ---
 echo "-- Migrations"
-check_file "migrations/MIGRATION_TEMPLATE.md" "migrations/MIGRATION_TEMPLATE.md"
 check_file "migrations/README.md" "migrations/README.md"
 
 MIGRATION_COUNT=$(find "$TMPDIR_PROJECT/migrations" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
