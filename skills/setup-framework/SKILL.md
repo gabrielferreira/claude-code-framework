@@ -1380,6 +1380,14 @@ Copiar apenas `${FRAMEWORK_PATH}/migrations/README.md` para `migrations/README.m
 
 **NAO copiar** arquivos `v{X}-to-v{Y}.md` — o projeto começa do zero e nunca precisará aplicar migrations de versões anteriores à que está instalando. Migrations históricas são dead-weight num projeto novo.
 
+### 3.14 PR template
+
+Copiar `${FRAMEWORK_PATH}/.github/pull_request_template.md` para `.github/pull_request_template.md`.
+
+- **Se `.github/pull_request_template.md` ja existe:** tratar como `structural` — preservar secoes customizadas pelo projeto, adicionar secoes novas do framework.
+- **Se o usuario informou formato de PR customizado no Bloco 5 (Convencoes):** perguntar se quer manter o template existente ou substituir pelo do framework.
+- **Criar diretorio `.github/` se nao existir.**
+
 ---
 
 ## Fase 4 — Sugestao de skills customizadas
@@ -1569,6 +1577,7 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 | `docs/SKILLS_GUIDE.md` | ⚪ info |
 | `.claude/prds/PRD_TEMPLATE.md` | ⚪ info (so se PRD opt-in) |
 | `.claude/prds/PRDS_INDEX.md` | ⚪ info (so se PRD opt-in) |
+| `.github/pull_request_template.md` | ⚪ info |
 
 #### Categoria 2 — Agents
 
@@ -1582,7 +1591,7 @@ Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-rep
 
 #### Categoria 3 — Skills
 
-Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[quick, discuss, spec-creator, backlog-update, prd-creator, map-codebase, resume]`:
+Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[quick, discuss, spec-creator, backlog-update, prd-creator, map-codebase, resume, pr]`:
 
 1. **Arquivo existe** em `.claude/skills/{nome}/README.md` ou `SKILL.md`? → 🔴 para core, 🟡 para condicionais
 2. **Framework-tag** presente? → 🟡 se nao
