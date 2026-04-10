@@ -17,13 +17,13 @@
 
 ## Stack de testes
 
-- **Framework:** {Jest / Vitest / Mocha / Pytest / etc.}
-- **Runtime:** {Node.js 20 / Python 3.12 / etc.}
-- **Mocks:** {jest.mock / sinon / unittest.mock / etc.}
-- **HTTP:** {supertest / httpx / etc.}
-- **E2E:** {Playwright / Cypress / Selenium / etc.}
+- **Framework:** {Jest / Vitest / Mocha / Pytest / xUnit / NUnit / dart:test / cargo test / etc.}
+- **Runtime:** {Node.js 20 / Python 3.12 / .NET 8 / Dart 3 / Rust 1.78 / etc.}
+- **Mocks:** {jest.mock / sinon / unittest.mock / Moq / NSubstitute / Mockito (Dart) / mockall / etc.}
+- **HTTP:** {supertest / httpx / WebApplicationFactory / http (Dart) / reqwest + wiremock / etc.}
+- **E2E:** {Playwright / Cypress / Selenium / flutter_test / etc.}
 - **Carga:** {k6 / Artillery / Locust / etc.}
-- **Coverage:** {c8 / istanbul / coverage.py / etc.}
+- **Coverage:** {c8 / istanbul / coverage.py / coverlet / dart test --coverage / cargo llvm-cov / etc.}
 
 ## Pirâmide de testes
 
@@ -84,6 +84,58 @@ func TestFormatName(t *testing.T) {
     expected := firstName + " " + lastName  // isso é testar o Go, não o código
     assert.Equal(t, expected, FormatName(firstName, lastName))
 }
+```
+
+**C# (xUnit):**
+```csharp
+// ✅ Bom teste unitário — testa lógica real
+[Fact]
+public void ValidateToken_Expired_ThrowsTokenExpiredException()
+{
+    var token = CreateToken(DateTime.UtcNow.AddHours(-1));
+    Assert.Throws<TokenExpiredException>(() => _sut.ValidateToken(token));
+}
+
+// ❌ Ruim — reimplementa a lógica no teste
+[Fact]
+public void FormatName_ShouldConcatenate()
+{
+    var expected = $"{firstName} {lastName}";  // isso é testar o C#, não o código
+    Assert.Equal(expected, FormatName(firstName, lastName));
+}
+```
+
+**Rust (cargo test):**
+```rust
+// ✅ Bom teste unitário — testa lógica real
+#[test]
+fn validate_token_expired_returns_error() {
+    let token = create_token(Utc::now() - Duration::hours(1));
+    let result = validate_token(&token);
+    assert!(matches!(result, Err(AuthError::TokenExpired)));
+}
+
+// ❌ Ruim — reimplementa a lógica no teste
+#[test]
+fn format_name_concatenates() {
+    let expected = format!("{} {}", first_name, last_name);  // isso é testar o Rust, não o código
+    assert_eq!(expected, format_name(first_name, last_name));
+}
+```
+
+**Dart (test package):**
+```dart
+// ✅ Bom teste unitário — testa lógica real
+test('should reject expired token', () {
+  final token = createToken(expiry: DateTime.now().subtract(const Duration(hours: 1)));
+  expect(() => validateToken(token), throwsA(isA<TokenExpiredException>()));
+});
+
+// ❌ Ruim — reimplementa a lógica no teste
+test('should format name', () {
+  final expected = '$firstName $lastName';  // isso é testar o Dart, não o código
+  expect(formatName(firstName, lastName), equals(expected));
+});
 ```
 
 ### Integração — a cola
@@ -148,6 +200,92 @@ func TestPostResource_Created(t *testing.T) {
     json.Unmarshal(w.Body.Bytes(), &resp)
     assert.Equal(t, "test", resp["name"])
 }
+```
+
+**C# (xUnit + WebApplicationFactory):**
+```csharp
+// ✅ Bom teste de integração — testa rota + auth + DB juntos
+public class ResourceEndpointTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly HttpClient _client;
+    public ResourceEndpointTests(WebApplicationFactory<Program> factory)
+        => _client = factory.CreateClient();
+
+    [Fact]
+    public async Task GetResource_WithoutToken_Returns401()
+    {
+        var response = await _client.GetAsync("/api/resource");
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task PostResource_WithValidToken_Returns201()
+    {
+        _client.DefaultRequestHeaders.Authorization =
+            new AuthenticationHeaderValue("Bearer", GenerateTestToken());
+        var response = await _client.PostAsJsonAsync("/api/resource", new { name = "test" });
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        var body = await response.Content.ReadFromJsonAsync<JsonElement>();
+        Assert.Equal("test", body.GetProperty("name").GetString());
+    }
+}
+```
+
+**Rust (axum + tokio::test):**
+```rust
+// ✅ Bom teste de integração — testa handler + middleware + DB
+#[tokio::test]
+async fn get_resource_without_token_returns_401() {
+    let app = create_test_app().await;
+    let response = app
+        .oneshot(Request::get("/api/resource").body(Body::empty()).unwrap())
+        .await
+        .unwrap();
+    assert_eq!(response.status(), StatusCode::UNAUTHORIZED);
+}
+
+#[tokio::test]
+async fn post_resource_with_valid_token_returns_201() {
+    let app = create_test_app().await;
+    let response = app
+        .oneshot(
+            Request::post("/api/resource")
+                .header("Authorization", format!("Bearer {}", generate_test_token()))
+                .header("Content-Type", "application/json")
+                .body(Body::from(r#"{"name":"test"}"#))
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+    assert_eq!(response.status(), StatusCode::CREATED);
+}
+```
+
+**Dart (test + http + mockito):**
+```dart
+// ✅ Bom teste de integração — testa handler + auth
+group('GET /api/resource', () {
+  test('returns 401 without token', () async {
+    final client = MockHttpClient();
+    when(client.get(any, headers: anyNamed('headers')))
+        .thenAnswer((_) async => http.Response('Unauthorized', 401));
+    final response = await client.get(Uri.parse('/api/resource'));
+    expect(response.statusCode, equals(401));
+  });
+
+  test('returns 201 with valid token', () async {
+    final client = MockHttpClient();
+    when(client.post(any, headers: anyNamed('headers'), body: anyNamed('body')))
+        .thenAnswer((_) async => http.Response('{"name":"test"}', 201));
+    final response = await client.post(
+      Uri.parse('/api/resource'),
+      headers: {'Authorization': 'Bearer $validToken'},
+      body: jsonEncode({'name': 'test'}),
+    );
+    expect(response.statusCode, equals(201));
+    expect(jsonDecode(response.body)['name'], equals('test'));
+  });
+});
 ```
 
 ### E2E (End-to-End) — a prova final
@@ -314,6 +452,12 @@ Istanbul/c8 só instrumenta arquivos carregados via `require`/`import` dentro do
 
 **Go:** interfaces + injeção de dependência. O mock implementa a mesma interface, então se a interface muda, o mock não compila. Mais seguro por design.
 
+**C# (Moq / NSubstitute):** `Mock<IInterface>()` gera implementação em runtime a partir da interface. Se a interface muda, o mock pode não quebrar em compilação (diferente do Go), mas ao chamar `.Setup()` numa assinatura inexistente o compilador alerta. Mais seguro usar `NSubstitute` com verificação em compile-time.
+
+**Rust (mockall):** `#[automock]` gera implementação de mock para traits. Se o trait muda, o mock gerado é regenerado na compilação — não compila se o código de teste chamar método inexistente. Análogo ao Go em segurança.
+
+**Dart (Mockito):** `@GenerateMocks([Classe])` com build_runner gera mocks em compile time. Similar ao Go: se a interface muda, o código gerado muda e o compilador pega inconsistências.
+
 ```go
 // Interface que a dependência real e o mock implementam
 type UserRepository interface {
@@ -346,6 +490,81 @@ func TestGetUser(t *testing.T) {
     user, err := svc.GetUser(context.Background(), "uuid-1")
     assert.NoError(t, err)
     assert.Equal(t, "Test", user.Name)
+}
+```
+
+**C# (Moq):**
+```csharp
+// Interface que a dependência real e o mock implementam
+public interface IUserRepository
+{
+    Task<User?> FindByIdAsync(string id);
+    Task CreateAsync(User user);
+}
+
+// Uso no teste (Moq gera implementação em runtime)
+[Fact]
+public async Task GetUser_ReturnsUser_WhenFound()
+{
+    var repoMock = new Mock<IUserRepository>();
+    repoMock.Setup(r => r.FindByIdAsync("uuid-1"))
+            .ReturnsAsync(new User { Id = "uuid-1", Name = "Test" });
+
+    var svc = new UserService(repoMock.Object);  // injeção de dependência
+    var user = await svc.GetUserAsync("uuid-1");
+
+    Assert.Equal("Test", user.Name);
+    repoMock.Verify(r => r.FindByIdAsync("uuid-1"), Times.Once);
+}
+```
+
+**Rust (mockall):**
+```rust
+// Trait que a dependência real e o mock implementam
+#[cfg_attr(test, automock)]
+trait UserRepository {
+    fn find_by_id(&self, id: &str) -> Result<User, Error>;
+    fn create(&self, user: &User) -> Result<(), Error>;
+}
+
+// Uso no teste
+#[test]
+fn get_user_returns_user_when_found() {
+    let mut repo = MockUserRepository::new();
+    repo.expect_find_by_id()
+        .with(eq("uuid-1"))
+        .times(1)
+        .returning(|_| Ok(User { id: "uuid-1".into(), name: "Test".into() }));
+
+    let svc = UserService::new(Box::new(repo));  // injeção de dependência
+    let user = svc.get_user("uuid-1").unwrap();
+
+    assert_eq!("Test", user.name);
+}
+```
+
+**Dart (Mockito):**
+```dart
+// Classe real que o mock replica
+abstract class UserRepository {
+  Future<User?> findById(String id);
+  Future<void> create(User user);
+}
+
+// Gerar mock: dart run build_runner build
+@GenerateMocks([UserRepository])
+void main() {
+  test('getUser returns user when found', () async {
+    final repo = MockUserRepository();
+    when(repo.findById('uuid-1'))
+        .thenAnswer((_) async => User(id: 'uuid-1', name: 'Test'));
+
+    final svc = UserService(repo);  // injeção de dependência
+    final user = await svc.getUser('uuid-1');
+
+    expect(user?.name, equals('Test'));
+    verify(repo.findById('uuid-1')).called(1);
+  });
 }
 ```
 
@@ -761,7 +980,7 @@ func TestWebhook_Duplicate(t *testing.T) {
 2. **Cada bugfix tem teste que reproduz o bug.** O teste deve falhar sem o fix e passar com ele.
 3. **Mock o mínimo necessário.** Se pode testar com implementação real (em memória, SQLite, etc.), preferir.
 4. **Branches de erro são obrigatórios.** Não só happy path — cobrir catch blocks, validações, edge cases.
-5. **Nenhum `test.skip` ou `test.only` no commit.** Falhar no CI se detectado.
+5. **Nenhum teste ignorado/exclusivo no commit.** Falhar no CI se detectado. Equivalentes por linguagem: JS/TS → `test.only` / `test.skip`; C# → `[Fact(Skip=...)]` sem justificativa rastreada; Rust → `#[ignore]` sem comentário; Dart → `skip:` sem motivo.
 6. **Testes são documentação.** Nome descritivo: `should return 401 when token is expired`, não `test auth`.
 7. **Fixture data é controlada.** Usar factories/fixtures, não dados aleatórios que causam flakes.
 8. **Golden tests precisam de review.** Nunca atualizar snapshot sem ler o diff e entender a mudança.
