@@ -151,24 +151,24 @@ Quando várias skills se aplicam na mesma tarefa:
 
 {Adaptar: adicionar/remover conforme o projeto. Cada agent define worktree e model no frontmatter.}
 
-| # | Agent | Modelo | Quando invocar | Obrigatório? |
-|---|-------|--------|---------------|-------------|
-| 1 | `security-audit.md` | opus | Itens SEC*, mudanças em auth/payments/middleware | ⛔ Sim |
-| 2 | `spec-validator.md` | sonnet | Antes de mover spec para done/ | ⛔ Sim |
-| 3 | `coverage-check.md` | sonnet | Após testes, antes de commit | Recomendado |
-| 4 | `backlog-report.md` | sonnet | Início de sessão, sob demanda | Recomendado |
-| 5 | `code-review.md` | sonnet | Após 3+ arquivos modificados, refatoração | Recomendado |
-| 6 | `component-audit.md` | sonnet | Após 2+ componentes visuais modificados | Recomendado |
-| 7 | `seo-audit.md` | sonnet | Mudanças em páginas públicas, meta tags | Recomendado |
-| 8 | `product-review.md` | sonnet | Ao concluir feature, verificar cobertura PRD→specs | Recomendado |
-| 9 | `refactor-agent.md` | sonnet | Refatoração a partir de findings de auditoria | Recomendado |
-| 10 | `test-generator.md` | sonnet | Gaps de coverage identificados | Recomendado |
-| 11 | `dx-audit.md` | haiku | Início de sessão, mudanças em scripts/configs | Recomendado |
-| 12 | `performance-audit.md` | sonnet | Queries pesadas, componentes lentos, pré-release | Recomendado |
-| 13 | `infra-audit.md` | sonnet | Mudanças em deploy, Docker, CI/CD | Recomendado |
-| 14 | `task-runner.md` | sonnet | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
-| 15 | `stuck-detector.md` | sonnet | Invocado por context-fresh quando loop de retry detectado — diagnostica causa raiz | ⛔ Sim (se sub-agents) |
-| 16 | `debugger.md` | sonnet | Falha durante implementação — diagnóstico estruturado com hipóteses ranqueadas | Recomendado |
+| # | Agent | Quando invocar | Obrigatório? |
+|---|-------|---------------|-------------|
+| 1 | `security-audit.md` | Itens SEC*, mudanças em auth/payments/middleware | ⛔ Sim |
+| 2 | `spec-validator.md` | Antes de mover spec para done/ | ⛔ Sim |
+| 3 | `coverage-check.md` | Após testes, antes de commit | Recomendado |
+| 4 | `backlog-report.md` | Início de sessão, sob demanda | Recomendado |
+| 5 | `code-review.md` | Após 3+ arquivos modificados, refatoração | Recomendado |
+| 6 | `component-audit.md` | Após 2+ componentes visuais modificados | Recomendado |
+| 7 | `seo-audit.md` | Mudanças em páginas públicas, meta tags | Recomendado |
+| 8 | `product-review.md` | Ao concluir feature, verificar cobertura PRD→specs | Recomendado |
+| 9 | `refactor-agent.md` | Refatoração a partir de findings de auditoria | Recomendado |
+| 10 | `test-generator.md` | Gaps de coverage identificados | Recomendado |
+| 11 | `dx-audit.md` | Início de sessão, mudanças em scripts/configs | Recomendado |
+| 12 | `performance-audit.md` | Queries pesadas, componentes lentos, pré-release | Recomendado |
+| 13 | `infra-audit.md` | Mudanças em deploy, Docker, CI/CD | Recomendado |
+| 14 | `task-runner.md` | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
+| 15 | `stuck-detector.md` | Invocado por context-fresh quando loop de retry detectado | ⛔ Sim (se sub-agents) |
+| 16 | `debugger.md` | Falha durante implementação — diagnóstico estruturado | Recomendado |
 
 **Regra:** **Agents de auditoria** (read-only: security-audit, code-review, spec-validator, etc.) devolvem relatórios — nunca aplicar fix direto do report sem passar pelo fluxo spec-driven. **Agents de execução** (task-runner, refactor-agent) são infraestrutura de orquestração e operam em worktree isolada.
 
@@ -243,27 +243,7 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | Plan | sonnet | Subir para opus se decisão arquitetural complexa |
 | general-purpose | sonnet | Subir para opus se envolve segurança ou decisão crítica |
 
-**Agents custom deste projeto:**
-
-| Agent | Modelo | Pode sobrescrever? |
-|---|---|---|
-| security-audit | opus | Sim, mas não recomendado rebaixar |
-| code-review | sonnet | Sim |
-| component-audit | sonnet | Sim |
-| spec-validator | sonnet | Sim |
-| coverage-check | sonnet | Sim |
-| seo-audit | sonnet | Sim |
-| backlog-report | sonnet | Analisa tendencias e velocidade com heuristicas estruturadas |
-| product-review | sonnet | Sim |
-| refactor-agent | sonnet | Sim |
-| test-generator | sonnet | Sim |
-| dx-audit | haiku | Sim — subir para sonnet se setup for complexo |
-| performance-audit | sonnet | Sim |
-| infra-audit | sonnet | Sim |
-| task-runner | sonnet | Sim |
-| stuck-detector | sonnet | Sim |
-
-{Adaptar: modelos conforme necessidade do projeto. Editar o campo model no frontmatter de cada .claude/agents/*.md.}
+{Adaptar: para sobrescrever o modelo de um agent custom, editar o campo `model:` no frontmatter de cada `.claude/agents/*.md`.}
 
 ## Verificação proativa (início de sessão)
 
@@ -362,33 +342,13 @@ Detalhes → `.claude/skills/testing/README.md`
 
 ## Worktrees e subagents
 
-{Adaptar: worktrees conforme a preferencia do time. Remover esta secao se nao quiser usar worktrees.}
+{Adaptar: remover esta secao se nao quiser usar worktrees.}
 
-### Worktree por sessao (recomendado)
+Cada sessao de trabalho roda numa worktree isolada (`.claude/worktrees/`) para nao interferir no working directory principal.
 
-Cada sessao de trabalho deve rodar numa worktree isolada para nao interferir no working directory principal.
-Worktrees ficam em `.claude/worktrees/` (ja no .gitignore).
-
-Ao iniciar sessao em feature/fix:
-- Criar ou reutilizar worktree para a branch (ex: `feat/xyz` → `.claude/worktrees/feat-xyz`)
-- Todo o trabalho da sessao acontece nessa worktree
-- Ao finalizar (PR aberto) → limpar worktree
-
-### Subagents e isolamento
-
-Subagents despachados pela sessao seguem estas regras:
-
-| Tipo de subagent | Onde roda | Motivo |
-|---|---|---|
-| **Read-only** (auditoria, validacao, report, explore) | Na worktree da sessao (sem worktree nova) | Ve o codigo em progresso, nao o main. Rapido, sem overhead. |
-| **Write exploratorio** (refactor, spike, prototipagem) | Worktree propria (nova) | Isola mudancas experimentais. Se boas, merge traz de volta. |
-| **task-runner** (execucao de task via context-fresh) | Worktree propria (nova) | Isola cada task. Sessao principal integra apos conclusao. |
-
-**Regra simples:** subagent read-only → roda na worktree da sessao. Subagent que edita codigo (refactor, task-runner) → worktree nova propria.
-
-> **Importante:** subagents read-only NAO rodam no working directory principal (main). Eles rodam NA WORKTREE DA SESSAO para ver o estado atual do trabalho em andamento.
-
-> **Context-fresh:** quando a sessao principal despacha tasks via skill context-fresh, cada `task-runner` roda numa worktree isolada. Tasks paralelas (`[P]`) rodam em worktrees separadas simultaneamente. A sessao principal orquestra e integra os resultados.
+**Regra de isolamento para subagents:**
+- **Read-only** (auditoria, explore, report) → roda na worktree da sessao (ve o codigo em progresso)
+- **Write** (task-runner, refactor-agent) → worktree propria (isola mudancas, sessao principal integra)
 
 ## Contexto de negócio
 
