@@ -28,6 +28,10 @@ claude-code-framework/
 │   ├── spec-creator/          ← Skill /spec (dual-mode: repo + Notion)
 │   ├── backlog-update/        ← Skill /backlog-update (dual-mode)
 │   └── {outras}/              ← Skills de dominio (testing, code-quality, etc.)
+├── .claude/
+│   ├── plans/                 ← Planos aprovados (persistidos apos aprovacao)
+│   ├── item-specs/            ← Specs detalhadas de itens do backlog
+│   └── TASK_CHECKLIST.md      ← Checklist de verificacao por tarefa
 ├── docs/                      ← Docs source
 ├── specs/                     ← Templates de spec (TEMPLATE.md, DESIGN_TEMPLATE.md)
 └── scripts/
@@ -70,6 +74,7 @@ Consultar o MANIFEST antes de adicionar qualquer arquivo novo ao framework.
 | `README.md` | Documentacao do repo |
 | `scripts/install-skills.sh` | Instalacao pessoal |
 | `.claude-plugin/plugin.json` | Vai como overwrite (e do framework, nao do projeto) |
+| `.claude/plans/` | Planos aprovados — referencia de decisoes de design, interno do framework |
 
 Documentados no MANIFEST na secao "Scripts do framework (nao copiados)".
 
@@ -196,6 +201,12 @@ Verificar que tudo ficou consistente:
 7. Aguardar CI passar e revisao antes de mergear
 8. Release (processo acima) — feito na main apos merge
 
+## Planos aprovados
+
+Apos um plano ser aprovado (ExitPlanMode aceito), salvar em `.claude/plans/{ID}-{descricao}.md` no repo. Exemplo: `.claude/plans/MO9-light-edition.md`.
+
+Planos sao referencia de decisoes de design — nao sao distribuidos para projetos (nao estao no MANIFEST). Servem para que sessoes futuras entendam o raciocinio por tras de implementacoes complexas.
+
 ## Regras
 
 > Para a checklist completa de verificação durante execução de tarefas, ver `@.claude/TASK_CHECKLIST.md` (carregado automaticamente).
@@ -308,6 +319,8 @@ Specs vivem em `.claude/item-specs/`. O indice completo (pendentes + concluidos)
 
 ```markdown
 # {ID} — {Titulo curto}
+
+**Plano:** [.claude/plans/{ID}-{descricao}.md](../plans/{ID}-{descricao}.md)  ← so se existir plano aprovado
 
 **Contexto:** por que este item existe e que problema resolve.
 **Abordagem:** decisao tomada sobre como implementar. Incluir alternativas descartadas se relevante.

@@ -7,6 +7,15 @@
 
 ---
 
+## 0. Plano de referência
+
+Se existe um plano aprovado em `.claude/plans/` para o item sendo implementado (ex: `.claude/plans/MO9-light-edition.md`), ler antes de começar e verificar ao finalizar:
+
+- [ ] Decisões de design documentadas no plano foram respeitadas
+- [ ] Se houve desvio do plano durante a implementação, atualizar o plano com o motivo
+
+A spec (`.claude/item-specs/{ID}.md`) deve ter campo `**Plano:**` apontando para o arquivo quando aplicável.
+
 ## 1. Source ↔ template em sincronia
 
 Todo arquivo distribuído existe em dois lugares: **source** (raiz) e `skills/setup-framework/templates/`. Ao editar qualquer source, copiar para o template correspondente imediatamente. Nunca editar só um lado.
