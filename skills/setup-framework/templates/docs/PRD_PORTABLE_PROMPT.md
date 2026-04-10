@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.31.0 framework-file: docs/PRD_PORTABLE_PROMPT.md -->
+<!-- framework-tag: v2.32.0 framework-file: docs/PRD_PORTABLE_PROMPT.md -->
 # PRD Portable Prompt — Instrucoes para LLMs
 
 > Prompt standalone para criar PRDs com analise de causa raiz profunda.

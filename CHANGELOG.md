@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.32.0] — 2026-04-10
+
+### Adicionado
+
+- **SKILLS_GUIDE.md — Catálogo descritivo de todas as skills:** novo doc distribuído para projetos com descrição de cada uma das 25 skills do framework (o que faz, quando usar, o que produz). Organizado por fluxo principal + categoria funcional. Inclui seção `## Skills customizadas do projeto` para o projeto adicionar skills próprias. Estratégia `structural` — setup instala na primeira vez; update sugere adição/remoção de seções quando skills mudam. Setup e update agora verificam presença do arquivo na auditoria de completude.
+
 ## [2.31.0] — 2026-04-10
 
 ### Adicionado
