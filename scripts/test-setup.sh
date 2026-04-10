@@ -139,6 +139,9 @@ copy_file "SPECS_INDEX.md" "."
 # .claude-plugin/
 copy_dir ".claude-plugin" ".claude-plugin"
 
+# .github/
+copy_dir ".github" ".github"
+
 echo "==> Template copy complete."
 echo ""
 
@@ -281,9 +284,15 @@ else
 fi
 echo ""
 
-# --- 3k. Plugin ---
+# --- 3k. GitHub configs ---
+echo "-- GitHub configs"
+check_file ".github/pull_request_template.md" ".github/pull_request_template.md"
+echo ""
+
+# --- 3l. Plugin ---
 echo "-- Plugin"
 check_file ".claude-plugin/plugin.json" ".claude-plugin/plugin.json"
+check_file ".claude-plugin/marketplace.json" ".claude-plugin/marketplace.json"
 
 if [ -f "$TMPDIR_PROJECT/.claude-plugin/plugin.json" ]; then
   if jq empty "$TMPDIR_PROJECT/.claude-plugin/plugin.json" 2>/dev/null; then
@@ -301,7 +310,7 @@ if [ -f "$TMPDIR_PROJECT/.claude-plugin/plugin.json" ]; then
 fi
 echo ""
 
-# --- 3l. Framework-tags consistency ---
+# --- 3m. Framework-tags consistency ---
 echo "-- Framework-tag consistency"
 TAG_VERSIONS=()
 while IFS= read -r md_file; do
@@ -327,7 +336,7 @@ else
 fi
 echo ""
 
-# --- 3m. CLAUDE.md non-empty ---
+# --- 3n. CLAUDE.md non-empty ---
 echo "-- Content checks"
 if [ -s "$TMPDIR_PROJECT/CLAUDE.md" ]; then
   check_pass "CLAUDE.md is non-empty"

@@ -126,6 +126,7 @@ map_project_path_to_template() {
     .claude/prds/*)       echo "$TEMPLATES_DIR/prds/${proj#.claude/prds/}" ;;
     .claude/bugs/*)       echo "$TEMPLATES_DIR/bugs/${proj#.claude/bugs/}" ;;
     .claude-plugin/*)     echo "$TEMPLATES_DIR/.claude-plugin/${proj#.claude-plugin/}" ;;
+    .github/*)            echo "$TEMPLATES_DIR/.github/${proj#.github/}" ;;
     docs/*)               echo "$TEMPLATES_DIR/docs/${proj#docs/}" ;;
     scripts/*)            echo "$TEMPLATES_DIR/scripts/${proj#scripts/}" ;;
     migrations/*)         echo "$TEMPLATES_DIR/migrations/${proj#migrations/}" ;;

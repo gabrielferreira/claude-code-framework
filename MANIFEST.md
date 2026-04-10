@@ -68,6 +68,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/quick/SKILL.md` | `skills/quick/SKILL.md` | structural |
 | `.claude/skills/resume/SKILL.md` | `skills/resume/SKILL.md` | structural |
 | `.claude/skills/discuss/SKILL.md` | `skills/discuss/SKILL.md` | structural |
+| `.claude/skills/pr/SKILL.md` | `skills/pr/SKILL.md` | structural |
 
 ### Docs (structural)
 
@@ -95,6 +96,14 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/PROTECT_BACKLOG_HOOK.md` | `docs/PROTECT_BACKLOG_HOOK.md` | structural |
 | `docs/VERIFY_HOOK.md` | `docs/VERIFY_HOOK.md` | structural |
 | `docs/SKILLS_GUIDE.md` | `docs/SKILLS_GUIDE.md` | structural |
+
+### GitHub configs (structural)
+
+Configuracoes do GitHub distribuidas para projetos. Projeto pode customizar conteudo dentro das secoes.
+
+| Path no projeto | Template source | Estrategia |
+|---|---|---|
+| `.github/pull_request_template.md` | `.github/pull_request_template.md` | structural |
 
 ### Renames
 

@@ -140,12 +140,13 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
 | 25 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
 | 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
-{26+. Skills específicas do domínio do projeto}
+| 27 | Vai abrir Pull Request? | `/pr` — preenche PR com contexto de spec + diff, abre via `gh pr create` | Recomendado |
+{27+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
 Quando várias skills se aplicam na mesma tarefa:
-1. **spec-driven** (entender o que fazer) → 2. **research** (investigar, se Grande/Complexo) → 3. **discuss** (resolver gray areas, se houver) → 4. **execution-plan** (decompor em waves, se médio+) → 5. **context-fresh** (despachar, se sub-agents) → 6. **skill de domínio** (como fazer) → 7. **testing** (validar) → 8. **definition-of-done** (fechar)
+1. **spec-driven** (entender o que fazer) → 2. **research** (investigar, se Grande/Complexo) → 3. **discuss** (resolver gray areas, se houver) → 4. **execution-plan** (decompor em waves, se médio+) → 5. **context-fresh** (despachar, se sub-agents) → 6. **skill de domínio** (como fazer) → 7. **testing** (validar) → 8. **definition-of-done** (fechar) → 9. **pr** (abrir PR)
 
 {Adaptar: ordem conforme o fluxo do projeto.}
 

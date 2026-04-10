@@ -334,6 +334,19 @@
 
 ---
 
+## pr (`/pr`)
+
+**O que é:** Preenche o template de PR com informações extraídas da spec (contexto, requisitos, critérios de aceitação) e do diff da branch, e abre o PR via `gh pr create` após confirmação do usuário. Garante rastreabilidade spec → PR.
+
+**Quando usar:**
+- Ao concluir implementação de uma spec e querer abrir PR
+- Após rodar definition-of-done e verify.sh com sucesso
+- Quando quiser PR pré-preenchido com contexto completo
+
+**Output:** PR criado no GitHub com título Conventional Commits, corpo preenchido a partir da spec e diff, e link para a spec.
+
+---
+
 ## Skills customizadas do projeto
 
 {Adaptar: adicionar skills específicas do domínio do projeto aqui. Cada skill deve ter: nome, O que é (1-2 frases), Quando usar (2-3 bullets), Output (1 linha).}

@@ -761,6 +761,7 @@ Opcoes:
 | `docs/SKILLS_GUIDE.md` | ⚪ info |
 | `.claude/prds/PRD_TEMPLATE.md` | ⚪ info (so se PRD opt-in) |
 | `.claude/prds/PRDS_INDEX.md` | ⚪ info (so se PRD opt-in) |
+| `.github/pull_request_template.md` | ⚪ info |
 
 **Verificacao adicional para `PROJECT_CONTEXT.md`:** se o arquivo existe, verificar se tem a secao `## Restrições inegociáveis`. Se nao tiver:
 - Severidade: 🟡 medio
@@ -778,7 +779,7 @@ Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-rep
 
 ### Categoria 3 — Skills
 
-Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[quick, discuss, spec-creator, backlog-update, prd-creator, map-codebase, resume]`:
+Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[quick, discuss, spec-creator, backlog-update, prd-creator, map-codebase, resume, pr]`:
 
 > **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
 > - `spec-driven` = processo/metodologia de desenvolvimento (README.md de referencia)
