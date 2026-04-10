@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-09 (OP2 adicionado: remover dead-weight da distribuição)
+> Última atualização: 2026-04-09 (AU1 concluído; OP2 adicionado)
 
 ## Pendentes
 
@@ -13,7 +13,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | 🟠 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
 | AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Feature | 4h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
@@ -63,6 +62,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | pendente release — 2026-04-09 |
 | SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | pendente release — 2026-04-09 |
 | SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | pendente release — 2026-04-09 |
 | CE5 | **Refinar critérios de classificação "Pequeno"**: substituir `<30min` por critérios estruturais (`sem nova abstração, sem mudança de schema`) em spec-creator, spec-driven, execution-plan, prd-creator, CLAUDE.template.md e docs | v2.25.0 — 2026-04-09 |
@@ -123,7 +123,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 
 | ID | Deps | Nota |
 |----|------|------|
-| **AU1** | — | Stuck detection |
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
 | **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
