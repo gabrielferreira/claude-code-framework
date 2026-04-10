@@ -20,16 +20,14 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | testing | spec-driven (specs definem o que testar) | golden-tests, code-quality |
 | code-quality | — | dba-review (se toca DB), testing |
 | security-review | — | definition-of-done (security e pre-requisito) |
-| dba-review | — | code-quality, performance-profiling |
+| dba-review | — | code-quality |
 | mock-mode | testing (mocks sao para testes) | api-testing |
 | api-testing | testing | mock-mode, security-review |
 | dependency-audit | — | security-review |
-| performance-profiling | — | dba-review, code-quality |
 | ux-review | — | seo-performance, component-audit (agent) |
 | seo-performance | — | ux-review |
 | docs-sync | definition-of-done | — |
 | golden-tests | testing | — |
-| syntax-check | — | code-quality |
 | context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done. Waves de execucao do execution-plan alimentam o despacho |
 | map-codebase | — | execution-plan (arquitetura informa o plan), spec-creator (escopo e impacto), /discuss (PROJECT_CONTEXT enriquecido torna scout mais preciso) |
 | debugger (agent) | — | stuck-detector (se padrao e loop), spec-creator (spec de correcao) |

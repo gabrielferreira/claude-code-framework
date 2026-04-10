@@ -92,4 +92,4 @@ Diretório raiz do projeto + contexto de qual área investigar (backend, fronten
 
 - Crítico → criar spec ou item no backlog com prioridade alta
 - Alto → avaliar custo-benefício antes de criar spec
-- Use a skill `performance-profiling` para investigação mais profunda
+- Revise os findings deste agent para priorizar investigações de performance
