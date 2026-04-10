@@ -56,10 +56,10 @@ Se o usuario pedir `/setup-framework --dry-run` ou mencionar "preview" / "simula
 Antes de qualquer coisa:
 
 1. **Localizar os templates do framework:**
-   - **Primeiro:** verificar se existem templates embutidos em `${CLAUDE_SKILL_DIR}/templates/CLAUDE.template.md`
+   - **Primeiro:** verificar se existem templates embutidos em `${CLAUDE_SKILL_DIR}/templates/CLAUDE.md`
      - Se sim: usar `${CLAUDE_SKILL_DIR}/templates` como `FRAMEWORK_PATH` — nenhuma pergunta necessaria
    - **Fallback:** se os templates embutidos nao existirem, perguntar ao usuario: "Onde esta o clone do claude-code-framework? (path absoluto)"
-     - Validar que o path informado contem `CLAUDE.template.md` na raiz — se nao: avisar e pedir novamente
+     - Validar que o path informado contem `CLAUDE.md` na raiz — se nao: avisar e pedir novamente
      - Guardar o path como `FRAMEWORK_PATH` para uso nas fases seguintes
      - **Dica para o usuario:** se nao tem o framework clonado, clonar com `git clone <url> /tmp/claude-code-framework` e informar `/tmp/claude-code-framework`
 
@@ -832,7 +832,7 @@ Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, a
 
 ### 3.2 CLAUDE.md
 
-Usar `${FRAMEWORK_PATH}/CLAUDE.template.md` como base. Preencher com dados coletados:
+Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
 
 - `{NOME_DO_PROJETO}` → nome do projeto
 - `{stack backend}` / `{stack frontend}` / `{DB}` → stacks detectadas
@@ -930,7 +930,7 @@ Usar `${FRAMEWORK_PATH}/PROJECT_CONTEXT.md` como base. Preencher com dados colet
 
 ### 3.4 SPECS_INDEX.md
 
-Usar `${FRAMEWORK_PATH}/SPECS_INDEX.template.md` como base:
+Usar `${FRAMEWORK_PATH}/SPECS_INDEX.md` como base:
 
 - Se **modelo repo ou hibrido:**
   - Criar com dominios relevantes ao projeto (ex: se nao tem pagamentos, nao criar dominio "Pagamentos")
@@ -1353,6 +1353,12 @@ fi
 **Se nenhum script encontrado:**
 - Omitir — não configurar o hook e não mencionar no relatório.
 
+### 3.13 Migrations
+
+Copiar apenas `${FRAMEWORK_PATH}/migrations/README.md` para `migrations/README.md`.
+
+**NAO copiar** arquivos `v{X}-to-v{Y}.md` — o projeto começa do zero e nunca precisará aplicar migrations de versões anteriores à que está instalando. Migrations históricas são dead-weight num projeto novo.
+
 ---
 
 ## Fase 4 — Sugestao de skills customizadas
@@ -1434,6 +1440,7 @@ Salvar como `.claude/SETUP_REPORT.md`:
 | `scripts/backlog-report.cjs` | Report HTML do backlog | {status} |
 | `docs/README.md` | Indice de docs | {status} |
 | `docs/GIT_CONVENTIONS.md` | Convencoes de git | {status} |
+| `migrations/README.md` | Índice de migrations do framework | {status} |
 | ... | ... | ... |
 
 Status: Criado | Atualizado (merge) | Pulado (ja existia) | N/A (modelo externo)
@@ -1927,6 +1934,16 @@ Opcoes:
 
 Se "desfazer tudo": remover todos os arquivos criados neste setup.
 Se "desfazer parcial": perguntar quais manter e remover o resto.
+
+### Nota pós-setup: remover setup-framework do projeto
+
+Se a skill foi instalada **por projeto** (Método A — `cp -r .../setup-framework .claude/skills/setup-framework`), ela pode ser removida após o setup estar completo:
+
+```bash
+rm -rf .claude/skills/setup-framework
+```
+
+A skill só é necessária uma vez. Para uso recorrente, prefira instalação pessoal (`~/.claude/skills/`) ou via plugin — assim fica disponível em todos os projetos sem ocupar espaço em cada um.
 
 ---
 

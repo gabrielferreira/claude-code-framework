@@ -303,6 +303,27 @@ cp ${FRAMEWORK_PATH}/agents/security-audit.md .claude/agents/security-audit.md
 
 O header `framework-tag` é atualizado automaticamente (já vem no arquivo source).
 
+**Tratamento especial: migrations**
+
+Para arquivos `migrations/v{X}-to-v{Y}.md`, o comportamento é diferente do overwrite padrão:
+
+1. **Copiar** apenas migrations cujo intervalo começa na versão atual do projeto ou posterior (o "gap" sendo cruzado). Usar `INSTALLED_VERSION` (detectado na Fase 0) como piso.
+   - `v{X}-to-v{Y}.md` é relevante se `X >= INSTALLED_VERSION`
+   - Ignorar migrations anteriores — já foram aplicadas ou nunca serão necessárias
+
+2. **Deletar** do projeto migrations de versões já ultrapassadas (com `X < INSTALLED_VERSION`) — são dead-weight acumulado de updates anteriores.
+   ```bash
+   # Exemplo: projeto em v2.25, atualizando para v2.29
+   # Copiar: v2.25→v2.26, v2.26→v2.27, v2.27→v2.28, v2.28→v2.29
+   # Deletar: v2.4→v2.5, ..., v2.24→v2.25 (se existirem no projeto)
+   ```
+
+3. **Manter sempre:** `migrations/README.md` — é overwrite normal, sem filtro.
+
+4. **NAO copiar:** `migrations/MIGRATION_TEMPLATE.md` — só é útil para devs do framework, não para projetos.
+
+Informar ao usuário: "Migrations aplicadas: {lista de copiadas}. Migrations removidas: {lista de deletadas}."
+
 ### 3.2 Aplicar structural
 
 Para cada arquivo `structural`:

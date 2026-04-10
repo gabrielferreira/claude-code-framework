@@ -23,7 +23,6 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | MO4 | [MO4.md](MO4.md) | Fase 4 | Wave 5 |
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 5 |
 | OP1 | [OP1.md](OP1.md) | Operações | Wave 3 |
-| OP2 | [OP2.md](OP2.md) | Operações | Wave 3 |
 | TQ4 | [TQ4.md](TQ4.md) | Testes | Wave 3 |
 | TQ5 | — | Testes | Wave 3 |
 
@@ -31,6 +30,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
+| OP2 | [done/OP2.md](done/OP2.md) | pendente release |
 | AU1 | [done/AU1.md](done/AU1.md) | pendente release |
 | SA2 | [done/SA2.md](done/SA2.md) | pendente release |
 | SA1 | [done/SA1.md](done/SA1.md) | pendente release |
