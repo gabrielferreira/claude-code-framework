@@ -168,6 +168,7 @@ Quando várias skills se aplicam na mesma tarefa:
 | 12 | `performance-audit.md` | sonnet | Queries pesadas, componentes lentos, pré-release | Recomendado |
 | 13 | `infra-audit.md` | sonnet | Mudanças em deploy, Docker, CI/CD | Recomendado |
 | 14 | `task-runner.md` | sonnet | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
+| 15 | `plan-checker.md` | sonnet | Após gerar execution-plan, antes de implementar — valida cobertura spec→plano | Recomendado |
 
 **Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
 
@@ -260,6 +261,7 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | performance-audit | sonnet | Sim |
 | infra-audit | sonnet | Sim |
 | task-runner | sonnet | Sim |
+| plan-checker | sonnet | Sim |
 
 {Adaptar: modelos conforme necessidade do projeto. Editar o campo model no frontmatter de cada .claude/agents/*.md.}
 
