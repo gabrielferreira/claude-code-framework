@@ -8,14 +8,6 @@
 
 ---
 
-## Fluxo principal recomendado
-
-```
-spec-driven → research (Grande/Complexo) → spec-creator → execution-plan → context-fresh (se sub-agents) → {skills de domínio} → testing → definition-of-done → docs-sync
-```
-
----
-
 ## spec-driven
 
 **O que é:** Skill obrigatória que define o fluxo completo de desenvolvimento — da demanda ao código. Classifica a complexidade do item (Pequeno/Médio/Grande/Complexo) e determina o nível de cerimônia (spec light, spec completa, design doc, research).
