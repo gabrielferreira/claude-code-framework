@@ -8,6 +8,19 @@
 
 ---
 
+## quick (`/quick`)
+
+**O que é:** Fast-path para correções triviais que não justificam spec. Valida critérios (typo, bump, config, fix de 1-2 linhas sem lógica de negócio) e segue fluxo simplificado: implementar → testar → verify.sh → commit → PR.
+
+**Quando usar:**
+- Typo, fix de texto, ajuste de mensagem
+- Bump de dependência, ajuste de config
+- Fix trivial de 1-2 linhas sem nova lógica de negócio
+
+**Output:** Mudança commitada e PR aberto. Sem spec, sem STATE.md, sem DoD completo.
+
+---
+
 ## spec-driven
 
 **O que é:** Skill obrigatória que define o fluxo completo de desenvolvimento — da demanda ao código. Classifica a complexidade do item (Pequeno/Médio/Grande/Complexo) e determina o nível de cerimônia (spec light, spec completa, design doc, research).
