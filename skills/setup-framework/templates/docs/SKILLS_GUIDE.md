@@ -47,6 +47,20 @@
 
 ---
 
+## discuss (`/discuss`)
+
+**O que é:** Fase conversacional estruturada antes da spec. Faz scout no codebase, identifica gray areas (ambiguidades, decisões técnicas, dependências, conflitos), guia deep-dive em cada uma e gera spec completa ao final com decisões incorporadas. Substitui o salto direto de "quero X" para `/spec` quando há incerteza.
+
+**Quando usar:**
+- Feature com 2+ interpretações possíveis da solução técnica
+- Decisões técnicas não triviais (escolha de lib, pattern, schema)
+- Domínio novo (primeira feature nessa área do projeto)
+- Escopo vago onde critérios de aceitação ainda não estão claros
+
+**Output:** Spec gerada (repo ou Notion) com decisões consolidadas, gray areas exploradas documentadas como "Notas — Decisões do /discuss", e gray areas não exploradas marcadas como `{A DETALHAR}` com impacto documentado.
+
+---
+
 ## prd-creator (`/prd`)
 
 **O que é:** Cria um PRD (Product Requirements Document) para documentar análise de causa raiz antes de criar specs técnicas. Um PRD pode gerar múltiplas specs. Suporta modo repo, Notion e exportação para copy-paste.
