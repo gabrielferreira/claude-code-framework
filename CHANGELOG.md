@@ -7,6 +7,14 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.34.0] — 2026-04-10
+
+### Adicionado
+
+- **AU4 — Skill `/resume` como slash command:** skill de retomada convertida de README.md (passiva) para SKILL.md (`user_invocable: true`), permitindo invocação direta via `/resume` após crash/timeout. Protocolo de 4 passos permanece inalterado.
+
+- **Lógica de rename no update-framework:** nova seção "Renames" no MANIFEST.md para declarar renames explícitos entre versões. Nova Fase 3.1b no update-framework que detecta renames, migra customizações via merge structural e remove o arquivo antigo. Projetos existentes com `resume/README.md` serão migrados automaticamente para `resume/SKILL.md` preservando customizações.
+
 ## [2.33.0] — 2026-04-10
 
 ### Adicionado
