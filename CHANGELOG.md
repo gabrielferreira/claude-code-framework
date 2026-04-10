@@ -7,6 +7,17 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.29.0] — 2026-04-09
+
+### Adicionado
+
+- **AU1 — Agent `stuck-detector`:** sub-agente de diagnóstico invocado quando a sessão principal detecta um loop de retry sem progresso. Analisa histórico de tentativas, identifica causa raiz (5 categorias: bloqueio externo, ambiguidade, limite técnico, estado corrompido, loop lógico) e propõe caminhos de resolução concretos. Read-only — apenas diagnostica, não implementa.
+  - Protocolo de detecção integrado à skill `context-fresh`: após 2 tentativas sem progresso mensurável, o orquestrador invoca o stuck-detector antes de tentar novamente
+  - Gatilhos de loop: tool denied 2x no mesmo passo, output idêntico em iterações consecutivas, N tentativas sem mudança de estado
+  - Output estruturado: categoria, evidências, diagnóstico e 3 opções de resolução (escalar, contornar, redefinir)
+
+- **SA2 — Agent `plan-checker`:** valida cobertura do execution-plan contra RFs e critérios de aceitação da spec antes de iniciar implementação. Detecta lacunas entre spec→plano que causariam retrabalho. Invocado após gerar execution-plan, antes de despachar task-runners.
+
 ## [2.28.0] — 2026-04-09
 
 ### Adicionado
