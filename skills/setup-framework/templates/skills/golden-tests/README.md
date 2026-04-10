@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.35.0 framework-file: skills/golden-tests/README.md -->
+<!-- framework-tag: v2.36.0 framework-file: skills/golden-tests/README.md -->
 # Skill: Golden Tests (Snapshot Testing)
 
 > Use esta skill ao criar, modificar ou revisar golden tests (snapshot tests).
