@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.29.0 framework-file: skills/syntax-check/README.md -->
+<!-- framework-tag: v2.30.0 framework-file: skills/syntax-check/README.md -->
 # Skill: Syntax Check
 
 > **PROATIVA:** Executar ANTES de commitar, como parte da verificação pós-implementação.

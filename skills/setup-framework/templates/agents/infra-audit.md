@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: checklist com thresholds de infra requer analise estruturada
 worktree: false
 ---
-<!-- framework-tag: v2.29.0 framework-file: agents/infra-audit.md -->
+<!-- framework-tag: v2.30.0 framework-file: agents/infra-audit.md -->
 
 # Infra Audit — Auditoria de Infraestrutura
 

@@ -53,8 +53,7 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| TQ4 | **Validação estrutural de skills e agents**: script que verifica frontmatter obrigatório nos agents, seções obrigatórias nas skills, cobertura do MANIFEST e cross-refs no CLAUDE.template.md | 🟠 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Testes | 3h | — | Discussão 2026-04-09 |
-| TQ5 | **Corrigir seções obrigatórias nas skills**: 16 skills existentes estão faltando seções (`Quando usar`, `Quando NÃO usar`, `Checklist`, `Regras`) — detectadas pelo validate-structure.sh como warnings. Tornar hard fail após corrigir todas | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | TQ4 | validate-structure.sh warnings |
+| TQ5 | **Corrigir seções obrigatórias nas skills**: 16 skills existentes estão faltando seções (`Quando usar`, `Quando NÃO usar`, `Checklist`, `Regras`) — detectadas pelo validate-structure.sh como warnings. Tornar hard fail após corrigir todas | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | TQ4 ✅ | validate-structure.sh warnings |
 
 ---
 
@@ -62,6 +61,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| TQ4 | **Validação estrutural de skills e agents**: `validate-structure.sh` com checks de frontmatter, seções obrigatórias e MANIFEST — integrado ao CI | pendente release — 2026-04-09 |
 | OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `MIGRATION_TEMPLATE.md` e migrations históricas removidos dos templates; update distribui só migrations do gap atual | pendente release — 2026-04-09 |
 | AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | pendente release — 2026-04-09 |
 | SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | pendente release — 2026-04-09 |
@@ -127,8 +127,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
 | **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
-| **TQ4** | — | Validação estrutural de skills e agents |
-| **TQ5** | TQ4 | Corrigir seções obrigatórias nas 16 skills com warnings |
+| **TQ5** | TQ4 ✅ | Corrigir seções obrigatórias nas 16 skills com warnings |
 
 ### Wave 4 — Skills/agents novos (independentes)
 

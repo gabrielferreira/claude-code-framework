@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Checklist estruturado de cobertura — comparação metódica sem julgamento profundo.
 worktree: false
 ---
-<!-- framework-tag: v2.29.0 framework-file: agents/plan-checker.md -->
+<!-- framework-tag: v2.30.0 framework-file: agents/plan-checker.md -->
 # Agent: Plan Checker
 
 > Sub-agente autônomo que valida se o execution-plan cobre todos os requisitos da spec.
