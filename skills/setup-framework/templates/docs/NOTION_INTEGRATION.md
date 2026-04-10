@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.3 framework-file: docs/NOTION_INTEGRATION.md -->
+<!-- framework-tag: v2.38.0 framework-file: docs/NOTION_INTEGRATION.md -->
 
 # Integracao Notion
 

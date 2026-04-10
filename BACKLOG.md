@@ -54,7 +54,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | pendente release |
+| DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | v2.38.0 — 2026-04-10 |
 | SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | v2.37.0 — 2026-04-10 |
 | DF13 | **Discovery Routing + `/quick`**: triagem pré-spec (quick task / spec única / multi-spec) + slash command `/quick` para fast-path sem spec | v2.36.0 — 2026-04-10 |
 | AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md + slash command + lógica de rename no update | v2.34.0 — 2026-04-10 |

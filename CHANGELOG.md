@@ -7,6 +7,13 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.38.0] — 2026-04-10
+
+### Adicionado
+
+- **Skill `/pr`:** preenche template de PR com contexto de spec + diff e abre via `gh pr create` com confirmação. Detecta spec via STATE.md, branch name ou arquivos modificados. Suporta `--base` e `--draft`.
+- **PR template distribuído:** `.github/pull_request_template.md` distribuído pelo setup-framework (strategy: structural). Seções: O que muda, Por quê, Como testar, Checklist.
+
 ## [2.37.3] — 2026-04-10
 
 ### Alterado
