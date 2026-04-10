@@ -18,7 +18,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Discussão 2026-04-10 |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
 
@@ -55,6 +54,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | pendente release |
 | SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | v2.37.0 — 2026-04-10 |
 | DF13 | **Discovery Routing + `/quick`**: triagem pré-spec (quick task / spec única / multi-spec) + slash command `/quick` para fast-path sem spec | v2.36.0 — 2026-04-10 |
 | AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md + slash command + lógica de rename no update | v2.34.0 — 2026-04-10 |
@@ -122,9 +122,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 ### Wave 3 — Skills/agents novos (independentes)
 
-| ID | Nota |
-|----|------|
-| **DL1** | `/pr` — preenche PR template com spec + diff, abre via `gh pr create` |
+(Vazia — todos os itens foram concluídos ou movidos.)
 
 ### Wave 4 — Distribuição e escala (quando houver demanda)
 
