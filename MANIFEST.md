@@ -153,7 +153,7 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `PROJECT_CONTEXT.md` | manual (mostrar diff do template, perguntar) |
 | `SPECS_INDEX.md` | skip |
 | `.claude/specs/backlog.md` | skip |
-| `.claude/specs/STATE.md` | skip |
+| `.claude/specs/STATE.md` | manual (mostrar diff da estrutura nova, nunca aplicar automaticamente — contém estado do projeto) |
 | `.claude/specs/TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |
 | `.claude/specs/DESIGN_TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |
 | `.claude/specs/backlog-format.md` | structural (projeto customiza Fases, Camadas e pode adicionar colunas) |
