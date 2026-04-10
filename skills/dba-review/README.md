@@ -3,13 +3,19 @@
 
 > Executar quando criar ou modificar tabelas, migrations, queries ou índices.
 
-## Quando ativar
+## Quando usar
 
 - Criar ou alterar tabelas (`CREATE TABLE`, `ALTER TABLE`)
 - Criar migrations
 - Adicionar queries com `JOIN`, `WHERE` em colunas sem índice
 - Adicionar ou remover índices
 - Alterar constraints (`CHECK`, `UNIQUE`, `FK`)
+
+## Quando NÃO usar
+
+- Para migrations que apenas inserem dados sem alterar schema (`INSERT`, seeds)
+- Para queries em tabelas pequenas (<100 rows) sem requisito de performance
+- Se a mudança não toca schema, migrations, queries ou índices
 
 ## Checklist obrigatório
 

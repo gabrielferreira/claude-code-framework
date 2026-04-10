@@ -109,3 +109,12 @@ expect.addSnapshotSerializer({
 | Endpoints com golden test | 100% das rotas públicas |
 | Componentes com golden test | Componentes de UI estáveis (não em flux) |
 | Snapshots desatualizados | 0 (CI falha se houver) |
+
+## Checklist
+
+- [ ] Serializers definidos para todos os dados dinâmicos (timestamps, UUIDs, tokens)
+- [ ] Snapshots iniciais criados com `--updateSnapshot`
+- [ ] Testes cobrem cenários de sucesso E erro (400, 401, 403, 404, 500)
+- [ ] Nomes dos testes seguem padrão: `"METHOD /path — descrição"`
+- [ ] Review do diff antes de aprovar qualquer atualização de snapshot
+- [ ] Snapshots commitados junto com o código que os causa

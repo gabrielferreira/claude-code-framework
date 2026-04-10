@@ -4,6 +4,18 @@
 > Use esta skill ANTES de finalizar qualquer entrega (feature, bugfix, refactor).
 > Nenhuma entrega está pronta até que todos os itens aplicáveis estejam marcados.
 
+## Quando usar
+
+- Antes de finalizar qualquer entrega (feature, bugfix, refatoração)
+- Ao abrir PR — verificar todos os itens aplicáveis antes de solicitar review
+- Ao concluir item do backlog e mover spec para `done/`
+
+## Quando NÃO usar
+
+- Para commits intermediários em branch (não é entrega final)
+- Para WIP (work in progress) — aguardar a entrega estar completa
+- Para revisão de código de terceiros — este checklist é para quem implementa
+
 ## Checklist universal (toda entrega)
 
 O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que precisa de **inteligência** (Claude). Sem duplicação — cada item existe em um lugar só.
@@ -207,3 +219,11 @@ grep -rn "sk_live\|sk_test\|AKIA\|password\s*=\s*['\"]" {src}/ --include="*.{ext
 > Se está em dúvida se precisa atualizar um doc, a resposta é sim.
 > Se está em dúvida se implementou tudo da spec, a resposta é não — abrir o código e confirmar.
 > Se está em dúvida se precisa de teste, a resposta é sim — e provavelmente mais de um.
+
+## Regras
+
+1. **Nenhuma entrega sem checklist universal completo** — os itens aplicáveis devem estar marcados antes de abrir PR
+2. **Spec deve ser verificada 1 a 1** — não confirmar "de memória", abrir o código e verificar cada critério
+3. **Spec `parcial` não vai para `done/`** — manter ativa com os checkboxes desmarcados e criar sub-itens no backlog
+4. **PR é a unidade de entrega** — nunca push direto para `main`
+5. **Artefatos temporários limpos** — `{id}-research.md` e `{id}-plan.md` deletados após verificação

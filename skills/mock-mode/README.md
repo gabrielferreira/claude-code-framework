@@ -10,6 +10,12 @@
 - Ao modificar fluxo que depende de serviço externo
 - Ao revisar se o mock mode cobre a plataforma toda
 
+## Quando NÃO usar
+
+- Para testar comportamento real de serviços externos (integração verdadeira) — usar sandbox do provedor
+- Em ambiente de produção — usar credenciais e serviços reais
+- Para fluxos financeiros críticos antes de deploy — validar contra sandbox real do provedor de pagamento
+
 ## Como funciona o mock mode
 
 <!-- Exemplo concreto — adaptar ou remover -->

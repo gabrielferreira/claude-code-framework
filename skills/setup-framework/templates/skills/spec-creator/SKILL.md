@@ -9,6 +9,18 @@ user_invocable: true
 
 Cria uma nova spec a partir do TEMPLATE.md, registra no SPECS_INDEX.md e no backlog.
 
+## Quando usar
+
+- Antes de implementar qualquer feature, bugfix ou refatoração (gate obrigatório)
+- Ao formalizar item do backlog em spec completa
+- Ao registrar decisão técnica relevante como spec de referência
+
+## Quando NÃO usar
+
+- Para exploração sem escopo definido — fazer `/research` primeiro
+- Para hotfix urgente com causa raiz óbvia — criar spec mínima após o fix
+- Quando spec equivalente já existe — atualizar a existente
+
 ## Uso
 
 ```
@@ -33,6 +45,12 @@ Exemplos:
 Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (specs)`.
 - **Se sim:** modo Notion — criar specs direto no Notion via MCP (ver seção Notion abaixo)
 - **Se não:** modo repo — criar specs como arquivos locais (ver seção Repo abaixo)
+
+---
+
+### Passo 0a — Verificar restrições inegociáveis
+
+> **Antes de criar:** verificar se `PROJECT_CONTEXT.md` tem seção `## Restrições inegociáveis`. Se sim, a spec não pode propor solução que conflite com essas restrições. Em caso de conflito, escalar ao usuário antes de prosseguir.
 
 ---
 
@@ -320,3 +338,12 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 - Grande/Complexo = oferecer design doc
 - Complexo = sugerir fluxo RPI (research → plan → implement em sessões separadas)
 - Na dúvida sobre complexidade, classificar para cima
+
+## Checklist
+
+- [ ] ID único verificado no SPECS_INDEX (sem duplicatas)
+- [ ] Complexidade classificada antes de criar (Pequeno/Médio/Grande/Complexo)
+- [ ] Seções obrigatórias preenchidas conforme complexidade (não apenas placeholder)
+- [ ] Spec registrada no SPECS_INDEX.md com status `rascunho`
+- [ ] Item adicionado ao backlog (se não existia)
+- [ ] Para Grande/Complexo: design doc criado ou ofertado

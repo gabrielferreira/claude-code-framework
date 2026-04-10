@@ -1,7 +1,7 @@
 #!/bin/bash
 # Validates structural requirements of agents and skills:
 #   - Agents: frontmatter with required fields + required sections
-#   - Skills: required sections (warns, non-blocking for legacy skills)
+#   - Skills: required sections (hard fail)
 #   - MANIFEST coverage: agents listed in MANIFEST exist in agents/
 #   - Cross-ref: agents in CLAUDE.template.md exist in agents/
 #
@@ -89,7 +89,7 @@ echo ""
 # ---------------------------------------------------------------------------
 # 2. Skills: section checks (warn-only for legacy skills without full structure)
 # ---------------------------------------------------------------------------
-echo "=== Skills: section checks (warnings only for missing sections) ==="
+echo "=== Skills: section checks ==="
 
 # Collect distributed skills from MANIFEST (to avoid checking setup-framework and update-framework)
 DISTRIBUTED_SKILLS=()
@@ -109,8 +109,8 @@ for skill_dir in "${DISTRIBUTED_SKILLS[@]}"; do
   fi
 
   if [ -z "$skill_file" ]; then
-    echo "  WARN [file-missing]: skills/${skill_dir}/ — no README.md or SKILL.md found"
-    WARNINGS=$((WARNINGS + 1))
+    echo "  ERROR [file-missing]: skills/${skill_dir}/ — no README.md or SKILL.md found"
+    ERRORS=$((ERRORS + 1))
     continue
   fi
 
@@ -124,8 +124,8 @@ for skill_dir in "${DISTRIBUTED_SKILLS[@]}"; do
   if [ "${#missing_sections[@]}" -gt 0 ]; then
     joined=$(printf '%s, ' "${missing_sections[@]}")
     joined="${joined%, }"
-    echo "  WARN [section-missing]: $skill_file — missing sections: ${joined}"
-    WARNINGS=$((WARNINGS + 1))
+    echo "  ERROR [section-missing]: $skill_file — missing sections: ${joined}"
+    ERRORS=$((ERRORS + 1))
   else
     echo "  OK: $skill_file"
   fi
@@ -190,12 +190,8 @@ echo ""
 # ---------------------------------------------------------------------------
 # Summary
 # ---------------------------------------------------------------------------
-if [ "$WARNINGS" -gt 0 ]; then
-  echo "WARNINGS: ${WARNINGS} skill(s) with missing recommended sections (non-blocking)"
-fi
-
 if [ "$ERRORS" -eq 0 ]; then
-  echo "All structure validations passed (${WARNINGS} warnings)"
+  echo "All structure validations passed (0 warnings)"
   exit 0
 else
   echo "---"

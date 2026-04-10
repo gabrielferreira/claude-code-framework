@@ -9,6 +9,19 @@ user_invocable: true
 
 Atualiza o backlog do projeto seguindo o padrão de classificações e regras definidos no CLAUDE.md.
 
+## Quando usar
+
+- Ao adicionar novo item ao backlog do projeto
+- Ao marcar item como concluído após entrega
+- Ao editar campos de item existente (severidade, estimativa, dependências)
+- Ao descartar item com justificativa
+
+## Quando NÃO usar
+
+- Para criar specs — usar `/spec`
+- Se o item ainda não tem ID ou escopo definido — definir primeiro
+- Para registrar tasks de execução de um item — usar `/execution-plan` ou `/context-fresh`
+
 ## Uso
 
 ```
@@ -192,3 +205,11 @@ Se existir `scripts/backlog-report.cjs`, regenerar o relatório HTML local.
 - **Modo repo:** ao concluir item com spec, sempre mover a spec e atualizar SPECS_INDEX
 - **Modo Notion:** ao concluir (`done`), atualizar Status, Concluída em **e Responsavel** (via `notion-get-users self`) direto na página do Notion
 - **Sempre** regenerar `docs/backlog-report.html` ao final (se script existir)
+
+## Checklist
+
+- [ ] Item tem ID único (sem duplicatas no backlog)
+- [ ] Todos os campos obrigatórios preenchidos (Fase, Sev., Impacto, Tipo, Complexidade)
+- [ ] Item concluído: removido de Pendentes E adicionado em Concluídos
+- [ ] Spec associada movida para `done/` e status atualizado (se aplicável)
+- [ ] `docs/backlog-report.html` regenerado (se script existir)

@@ -12,6 +12,12 @@
 - Ao mexer na landing page ou painel admin
 - Ao fazer redesign ou ajuste visual
 
+## Quando NÃO usar
+
+- Para páginas puramente de dados sem interação do usuário (ex: APIs)
+- Para mudanças de lógica de backend sem impacto visual
+- Para refatoração interna sem mudança de UI
+
 ## Identidade visual — Design System
 
 ### Fontes
@@ -134,3 +140,11 @@
 | `window.open("", "_blank")` para download | Bloqueado em mobile | Usar Blob download |
 | Timer frontend desacoplado do backend | Dessincroniza | Usar `expires_at` do server |
 | Mensagem genérica ("Erro") | Usuário não sabe o que fazer | Dizer o que e como corrigir |
+
+## Regras
+
+1. **Mobile first** — toda tela deve funcionar em 375px antes de escalar para desktop
+2. **Nunca hardcodar cores** — usar tokens do design system
+3. **Touch targets mínimo 44px** — WCAG AA em mobile
+4. **Botão sem texto precisa de `aria-label`** — nunca ícone sem label acessível
+5. **Ações destrutivas sempre têm confirmação** — modal antes de executar, warning se irreversível
