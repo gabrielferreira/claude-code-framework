@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.37.2] — 2026-04-10
+
+### Corrigido
+
+- **Skill `/quick` — seção Checklist:** adicionada seção `## Checklist` exigida pelo `validate-structure.sh`. Sem ela o CI falhava.
+
 ## [2.37.1] — 2026-04-10
 
 ### Corrigido
