@@ -1,5 +1,7 @@
 # MO9 — Framework Light Edition
 
+**Plano:** [.claude/plans/MO9-light-edition.md](../plans/MO9-light-edition.md)
+
 **Contexto:** o framework distribui ~100 arquivos para projetos (16 agents, 26 skills, 20 docs, 4 scripts). Para projetos pequenos (1-3 devs, domínio único) isso é overhead — setup longo, muitas perguntas, dezenas de arquivos não usados. Internamente, os devs do framework usam uma abordagem simplificada (specs de 4 seções, backlog flat) que funciona bem e serve de referência.
 
 **Abordagem:** criar edição "light" com ~28 arquivos (vs ~100 no full), setup rápido (3-4 perguntas vs 15-20), e path de upgrade limpo para full.
