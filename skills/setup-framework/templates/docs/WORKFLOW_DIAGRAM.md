@@ -178,6 +178,12 @@ O ciclo de desenvolvimento com o framework instalado.
                                 │
                                 ▼
                     ┌─────────────────────────┐
+                    │  /pr — abrir PR         │  ← preenche template com
+                    │  (spec + diff → PR)      │     contexto de spec + diff
+                    └────────────┬────────────┘
+                                │
+                                ▼
+                    ┌─────────────────────────┐
                     │  Atualizar STATE.md     │  ← decisões, blockers,
                     │  + backlog se necessário │     próximos passos
                     └─────────────────────────┘
@@ -339,6 +345,7 @@ Atualiza o framework já instalado quando sai versão nova.
 │  • Skills → guiar dev   │
 │  • Agents → auditar     │
 │  • verify.sh → validar  │
+│  • /pr → abrir PR       │
 │  • STATE.md → memória   │
 │  • /backlog-update      │
 └─────────────────────────┘

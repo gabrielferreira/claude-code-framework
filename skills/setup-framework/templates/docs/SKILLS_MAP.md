@@ -7,10 +7,10 @@
 ## Pipeline de orquestracao (ordem recomendada)
 
 ```
-spec-driven → research (se Grande/Complexo) → execution-plan (com waves) → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
+spec-driven → research (se Grande/Complexo) → execution-plan (com waves) → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync → pr
 ```
 
-O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Complexo, passa por `research` (investigar codebase antes de planejar). Depois `execution-plan` (decompor em partes e derivar waves de execucao) e `context-fresh` (despachar waves para sub-agents, se o projeto usa). Segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done` e `docs-sync`.
+O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Complexo, passa por `research` (investigar codebase antes de planejar). Depois `execution-plan` (decompor em partes e derivar waves de execucao) e `context-fresh` (despachar waves para sub-agents, se o projeto usa). Segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done`, `docs-sync` e `pr` (abre PR com contexto da spec).
 
 ## Dependencias especificas
 
@@ -31,6 +31,7 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done. Waves de execucao do execution-plan alimentam o despacho |
 | map-codebase | — | execution-plan (arquitetura informa o plan), spec-creator (escopo e impacto), /discuss (PROJECT_CONTEXT enriquecido torna scout mais preciso) |
 | debugger (agent) | — | stuck-detector (se padrao e loop), spec-creator (spec de correcao) |
+| pr | definition-of-done (DoD antes de abrir PR) | docs-sync, spec-driven (rastreabilidade spec→PR) |
 
 ## Legenda
 
@@ -53,3 +54,4 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | prd-creator | Ao criar PRD antes de quebrar em specs |
 | map-codebase (`/map-codebase`) | Ao iniciar sessao em projeto desconhecido ou apos longa ausencia — mapear stack, arquitetura, convencoes e concerns antes de planejar |
 | debugger (agent) | Ao diagnosticar falha durante implementacao — coleta contexto e produz hipoteses ranqueadas |
+| pr (`/pr`) | Ao abrir Pull Request — preenche template com contexto de spec + diff e abre via `gh pr create` |
