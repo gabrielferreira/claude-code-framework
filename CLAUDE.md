@@ -182,6 +182,7 @@ Verificar que tudo ficou consistente:
 - [ ] Todos os sources estao sincronizados com templates (`diff source template`)
 - [ ] Novo doc/skill/agent tem entrada no MANIFEST
 - [ ] Tag criada (`git tag -l`)
+- [ ] **`BACKLOG.md` e `item-specs/INDEX.md` atualizados:** substituir todas as entradas `pendente release` na secao "Concluidos" pela versao real recem publicada (ex: `v2.X.0 — AAAA-MM-DD`)
 - [ ] Testar em repo real: `./scripts/install-skills.sh` + `/setup-framework` funciona
 
 ## Fluxo de desenvolvimento

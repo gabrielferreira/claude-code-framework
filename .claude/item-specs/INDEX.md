@@ -8,12 +8,10 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
-| AU4 | [AU4.md](AU4.md) | Fase 2 | Wave 3 |
 | SA4 | [SA4.md](SA4.md) | Fase 3 | Wave 4 |
 | DL1 | [DL1.md](DL1.md) | Fase 3 | Wave 4 |
 | SW1 | [SW1.md](SW1.md) | Fase 3b | Wave 1 |
 | SW3 | [SW3.md](SW3.md) | Fase 3b | Wave 2 |
-| SW7 | [SW7.md](SW7.md) | Fase 3b | Wave 1 |
 | SW9 | [SW9.md](SW9.md) | Fase 3b | Wave 2 |
 | SW10 | [SW10.md](SW10.md) | Fase 3b | Wave 3 |
 | MR1 | [MR1.md](MR1.md) | Fase 4 | Wave 1 |
@@ -24,18 +22,20 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 5 |
 | MO9 | [MO9.md](MO9.md) | Fase 4 | Wave 2 |
 | OP1 | [OP1.md](OP1.md) | Operações | Wave 3 |
-| TQ5 | — | Testes | Wave 3 |
 
 ## Concluídos
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
-| SA3 | [done/SA3.md](done/SA3.md) | pendente release |
-| TQ4 | [done/TQ4.md](done/TQ4.md) | pendente release |
-| OP2 | [done/OP2.md](done/OP2.md) | pendente release |
-| AU1 | [done/AU1.md](done/AU1.md) | pendente release |
-| SA2 | [done/SA2.md](done/SA2.md) | pendente release |
-| SA1 | [done/SA1.md](done/SA1.md) | pendente release |
+| AU4 | [done/AU4.md](done/AU4.md) | v2.31.0 |
+| TQ5 | — | v2.31.0 |
+| SW7 | [done/SW7.md](done/SW7.md) | v2.31.0 |
+| SA3 | [done/SA3.md](done/SA3.md) | v2.33.0 |
+| TQ4 | [done/TQ4.md](done/TQ4.md) | v2.30.0 |
+| OP2 | [done/OP2.md](done/OP2.md) | v2.30.0 |
+| AU1 | [done/AU1.md](done/AU1.md) | v2.29.0 |
+| SA2 | [done/SA2.md](done/SA2.md) | v2.29.0 |
+| SA1 | [done/SA1.md](done/SA1.md) | v2.28.0 |
 | CE1 | [done/CE1.md](done/CE1.md) | v2.24.0 |
 | CE2 | [done/CE2.md](done/CE2.md) | v2.25.0 |
 | CE3 | [done/CE3.md](done/CE3.md) | v2.24.0 |
