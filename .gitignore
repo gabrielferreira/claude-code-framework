@@ -14,7 +14,7 @@ apply-changes.sh
 # Claude Code worktrees
 .claude/worktrees/
 .claude/projects/
-.claude/plans/
+# .claude/plans/ — NÃO ignorar: planos aprovados são persistidos como referência de design
 # Playwright
 e2e-report/
 test-results/
