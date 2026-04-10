@@ -127,20 +127,18 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 11 | Vai mexer em tabelas, migrations ou queries? | `.claude/skills/dba-review/README.md` | ⛔ Sempre |
 | 12 | Vai criar/modificar componente visual? | `.claude/skills/ux-review/README.md` | Recomendado |
 | 13 | Vai adicionar integração externa ou mock? | `.claude/skills/mock-mode/README.md` | Recomendado |
-| 14 | Vai commitar código? | `.claude/skills/syntax-check/README.md` | ⛔ Sempre |
-| 15 | Vai mexer em página pública? | `.claude/skills/seo-performance/README.md` | Recomendado |
-| 16 | Vai escrever golden/snapshot tests? | `.claude/skills/golden-tests/README.md` | Recomendado |
-| 17 | Vai validar contratos de API? | `.claude/skills/api-testing/README.md` | Recomendado |
-| 18 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
-| 19 | Vai investigar performance? | `.claude/skills/performance-profiling/README.md` | Recomendado |
-| 20 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
-| 21 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
-| 22 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
-| 23 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 25 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
-| 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
-{26+. Skills específicas do domínio do projeto}
+| 14 | Vai mexer em página pública? | `.claude/skills/seo-performance/README.md` | Recomendado |
+| 15 | Vai escrever golden/snapshot tests? | `.claude/skills/golden-tests/README.md` | Recomendado |
+| 16 | Vai validar contratos de API? | `.claude/skills/api-testing/README.md` | Recomendado |
+| 17 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
+| 18 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
+| 19 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
+| 20 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
+| 21 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 22 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 23 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
+| 24 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
+{24+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
@@ -169,9 +167,8 @@ Quando várias skills se aplicam na mesma tarefa:
 | 12 | `performance-audit.md` | sonnet | Queries pesadas, componentes lentos, pré-release | Recomendado |
 | 13 | `infra-audit.md` | sonnet | Mudanças em deploy, Docker, CI/CD | Recomendado |
 | 14 | `task-runner.md` | sonnet | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
-| 15 | `plan-checker.md` | sonnet | Após gerar execution-plan, antes de implementar — valida cobertura spec→plano | Recomendado |
-| 16 | `stuck-detector.md` | sonnet | Invocado por context-fresh quando loop de retry detectado — diagnostica causa raiz | ⛔ Sim (se sub-agents) |
-| 17 | `debugger.md` | sonnet | Falha durante implementação — diagnóstico estruturado com hipóteses ranqueadas | Recomendado |
+| 15 | `stuck-detector.md` | sonnet | Invocado por context-fresh quando loop de retry detectado — diagnostica causa raiz | ⛔ Sim (se sub-agents) |
+| 16 | `debugger.md` | sonnet | Falha durante implementação — diagnóstico estruturado com hipóteses ranqueadas | Recomendado |
 
 **Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
 
@@ -264,7 +261,6 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | performance-audit | sonnet | Sim |
 | infra-audit | sonnet | Sim |
 | task-runner | sonnet | Sim |
-| plan-checker | sonnet | Sim |
 | stuck-detector | sonnet | Sim |
 
 {Adaptar: modelos conforme necessidade do projeto. Editar o campo model no frontmatter de cada .claude/agents/*.md.}

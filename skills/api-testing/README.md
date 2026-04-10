@@ -18,7 +18,7 @@
 
 - Para testes unitarios de logica interna (sem HTTP) — usar skill testing
 - Para validacao de seguranca — usar skill security-review
-- Para performance de endpoints — usar skill performance-profiling
+- Para performance de endpoints — usar agent `performance-audit`
 
 ## Checklist
 

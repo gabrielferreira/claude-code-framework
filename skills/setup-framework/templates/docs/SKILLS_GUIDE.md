@@ -185,19 +185,6 @@ spec-driven → research (Grande/Complexo) → spec-creator → execution-plan �
 
 ---
 
-## syntax-check
-
-**O que é:** Verificação proativa de sintaxe antes de commitar. Valida sintaxe por arquivo, busca padrões suspeitos (console.log em produção, SQL injection, catch vazio, test.only) e verifica consistência do module system.
-
-**Quando usar:**
-- Antes de todo commit que altera código-fonte
-- Ao finalizar qualquer implementação (junto com `verify.sh`)
-- Quando um erro inexplicável aparece em produção
-
-**Output:** Lista de arquivos com erro de sintaxe ou padrões suspeitos encontrados, confirmação de que está seguro para commitar.
-
----
-
 ## code-quality
 
 **O que é:** Checklist de qualidade de código focado em duplicação, extração de helpers e padrões repetidos. Identifica funções e constantes de negócio duplicadas entre arquivos, sugere extração para módulos compartilhados.
@@ -260,19 +247,6 @@ spec-driven → research (Grande/Complexo) → spec-creator → execution-plan �
 - Ao publicar API para terceiros (provider side)
 
 **Output:** Checklist de status codes, schemas e headers verificados, contrato de API validado contra schema publicado.
-
----
-
-## performance-profiling
-
-**O que é:** Investigação de lentidão no backend (queries N+1, conexões de pool, caching) e no frontend (bundle size, renders desnecessários, memory leaks). Guia o uso de `EXPLAIN ANALYZE`, profilers e métricas de runtime.
-
-**Quando usar:**
-- Ao investigar endpoint lento (p95 > SLA)
-- Ao otimizar queries ou acessos ao banco
-- Ao reduzir bundle size ou tempo de carregamento
-
-**Output:** Causa raiz de lentidão identificada, otimizações aplicadas com métricas antes/depois.
 
 ---
 
