@@ -107,7 +107,7 @@ spec-driven → research (Grande/Complexo) → spec-creator → execution-plan �
 
 ---
 
-## resume
+## resume (`/resume`)
 
 **O que é:** Protocolo de retomada estruturada após crash, timeout ou context limit. Lê `STATE.md` e o execution-plan da task em andamento, apresenta resumo do estado anterior (tasks concluídas vs pendentes, fase atual) e propõe próximo passo.
 
