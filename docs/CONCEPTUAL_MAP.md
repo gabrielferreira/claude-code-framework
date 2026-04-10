@@ -71,16 +71,7 @@ Mudanca trivial? (<=3 arquivos, sem nova abstração, sem mudança de schema, se
                     └── NAO → /spec (Grande) + design doc opcional
 ```
 
-### Resumo por tamanho
-
-| Tamanho | Criterio | Artefatos | Exemplo |
-|---|---|---|---|
-| **Pequeno** | <=3 arquivos, sem nova abstração, sem mudança de schema | Backlog item | Fix de typo, ajuste de estilo |
-| **Medio** | 4-10 arquivos, escopo claro | Spec | CRUD simples, novo endpoint |
-| **Grande** | >10 arquivos, multiplos modulos | PRD + Specs | Sistema de auth, novo modulo |
-| **Complexo** | Multiplas causas, incerteza tecnica | PRD + Specs + Design doc | Migracao de banco, reescrita de core |
-
-Para detalhes completos sobre sizing, veja [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) secao "Auto-sizing".
+Para critérios detalhados de sizing (Pequeno/Médio/Grande/Complexo) e artefatos por tamanho, veja [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) seção "Auto-sizing".
 
 ---
 
