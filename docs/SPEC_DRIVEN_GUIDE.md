@@ -1,6 +1,8 @@
 <!-- framework-tag: v2.37.2 framework-file: docs/SPEC_DRIVEN_GUIDE.md -->
 # Spec-Driven Development com AI: a prática do SPECS_INDEX
 
+> **Contexto no harness:** spec-driven e a camada de *conhecimento* do harness engineering framework. Define *o que* o Claude Code vai implementar e *por que*. As outras camadas — skills (expertise), agents (automacao), orquestracao, verificacao e continuidade — governam *como* ele opera. Este guia foca na camada de conhecimento.
+
 ## O problema
 
 Ferramentas de AI coding (Claude Code, Cursor, Copilot) operam sobre o contexto disponível no filesystem local. Quando um repositório cresce, a base de especificações cresce junto — e o modelo enfrenta um dilema: ou lê tudo (estourando context window e consumindo tokens), ou não lê nada (e implementa sem entender os requisitos).

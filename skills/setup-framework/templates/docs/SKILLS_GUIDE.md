@@ -1,10 +1,10 @@
 <!-- framework-tag: v2.37.2 framework-file: docs/SKILLS_GUIDE.md -->
 # Skills Guide — Catálogo de skills
 
-> Referência descritiva de todas as skills do framework: o que cada uma faz, quando usar e o que produz.
-> Use para decidir qual skill invocar antes de iniciar uma tarefa.
+> Skills formam a camada de *expertise* do harness — checklists por dominio que o Claude Code consulta antes de agir.
+> Referencia descritiva de todas as skills: o que cada uma faz, quando usar e o que produz.
 >
-> Para dependências e ordem de execução, consultar `docs/SKILLS_MAP.md`.
+> Para dependencias e ordem de execucao, consultar `docs/SKILLS_MAP.md`.
 
 ---
 

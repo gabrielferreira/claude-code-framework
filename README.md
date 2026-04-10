@@ -1,12 +1,12 @@
-# Framework de Documentação para Claude Code
+# Harness Engineering Framework para Claude Code
 
-Sistema de specs, skills, verificação e documentação para projetos com Claude Code.
+Framework de harness engineering para desenvolvimento assistido por AI. Configura o harness — CLAUDE.md, skills, agents, verificações e contexto — que governa como o Claude Code opera num projeto.
 
 ---
 
 ## Visão geral
 
-Este framework organiza o trabalho com Claude Code em 7 camadas:
+Harness engineering é a disciplina de configurar as instruções, constraints e ferramentas que um AI coding assistant precisa para operar com qualidade num projeto real. Este framework organiza isso em 7 camadas:
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -39,14 +39,14 @@ Este framework organiza o trabalho com Claude Code em 7 camadas:
 
 ### Por que funciona
 
-1. **Spec antes de código** — o Claude nunca implementa sem entender o contexto
-2. **Skills como checklists** — cada domínio tem sua lista de verificação, evitando esquecimentos
-3. **Agents como auditores** — sub-agentes autônomos que varrem, validam e reportam sob demanda
-4. **verify.sh evolui com o projeto** — cada regra nova vira um check automatizado
-5. **Backlog como fonte de verdade** — tudo que precisa ser feito está num lugar só
-6. **Definition of Done** — nenhuma entrega passa sem verificação contra a spec
-7. **PROJECT_CONTEXT.md** — qualquer LLM (não só Claude Code) recebe contexto completo
-8. **docs/** — documentação expandida que o CLAUDE.md referencia mas não repete
+O harness atua em 6 camadas complementares:
+
+1. **Conhecimento** (specs, PRDs, backlog) — o Claude nunca implementa sem entender o contexto
+2. **Expertise** (skills como checklists) — cada domínio tem sua lista de verificação, evitando esquecimentos
+3. **Automação** (agents como auditores) — sub-agentes autônomos que varrem, validam e reportam sob demanda
+4. **Orquestração** (RPI, execution-plan, context-fresh) — sessões separadas por fase, context budget gerenciado, sub-agents despachados com briefing completo
+5. **Verificação** (verify.sh, Definition of Done) — cada regra nova vira check automatizado, nenhuma entrega passa sem verificação contra a spec
+6. **Continuidade** (STATE.md, PROJECT_CONTEXT.md) — memória entre sessões e contexto portátil para qualquer LLM
 
 ---
 

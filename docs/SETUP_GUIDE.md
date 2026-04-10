@@ -7,7 +7,7 @@
 
 ## O que e o /setup-framework
 
-O `/setup-framework` e um slash command (skill invocavel) que automatiza a implantacao do claude-code-framework. Em vez de copiar arquivos manualmente e substituir placeholders, o wizard:
+O `/setup-framework` e um slash command (skill invocavel) que automatiza a implantacao do harness engineering framework. Em vez de copiar arquivos manualmente e substituir placeholders, o wizard:
 
 1. **Analisa o repositorio** automaticamente (stack, estrutura, ferramentas, comandos)
 2. **Faz perguntas inteligentes** sobre o que nao conseguiu detectar

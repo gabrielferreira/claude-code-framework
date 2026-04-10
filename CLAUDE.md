@@ -6,7 +6,7 @@ Este arquivo e para quem **desenvolve o framework**. NAO e copiado para projetos
 
 ## O que e este projeto
 
-Framework de specs, skills, agents e verificacao para projetos com Claude Code. Gera estrutura completa via `/setup-framework` e mantém atualizado via `/update-framework`. Suporta Notion nativo via MCP.
+Framework de harness engineering para desenvolvimento assistido por AI. Configura o harness — CLAUDE.md, skills, agents, verificacoes e contexto — que governa como o Claude Code opera num projeto. Gera estrutura completa via `/setup-framework` e mantém atualizado via `/update-framework`. Suporta Notion nativo via MCP.
 
 ## Estrutura do repo
 
