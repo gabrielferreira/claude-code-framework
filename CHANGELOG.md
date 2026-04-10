@@ -7,6 +7,14 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.33.0] — 2026-04-10
+
+### Adicionado
+
+- **SA3 — Agent `debugger`:** agent read-only que coleta contexto de falha automaticamente (erro, histórico git, STATE.md, ambiente) e produz diagnóstico estruturado com hipóteses ranqueadas, confiança global e próximos passos acionáveis. Inclui correção oportunística: `plan-checker` adicionado às listas de instalação/auditoria de setup e update onde estava ausente.
+
+- **Exemplos de C#, Dart e Rust em skills e agents:** skills e agents distribuídos agora incluem exemplos concretos para stacks C#, Dart e Rust além dos já existentes.
+
 ## [2.32.0] — 2026-04-10
 
 ### Adicionado
