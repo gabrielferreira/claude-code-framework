@@ -1033,6 +1033,26 @@ Exemplo — projeto Go com lib interna `erros`:
 
 **Regra:** nunca remover os placeholders `{ADAPTAR:...}` — apenas substituir os exemplos concretos que precedem os placeholders. O usuario pode ter padroes adicionais que os placeholders cobrem.
 
+#### 3.6.2 Substituicao de placeholders globais
+
+Apos copiar e customizar todas as skills, docs e demais arquivos, substituir os placeholders de projeto em **todos** os arquivos copiados:
+
+1. **`{NOME_DO_PROJETO}`** → nome do projeto (coletado na Fase 1, Bloco 1)
+
+Aplicar em todos os `.md` dentro de `.claude/`, `docs/`, `scripts/` e raiz do projeto que foram gerados pelo setup:
+
+```
+Buscar: {NOME_DO_PROJETO}
+Substituir por: nome real do projeto (ex: "Minha Plataforma", "api-pagamentos")
+```
+
+**NAO substituir:**
+- `{Adaptar: ...}` — estes sao placeholders de customizacao que o usuario preenche depois
+- `{stack backend}`, `{stack frontend}`, `{DB}` — estes ja foram substituidos na Fase 3.2 (CLAUDE.md)
+- Conteudo dentro de code fences que mostra exemplos de placeholder (ex: instrucoes do proprio framework)
+
+**Validacao:** apos substituicao, nenhum arquivo gerado pelo setup deve conter a string literal `{NOME_DO_PROJETO}`. Se encontrar, substituir antes de prosseguir.
+
 ### 3.7 scripts/verify.sh
 
 Copiar `${FRAMEWORK_PATH}/scripts/verify.sh` e adaptar:
