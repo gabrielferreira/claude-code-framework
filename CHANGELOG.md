@@ -7,6 +7,18 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.31.0] — 2026-04-10
+
+### Adicionado
+
+- **AU4 — Skill `/resume`:** nova skill para recuperação de sessão após crash, timeout ou context limit. Lê `STATE.md` e execution-plan, apresenta resumo do estado anterior e confirma antes de continuar. Protocolo de 4 passos: ler STATE.md → ler execution-plan → apresentar resumo → confirmar antes de retomar.
+
+- **SW7 — Seção `## Restrições inegociáveis` no `PROJECT_CONTEXT.md`:** nova seção para documentar decisões arquiteturais fixas (stack de banco, auth, infra, cobertura mínima) que toda spec e execution-plan deve respeitar. Inclui instrução de uso e exemplos comuns. `/update-framework` detecta a ausência e oferece adicionar via structural merge (severidade 🟡 médio).
+
+- **TQ5 — Seções obrigatórias nas 16 skills distribuídas:** todas as skills agora têm `Quando usar`, `Quando NÃO usar`, `Checklist` e `Regras`. O `validate-structure.sh` agora falha (hard fail) se qualquer skill distribuída estiver sem essas seções — não é mais aviso não-bloqueante.
+
+- **SW7 — `### Passo 0a — Verificar restrições inegociáveis` no `spec-creator`:** a skill `/spec` agora verifica, antes de criar a spec, se o `PROJECT_CONTEXT.md` tem a seção `## Restrições inegociáveis`. Em caso de conflito, a skill escala ao usuário antes de prosseguir.
+
 ## [2.30.0] — 2026-04-09
 
 ### Modificado
