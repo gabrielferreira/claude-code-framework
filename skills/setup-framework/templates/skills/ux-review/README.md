@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.28.0 framework-file: skills/ux-review/README.md -->
+<!-- framework-tag: v2.29.0 framework-file: skills/ux-review/README.md -->
 # Skill: UX Review — {NOME_DO_PROJETO}
 
 > **PROATIVA:** Executar ao criar/modificar telas, componentes visuais ou fluxos do usuário.
