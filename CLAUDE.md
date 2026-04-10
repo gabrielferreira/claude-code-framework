@@ -13,9 +13,9 @@ Framework de specs, skills, agents e verificacao para projetos com Claude Code. 
 ```
 claude-code-framework/
 ├── CLAUDE.md                  ← ESTE ARQUIVO (dev do framework)
-├── CLAUDE.template.md         ← Template que vira CLAUDE.md nos projetos
+├── CLAUDE.template.md         ← Fonte do CLAUDE.md distribuido (templates/CLAUDE.md e o mirror)
 ├── PROJECT_CONTEXT.md         ← Template de contexto
-├── SPECS_INDEX.template.md    ← Template do indice de specs
+├── SPECS_INDEX.template.md    ← Fonte do SPECS_INDEX.md distribuido (templates/SPECS_INDEX.md e o mirror)
 ├── MANIFEST.md                ← Fonte de verdade: o que vai pro projeto e como
 ├── VERSION                    ← Versao atual (semver)
 ├── .claude-plugin/
@@ -184,7 +184,7 @@ Verificar que tudo ficou consistente:
 **Regra de branch:** nunca commitar diretamente na main. Todo trabalho acontece em branch separada e entra via Pull Request revisado.
 
 1. Criar branch a partir da main: `git checkout -b feat/nome-da-feature` (ou `fix/`, `docs/`, etc.)
-2. Criar worktree para a sessao se preferir isolamento: `git worktree add ../worktree-nome branch`
+2. **Sub-agents que editam arquivos SEMPRE rodam em worktree isolada** — nunca editar direto no working directory compartilhado. Usar `isolation: "worktree"` ao chamar agents com escrita, ou criar worktree manual: `git worktree add ../worktree-nome branch`. Agents que editam na worktree principal contaminam a branch errada se outra sessao estiver ativa.
 3. Fazer as mudancas nos sources (sources + templates em sincronia — ver TASK_CHECKLIST.md item 1)
 4. Atualizar MANIFEST se adicionou/removeu arquivo (ver TASK_CHECKLIST.md item 2)
 5. Antes do PR, perguntar ao usuario se quer rodar as validacoes localmente:

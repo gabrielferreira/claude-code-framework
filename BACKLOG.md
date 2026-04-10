@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-09 (TQ4 e TQ5 adicionados: validação estrutural de skills e agents)
+> Última atualização: 2026-04-09 (TQ4 e TQ5 adicionados; OP2 concluído)
 
 ## Pendentes
 
@@ -48,7 +48,6 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | OP1 | **Monitoramento do ecossistema**: GitHub Action semanal que detecta novos releases e registra `🔔` no ECOSYSTEM.md | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Automação | 4h | — | Discussão 2026-04-09 |
-| OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `setup-framework/SKILL.md`, `migrations/MIGRATION_TEMPLATE.md` e migrations históricas já aplicadas não devem ir para o projeto — acumulam sem uso | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Refactor | 3h | — | Discussão 2026-04-09 |
 
 ### Testes e qualidade
 
@@ -63,6 +62,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `MIGRATION_TEMPLATE.md` e migrations históricas removidos dos templates; update distribui só migrations do gap atual | pendente release — 2026-04-09 |
 | AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | pendente release — 2026-04-09 |
 | SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | pendente release — 2026-04-09 |
 | SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | pendente release — 2026-04-09 |
@@ -127,7 +127,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
 | **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
-| **OP2** | — | Remover arquivos dead-weight da distribuição |
 | **TQ4** | — | Validação estrutural de skills e agents |
 | **TQ5** | TQ4 | Corrigir seções obrigatórias nas 16 skills com warnings |
 
