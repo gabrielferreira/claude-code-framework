@@ -457,7 +457,8 @@ Apos o merge structural, verificar se o migration desta versao contem **content 
 3. **Para cada arquivo aceito ou automatico:**
    - Copiar arquivo do source para o path correto no projeto
    - Header já vem com a tag correta
-   - Se é skill com `{placeholders}` → avisar: "Arquivo instalado com placeholders. Customize conforme o projeto."
+   - **Substituir `{NOME_DO_PROJETO}`** pelo nome real do projeto (extrair do titulo do CLAUDE.md: `# CLAUDE.md — {nome}`) antes de gravar o arquivo
+   - Se apos substituicao ainda restam placeholders `{Adaptar:...}` → avisar: "Arquivo instalado com placeholders `{Adaptar:}`. Customize conforme o projeto."
    - **Se instalou agent/skill novo:** avisar que precisa ser adicionado ao CLAUDE.md (a auditoria na Fase 5b vai detectar e oferecer corrigir)
    - **Se instalou slash command novo (SKILL.md):** avisar que so fica disponivel apos iniciar **nova sessao** (ou `/clear`)
 
