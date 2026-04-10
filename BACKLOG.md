@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-10 (MO9 adicionado — Framework Light Edition)
+> Última atualização: 2026-04-10 (DL1 adicionado — Skill `/pr`)
 
 ## Pendentes
 
@@ -20,6 +20,7 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD |
+| DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Discussão 2026-04-10 |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
 
@@ -136,6 +137,7 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | ID | Nota |
 |----|------|
 | **SA4** | `/discuss` — modo conversacional |
+| **DL1** | `/pr` — preenche PR template com spec + diff, abre via `gh pr create` |
 
 ### Wave 5 — Distribuição e escala (quando houver demanda)
 
