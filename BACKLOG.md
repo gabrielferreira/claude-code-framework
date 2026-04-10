@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-09 (OP2 adicionado: remover dead-weight da distribuição)
+> Última atualização: 2026-04-09 (ecosystem research: DF7-DF14 adicionados)
 
 ## Pendentes
 
@@ -49,7 +49,6 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | OP1 | **Monitoramento do ecossistema**: GitHub Action semanal que detecta novos releases e registra `🔔` no ECOSYSTEM.md | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Automação | 4h | — | Discussão 2026-04-09 |
-| OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `setup-framework/SKILL.md`, `migrations/MIGRATION_TEMPLATE.md` e migrations históricas já aplicadas não devem ir para o projeto — acumulam sem uso | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Refactor | 3h | — | Discussão 2026-04-09 |
 
 ### Testes e qualidade
 
@@ -127,7 +126,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
 | **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
-| **OP2** | — | Remover arquivos dead-weight da distribuição |
 
 ### Wave 4 — Skills/agents novos (independentes)
 
