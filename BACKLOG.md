@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-09 (AU1 concluído; OP2 adicionado)
+> Última atualização: 2026-04-09 (TQ4 e TQ5 adicionados: validação estrutural de skills e agents)
 
 ## Pendentes
 
@@ -54,7 +54,8 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-*(todos concluídos — ver seção Concluídos)*
+| TQ4 | **Validação estrutural de skills e agents**: script que verifica frontmatter obrigatório nos agents, seções obrigatórias nas skills, cobertura do MANIFEST e cross-refs no CLAUDE.template.md | 🟠 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Testes | 3h | — | Discussão 2026-04-09 |
+| TQ5 | **Corrigir seções obrigatórias nas skills**: 16 skills existentes estão faltando seções (`Quando usar`, `Quando NÃO usar`, `Checklist`, `Regras`) — detectadas pelo validate-structure.sh como warnings. Tornar hard fail após corrigir todas | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | TQ4 | validate-structure.sh warnings |
 
 ---
 
@@ -127,6 +128,8 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 | **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
 | **OP2** | — | Remover arquivos dead-weight da distribuição |
+| **TQ4** | — | Validação estrutural de skills e agents |
+| **TQ5** | TQ4 | Corrigir seções obrigatórias nas 16 skills com warnings |
 
 ### Wave 4 — Skills/agents novos (independentes)
 
