@@ -48,6 +48,7 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | context-fresh | Ao despachar tasks para sub-agents com contexto limpo (Medio+ com sub-agents) |
 | bug-investigation | Ao investigar bug antes de criar spec de correcao |
 | backlog-update | Apos concluir spec ou identificar trabalho adicional |
+| discuss (`/discuss`) | Ao explorar gray areas, dominio novo ou escopo vago antes de especificar — scout + decisoes + spec gerada ao final |
 | spec-creator (`/spec`) | Ao criar nova spec antes de iniciar implementacao |
 | prd-creator | Ao criar PRD antes de quebrar em specs |
 | map-codebase (`/map-codebase`) | Ao iniciar sessao em projeto desconhecido ou apos longa ausencia — mapear stack, arquitetura, convencoes e concerns antes de planejar |

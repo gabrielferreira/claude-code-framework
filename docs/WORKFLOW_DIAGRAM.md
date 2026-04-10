@@ -111,11 +111,26 @@ O ciclo de desenvolvimento com o framework instalado.
                          │  └──┬────────┬───────┘
                          │  Sim│        │Não
                          │     │        ▼
-                         │     │  ┌──────────────┐
-                         │     │  │ /spec — Criar │
-                         │     │  │  spec antes   │
-                         │     │  │  de codar     │
-                         │     │  └──────┬───────┘
+                         │     │  ┌──────────────────┐
+                         │     │  │ Gray areas?       │
+                         │     │  │ Domínio novo?     │
+                         │     │  │ Escopo vago?      │
+                         │     │  └──┬──────────┬────┘
+                         │     │  Sim│          │Não
+                         │     │     ▼          │
+                         │     │ ┌────────────┐ │
+                         │     │ │ /discuss   │ │  ← scout + gray areas
+                         │     │ │ (gera spec │ │    + spec ao final
+                         │     │ │  ao final) │ │
+                         │     │ └─────┬──────┘ │
+                         │     │       │        ▼
+                         │     │       │  ┌──────────────┐
+                         │     │       │  │ /spec — Criar │
+                         │     │       │  │  spec antes   │
+                         │     │       │  │  de codar     │
+                         │     │       │  └──────┬───────┘
+                         │     │       │         │
+                         │     │       ├─────────┘
                          │     │         │
                          ▼     ▼         ▼
                     ┌─────────────────────────┐

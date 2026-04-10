@@ -51,6 +51,8 @@ Ao final, voce recebe um relatorio do que foi criado e o que ficou pendente.
 
 Descreva a feature ou tarefa. O comando gera uma spec estruturada em `.claude/specs/` com criterios de aceite, escopo e definicao de done.
 
+> **Tip:** Se a feature tem gray areas, dominio novo ou escopo vago, use `/discuss` antes. Ele faz scout no codebase, guia decisoes sobre ambiguidades e gera a spec ao final com as decisoes incorporadas.
+
 ### 2. Implementar
 
 Trabalhe normalmente com o Claude Code. A spec serve como contexto — o Claude sabe o que precisa ser feito e quando esta pronto.

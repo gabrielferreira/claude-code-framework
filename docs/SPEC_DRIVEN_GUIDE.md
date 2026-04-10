@@ -433,8 +433,9 @@ O padrão RPI surgiu na comunidade de AI coding, popularizado pela [HumanLayer](
 Para tarefas grandes ou complexas, dividir em sessões separadas:
 
 1. **Research:** seguir protocolo da skill research (`.claude/skills/research/README.md`). Investigar código existente, patterns de reuso, dependências, riscos. Output: `.claude/specs/{id}-research.md` com achados estruturados por 6 eixos.
-2. **Plan:** escrever spec, design doc, breakdown de tasks a partir dos achados do research. Output: spec aprovada + tasks priorizadas.
-3. **Implement:** executar tasks em waves (sequenciais → paralelas → integração). Output: código + testes.
+2. **Discuss (se gray areas):** usar `/discuss` para resolver ambiguidades, decisões técnicas e dependências não resolvidas. Faz scout no codebase, guia deep-dive em cada gray area e gera a spec ao final com decisões incorporadas. Se não há gray areas, pular para Plan com `/spec` direto.
+3. **Plan:** escrever spec (se não gerada pelo `/discuss`), design doc, breakdown de tasks a partir dos achados do research. Output: spec aprovada + tasks priorizadas.
+4. **Implement:** executar tasks em waves (sequenciais → paralelas → integração). Output: código + testes.
 
 Cada fase roda numa sessão separada com context limpo. A fundamentação: pesquisa sobre *task interference* (EMNLP 2024) mostrou que **trocar de tipo de tarefa na mesma sessão degrada performance significativamente**, mesmo em modelos frontier. Research acumula muitos file reads (alta densidade de distratores), Plan toma decisões arquiteturais, e Implement precisa de foco em código. Misturar as três numa mesma sessão força o modelo a navegar entre contextos conflitantes.
 

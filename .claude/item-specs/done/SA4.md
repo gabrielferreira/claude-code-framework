@@ -12,11 +12,11 @@
 6. **Gerar spec direto** ao final — não um CONTEXT.md intermediário, mas o arquivo `.claude/specs/{id}.md` (ou página Notion) com as decisões já incorporadas
 
 **Critérios de aceitação:**
-- [ ] skill `/discuss {ID} {Título}` em `.claude/skills/discuss/README.md`
-- [ ] carrega PROJECT_CONTEXT.md e specs existentes antes de perguntar
-- [ ] faz scout no codebase para surfaçar padrões relevantes
-- [ ] apresenta gray areas e deixa o dev escolher o que explorar
-- [ ] gera spec completa ao final (dual-mode: repo + Notion)
-- [ ] spec gerada segue o mesmo fluxo do `/spec` (classificação de complexidade, validação pós-criação)
+- [x] skill `/discuss {ID} {Título}` em `.claude/skills/discuss/SKILL.md`
+- [x] carrega PROJECT_CONTEXT.md e specs existentes antes de perguntar
+- [x] faz scout no codebase para surfaçar padrões relevantes
+- [x] apresenta gray areas e deixa o dev escolher o que explorar
+- [x] gera spec completa ao final (dual-mode: repo + Notion)
+- [x] spec gerada segue o mesmo fluxo do `/spec` (classificação de complexidade, validação pós-criação)
 
 **Restrições:** não inventar decisões — se o dev não quis discutir uma gray area, deixar como placeholder na spec.
