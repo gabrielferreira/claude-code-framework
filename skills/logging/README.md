@@ -3,6 +3,19 @@
 
 > Use esta skill ao adicionar logs, tratar erros, ou escrever try/catch.
 
+## Quando usar
+
+- Ao adicionar logs em rota, serviço ou módulo
+- Ao escrever try/catch ou tratar erros
+- Ao integrar com serviço externo (que pode falhar)
+- Ao revisar código existente que tem `console.log` em código de produção
+
+## Quando NÃO usar
+
+- Para depuração temporária durante desenvolvimento — usar debugger ou `console.log` marcado com `// DEBUG`
+- Para scripts descartáveis que não vão para produção
+- Se o framework de log centralizado já captura automaticamente (verificar antes de duplicar)
+
 ## Níveis de log
 
 | Nível | Quando usar | Exemplo |
@@ -122,3 +135,11 @@ try {
 - [ ] Operações de fallback no catch têm try/catch próprio
 - [ ] Operações multi-query atômicas usam transaction
 - [ ] Transactions têm `finally { client.release() }`
+
+## Regras
+
+1. **Nunca logar dados sensíveis** — PII, cartão, senha, tokens, API keys
+2. **Prefixo `[MODULE]` obrigatório** em todo log — facilita filtrar por módulo em produção
+3. **`err.message` apenas** — nunca `err.stack` diretamente em produção (handler global cuida)
+4. **`console.log` proibido em produção.** Exceções: scripts CLI e startup
+5. **IDs de correlação sempre** — session_id, request_id ou account_id em todo log de rota

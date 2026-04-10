@@ -7,6 +7,19 @@
 > **Diferença do agent `security-audit`:** o agent é auditoria read-only do sistema todo.
 > Esta skill é checklist para quem está **escrevendo** código — guidance pré-commit.
 
+## Quando usar
+
+- Ao implementar novo endpoint ou rota
+- Ao modificar lógica de autenticação ou autorização
+- Ao adicionar integração com serviço externo (webhook, API, IA)
+- Antes de commitar código que toca middleware, service ou model crítico
+
+## Quando NÃO usar
+
+- Para auditoria completa do sistema — usar agent `security-audit`
+- Para mudanças puramente de UI sem lógica de backend
+- Para refatoração sem mudança de comportamento (renomear variável, mover arquivo)
+
 ## Regras absolutas do projeto
 
 {Adaptar: regras inviolaveis de seguranca do projeto. Exemplos comuns:}

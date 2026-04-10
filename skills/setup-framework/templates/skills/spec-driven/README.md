@@ -4,6 +4,18 @@
 > **OBRIGATÓRIA:** Ler ANTES de implementar qualquer feature, bug fix ou refatoração.
 > Esta skill define o fluxo completo de specs, TDD e gestão de backlog.
 
+## Quando usar
+
+- Antes de implementar qualquer feature, bugfix ou refatoração
+- Ao iniciar nova sessão de desenvolvimento
+- Ao receber demanda sem spec associada
+
+## Quando NÃO usar
+
+- Para exploração inicial ou spike técnico sem compromisso de entrega
+- Para hotfix emergencial (criar spec mínima após a entrega)
+- Para documentação pura sem mudança de código
+
 ## Fluxo: da demanda ao código
 
 1. **Consultar `SPECS_INDEX.md`** na raiz do projeto para localizar a spec relevante ao domínio.
@@ -235,3 +247,19 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 2. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
 3. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
 4. **Abrir PR** — nunca push direto para `main`. Título segue Conventional Commits; descrição inclui link/referência para a spec implementada.
+
+## Checklist
+
+- [ ] Spec localizada no SPECS_INDEX ou criada com `/spec`
+- [ ] Status da spec verificado: não está `descontinuada`
+- [ ] Complexidade classificada (Pequeno/Médio/Grande/Complexo)
+- [ ] Para Médio+: spec aprovada E execution-plan existem como arquivos no disco
+- [ ] Código atual verificado contra premissas da spec
+- [ ] TDD: testes escritos ANTES de implementar (se projeto usa TDD)
+
+## Regras
+
+1. Nenhuma implementação começa sem spec — independente da complexidade
+2. Spec `rascunho` = perguntar antes de implementar. Spec `descontinuada` = NÃO implementar
+3. Gate Médio+: spec aprovada + execution-plan em arquivo = requisito para começar código
+4. Sub-agents: sessão principal planeja e orquestra, sub-agents executam (se o projeto usa)

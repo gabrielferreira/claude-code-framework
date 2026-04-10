@@ -4,6 +4,18 @@
 > Use esta skill ao finalizar qualquer entrega para garantir que a documentação
 > está sincronizada com o código. Docs desatualizadas é o gap mais recorrente.
 
+## Quando usar
+
+- Ao finalizar qualquer entrega antes de abrir PR
+- Ao adicionar nova feature visível ao usuário
+- Quando alterar fluxo, endpoint, schema ou convenção documentada
+
+## Quando NÃO usar
+
+- Para commits de código sem impacto em docs (refactor interno, ajuste de test)
+- Se o projeto ainda não tem docs (criar os docs primeiro)
+- Para updates de docs puros sem mudança de código — editar direto
+
 ## Mapa de documentação
 
 ### Docs de projeto (raiz)
@@ -125,6 +137,14 @@ Quando adicionar teste: rodar contagem, atualizar numero no CLAUDE.md.
 - Tabelas no schema: {N}
 - Endpoints: {N}
 - {outras contagens relevantes}
+
+## Checklist
+
+- [ ] `CLAUDE.md` atualizado se mudou regra, convenção ou contagem de testes
+- [ ] Docs técnicos atualizados conforme a matriz de impacto acima
+- [ ] Docs user-facing atualizados se feature é visível ao usuário
+- [ ] Links e referências cruzadas verificados
+- [ ] Verificação automatizada executada (ver seção acima)
 
 ## Regras
 

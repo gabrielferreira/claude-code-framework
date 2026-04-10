@@ -9,6 +9,18 @@ user_invocable: true
 
 Cria um novo PRD (Product Requirements Document) para documentar analise de causa raiz antes de criar specs tecnicas. Um PRD pode gerar multiplas specs.
 
+## Quando usar
+
+- Ao iniciar análise de nova demanda antes de criar specs técnicas
+- Quando há múltiplas causas possíveis que precisam de investigação estruturada
+- Ao documentar decisão de produto que vai gerar várias specs
+
+## Quando NÃO usar
+
+- Para mudanças pequenas e bem definidas — criar spec diretamente com `/spec`
+- Para bug fixes pontuais sem implicações de produto
+- Quando a demanda já tem PRD em ferramenta externa (Jira, Notion) — referenciar o existente
+
 ## Uso
 
 ```
@@ -527,3 +539,13 @@ Quando o usuario passa `--export` ou o projeto tem `prd_mode: export` no CLAUDE.
 - Na duvida sobre complexidade, classificar para cima
 - O PRD captura o "o que/por que/para quem" — nao detalhar "como implementar" (isso e da spec)
 - PRD `rascunho` precisa ser aprovado pelo time antes de gerar specs
+
+## Checklist
+
+- [ ] Problema declarado validado com teste de resolução (passo 2)
+- [ ] ≥3 causas identificadas com evidências concretas
+- [ ] Porquês encadeados: mínimo 3 níveis por causa raiz
+- [ ] Derivação de "Como resolver" rastreável para causa raiz específica
+- [ ] ≥3 ações no PRD (se <3, provavelmente é task, não PRD)
+- [ ] PRD registrado no `PRDS_INDEX.md`
+- [ ] Complexidade: Pequeno nunca gera PRD

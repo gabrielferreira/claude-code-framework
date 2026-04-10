@@ -3,6 +3,18 @@
 
 > Use esta skill ao escrever, modificar ou revisar testes.
 
+## Quando usar
+
+- Ao escrever testes para nova feature, bugfix ou refatoração
+- Ao modificar testes existentes para refletir novo comportamento
+- Ao revisar cobertura de testes de um módulo
+
+## Quando NÃO usar
+
+- Para verificar sintaxe apenas — usar skill `syntax-check`
+- Para auditoria de segurança — usar agent `security-audit`
+- Para análise de performance — não é o escopo desta skill
+
 ## Stack de testes
 
 - **Framework:** {Jest / Vitest / Mocha / Pytest / etc.}
@@ -799,3 +811,12 @@ Para pular re-execução de testes (só regenerar golden reports a partir de sna
 ```bash
 bash scripts/reports.sh --skip-tests
 ```
+
+## Checklist
+
+- [ ] Testes novos cobrem cenários de sucesso E erro
+- [ ] Cada bugfix tem teste que reproduz o bug (TDD reverso)
+- [ ] Nenhum `test.only` ou `test.skip` commitado
+- [ ] Mocks limitados ao mínimo necessário
+- [ ] Fixtures determinísticas (sem dados aleatórios)
+- [ ] Golden tests atualizados com review do diff

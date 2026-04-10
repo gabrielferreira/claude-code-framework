@@ -9,6 +9,18 @@ user_invocable: true
 
 Guia times de suporte (N2/N3) numa investigacao profunda de bugs antes de escalar para engenharia. O objetivo e que o time de engenharia receba um pacote completo com: problema validado, causa raiz identificada, evidencias concretas, referencias da funcionalidade, comportamento esperado vs real, e passos de reproducao.
 
+## Quando usar
+
+- Ao receber relato de bug que precisa de investigação antes de escalar para engenharia
+- Quando o time N2/N3 precisa documentar causa raiz e evidências completas
+- Ao criar relatório estruturado para o time de engenharia
+
+## Quando NÃO usar
+
+- Para bugs com causa óbvia e reprodução clara — criar o fix diretamente
+- Para feature requests disfarçados de bug
+- Se já tem causa raiz e evidências completas — ir direto para o fix
+
 ## Uso
 
 ```
@@ -374,3 +386,13 @@ Mesma logica do modo repo, mas criar pagina no Notion:
 - **Bugs recorrentes devem referenciar ocorrencias anteriores.** Se o mesmo bug ja foi reportado, linkar
 - **Severidade deve ser justificada** com impacto concreto (usuarios afetados, receita, SLA)
 - **Evidencias sem timestamp sao frageis.** Sempre registrar quando a evidencia foi coletada
+
+## Checklist
+
+- [ ] Sintoma validado (não apenas o que o usuário reportou)
+- [ ] Comportamento esperado vs real documentado com referência
+- [ ] Passos de reprodução testados e verificados
+- [ ] Pelo menos 3 níveis de "por quê?" encadeados por hipótese
+- [ ] Causa raiz tipificada: código, dados, infra, config ou processo
+- [ ] Mapa de impacto preenchido (usuários afetados, impacto no negócio)
+- [ ] Recomendação para engenharia inclui área específica do sistema
