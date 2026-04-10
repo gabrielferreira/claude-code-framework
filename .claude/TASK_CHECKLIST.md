@@ -72,14 +72,14 @@ Customizações preservadas pela estratégia `structural` nunca devem ser sobres
 
 Skills que operam no backlog devem funcionar nos dois casos.
 
-## 7. Docs e CLAUDE.template.md ao finalizar
+## 7. Docs e CLAUDE.md ao finalizar
 
-Qualquer alteração de fluxo, comportamento ou arquivo distribuído pode tornar docs ou CLAUDE.template.md desatualizados. Revisar obrigatoriamente ao finalizar:
+Qualquer alteração de fluxo, comportamento ou arquivo distribuído pode tornar docs ou CLAUDE.md desatualizados. Revisar obrigatoriamente ao finalizar:
 
 - [ ] `docs/SKILLS_MAP.md` — skill ou agent novo aparece?
 - [ ] `docs/WORKFLOW_DIAGRAM.md` — fluxo mudou?
 - [ ] `docs/QUICK_START.md` — passos afetados?
 - [ ] `docs/SPEC_DRIVEN_GUIDE.md` — guia de workflow desatualizado?
-- [ ] `CLAUDE.template.md` — seções de skills/agents desatualizadas?
-- [ ] Dois mirrors: `skills/setup-framework/templates/CLAUDE.template.md` e `skills/setup-framework/templates/CLAUDE.md`
+- [ ] `CLAUDE.md` — seções de skills/agents desatualizadas?
+- [ ] Mirror único: `skills/setup-framework/templates/CLAUDE.md` (CLAUDE.template.md foi removido da distribuição)
 - [ ] `MANIFEST.md` — arquivo novo/removido registrado?
