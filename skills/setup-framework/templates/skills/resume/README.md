@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.30.0 framework-file: skills/resume/README.md -->
+<!-- framework-tag: v2.31.0 framework-file: skills/resume/README.md -->
 # Skill: Resume — {NOME_DO_PROJETO}
 
 > Use esta skill ao iniciar sessão nova após crash, timeout ou context limit.
