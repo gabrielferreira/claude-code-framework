@@ -35,6 +35,7 @@ Agents podem ter customização de projeto: `{Adaptar:}` preenchidos pelo setup 
 | `.claude/agents/infra-audit.md` | `agents/infra-audit.md` | structural |
 | `.claude/agents/task-runner.md` | `agents/task-runner.md` | structural |
 | `.claude/agents/plan-checker.md` | `agents/plan-checker.md` | structural |
+| `.claude/agents/stuck-detector.md` | `agents/stuck-detector.md` | structural |
 
 ### Skills (structural)
 

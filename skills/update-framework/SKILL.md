@@ -712,7 +712,7 @@ Opcoes:
 
 ### Categoria 2 — Agents
 
-Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator, dx-audit, performance-audit, infra-audit, task-runner]`:
+Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector]`:
 
 1. **Arquivo existe** em `.claude/agents/{nome}.md`? → 🔴 se nao
 2. **Frontmatter completo?** Campos: `description`, `model`, `worktree`, `model-rationale` → 🟠 por campo faltante
