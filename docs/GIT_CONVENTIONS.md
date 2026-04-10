@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.2 framework-file: docs/GIT_CONVENTIONS.md -->
+<!-- framework-tag: v2.37.3 framework-file: docs/GIT_CONVENTIONS.md -->
 # Git Conventions — {NOME_DO_PROJETO}
 
 ## Conventional Commits (obrigatório)

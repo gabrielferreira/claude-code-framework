@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.2 framework-file: skills/context-fresh/README.md -->
+<!-- framework-tag: v2.37.3 framework-file: skills/context-fresh/README.md -->
 # Skill: Context-Fresh Execution — Orquestração por sub-agents
 
 > Protocolo para despachar tasks de um spec a sub-agents com contexto limpo, evitando context rot.

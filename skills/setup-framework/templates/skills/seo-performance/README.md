@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.2 framework-file: skills/seo-performance/README.md -->
+<!-- framework-tag: v2.37.3 framework-file: skills/seo-performance/README.md -->
 # Skill: SEO & Performance
 
 > **PROATIVA:** Executar ao criar ou modificar qualquer página pública.
