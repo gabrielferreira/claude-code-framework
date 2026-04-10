@@ -68,7 +68,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/execution-plan/README.md` | `skills/execution-plan/README.md` | structural |
 | `.claude/skills/bug-investigation/SKILL.md` | `skills/bug-investigation/SKILL.md` | structural |
 | `.claude/skills/map-codebase/SKILL.md` | `skills/map-codebase/SKILL.md` | structural |
-| `.claude/skills/resume/README.md` | `skills/resume/README.md` | structural |
+| `.claude/skills/resume/SKILL.md` | `skills/resume/SKILL.md` | structural |
 
 ### Docs (structural)
 
@@ -96,6 +96,14 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/PROTECT_BACKLOG_HOOK.md` | `docs/PROTECT_BACKLOG_HOOK.md` | structural |
 | `docs/VERIFY_HOOK.md` | `docs/VERIFY_HOOK.md` | structural |
 | `docs/SKILLS_GUIDE.md` | `docs/SKILLS_GUIDE.md` | structural |
+
+### Renames
+
+Arquivos renomeados entre versões. O update-framework aplica automaticamente: migra customizações do path antigo para o novo via merge structural, depois remove o antigo.
+
+| Desde | Path antigo no projeto | Path novo no projeto | Motivo |
+|-------|----------------------|---------------------|--------|
+| v2.34.0 | `.claude/skills/resume/README.md` | `.claude/skills/resume/SKILL.md` | Convertido para slash command `/resume` |
 
 ### Scripts (manual)
 
