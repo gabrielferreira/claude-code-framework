@@ -111,13 +111,27 @@ O ciclo de desenvolvimento com o framework instalado.
                          │  └──┬────────┬───────┘
                          │  Sim│        │Não
                          │     │        ▼
-                         │     │  ┌──────────────┐
-                         │     │  │ /spec — Criar │
-                         │     │  │  spec antes   │
-                         │     │  │  de codar     │
-                         │     │  └──────┬───────┘
-                         │     │         │
-                         ▼     ▼         ▼
+                         │     │  ┌──────────────────┐
+                         │     │  │ Gray areas?       │
+                         │     │  │ Escopo vago?      │
+                         │     │  └──┬──────────┬────┘
+                         │     │  Sim│          │Não
+                         │     │     ▼          │
+                         │     │  ┌───────────┐ │
+                         │     │  │ /discuss  │ │
+                         │     │  │ scout +   │ │
+                         │     │  │ gray areas│ │
+                         │     │  │ → spec    │ │
+                         │     │  └─────┬─────┘ │
+                         │     │        │       │
+                         │     │        │       ▼
+                         │     │        │ ┌──────────────┐
+                         │     │        │ │ /spec — Criar │
+                         │     │        │ │  spec antes   │
+                         │     │        │ │  de codar     │
+                         │     │        │ └──────┬───────┘
+                         │     │        │        │
+                         ▼     ▼        ▼        ▼
                     ┌─────────────────────────┐
                     │  Grande/Complexo?        │
                     └───────┬─────────┬───────┘
@@ -320,6 +334,8 @@ Atualiza o framework já instalado quando sai versão nova.
 │     framework ativo     │
 │                         │
 │  Dia a dia:             │
+│  • /discuss → explorar  │
+│    gray areas + spec    │
 │  • /spec → criar specs  │
 │  • Skills → guiar dev   │
 │  • Agents → auditar     │

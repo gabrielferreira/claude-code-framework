@@ -43,6 +43,16 @@ Ao final, voce recebe um relatorio do que foi criado e o que ficou pendente.
 
 ## Primeiro ciclo
 
+### 0. (Opcional) Discutir antes de especificar
+
+Se o escopo nao esta claro ou ha multiplas abordagens possiveis:
+
+```
+/discuss {ID} {Titulo}
+```
+
+O comando faz scout no codebase, identifica gray areas e guia a discussao. Ao final gera a spec automaticamente — nao precisa rodar `/spec` depois.
+
 ### 1. Criar uma spec
 
 ```

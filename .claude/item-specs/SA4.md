@@ -1,5 +1,7 @@
 # SA4 — Skill `/discuss`
 
+**Plano:** [.claude/plans/clever-fluttering-bachman.md](../plans/clever-fluttering-bachman.md)
+
 **Contexto:** o fluxo atual vai direto de "quero fazer X" para `/spec`. Para features com gray areas ou domínio novo, isso gera specs mal definidas ou que precisam de muita iteração. SA4 é um passo anterior estruturado — não só conversa, mas scout + decisões + spec gerada ao final.
 
 **Abordagem:** inspirado no `discuss-phase` do GSD, adaptado para o nosso fluxo:
@@ -12,7 +14,7 @@
 6. **Gerar spec direto** ao final — não um CONTEXT.md intermediário, mas o arquivo `.claude/specs/{id}.md` (ou página Notion) com as decisões já incorporadas
 
 **Critérios de aceitação:**
-- [ ] skill `/discuss {ID} {Título}` em `.claude/skills/discuss/README.md`
+- [ ] skill `/discuss {ID} {Título}` em `.claude/skills/discuss/SKILL.md`
 - [ ] carrega PROJECT_CONTEXT.md e specs existentes antes de perguntar
 - [ ] faz scout no codebase para surfaçar padrões relevantes
 - [ ] apresenta gray areas e deixa o dev escolher o que explorar

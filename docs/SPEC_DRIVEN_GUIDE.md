@@ -167,9 +167,9 @@ Os templates prontos para copiar estão organizados por tipo de setup. Use A se 
     | Tamanho | Critério | O que criar | Fluxo |
     |---|---|---|---|
     | **Pequeno** | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova | Spec light (contexto + critério mínimo) | Backlog → spec → implementa → testa → commit |
-    | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → execution-plan → implementa → commit |
-    | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → execution-plan → implementa → commit |
-    | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | Fluxo RPI (skill research) → spec → design → execution-plan → implementa → commit |
+    | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → [discuss (se gray areas)] → spec → execution-plan → implementa → commit |
+    | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → [discuss (recomendado)] → research → spec → design → execution-plan → implementa → commit |
+    | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com [P] + STATE.md | [discuss (recomendado)] → Fluxo RPI (skill research) → spec → design → execution-plan → implementa → commit |
 
     > Toda mudança tem spec. A complexidade determina o nível de detalhe, não se a spec existe. Se o projeto usa sub-agents, a implementação de Médio+ é delegada após o execution-plan.
 
@@ -416,7 +416,7 @@ Este conceito é central para escalar o fluxo spec-driven sem gerar overhead des
 | **Pequeno** | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova | Só entrada no backlog | Backlog → implementa → testa → commit |
 | **Médio** | <10 tasks, escopo claro, sem decisão arquitetural | Spec breve (contexto + requisitos + critérios) | Backlog → spec → TDD → commit |
 | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → tasks → TDD → commit |
-| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI (skill research) → spec → design → tasks → sub-agents → commit |
+| **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | [discuss (recomendado)] → Fluxo RPI (skill research) → spec → design → tasks → sub-agents → commit |
 
 Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
@@ -432,6 +432,7 @@ O padrão RPI surgiu na comunidade de AI coding, popularizado pela [HumanLayer](
 
 Para tarefas grandes ou complexas, dividir em sessões separadas:
 
+0. **Discuss (opcional):** se há gray areas ou escopo vago, rodar `/discuss` antes. Output: spec com decisões incorporadas — pode substituir ou alimentar o Research.
 1. **Research:** seguir protocolo da skill research (`.claude/skills/research/README.md`). Investigar código existente, patterns de reuso, dependências, riscos. Output: `.claude/specs/{id}-research.md` com achados estruturados por 6 eixos.
 2. **Plan:** escrever spec, design doc, breakdown de tasks a partir dos achados do research. Output: spec aprovada + tasks priorizadas.
 3. **Implement:** executar tasks em waves (sequenciais → paralelas → integração). Output: código + testes.

@@ -134,18 +134,19 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 18 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
 | 19 | Vai investigar performance? | `.claude/skills/performance-profiling/README.md` | Recomendado |
 | 20 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
-| 21 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
-| 22 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
-| 23 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 25 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
-| 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
-{26+. Skills específicas do domínio do projeto}
+| 21 | Feature com gray areas? Escopo vago? Domínio novo? | `/discuss {ID} {Titulo}` — scout + gray areas + spec gerada ao final (aceita `--from`) | Recomendado |
+| 22 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
+| 23 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
+| 24 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 25 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 26 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
+| 27 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
+{27+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
 Quando várias skills se aplicam na mesma tarefa:
-1. **spec-driven** (entender o que fazer) → 2. **research** (investigar, se Grande/Complexo) → 3. **execution-plan** (decompor em waves, se médio+) → 4. **context-fresh** (despachar, se sub-agents) → 5. **skill de domínio** (como fazer) → 6. **testing** (validar) → 7. **definition-of-done** (fechar)
+1. **discuss** (explorar gray areas, se escopo vago) → 2. **spec-driven** (entender o que fazer) → 3. **research** (investigar, se Grande/Complexo) → 4. **execution-plan** (decompor em waves, se médio+) → 5. **context-fresh** (despachar, se sub-agents) → 6. **skill de domínio** (como fazer) → 7. **testing** (validar) → 8. **definition-of-done** (fechar)
 
 {Adaptar: ordem conforme o fluxo do projeto.}
 

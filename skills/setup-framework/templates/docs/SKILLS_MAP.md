@@ -7,10 +7,10 @@
 ## Fluxo principal (ordem recomendada)
 
 ```
-spec-driven → research (se Grande/Complexo) → execution-plan (com waves) → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
+[discuss (se gray areas)] → spec-driven → research (se Grande/Complexo) → execution-plan (com waves) → context-fresh (se sub-agents) → {skill de dominio} → testing → definition-of-done → docs-sync
 ```
 
-O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Complexo, passa por `research` (investigar codebase antes de planejar). Depois `execution-plan` (decompor em partes e derivar waves de execucao) e `context-fresh` (despachar waves para sub-agents, se o projeto usa). Segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done` e `docs-sync`.
+O fluxo pode comecar com `discuss` (se ha gray areas, escopo vago ou dominio novo — scout no codebase + decisoes + spec gerada ao final). Depois `spec-driven` (que spec implementar). Para itens Grande/Complexo, passa por `research` (investigar codebase antes de planejar). Depois `execution-plan` (decompor em partes e derivar waves de execucao) e `context-fresh` (despachar waves para sub-agents, se o projeto usa). Segue pelas skills de dominio relevantes ao contexto (ex: `dba-review` se toca banco, `security-review` se toca auth), e finaliza com `testing`, `definition-of-done` e `docs-sync`.
 
 ## Dependencias especificas
 
@@ -31,7 +31,8 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | golden-tests | testing | — |
 | syntax-check | — | code-quality |
 | context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done. Waves de execucao do execution-plan alimentam o despacho |
-| map-codebase | — | execution-plan (arquitetura informa o plan), spec-creator (escopo e impacto), /discuss (PROJECT_CONTEXT enriquecido torna scout mais preciso) |
+| discuss | — | spec-creator (discuss gera spec no formato /spec), map-codebase (CODEBASE_MAP enriquece scout) |
+| map-codebase | — | execution-plan (arquitetura informa o plan), spec-creator (escopo e impacto), discuss (PROJECT_CONTEXT enriquecido torna scout mais preciso) |
 | debugger (agent) | — | stuck-detector (se padrao e loop), spec-creator (spec de correcao) |
 
 ## Legenda
@@ -50,6 +51,7 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | context-fresh | Ao despachar tasks para sub-agents com contexto limpo (Medio+ com sub-agents) |
 | bug-investigation | Ao investigar bug antes de criar spec de correcao |
 | backlog-update | Apos concluir spec ou identificar trabalho adicional |
+| discuss (`/discuss`) | Antes de `/spec` quando ha gray areas, escopo vago ou dominio novo — faz scout no codebase e gera spec ao final |
 | spec-creator (`/spec`) | Ao criar nova spec antes de iniciar implementacao |
 | prd-creator | Ao criar PRD antes de quebrar em specs |
 | map-codebase (`/map-codebase`) | Ao iniciar sessao em projeto desconhecido ou apos longa ausencia — mapear stack, arquitetura, convencoes e concerns antes de planejar |
