@@ -1,12 +1,19 @@
 {
   "name": "claude-code-framework",
-  "version": "2.29.0",
+  "version": "2.30.0",
   "description": "Framework de specs, skills e verificacao para projetos com Claude Code",
   "repository": "https://github.com/gabrielferreira/claude-code-framework",
   "author": "Gabriel Ferreira",
   "license": "MIT",
   "homepage": "https://github.com/gabrielferreira/claude-code-framework",
-  "keywords": ["specs", "skills", "agents", "verification", "claude-code", "framework"],
+  "keywords": [
+    "specs",
+    "skills",
+    "agents",
+    "verification",
+    "claude-code",
+    "framework"
+  ],
   "skills": "./skills/",
   "agents": "./agents/",
   "docs": "./docs/"

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.29.0 framework-file: skills/performance-profiling/README.md -->
+<!-- framework-tag: v2.30.0 framework-file: skills/performance-profiling/README.md -->
 # Skill: Performance Profiling
 
 > Use esta skill ao investigar lentidao, otimizar queries ou reduzir bundle size.

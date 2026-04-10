@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.30.0] — 2026-04-09
+
+### Modificado
+
+- **OP2 — Distribuição mais limpa**: `setup-framework` não distribui mais templates redundantes (`CLAUDE.template.md`, `SPECS_INDEX.template.md`, `MIGRATION_TEMPLATE.md`) nem migrations históricas para projetos novos. `update-framework` distribui apenas migrations do gap atual (versão instalada → nova versão) e remove migrations antigas do projeto automaticamente.
+
 ## [2.29.0] — 2026-04-09
 
 ### Adicionado
