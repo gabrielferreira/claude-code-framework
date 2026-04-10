@@ -112,10 +112,8 @@ Guias de migracao manual entre versoes — como migrations de banco de dados, ma
 | Path no projeto | Template source | Estratégia |
 |---|---|---|
 | `migrations/README.md` | `migrations/README.md` | overwrite |
-| `migrations/MIGRATION_TEMPLATE.md` | `migrations/MIGRATION_TEMPLATE.md` | overwrite |
-| `migrations/v{X}-to-v{Y}.md` | `migrations/v{X}-to-v{Y}.md` | overwrite (gerado por release) |
 
-> **Nota:** os arquivos `v{X}-to-v{Y}.md` sao criados a cada release. O setup copia todos os migrations existentes. O update copia os novos.
+> **Nota:** Setup copia apenas `migrations/README.md`. Arquivos `v{X}-to-v{Y}.md` NAO sao copiados pelo setup — projeto novo nao tem historico a migrar. O update copia seletivamente os migrations do gap atual (versao instalada → versao nova) e remove migrations antigas do projeto.
 
 ### Scripts do framework (não copiados)
 
@@ -132,6 +130,10 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | `scripts/check-sync.sh` | Validacao de sincronia source-template |
 | `scripts/test-setup.sh` | Teste automatizado de simulacao do setup |
 | `.claude/item-specs/` | Specs detalhadas de itens do backlog — interno do repo do framework |
+| `CLAUDE.template.md` | Fonte do template de CLAUDE.md — distribuido para projetos como `CLAUDE.md` |
+| `SPECS_INDEX.template.md` | Fonte do template de SPECS_INDEX — distribuido para projetos como `SPECS_INDEX.md` |
+| `migrations/MIGRATION_TEMPLATE.md` | Template para criar migrations — apenas para devs do framework, nao distribuido |
+| `migrations/v{X}-to-v{Y}.md` | Gerados por release — distribuidos seletivamente pelo update (gap da versao atual) |
 
 ### Projeto-específicos (skip)
 
