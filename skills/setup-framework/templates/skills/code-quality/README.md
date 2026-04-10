@@ -176,6 +176,28 @@ flake8 --select=E9,F63,F7,F82 {diretório}/
 npx tsc --noEmit
 ```
 
+**Go:**
+```bash
+go vet ./...
+```
+
+**Rust:**
+```bash
+cargo check
+cargo clippy -- -D warnings
+```
+
+**Dart:**
+```bash
+dart analyze --fatal-infos
+dart format --set-exit-if-changed .
+```
+
+**C# (.NET):**
+```bash
+dotnet build --no-restore 2>&1 | grep "error CS"
+```
+
 Se qualquer arquivo falhar, **NÃO commitar**.
 
 ### Build de produção
@@ -213,8 +235,19 @@ grep -rn 'TODO\|FIXME\|HACK\|XXX' {src}/ --include="*.{ext}" | grep -v node_modu
 # Debugger esquecido
 grep -rn 'debugger' {src}/ --include="*.{ext}" | grep -v node_modules
 
-# test.only / test.skip esquecido
+# test.only / test.skip esquecido — JS/TS
 grep -rn 'test\.only\|test\.skip\|describe\.only\|describe\.skip\|it\.only\|it\.skip\|fdescribe\|fit\|xit\|xdescribe' {tests}/ --include="*.{ext}"
+
+# Debug esquecido — Rust
+grep -rn 'dbg!\|println!\|eprintln!\|todo!\|unimplemented!' {src}/ --include="*.rs" | grep -v '#\[allow'
+# Suppression sem justificativa — Rust
+grep -rn '#\[allow(dead_code)\]\|#\[allow(unused' {src}/ --include="*.rs"
+
+# Debug esquecido — Dart
+grep -rn '^\s*print(\|^\s*debugPrint(' {lib}/ --include="*.dart"
+
+# Debug esquecido — C#
+grep -rn 'Console\.Write\|Debug\.WriteLine' {src}/ --include="*.cs" | grep -v '// DEBUG\|// intentional'
 ```
 
 ### Imports e módulos

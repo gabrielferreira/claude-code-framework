@@ -121,6 +121,73 @@ async def test_pagination_limit(client):
     assert len(resp.json()["data"]) <= 100  # max enforced server-side
 ```
 
+```csharp
+// C# — xUnit + WebApplicationFactory
+public class UserEndpointTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly HttpClient _client;
+    public UserEndpointTests(WebApplicationFactory<Program> factory)
+        => _client = factory.CreateClient();
+
+    [Fact]
+    public async Task CreateUser_Returns201_WithCreatedUser()
+    {
+        var payload = new { name = "Test", email = "test@example.com" };
+        var response = await _client.PostAsJsonAsync("/api/users", payload);
+        Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        var body = await response.Content.ReadFromJsonAsync<JsonElement>();
+        Assert.True(body.GetProperty("data").TryGetProperty("id", out _));
+    }
+
+    [Fact]
+    public async Task CreateUser_Returns422_ForDuplicateEmail()
+    {
+        var payload = new { name = "Test", email = "existing@example.com" };
+        var response = await _client.PostAsJsonAsync("/api/users", payload);
+        Assert.Equal(HttpStatusCode.UnprocessableEntity, response.StatusCode);
+    }
+}
+```
+
+```rust
+// Rust — axum + tower::ServiceExt (oneshot)
+#[tokio::test]
+async fn create_user_returns_201() {
+    let app = create_test_router().await;
+    let request = Request::post("/api/users")
+        .header("Content-Type", "application/json")
+        .body(Body::from(r#"{"name":"Test","email":"t@ex.com"}"#))
+        .unwrap();
+    let response = app.oneshot(request).await.unwrap();
+    assert_eq!(response.status(), StatusCode::CREATED);
+    let body: Value = serde_json::from_slice(
+        &to_bytes(response.into_body(), usize::MAX).await.unwrap()
+    ).unwrap();
+    assert!(body["data"]["id"].is_string());
+}
+```
+
+```dart
+// Dart — test + http
+test('POST /api/users retorna 201 com usuario criado', () async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/api/users'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'name': 'Test', 'email': 't@ex.com'}),
+  );
+  expect(response.statusCode, equals(201));
+  final body = jsonDecode(response.body);
+  expect(body['data']['id'], isNotNull);
+});
+
+test('GET /api/users respeita limite de paginacao', () async {
+  final response = await http.get(Uri.parse('$baseUrl/api/users?limit=10000'));
+  expect(response.statusCode, equals(200));
+  final data = jsonDecode(response.body)['data'] as List;
+  expect(data.length, lessThanOrEqualTo(100));  // max enforced server-side
+});
+```
+
 ## Regras
 
 1. **Todo endpoint tem teste de contrato.** Sem teste = sem deploy.

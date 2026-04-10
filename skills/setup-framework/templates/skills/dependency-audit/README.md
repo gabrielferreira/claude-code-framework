@@ -8,7 +8,7 @@
 
 ## Quando usar
 
-- Ao adicionar nova dependencia (`npm install`, `pip install`, `go get`)
+- Ao adicionar nova dependencia (`npm install`, `pip install`, `go get`, `cargo add`, `dart pub add`, `dotnet add package`)
 - Ao fazer upgrade de versao (minor ou major)
 - Ao revisar PR que altera lock file
 - Em auditoria periodica (mensal recomendado)
@@ -59,7 +59,7 @@
 
 ### Lock file
 
-- [ ] Lock file presente e commitado (`package-lock.json`, `poetry.lock`, `go.sum`)
+- [ ] Lock file presente e commitado (`package-lock.json`, `poetry.lock`, `go.sum`, `Cargo.lock`, `pubspec.lock`, `packages.lock.json`)
 - [ ] Lock file atualizado apos qualquer mudanca de deps
 - [ ] Nenhuma divergencia entre manifest e lock file
 - [ ] CI instala com flag frozen (`npm ci`, `pip install --require-hashes`)
@@ -89,6 +89,22 @@ pipdeptree --warn silence       # arvore de deps
 govulncheck ./...
 go mod tidy                     # remover deps nao usadas
 go mod verify                   # integridade do go.sum
+
+# Rust — auditoria completa
+cargo audit                     # CVEs no RustSec advisory database
+cargo outdated                  # versoes desatualizadas
+cargo deny check licenses       # licencas proibidas (requer cargo-deny)
+cargo tree                      # arvore de deps transitivas
+
+# Dart — auditoria completa
+dart pub outdated               # versoes desatualizadas
+dart pub audit                  # vulnerabilidades conhecidas (Dart 3.3+)
+flutter pub deps --style=tree   # arvore de deps (projetos Flutter)
+
+# C# (.NET) — auditoria completa
+dotnet list package --vulnerable --include-transitive  # CVEs conhecidos
+dotnet list package --outdated                         # versoes desatualizadas
+dotnet restore                  # valida integridade do packages.lock.json
 ```
 
 ## Regras
