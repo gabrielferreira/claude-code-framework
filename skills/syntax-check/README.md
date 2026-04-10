@@ -84,3 +84,10 @@ Adicionar estes checks na seção CHECKS EVOLUTIVOS do `scripts/verify.sh` confo
 - Alterações apenas em arquivos de documentação (.md)
 - Alterações apenas em specs ou configs (.json, .yml, .sql)
 - Alterações apenas em assets estáticos (imagens, fontes)
+
+## Regras
+
+1. **Nenhum commit sem verificação de sintaxe** — rodar os checks antes de todo commit
+2. **`console.log` em código de produção é sinal de debug esquecido** — verificar antes de commitar
+3. **`test.only` ou `test.skip` bloqueiam CI** — nunca commitar sem remover
+4. **SQL com template literal é injection risk** — sempre usar prepared statements

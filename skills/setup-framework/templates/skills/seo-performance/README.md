@@ -15,6 +15,12 @@
 - Ao mexer em Service Worker ou manifest.json
 - Ao fazer deploy para produção (validação pré-deploy)
 
+## Quando NÃO usar
+
+- Para páginas autenticadas (não indexadas) sem requisito de performance crítico
+- Para mudanças de lógica de backend sem impacto no frontend ou bundle
+- Para refatoração interna sem mudança de output HTML ou assets
+
 ## Checklist SEO — páginas públicas
 
 ### Meta tags obrigatórias
@@ -168,3 +174,11 @@ curl -s https://{domínio} | grep -E "<title|<meta|<link rel=\"canonical"
 > Cada 0.1s a mais no LCP = -7% de conversão.
 > SEO sem performance é ranking sem visita.
 > Performance sem SEO é velocidade sem destino.
+
+## Regras
+
+1. **Páginas internas DEVEM ter noindex** — `/app`, `/admin`, qualquer página autenticada
+2. **Imagens nunca sem `alt`** — descrever o conteúdo, não dizer "imagem de..."
+3. **Nunca hardcodar valores de performance sem medir** — usar Lighthouse ou Core Web Vitals
+4. **Bundle size: cada nova dependência justifica seu peso** — verificar impacto antes de adicionar
+5. **Para auditoria completa:** usar agent `seo-audit` — esta skill é para codificação proativa
