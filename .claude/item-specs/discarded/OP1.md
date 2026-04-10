@@ -25,3 +25,6 @@ A linha fica no ECOSYSTEM.md até o time revisitar, validar o que é relevante e
 - [ ] Linhas `🔔` acumulam até serem revisadas manualmente — não são sobrescritas na próxima rodada
 
 **Restrições:** não sobrescrever conteúdo existente do ECOSYSTEM.md — só append de linhas novas. Não notificar em canal externo. A Action precisa de `GITHUB_TOKEN` com permissão de escrita no repo (já disponível por padrão nas Actions).
+
+**Descartado em:** 2026-04-10
+**Motivo:** Framework-internal sem valor para usuários. GitHub Action para detectar releases de concorrentes é overhead de manutenção sem retorno.
