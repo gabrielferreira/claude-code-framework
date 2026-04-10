@@ -697,7 +697,6 @@ O Claude consulta automaticamente conforme o contexto (configurado no CLAUDE.md)
 | `mock-mode` | Ao lidar com integracoes externas |
 | `security-review` | Ao criar/modificar rota, endpoint ou service |
 | `seo-performance` | Ao mexer em pagina publica |
-| `syntax-check` | Ao commitar codigo |
 | `golden-tests` | Ao escrever snapshot tests |
 
 ---

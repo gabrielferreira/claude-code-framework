@@ -16,6 +16,12 @@
 - Para hotfix emergencial (criar spec mínima após a entrega)
 - Para documentação pura sem mudança de código
 
+## Triagem: classificar antes de iniciar
+
+> **Fast-path (quick task):** Correções triviais (typo, bump de dependência, ajuste de mensagem/config, rename, fix de 1-2 linhas sem nova lógica de negócio) não precisam de spec. Implementar → testar → verify.sh → commit → PR. Sem spec, sem STATE.md, sem DoD completo. Backlog pós-facto se relevante. **Se a mudança toca lógica de negócio, não é trivial.**
+
+Para tudo que não é quick task, seguir o fluxo abaixo:
+
 ## Fluxo: da demanda ao código
 
 1. **Consultar `SPECS_INDEX.md`** na raiz do projeto para localizar a spec relevante ao domínio.
@@ -24,7 +30,7 @@
 4. **Verificar status da spec:**
    - `rascunho` → perguntar antes de implementar — pode estar incompleta.
    - `descontinuada` → NÃO implementar. Verificar qual spec a substituiu.
-5. **Classificar complexidade ANTES de começar.** Toda implementação DEVE ter entrada no backlog. O nível de cerimônia depende do tamanho:
+5. **Classificar complexidade ANTES de começar.** O nível de cerimônia depende do tamanho:
 
 | Tamanho | Critério | O que criar | Fluxo |
 |---|---|---|---|
@@ -33,9 +39,9 @@
 | **Grande** | Multi-componente, >10 tasks | Spec completa + breakdown de tasks + design doc (opcional) | Backlog → research (recomendado) → spec → design → execution-plan (waves) → implementa → commit |
 | **Complexo** | Ambiguidade, domínio novo, >20 tasks | Spec + design + tasks com `[P]` + STATE.md | Fluxo RPI (skill research) → spec → design → execution-plan (waves) → implementa → commit |
 
-> **Toda mudança tem spec.** A complexidade determina o nível de detalhe, não se a spec existe. Pequeno = spec light (2 frases de contexto + critério de aceitação). Médio+ = spec completa conforme template.
+> **Toda mudança não-trivial tem spec.** Quick tasks seguem o fast-path (ver seção "Triagem" acima). Para o resto, a complexidade determina o nível de detalhe: Pequeno = spec light (2 frases de contexto + critério de aceitação). Médio+ = spec completa conforme template.
 
-> **Regra de delegação (Médio+, se o projeto usa sub-agents):** após o execution-plan estar pronto na sessão principal, **não implementar no mesmo contexto** — delegar cada parte para sub-agents. Consultar `.claude/skills/context-fresh/README.md` para o protocolo completo de despacho. Sessão principal planeja, orquestra e integra. Sub-agents executam. **Se o projeto não usa sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan.
+> **Execução (Médio+):** Implementar sequencialmente seguindo a ordem do execution-plan. Se o projeto usa sub-agents: delegar cada parte seguindo `.claude/skills/context-fresh/README.md` (sessão principal planeja, orquestra e integra; sub-agents executam).
 
    Na dúvida, classificar para cima (Médio vira Grande). **Safety valve:** se ao listar tasks inline aparecem >5 steps ou dependências complexas, reclassificar como Grande.
 
@@ -97,8 +103,8 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 - **Grande/Complexo:** `research (skill research) → plan → execute (waves) → verify → done`
 
 **Regras de transição:**
-- Ao iniciar qualquer item: atualizar STATE.md seção "Execução ativa" com a fase correspondente.
-- Ao mudar de fase: verificar exit criteria da fase atual → registrar transição no log do STATE.md → atualizar fase.
+- Ao iniciar qualquer item: atualizar STATE.md seção "Em andamento" com a fase correspondente.
+- Ao mudar de fase: verificar exit criteria da fase atual → atualizar fase e "O que falta" no STATE.md.
 - Se exit criteria não satisfeito → **PARAR e completar** antes de avançar.
 
 ### Detalhamento das fases
@@ -119,21 +125,12 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 
 **Execute (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md + `{id}-research.md` (se existe) + `{id}-plan.md`
-- O plan persistido em arquivo permite iniciar a execução em sessão nova sem perder o planejamento
-- **Se o projeto usa sub-agents:** despachar waves via skill context-fresh (`.claude/skills/context-fresh/README.md`):
-  - Cada wave é despachada na ordem (Wave 1 antes de Wave 2, etc.)
-  - Dentro de cada wave: tasks `[P]` sem overlap rodam em **paralelo** (múltiplos sub-agents simultâneos)
-  - Tasks sequenciais na mesma wave: uma por vez
-  - Cada sub-agent recebe briefing auto-contido (task + contexto mínimo da spec)
-  - Manter main context lean: orquestrar e integrar, não implementar
-  - Após cada wave: integrar, verificar contracts, rodar testes
-- **Se o projeto não usa sub-agents:** implementar seguindo a ordem das waves, uma parte por vez.
+- Implementar seguindo a ordem do execution-plan, uma parte por vez
+- Se o projeto usa sub-agents: seguir protocolo de despacho da skill context-fresh (`.claude/skills/context-fresh/README.md`)
 
 **Verify:**
 - Rodar verify.sh, aplicar Definition of Done, verificar cada critério da spec 1 a 1
 - Se tudo passa → transicionar para `done`
-
-**Princípio:** contexto de implementação recebe APENAS o necessário para executar. Se usa sub-agents: quem planejou não implementa — delega. Se não usa: seguir o plano parte a parte.
 
 ### Gates de transição de status
 
@@ -173,8 +170,8 @@ Regra: **"Está na definição da minha task? Se não, não toco."**
 
 Durante a implementação, ideias e descobertas vão surgir. Não agir sobre elas:
 
-1. **Melhoria ou ideia** → registrar em `STATE.md` seção "Ideias adiadas" + continuar task atual
-2. **Bug real encontrado** → registrar em `STATE.md` seção "Blockers ativos" ou resolver como Pequeno (se ≤3 arquivos, sem nova abstração, sem mudança de schema)
+1. **Melhoria ou ideia** → registrar em `STATE.md` seção "Notas" + continuar task atual
+2. **Bug real encontrado** → registrar em `STATE.md` seção "Notas" ou resolver como quick task (se trivial)
 3. **Tentação de scope creep** → criar entrada no backlog como novo item. Não misturar com a task atual
 
 O heurístico: "Se não está nos critérios de aceitação da minha task, não entra neste commit."

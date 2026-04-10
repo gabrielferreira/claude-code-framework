@@ -8,20 +8,18 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
-| SA4 | [SA4.md](SA4.md) | Fase 3 | Wave 4 |
-| DL1 | [DL1.md](DL1.md) | Fase 3 | Wave 4 |
+| SA4 | [SA4.md](SA4.md) | Fase 3 | Wave 3 |
+| DL1 | [DL1.md](DL1.md) | Fase 3 | Wave 3 |
 | SW1 | [SW1.md](SW1.md) | Fase 3b | Wave 1 |
-| SW3 | [SW3.md](SW3.md) | Fase 3b | Wave 2 |
 | SW9 | [SW9.md](SW9.md) | Fase 3b | Wave 2 |
-| SW10 | [SW10.md](SW10.md) | Fase 3b | Wave 3 |
 | MR1 | [MR1.md](MR1.md) | Fase 4 | Wave 1 |
 | MR2 | [MR2.md](MR2.md) | Fase 4 | Wave 1 |
 | MR3 | [MR3.md](MR3.md) | Fase 4 | Wave 2 |
 | MR4 | [MR4.md](MR4.md) | Fase 4 | Wave 2 |
-| MO4 | [MO4.md](MO4.md) | Fase 4 | Wave 5 |
-| MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 5 |
+| MO4 | [MO4.md](MO4.md) | Fase 4 | Wave 4 |
+| MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 4 |
 | MO9 | [MO9.md](MO9.md) | Fase 4 | Wave 2 |
-| OP1 | [OP1.md](OP1.md) | Operações | Wave 3 |
+| DF13 | — | Fase 1 | Wave 1 |
 
 ## Concluídos
 
@@ -56,3 +54,6 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | MO2 | [discarded/MO2.md](discarded/MO2.md) | 2026-04-09 |
 | MO5 | [discarded/MO5.md](discarded/MO5.md) | 2026-04-09 |
 | MO7 | [discarded/MO7.md](discarded/MO7.md) | 2026-04-09 |
+| SW3 | [discarded/SW3.md](discarded/SW3.md) | 2026-04-10 |
+| OP1 | [discarded/OP1.md](discarded/OP1.md) | 2026-04-10 |
+| DF4 | — | 2026-04-10 |

@@ -34,7 +34,6 @@ Agents podem ter customização de projeto: `{Adaptar:}` preenchidos pelo setup 
 | `.claude/agents/performance-audit.md` | `agents/performance-audit.md` | structural |
 | `.claude/agents/infra-audit.md` | `agents/infra-audit.md` | structural |
 | `.claude/agents/task-runner.md` | `agents/task-runner.md` | structural |
-| `.claude/agents/plan-checker.md` | `agents/plan-checker.md` | structural |
 | `.claude/agents/stuck-detector.md` | `agents/stuck-detector.md` | structural |
 | `.claude/agents/debugger.md` | `agents/debugger.md` | structural |
 
@@ -55,11 +54,9 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/mock-mode/README.md` | `skills/mock-mode/README.md` | structural |
 | `.claude/skills/security-review/README.md` | `skills/security-review/README.md` | structural |
 | `.claude/skills/seo-performance/README.md` | `skills/seo-performance/README.md` | structural |
-| `.claude/skills/syntax-check/README.md` | `skills/syntax-check/README.md` | structural |
 | `.claude/skills/golden-tests/README.md` | `skills/golden-tests/README.md` | structural |
 | `.claude/skills/api-testing/README.md` | `skills/api-testing/README.md` | structural |
 | `.claude/skills/dependency-audit/README.md` | `skills/dependency-audit/README.md` | structural |
-| `.claude/skills/performance-profiling/README.md` | `skills/performance-profiling/README.md` | structural |
 | `.claude/skills/backlog-update/SKILL.md` | `skills/backlog-update/SKILL.md` | structural |
 | `.claude/skills/spec-creator/SKILL.md` | `skills/spec-creator/SKILL.md` | structural |
 | `.claude/skills/prd-creator/SKILL.md` | `skills/prd-creator/SKILL.md` | structural |
@@ -156,7 +153,7 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `PROJECT_CONTEXT.md` | manual (mostrar diff do template, perguntar) |
 | `SPECS_INDEX.md` | skip |
 | `.claude/specs/backlog.md` | skip |
-| `.claude/specs/STATE.md` | skip |
+| `.claude/specs/STATE.md` | manual (mostrar diff da estrutura nova, nunca aplicar automaticamente — contém estado do projeto) |
 | `.claude/specs/TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |
 | `.claude/specs/DESIGN_TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |
 | `.claude/specs/backlog-format.md` | structural (projeto customiza Fases, Camadas e pode adicionar colunas) |
