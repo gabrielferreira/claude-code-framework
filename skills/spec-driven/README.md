@@ -103,8 +103,8 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 - **Grande/Complexo:** `research (skill research) → plan → execute (waves) → verify → done`
 
 **Regras de transição:**
-- Ao iniciar qualquer item: atualizar STATE.md seção "Execução ativa" com a fase correspondente.
-- Ao mudar de fase: verificar exit criteria da fase atual → registrar transição no log do STATE.md → atualizar fase.
+- Ao iniciar qualquer item: atualizar STATE.md seção "Em andamento" com a fase correspondente.
+- Ao mudar de fase: verificar exit criteria da fase atual → atualizar fase e "O que falta" no STATE.md.
 - Se exit criteria não satisfeito → **PARAR e completar** antes de avançar.
 
 ### Detalhamento das fases
@@ -125,21 +125,12 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 
 **Execute (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md + `{id}-research.md` (se existe) + `{id}-plan.md`
-- O plan persistido em arquivo permite iniciar a execução em sessão nova sem perder o planejamento
-- **Se o projeto usa sub-agents:** despachar waves via skill context-fresh (`.claude/skills/context-fresh/README.md`):
-  - Cada wave é despachada na ordem (Wave 1 antes de Wave 2, etc.)
-  - Dentro de cada wave: tasks `[P]` sem overlap rodam em **paralelo** (múltiplos sub-agents simultâneos)
-  - Tasks sequenciais na mesma wave: uma por vez
-  - Cada sub-agent recebe briefing auto-contido (task + contexto mínimo da spec)
-  - Manter main context lean: orquestrar e integrar, não implementar
-  - Após cada wave: integrar, verificar contracts, rodar testes
-- **Se o projeto não usa sub-agents:** implementar seguindo a ordem das waves, uma parte por vez.
+- Implementar seguindo a ordem do execution-plan, uma parte por vez
+- Se o projeto usa sub-agents: seguir protocolo de despacho da skill context-fresh (`.claude/skills/context-fresh/README.md`)
 
 **Verify:**
 - Rodar verify.sh, aplicar Definition of Done, verificar cada critério da spec 1 a 1
 - Se tudo passa → transicionar para `done`
-
-**Princípio:** contexto de implementação recebe APENAS o necessário para executar. Se usa sub-agents: quem planejou não implementa — delega. Se não usa: seguir o plano parte a parte.
 
 ### Gates de transição de status
 
@@ -179,8 +170,8 @@ Regra: **"Está na definição da minha task? Se não, não toco."**
 
 Durante a implementação, ideias e descobertas vão surgir. Não agir sobre elas:
 
-1. **Melhoria ou ideia** → registrar em `STATE.md` seção "Ideias adiadas" + continuar task atual
-2. **Bug real encontrado** → registrar em `STATE.md` seção "Blockers ativos" ou resolver como Pequeno (se ≤3 arquivos, sem nova abstração, sem mudança de schema)
+1. **Melhoria ou ideia** → registrar em `STATE.md` seção "Notas" + continuar task atual
+2. **Bug real encontrado** → registrar em `STATE.md` seção "Notas" ou resolver como quick task (se trivial)
 3. **Tentação de scope creep** → criar entrada no backlog como novo item. Não misturar com a task atual
 
 O heurístico: "Se não está nos critérios de aceitação da minha task, não entra neste commit."
