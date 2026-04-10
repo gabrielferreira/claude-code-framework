@@ -75,7 +75,7 @@ Documentados no MANIFEST na secao "Scripts do framework (nao copiados)".
 
 ## Conventional Commits (obrigatorio)
 
-Todos os commits seguem Conventional Commits. O processo de release depende disso para detectar o bump correto.
+Todos os commits seguem Conventional Commits. O processo de release depende disso para detectar o bump correto. **Idioma:** prefixos em inglês (`feat:`, `fix:`, etc.), mensagem em português do Brasil (pt-BR). Branches e PR titles também em pt-BR.
 
 | Prefixo | Quando | Bump |
 |---|---|---|
