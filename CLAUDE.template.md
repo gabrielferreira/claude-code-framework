@@ -139,7 +139,8 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 23 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
 | 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
 | 25 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
-{25+. Skills específicas do domínio do projeto}
+| 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
+{26+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
