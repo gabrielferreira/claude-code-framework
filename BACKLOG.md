@@ -18,7 +18,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD |
 | DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Discussão 2026-04-10 |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
@@ -56,6 +55,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | pendente release |
 | DF13 | **Discovery Routing + `/quick`**: triagem pré-spec (quick task / spec única / multi-spec) + slash command `/quick` para fast-path sem spec | v2.36.0 — 2026-04-10 |
 | AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md + slash command + lógica de rename no update | v2.34.0 — 2026-04-10 |
 | TQ5 | **Seções obrigatórias nas 16 skills distribuídas** (hard fail no validate-structure.sh) | v2.31.0 — 2026-04-10 |
@@ -124,7 +124,6 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | ID | Nota |
 |----|------|
-| **SA4** | `/discuss` — modo conversacional |
 | **DL1** | `/pr` — preenche PR template com spec + diff, abre via `gh pr create` |
 
 ### Wave 4 — Distribuição e escala (quando houver demanda)

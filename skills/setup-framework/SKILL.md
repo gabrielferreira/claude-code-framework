@@ -1562,7 +1562,7 @@ Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-rep
 
 #### Categoria 3 — Skills
 
-Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[quick, spec-creator, backlog-update, prd-creator, map-codebase, resume]`:
+Para cada skill core em `[spec-driven, research, definition-of-done, testing, code-quality, logging, docs-sync, security-review, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, execution-plan]` + condicionais `[dba-review, ux-review, seo-performance]` + slash commands `[quick, discuss, spec-creator, backlog-update, prd-creator, map-codebase, resume]`:
 
 1. **Arquivo existe** em `.claude/skills/{nome}/README.md` ou `SKILL.md`? → 🔴 para core, 🟡 para condicionais
 2. **Framework-tag** presente? → 🟡 se nao
