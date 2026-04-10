@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.36.0] — 2026-04-10
+
+### Adicionado
+
+- **DF13 — Slash command `/quick`:** fast-path para correções triviais (typo, bump, config, fix de 1-2 linhas sem lógica de negócio). Valida critérios, segue fluxo simplificado (implementar → testar → verify.sh → commit → PR) sem spec, sem STATE.md, sem DoD completo. Se a mudança complicou, redireciona para `/spec`. Integrado como item 1 na tabela de skills do CLAUDE.template. Completa o DF13 (Discovery Routing).
+
 ## [2.35.0] — 2026-04-10
 
 ### Removido

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.35.0 framework-file: docs/BUG_INVESTIGATION_PORTABLE_PROMPT.md -->
+<!-- framework-tag: v2.36.0 framework-file: docs/BUG_INVESTIGATION_PORTABLE_PROMPT.md -->
 # Bug Investigation Portable Prompt — Instrucoes para LLMs
 
 > Prompt standalone para investigacao estruturada de bugs com analise de causa raiz.
