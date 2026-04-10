@@ -7,6 +7,37 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.35.0] — 2026-04-10
+
+### Removido
+
+- **Skills eliminadas:** `syntax-check` (100% coberto por `code-quality`) e `performance-profiling` (~90% coberto por agent `performance-audit`). Referências atualizadas em todas as skills que os mencionavam.
+- **Agent eliminado:** `plan-checker` (absorvido pela seção 7 do `spec-validator`).
+- **CLAUDE.template:** sub-tabela "Agents custom deste projeto" removida (duplicava tabela principal de agents). Coluna "Modelo" removida da tabela de agents (modelo vive no frontmatter). Seção Worktrees compactada.
+- **DoD:** 9 checklists tipo-específicos substituídos por `{Adaptar}` com exemplos. Mantidos: universal + feature grande.
+- **Tríade spec-driven/execution-plan:** removida repetição de protocolo de waves e regras de despacho (fonte de verdade é `context-fresh`).
+- **Overlap docs:** fluxo duplicado removido do SKILLS_GUIDE (já existe no SKILLS_MAP). Tabela de sizing removida do CONCEPTUAL_MAP (já existe no SPEC_DRIVEN_GUIDE).
+
+### Adicionado
+
+- **DF13 — Discovery Routing (fast-path):** gate de triagem antes do spec-driven classifica trabalho incoming em quick task (typo, bump, config → direto sem spec), spec única (fluxo normal) ou multi-spec (→ `/prd`). DoD simplificado para quick tasks: verify.sh + Conventional Commits + PR.
+
+### Corrigido
+
+- **"Agents são read-only":** regra reformulada para separar agents de auditoria (read-only) vs agents de execução (task-runner, refactor-agent operam em worktree).
+- **TDD obrigatório:** `{Adaptar}` clarificado — TDD é default, só mudar se o projeto já define política diferente.
+- **Coverage 100%:** defaults mudados de `100%/95%` para `{X}%/{Y}%` adaptável por módulo.
+- **Default de execução:** invertido — implementar direto é o default, delegar via sub-agents é a opção.
+- **STATE.md:** simplificado de 7 para 3 seções (Em andamento, Próximos passos, Notas). Estratégia mudada de `skip` para `manual` no MANIFEST para que update mostre diff da estrutura nova.
+- **Contagens no docs-sync:** seção tornada opcional.
+
+### Backlog
+
+- SW3 (EARS) e OP1 (monitoramento ecossistema) descartados
+- DF4 descartado junto com SW3
+- SW10 movido para decisões futuras
+- DF13 promovido para pendente (gatilho CE5 atingido)
+
 ## [2.34.0] — 2026-04-10
 
 ### Adicionado
