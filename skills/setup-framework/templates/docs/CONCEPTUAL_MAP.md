@@ -1,7 +1,7 @@
 <!-- framework-tag: v2.37.2 framework-file: docs/CONCEPTUAL_MAP.md -->
 # Mapa Conceitual — Hierarquia de Artefatos
 
-> Guia rapido para entender como os artefatos do framework se relacionam com a terminologia padrao da industria (Epics, Stories, Tasks).
+> Guia rapido para entender como os artefatos do harness se relacionam com a terminologia padrao da industria (Epics, Stories, Tasks). Estes artefatos formam a camada de conhecimento do framework.
 
 ---
 
