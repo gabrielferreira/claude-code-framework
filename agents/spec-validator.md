@@ -59,6 +59,16 @@ Para cada critério de aceitação:
 - Verificar se a seção "Não fazer" existe e tem itens concretos
 - Se não existe em spec Média+, reportar como **Escopo negativo ausente**
 
+### 7. Execution plan cobre os requisitos
+
+Verificar se `.claude/specs/{id}-plan.md` existe:
+
+- **Existe:** ler o plano e verificar cobertura de cada RF e critério de aceitação da spec contra as tasks.
+  Para cada item: ✅ coberto por {task} | ⚠️ parcialmente coberto — {qual gap} | ❌ sem task correspondente.
+  Incluir seção "Cobertura do execution plan" no output (ver template abaixo).
+
+- **Não existe:** registrar como ⚪ Info: "Sem execution-plan — verificação de cobertura não aplicável"
+
 ## Output
 
 ```markdown
@@ -91,6 +101,18 @@ Para cada critério de aceitação:
 | Dependências | ✅/❌ | N de M concluídas |
 | Critérios testáveis | ✅/❌ | N de M são testáveis |
 | Escopo negativo | ✅/❌ | Presente e concreto |
+| Cobertura do execution plan | ✅/⚪ | N de M RFs cobertos (ou "sem plano") |
+
+## Cobertura do execution plan
+
+*(Presente apenas quando `{id}-plan.md` existe)*
+
+| RF / Critério | Cobertura | Task(s) | Gap |
+|---|---|---|---|
+| RF-001: {texto} | ✅/⚠️/❌ | task-N | — ou {gap} |
+| CA-001: {texto} | ✅/⚠️/❌ | task-N | — ou {gap} |
+
+**Tasks sem RF mapeado (orphans):** task-N — {motivo ou "sem RF direto"}
 
 ## Recomendação
 
