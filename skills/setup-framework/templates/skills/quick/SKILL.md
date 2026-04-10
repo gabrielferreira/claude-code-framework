@@ -43,6 +43,15 @@ Implementação direta sem spec, sem STATE.md, sem DoD completo. Para correçõe
 
 6. **PR** — abrir PR para main (nunca push direto)
 
+## Checklist
+
+- [ ] Mudança se encaixa nos critérios de quick task (não toca lógica de negócio, auth, schema, ≤3 arquivos)
+- [ ] Implementação concluída
+- [ ] Testes relevantes passando (se quebrou → não é quick task, criar spec)
+- [ ] `verify.sh` executado sem erros
+- [ ] Commit com Conventional Commits
+- [ ] PR aberto para main (nunca push direto)
+
 ## Regras
 
 1. **Sem spec.** Não criar spec, não atualizar SPECS_INDEX.
