@@ -102,7 +102,7 @@ user_invocable: true
 ---
 ```
 
-- Framework-tag: `<!-- framework-tag: v2.37.3 framework-file: skills/resume/SKILL.md -->`
+- Framework-tag: `<!-- framework-tag: v2.38.0 framework-file: skills/resume/SKILL.md -->`
 - Título: `# /resume — Retomada estruturada` (padrão dos slash commands)
 - Resto do conteúdo: idêntico ao README.md atual (protocolo de 4 passos, checklist, regras)
 

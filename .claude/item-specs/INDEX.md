@@ -22,7 +22,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
-| DL1 | [done/DL1.md](done/DL1.md) | pendente release |
+| DL1 | [done/DL1.md](done/DL1.md) | v2.38.0 |
 | SA4 | [done/SA4.md](done/SA4.md) | v2.37.0 |
 | DF13 | — | v2.36.0 |
 | AU4 | [done/AU4.md](done/AU4.md) | v2.34.0 |
