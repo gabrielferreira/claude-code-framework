@@ -731,6 +731,10 @@ Opcoes:
 | `.claude/prds/PRD_TEMPLATE.md` | ⚪ info (so se PRD opt-in) |
 | `.claude/prds/PRDS_INDEX.md` | ⚪ info (so se PRD opt-in) |
 
+**Verificacao adicional para `PROJECT_CONTEXT.md`:** se o arquivo existe, verificar se tem a secao `## Restrições inegociáveis`. Se nao tiver:
+- Severidade: 🟡 medio
+- Acao: oferecer adicionar a secao via structural merge, com o conteudo padrao do framework (exemplos de restricoes). Se o usuario aceitar, adicionar a secao preservando todo o conteudo existente do arquivo.
+
 ### Categoria 2 — Agents
 
 Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector]`:
