@@ -20,11 +20,11 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 
 > Estas regras se aplicam a TODA interacao. Nao pular nenhuma, mesmo que o pedido pareca simples.
 
-1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar specs existentes (via `SPECS_INDEX.md` ou Notion, conforme configurado) e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec → **PARAR e criar spec** antes de qualquer codigo. Toda mudanca tem spec — a complexidade determina o nivel de detalhe (spec light para Pequeno, spec completa para Medio+).
+1. **Spec-driven obrigatorio.** Antes de implementar → classificar o trabalho seguindo `.claude/skills/spec-driven/README.md`. **Quick task** (typo, bump, ajuste de mensagem/config, fix trivial sem lógica de negócio nova) → implementar direto, sem spec. **Spec única** → consultar specs existentes (via `SPECS_INDEX.md` ou Notion), criar se não existe. **Iniciativa maior** (2+ specs) → `/prd` antes. A complexidade determina o nível de detalhe (spec light para Pequeno, spec completa para Médio+).
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
 4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
-5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Execucao ativa" para saber a fase atual e o que falta (exit criteria pendente). Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual, transicoes e proximos passos.
+5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Em andamento" para saber a fase atual e o que falta. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual e proximos passos.
 
 ## Mindset por domínio
 
@@ -85,7 +85,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
   - **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 - **Na prática:** ler critérios de aceitação da spec → escrever testes que validam cada critério → rodar e ver falhar → implementar o mínimo para passar → refatorar se necessário.
 
-{Adaptar: se o projeto nao usa TDD estrito, ajustar para "testes obrigatorios" sem a exigencia de ordem. Remover esta secao se testes nao se aplicam.}
+{Adaptar: TDD estrito é o default do framework. Se o projeto já define política de testes diferente no CLAUDE.md (ex: "testes obrigatórios sem exigência de ordem"), respeitar. Caso contrário, manter TDD obrigatório.}
 
 ## Regras absolutas de segurança
 
@@ -170,7 +170,7 @@ Quando várias skills se aplicam na mesma tarefa:
 | 15 | `stuck-detector.md` | sonnet | Invocado por context-fresh quando loop de retry detectado — diagnostica causa raiz | ⛔ Sim (se sub-agents) |
 | 16 | `debugger.md` | sonnet | Falha durante implementação — diagnóstico estruturado com hipóteses ranqueadas | Recomendado |
 
-**Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
+**Regra:** **Agents de auditoria** (read-only: security-audit, code-review, spec-validator, etc.) devolvem relatórios — nunca aplicar fix direto do report sem passar pelo fluxo spec-driven. **Agents de execução** (task-runner, refactor-agent) são infraestrutura de orquestração e operam em worktree isolada.
 
 ## Execução por agents — orquestração
 
@@ -198,9 +198,9 @@ Fluxo da sessao principal:
 5. Implementar seguindo o plano (ver modo de execucao abaixo)
 6. Integrar os resultados e validar
 
-**Modo de execucao (depende do projeto):**
-- **Com sub-agents:** seguir o protocolo da skill context-fresh (`.claude/skills/context-fresh/README.md`) para compor briefings e despachar task-runner agents. Tasks paralelas (`[P]`) sao despachadas simultaneamente; sequenciais uma por vez.
-- **Sem sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan, uma parte por vez.
+**Modo de execucao:**
+- **Default:** implementar sequencialmente seguindo a ordem do execution-plan, uma parte por vez.
+- **Com sub-agents:** delegar cada parte seguindo o protocolo da skill context-fresh (`.claude/skills/context-fresh/README.md`). Tasks paralelas (`[P]`) sao despachadas simultaneamente; sequenciais uma por vez. Sessao principal planeja, orquestra e integra.
 
 Excecoes:
 - Item Pequeno (≤3 arquivos, sem nova abstração, sem mudança de schema): implementar direto, sem execution-plan
@@ -341,11 +341,11 @@ Sessoes de trabalho NUNCA fazem push direto para `main` (ou branch principal). T
 
 | Camada | Statements | Branches | Detalhes |
 |--------|-----------|----------|---------|
-| Backend | 100% | ≥95% | {Adaptar: listar módulos críticos} |
-| Frontend | 100% | ≥90% | {Adaptar: listar componentes críticos} |
+| Backend | {X}% | {Y}% | {Adaptar: módulos críticos (auth, payments) → cobertura alta. Módulos internos → cobertura funcional} |
+| Frontend | {X}% | {Y}% | {Adaptar: componentes de negócio → cobertura alta. UI pura → cobertura funcional} |
 | E2E | Fluxos user-facing | — | {Adaptar: listar fluxos obrigatórios} |
 
-**Módulos críticos (100% branches também):** {listar: security, auth, payments, business-rules, etc.}
+**Módulos críticos (cobertura alta de branches):** {Adaptar: listar módulos onde cobertura máxima é justificada — security, auth, payments, business-rules, etc.}
 
 **Se precisar ignorar uma linha:** usar `/* c8 ignore next */` (ou equivalente) com comentário justificando o porquê. Nunca ignorar sem justificativa.
 

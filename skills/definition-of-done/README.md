@@ -16,7 +16,17 @@
 - Para WIP (work in progress) — aguardar a entrega estar completa
 - Para revisão de código de terceiros — este checklist é para quem implementa
 
-## Checklist universal (toda entrega)
+## Quick tasks (fast-path)
+
+Para quick tasks (typo, bump de dependência, ajuste de mensagem/config, fix trivial sem lógica de negócio nova), o DoD é simplificado:
+
+- [ ] `bash scripts/verify.sh` passa sem erros
+- [ ] Commit segue Conventional Commits
+- [ ] PR aberto (não push direto para main)
+
+Sem spec, sem STATE.md, sem checklist completo abaixo. Se a mudança toca lógica de negócio, não é quick task — usar o checklist universal.
+
+## Checklist universal (toda entrega não-trivial)
 
 O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que precisa de **inteligência** (Claude). Sem duplicação — cada item existe em um lugar só.
 
@@ -33,8 +43,7 @@ O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que p
 - [ ] **Se Médio+:** verificar implementação contra o plan — cada parte do plan foi entregue? Waves foram respeitadas?
 - [ ] **Se Médio+ e projeto usa sub-agents:** implementação delegada a sub-agents (sessão principal não implementou direto)
 - [ ] **Se delegou via context-fresh:** completion log preenchido para todas as tasks
-- [ ] STATE.md "Execução ativa" está na fase `verify` (não pular direto para done)
-- [ ] Log de transições no STATE.md registra todas as fases percorridas
+- [ ] STATE.md "Em andamento" está na fase `verify` (não pular direto para done)
 
 ### Testes — cobertura e qualidade (inteligência)
 
@@ -121,10 +130,10 @@ Tudo do checklist universal, mais:
 
 Tudo do checklist universal, mais:
 - [ ] Design doc existe e tem status `implementado` (se classificada como Grande/Complexo)
-- [ ] Decisões arquiteturais registradas no `STATE.md` (AD-NNN)
+- [ ] Decisões arquiteturais registradas na spec ou design doc
 - [ ] Todas as tasks do breakdown concluídas e marcadas
 - [ ] Tasks `[P]` integradas e testadas em conjunto (não só isoladamente)
-- [ ] `STATE.md` atualizado: lições, blockers resolvidos, ideias adiadas registradas
+- [ ] `STATE.md` atualizado: "Em andamento" limpo, próximos passos e notas atualizados
 - [ ] Ao marcar como done: limpar "Execução ativa" do STATE.md
 - [ ] Status da spec transicionou seguindo os gates (não pulou etapas — ver skill spec-driven)
 - [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
