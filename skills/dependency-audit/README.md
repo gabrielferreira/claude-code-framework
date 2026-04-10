@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.1 framework-file: skills/dependency-audit/README.md -->
+<!-- framework-tag: v2.37.2 framework-file: skills/dependency-audit/README.md -->
 # Skill: Dependency Audit
 
 > Use esta skill ao adicionar, atualizar ou revisar dependencias do projeto.
