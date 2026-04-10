@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-10 (DL1 adicionado — Skill `/pr`)
+> Última atualização: 2026-04-10 (SW7 movido para concluídos — já entregue em v2.31.0)
 
 ## Pendentes
 
@@ -13,7 +13,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ⚠️ Migrável | Feature | 4h | CE3 ✅ | Análise GSD |
 
 ### Fase 3 — Skills & Agents novos
 
@@ -29,7 +28,6 @@
 | SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF em specs de alteração | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
 | SW3 | **EARS format para requirements**: formato Event-Action-Result-State para RFs mecanicamente verificáveis | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | — | cc-sdd |
 | SW9 | **SPECS_INDEX ativo**: specs ativas no INDEX, concluídas movem para `SPECS_INDEX_ARCHIVE.md` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | SW2 ✅ | Discussão 2026-04-09 |
-| SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md**: restrições fixas que toda spec deve respeitar | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1h | — | Spec Kit + cc-sdd |
 | SW10 | **Campos customizados por projeto em specs**: tabela `### Campos customizados` no CLAUDE.md onde o projeto declara campos extras (Squad, Sprint, Risk Level) — `/spec` e `/backlog-update` preenchem automaticamente em modo repo e Notion | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | worktree pensive-colden (2026-04-02) |
 
 ### Fase 4 — Melhorias orgânicas
@@ -54,7 +52,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| TQ5 | **Corrigir seções obrigatórias nas skills**: 16 skills existentes estão faltando seções (`Quando usar`, `Quando NÃO usar`, `Checklist`, `Regras`) — detectadas pelo validate-structure.sh como warnings. Tornar hard fail após corrigir todas | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | TQ4 ✅ | validate-structure.sh warnings |
 
 ---
 
@@ -62,12 +59,15 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| TQ4 | **Validação estrutural de skills e agents**: `validate-structure.sh` com checks de frontmatter, seções obrigatórias e MANIFEST — integrado ao CI | pendente release — 2026-04-09 |
-| OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `MIGRATION_TEMPLATE.md` e migrations históricas removidos dos templates; update distribui só migrations do gap atual | pendente release — 2026-04-09 |
-| AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | pendente release — 2026-04-09 |
-| SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | pendente release — 2026-04-09 |
-| SA3 | **Agent `debugger`**: coleta contexto de falha e produz diagnóstico estruturado com hipóteses ranqueadas | pendente release — 2026-04-10 |
-| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | pendente release — 2026-04-09 |
+| AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md | v2.31.0 — 2026-04-10 |
+| TQ5 | **Seções obrigatórias nas 16 skills distribuídas** (hard fail no validate-structure.sh) | v2.31.0 — 2026-04-10 |
+| SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md** | v2.31.0 — 2026-04-10 |
+| TQ4 | **Validação estrutural de skills e agents**: `validate-structure.sh` com checks de frontmatter, seções obrigatórias e MANIFEST — integrado ao CI | v2.30.0 — 2026-04-09 |
+| OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `MIGRATION_TEMPLATE.md` e migrations históricas removidos dos templates; update distribui só migrations do gap atual | v2.30.0 — 2026-04-09 |
+| AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | v2.29.0 — 2026-04-09 |
+| SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | v2.29.0 — 2026-04-09 |
+| SA3 | **Agent `debugger`**: coleta contexto de falha e produz diagnóstico estruturado com hipóteses ranqueadas | v2.33.0 — 2026-04-10 |
+| SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | v2.28.0 — 2026-04-09 |
 | CE5 | **Refinar critérios de classificação "Pequeno"**: substituir `<30min` por critérios estruturais (`sem nova abstração, sem mudança de schema`) em spec-creator, spec-driven, execution-plan, prd-creator, CLAUDE.template.md e docs | v2.25.0 — 2026-04-09 |
 | TQ1 | **Repo de teste automatizado**: `scripts/test-setup.sh` simula setup em repo fake (39 checks) + CI job | v2.25.0 — 2026-04-09 |
 | TQ2 | **Validate-tags em CI**: já rodava em PRs via `ci.yml` — confirmado e documentado | v2.25.0 — 2026-04-09 |
@@ -106,10 +106,9 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo da prioridade |
 |-------|-----|---------------------|
-| 1 | **SW7** | Constitution/steering — cria artefato que spec e plan devem respeitar. Quanto antes existir, mais itens subsequentes já nascem alinhados. |
-| 2 | **MR1** | Seção `## Monorepo` no CLAUDE.template.md — bloqueador de uso real em monorepos. Fonte de verdade para MR2–MR4. |
-| 3 | **MR2** | Setup detecta monorepo — preenche seção MR1 automaticamente. Sem isso, dev precisa preencher à mão. Deps: MR1. |
-| 4 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
+| 1 | **MR1** | Seção `## Monorepo` no CLAUDE.template.md — bloqueador de uso real em monorepos. Fonte de verdade para MR2–MR4. |
+| 2 | **MR2** | Setup detecta monorepo — preenche seção MR1 automaticamente. Sem isso, dev precisa preencher à mão. Deps: MR1. |
+| 3 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
@@ -127,10 +126,8 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 
 | ID | Deps | Nota |
 |----|------|------|
-| **AU4** | CE3 ✅ | Skill `/resume` — retomada após crash/timeout |
 | **SW10** | — | Campos customizados por projeto em specs |
 | **OP1** | — | Monitoramento de ecossistema — cron mensal, Google Chat |
-| **TQ5** | TQ4 ✅ | Corrigir seções obrigatórias nas 16 skills com warnings |
 
 ### Wave 4 — Skills/agents novos (independentes)
 
