@@ -3,7 +3,7 @@ name: map-codebase
 description: Analisa o projeto em paralelo e gera mapa estruturado de stack, arquitetura, convencoes e concerns
 user_invocable: true
 ---
-<!-- framework-tag: v2.28.0 framework-file: skills/map-codebase/SKILL.md -->
+<!-- framework-tag: v2.29.0 framework-file: skills/map-codebase/SKILL.md -->
 
 # /map-codebase — Mapeamento de codebase
 
