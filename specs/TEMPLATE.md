@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.2 framework-file: specs/TEMPLATE.md -->
+<!-- framework-tag: v2.37.3 framework-file: specs/TEMPLATE.md -->
 # {ID} — {Título}
 
 > Status: `rascunho` | `aprovada` | `em andamento` | `parcial — {detalhe}` | `concluída` | `descontinuada — ver {SPEC_SUBSTITUTA}`

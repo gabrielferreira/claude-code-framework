@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.37.2 framework-file: skills/code-quality/README.md -->
+<!-- framework-tag: v2.37.3 framework-file: skills/code-quality/README.md -->
 # Skill: Code Quality — {NOME_DO_PROJETO}
 
 > **PROATIVA:** Executar ao finalizar qualquer feature, refactor ou PR.

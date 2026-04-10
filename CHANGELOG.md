@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.37.3] — 2026-04-10
+
+### Alterado
+
+- **Posicionamento do framework:** reposicionado de "spec-driven" / "framework de documentação" para **harness engineering framework**. Spec-driven continua como skill — reposicionado de "o que o framework é" para "entry point do fluxo de conhecimento". Atualizado README, plugin.json, QUICK_START, SPEC_DRIVEN_GUIDE, SKILLS_MAP, SKILLS_GUIDE, CONCEPTUAL_MAP e SETUP_GUIDE.
+
 ## [2.37.2] — 2026-04-10
 
 ### Corrigido
