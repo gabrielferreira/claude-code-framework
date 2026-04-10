@@ -16,7 +16,17 @@
 - Para WIP (work in progress) — aguardar a entrega estar completa
 - Para revisão de código de terceiros — este checklist é para quem implementa
 
-## Checklist universal (toda entrega)
+## Quick tasks (fast-path)
+
+Para quick tasks (typo, bump de dependência, ajuste de mensagem/config, fix trivial sem lógica de negócio nova), o DoD é simplificado:
+
+- [ ] `bash scripts/verify.sh` passa sem erros
+- [ ] Commit segue Conventional Commits
+- [ ] PR aberto (não push direto para main)
+
+Sem spec, sem STATE.md, sem checklist completo abaixo. Se a mudança toca lógica de negócio, não é quick task — usar o checklist universal.
+
+## Checklist universal (toda entrega não-trivial)
 
 O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que precisa de **inteligência** (Claude). Sem duplicação — cada item existe em um lugar só.
 
@@ -33,8 +43,7 @@ O checklist tem duas partes: o que a **máquina verifica** (verify.sh) e o que p
 - [ ] **Se Médio+:** verificar implementação contra o plan — cada parte do plan foi entregue? Waves foram respeitadas?
 - [ ] **Se Médio+ e projeto usa sub-agents:** implementação delegada a sub-agents (sessão principal não implementou direto)
 - [ ] **Se delegou via context-fresh:** completion log preenchido para todas as tasks
-- [ ] STATE.md "Execução ativa" está na fase `verify` (não pular direto para done)
-- [ ] Log de transições no STATE.md registra todas as fases percorridas
+- [ ] STATE.md "Em andamento" está na fase `verify` (não pular direto para done)
 
 ### Testes — cobertura e qualidade (inteligência)
 
@@ -72,96 +81,32 @@ O verify.sh pega patterns mecânicos (secrets, SQL concat), mas não avalia **de
 - [ ] Título do PR segue Conventional Commits
 - [ ] Descrição do PR inclui contexto da mudança e link/referência para a spec
 
-## Checklists específicos por tipo
-
-### Nova feature
-
-Tudo do checklist universal, mais:
-- [ ] Feature documentada nos docs do projeto
-- [ ] Se visível ao usuário: guia/help/FAQ atualizado
-- [ ] Se afeta fluxo financeiro: docs de arquitetura atualizados
-- [ ] Se afeta segurança: audit docs atualizados
-- [ ] Se é fluxo crítico (cadastro, pagamento, onboarding): considerar E2E test
-
-### Bugfix
-
-Tudo do checklist universal, mais:
-- [ ] Teste reproduz o bug ANTES do fix (TDD reverso)
-- [ ] Root cause documentado no commit message
-- [ ] Se era bug de segurança: audit atualizado, verificar OWASP top 10 (agent `security-audit` se disponível)
-- [ ] Se afetava dados: verificar se há dados corrompidos a corrigir
-
-### Novo endpoint / rota
-
-Tudo do checklist universal, mais:
-- [ ] Checklist OWASP aplicado (agent `security-audit` se disponível, ou verificação manual)
-- [ ] Testes de integração cobrem todos os status: 200, 400, 401, 403, 404, 500
-- [ ] Rate limit configurado
-- [ ] Docs de API atualizados
-
-### Mudança em autenticação / permissões
-
-Tudo do checklist universal, mais:
-- [ ] Timing-safe comparison em toda comparação de secret
-- [ ] Anti-enumeração: respostas uniformes ("credenciais inválidas")
-- [ ] Token rotation funcionando (revoga antigo + emite novo)
-- [ ] Bloqueio progressivo após falhas consecutivas
-- [ ] Testes cobrem: login OK, token expirado, token inválido, rate limit, bloqueio
-
-### Webhook / integração externa
-
-Tudo do checklist universal, mais:
-- [ ] Assinatura verificada antes de processar evento
-- [ ] Raw body recebido antes do JSON parser
-- [ ] Idempotência garantida (reference_id, event_id, ON CONFLICT)
-- [ ] Timeout configurado
-- [ ] Testes: happy path, assinatura inválida, evento duplicado, payload inválido
-
-### Feature grande ou complexa (com breakdown de tasks)
+## Feature grande ou complexa (com breakdown de tasks)
 
 Tudo do checklist universal, mais:
 - [ ] Design doc existe e tem status `implementado` (se classificada como Grande/Complexo)
-- [ ] Decisões arquiteturais registradas no `STATE.md` (AD-NNN)
+- [ ] Decisões arquiteturais registradas na spec ou design doc
 - [ ] Todas as tasks do breakdown concluídas e marcadas
 - [ ] Tasks `[P]` integradas e testadas em conjunto (não só isoladamente)
-- [ ] `STATE.md` atualizado: lições, blockers resolvidos, ideias adiadas registradas
-- [ ] Ao marcar como done: limpar "Execução ativa" do STATE.md
+- [ ] `STATE.md` atualizado: "Em andamento" limpo, próximos passos e notas atualizados
 - [ ] Status da spec transicionou seguindo os gates (não pulou etapas — ver skill spec-driven)
 - [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
 - [ ] Design doc movido junto com spec para `done/` (se aplicável)
-- [ ] **Artefatos de trabalho deletados:** `{id}-research.md` e `{id}-plan.md` removidos de `.claude/specs/` (já foram verificados contra a implementação — não precisam persistir)
+- [ ] **Artefatos de trabalho deletados:** `{id}-research.md` e `{id}-plan.md` removidos de `.claude/specs/`
 
-### Novo comando CLI
+## Checklists por tipo de entrega
 
-Tudo do checklist universal, mais:
-- [ ] `--help` mostra usage correto
-- [ ] Exit codes: 0 (sucesso), 1 (erro), 2 (uso incorreto)
-- [ ] stdout para output, stderr para erros/logs
-- [ ] Flags obrigatórias ausentes geram mensagem clara
-- [ ] Testes cobrem todos os cenários de "CLI / Tool" (skill `testing`)
+Os checklists acima (universal + feature grande) cobrem o caso mais complexo. Para tipos específicos, adicionar checks relevantes ao projeto:
 
-### Mudança em infraestrutura (IaC)
-
-Tudo do checklist universal, mais:
-- [ ] `plan` mostra apenas as mudanças esperadas (sem drift acidental)
-- [ ] Mudanças destrutivas identificadas e justificadas
-- [ ] Secrets via variáveis/vault — zero hardcoded
-- [ ] Rollback plan documentado (como reverter se der errado)
-- [ ] State lock testado (se state remoto)
-
-### Publicação de library / package
-
-Tudo do checklist universal, mais:
-- [ ] Versão bumped seguindo semver (major se breaking, minor se feature, patch se fix)
-- [ ] CHANGELOG atualizado com mudanças desta versão
-- [ ] Breaking changes documentados com guia de migração
-- [ ] API pública tipada e documentada
-- [ ] Testes cobrem cenários de "Library / Package" (skill `testing`)
-
-### {Tipo específico do domínio — ex: Regras fiscais, Compliance, etc.}
-
-Tudo do checklist universal, mais:
-- [ ] {Checks do domínio}
+{Adaptar: criar seções para os tipos de entrega relevantes ao projeto. Exemplos de tipos e checks típicos:
+- Nova feature: docs do projeto, guia/FAQ, E2E para fluxo crítico
+- Bugfix: teste reproduz bug ANTES do fix, root cause no commit
+- Novo endpoint: OWASP, testes de integração (200/400/401/403/404/500), rate limit, docs API
+- Auth/permissões: timing-safe, anti-enumeração, token rotation, bloqueio progressivo
+- Webhook: assinatura verificada, idempotência, timeout
+- CLI: --help, exit codes, stdout/stderr
+- Infra: plan sem drift, rollback, secrets via vault
+- Library: semver, CHANGELOG, migration guide}
 
 ## Verificação da spec (ANTES de mover para done/)
 

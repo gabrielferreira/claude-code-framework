@@ -11,7 +11,7 @@
 
 ## Quando NÃO usar
 
-- Para verificar sintaxe apenas — usar skill `syntax-check`
+- Para verificar sintaxe e padrões suspeitos — usar skill `code-quality`
 - Para auditoria de segurança — usar agent `security-audit`
 - Para análise de performance — não é o escopo desta skill
 

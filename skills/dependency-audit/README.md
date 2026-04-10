@@ -17,7 +17,7 @@
 ## Quando NAO usar
 
 - Para analise de codigo proprio — usar skill code-quality
-- Para performance de runtime — usar skill performance-profiling
+- Para performance de runtime — usar agent `performance-audit`
 - Para vulnerabilidades no codigo (nao em deps) — usar skill security-review
 
 ## Checklist

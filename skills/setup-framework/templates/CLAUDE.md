@@ -20,11 +20,11 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 
 > Estas regras se aplicam a TODA interacao. Nao pular nenhuma, mesmo que o pedido pareca simples.
 
-1. **Spec-driven obrigatorio.** Antes de implementar qualquer feature ou correcao de comportamento → consultar specs existentes (via `SPECS_INDEX.md` ou Notion, conforme configurado) e seguir `.claude/skills/spec-driven/README.md`. Se nao existe spec → **PARAR e criar spec** antes de qualquer codigo. Toda mudanca tem spec — a complexidade determina o nivel de detalhe (spec light para Pequeno, spec completa para Medio+).
+1. **Spec-driven obrigatorio.** Antes de implementar → classificar o trabalho seguindo `.claude/skills/spec-driven/README.md`. **Quick task** (typo, bump, ajuste de mensagem/config, fix trivial sem lógica de negócio nova) → implementar direto, sem spec. **Spec única** → consultar specs existentes (via `SPECS_INDEX.md` ou Notion), criar se não existe. **Iniciativa maior** (2+ specs) → `/prd` antes. A complexidade determina o nível de detalhe (spec light para Pequeno, spec completa para Médio+).
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
 4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
-5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Execucao ativa" para saber a fase atual e o que falta (exit criteria pendente). Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual, transicoes e proximos passos.
+5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Em andamento" para saber a fase atual e o que falta. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual e proximos passos.
 
 ## Mindset por domínio
 
@@ -85,7 +85,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
   - **Bug urgente em produção (<30min):** implementar fix + criar teste de regressão imediatamente após. Documentar no commit por que o teste veio depois.
 - **Na prática:** ler critérios de aceitação da spec → escrever testes que validam cada critério → rodar e ver falhar → implementar o mínimo para passar → refatorar se necessário.
 
-{Adaptar: se o projeto nao usa TDD estrito, ajustar para "testes obrigatorios" sem a exigencia de ordem. Remover esta secao se testes nao se aplicam.}
+{Adaptar: TDD estrito é o default do framework. Se o projeto já define política de testes diferente no CLAUDE.md (ex: "testes obrigatórios sem exigência de ordem"), respeitar. Caso contrário, manter TDD obrigatório.}
 
 ## Regras absolutas de segurança
 
@@ -127,20 +127,18 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 11 | Vai mexer em tabelas, migrations ou queries? | `.claude/skills/dba-review/README.md` | ⛔ Sempre |
 | 12 | Vai criar/modificar componente visual? | `.claude/skills/ux-review/README.md` | Recomendado |
 | 13 | Vai adicionar integração externa ou mock? | `.claude/skills/mock-mode/README.md` | Recomendado |
-| 14 | Vai commitar código? | `.claude/skills/syntax-check/README.md` | ⛔ Sempre |
-| 15 | Vai mexer em página pública? | `.claude/skills/seo-performance/README.md` | Recomendado |
-| 16 | Vai escrever golden/snapshot tests? | `.claude/skills/golden-tests/README.md` | Recomendado |
-| 17 | Vai validar contratos de API? | `.claude/skills/api-testing/README.md` | Recomendado |
-| 18 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
-| 19 | Vai investigar performance? | `.claude/skills/performance-profiling/README.md` | Recomendado |
-| 20 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
-| 21 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
-| 22 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
-| 23 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 24 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
-| 25 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
-| 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
-{26+. Skills específicas do domínio do projeto}
+| 14 | Vai mexer em página pública? | `.claude/skills/seo-performance/README.md` | Recomendado |
+| 15 | Vai escrever golden/snapshot tests? | `.claude/skills/golden-tests/README.md` | Recomendado |
+| 16 | Vai validar contratos de API? | `.claude/skills/api-testing/README.md` | Recomendado |
+| 17 | Vai auditar dependencias? | `.claude/skills/dependency-audit/README.md` | Recomendado |
+| 18 | Vai iniciar sessão em feature existente? | `.claude/specs/STATE.md` (retomar de onde parou) | ⛔ Sempre |
+| 19 | Vai criar nova spec? | `/spec {ID} {Título}` (aceita `--from PROJ-123`) | ⛔ Sempre |
+| 20 | Vai atualizar o backlog? | `/backlog-update {ID} {ação}` | ⛔ Sempre |
+| 21 | Vai definir produto/feature nova? | `/prd {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 22 | Vai investigar bug antes de escalar para engenharia? | `/bug-report {ID} {Titulo}` (aceita `--from` e `--export`) | Recomendado |
+| 23 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
+| 24 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
+{24+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 
@@ -153,27 +151,26 @@ Quando várias skills se aplicam na mesma tarefa:
 
 {Adaptar: adicionar/remover conforme o projeto. Cada agent define worktree e model no frontmatter.}
 
-| # | Agent | Modelo | Quando invocar | Obrigatório? |
-|---|-------|--------|---------------|-------------|
-| 1 | `security-audit.md` | opus | Itens SEC*, mudanças em auth/payments/middleware | ⛔ Sim |
-| 2 | `spec-validator.md` | sonnet | Antes de mover spec para done/ | ⛔ Sim |
-| 3 | `coverage-check.md` | sonnet | Após testes, antes de commit | Recomendado |
-| 4 | `backlog-report.md` | sonnet | Início de sessão, sob demanda | Recomendado |
-| 5 | `code-review.md` | sonnet | Após 3+ arquivos modificados, refatoração | Recomendado |
-| 6 | `component-audit.md` | sonnet | Após 2+ componentes visuais modificados | Recomendado |
-| 7 | `seo-audit.md` | sonnet | Mudanças em páginas públicas, meta tags | Recomendado |
-| 8 | `product-review.md` | sonnet | Ao concluir feature, verificar cobertura PRD→specs | Recomendado |
-| 9 | `refactor-agent.md` | sonnet | Refatoração a partir de findings de auditoria | Recomendado |
-| 10 | `test-generator.md` | sonnet | Gaps de coverage identificados | Recomendado |
-| 11 | `dx-audit.md` | haiku | Início de sessão, mudanças em scripts/configs | Recomendado |
-| 12 | `performance-audit.md` | sonnet | Queries pesadas, componentes lentos, pré-release | Recomendado |
-| 13 | `infra-audit.md` | sonnet | Mudanças em deploy, Docker, CI/CD | Recomendado |
-| 14 | `task-runner.md` | sonnet | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
-| 15 | `plan-checker.md` | sonnet | Após gerar execution-plan, antes de implementar — valida cobertura spec→plano | Recomendado |
-| 16 | `stuck-detector.md` | sonnet | Invocado por context-fresh quando loop de retry detectado — diagnostica causa raiz | ⛔ Sim (se sub-agents) |
-| 17 | `debugger.md` | sonnet | Falha durante implementação — diagnóstico estruturado com hipóteses ranqueadas | Recomendado |
+| # | Agent | Quando invocar | Obrigatório? |
+|---|-------|---------------|-------------|
+| 1 | `security-audit.md` | Itens SEC*, mudanças em auth/payments/middleware | ⛔ Sim |
+| 2 | `spec-validator.md` | Antes de mover spec para done/ | ⛔ Sim |
+| 3 | `coverage-check.md` | Após testes, antes de commit | Recomendado |
+| 4 | `backlog-report.md` | Início de sessão, sob demanda | Recomendado |
+| 5 | `code-review.md` | Após 3+ arquivos modificados, refatoração | Recomendado |
+| 6 | `component-audit.md` | Após 2+ componentes visuais modificados | Recomendado |
+| 7 | `seo-audit.md` | Mudanças em páginas públicas, meta tags | Recomendado |
+| 8 | `product-review.md` | Ao concluir feature, verificar cobertura PRD→specs | Recomendado |
+| 9 | `refactor-agent.md` | Refatoração a partir de findings de auditoria | Recomendado |
+| 10 | `test-generator.md` | Gaps de coverage identificados | Recomendado |
+| 11 | `dx-audit.md` | Início de sessão, mudanças em scripts/configs | Recomendado |
+| 12 | `performance-audit.md` | Queries pesadas, componentes lentos, pré-release | Recomendado |
+| 13 | `infra-audit.md` | Mudanças em deploy, Docker, CI/CD | Recomendado |
+| 14 | `task-runner.md` | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
+| 15 | `stuck-detector.md` | Invocado por context-fresh quando loop de retry detectado | ⛔ Sim (se sub-agents) |
+| 16 | `debugger.md` | Falha durante implementação — diagnóstico estruturado | Recomendado |
 
-**Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
+**Regra:** **Agents de auditoria** (read-only: security-audit, code-review, spec-validator, etc.) devolvem relatórios — nunca aplicar fix direto do report sem passar pelo fluxo spec-driven. **Agents de execução** (task-runner, refactor-agent) são infraestrutura de orquestração e operam em worktree isolada.
 
 ## Execução por agents — orquestração
 
@@ -201,9 +198,9 @@ Fluxo da sessao principal:
 5. Implementar seguindo o plano (ver modo de execucao abaixo)
 6. Integrar os resultados e validar
 
-**Modo de execucao (depende do projeto):**
-- **Com sub-agents:** seguir o protocolo da skill context-fresh (`.claude/skills/context-fresh/README.md`) para compor briefings e despachar task-runner agents. Tasks paralelas (`[P]`) sao despachadas simultaneamente; sequenciais uma por vez.
-- **Sem sub-agents:** implementar sequencialmente seguindo a ordem do execution-plan, uma parte por vez.
+**Modo de execucao:**
+- **Default:** implementar sequencialmente seguindo a ordem do execution-plan, uma parte por vez.
+- **Com sub-agents:** delegar cada parte seguindo o protocolo da skill context-fresh (`.claude/skills/context-fresh/README.md`). Tasks paralelas (`[P]`) sao despachadas simultaneamente; sequenciais uma por vez. Sessao principal planeja, orquestra e integra.
 
 Excecoes:
 - Item Pequeno (≤3 arquivos, sem nova abstração, sem mudança de schema): implementar direto, sem execution-plan
@@ -246,28 +243,7 @@ Cada agent custom define `model:` no frontmatter — o Claude Code usa esse mode
 | Plan | sonnet | Subir para opus se decisão arquitetural complexa |
 | general-purpose | sonnet | Subir para opus se envolve segurança ou decisão crítica |
 
-**Agents custom deste projeto:**
-
-| Agent | Modelo | Pode sobrescrever? |
-|---|---|---|
-| security-audit | opus | Sim, mas não recomendado rebaixar |
-| code-review | sonnet | Sim |
-| component-audit | sonnet | Sim |
-| spec-validator | sonnet | Sim |
-| coverage-check | sonnet | Sim |
-| seo-audit | sonnet | Sim |
-| backlog-report | sonnet | Analisa tendencias e velocidade com heuristicas estruturadas |
-| product-review | sonnet | Sim |
-| refactor-agent | sonnet | Sim |
-| test-generator | sonnet | Sim |
-| dx-audit | haiku | Sim — subir para sonnet se setup for complexo |
-| performance-audit | sonnet | Sim |
-| infra-audit | sonnet | Sim |
-| task-runner | sonnet | Sim |
-| plan-checker | sonnet | Sim |
-| stuck-detector | sonnet | Sim |
-
-{Adaptar: modelos conforme necessidade do projeto. Editar o campo model no frontmatter de cada .claude/agents/*.md.}
+{Adaptar: para sobrescrever o modelo de um agent custom, editar o campo `model:` no frontmatter de cada `.claude/agents/*.md`.}
 
 ## Verificação proativa (início de sessão)
 
@@ -345,11 +321,11 @@ Sessoes de trabalho NUNCA fazem push direto para `main` (ou branch principal). T
 
 | Camada | Statements | Branches | Detalhes |
 |--------|-----------|----------|---------|
-| Backend | 100% | ≥95% | {Adaptar: listar módulos críticos} |
-| Frontend | 100% | ≥90% | {Adaptar: listar componentes críticos} |
+| Backend | {X}% | {Y}% | {Adaptar: módulos críticos (auth, payments) → cobertura alta. Módulos internos → cobertura funcional} |
+| Frontend | {X}% | {Y}% | {Adaptar: componentes de negócio → cobertura alta. UI pura → cobertura funcional} |
 | E2E | Fluxos user-facing | — | {Adaptar: listar fluxos obrigatórios} |
 
-**Módulos críticos (100% branches também):** {listar: security, auth, payments, business-rules, etc.}
+**Módulos críticos (cobertura alta de branches):** {Adaptar: listar módulos onde cobertura máxima é justificada — security, auth, payments, business-rules, etc.}
 
 **Se precisar ignorar uma linha:** usar `/* c8 ignore next */` (ou equivalente) com comentário justificando o porquê. Nunca ignorar sem justificativa.
 
@@ -366,33 +342,13 @@ Detalhes → `.claude/skills/testing/README.md`
 
 ## Worktrees e subagents
 
-{Adaptar: worktrees conforme a preferencia do time. Remover esta secao se nao quiser usar worktrees.}
+{Adaptar: remover esta secao se nao quiser usar worktrees.}
 
-### Worktree por sessao (recomendado)
+Cada sessao de trabalho roda numa worktree isolada (`.claude/worktrees/`) para nao interferir no working directory principal.
 
-Cada sessao de trabalho deve rodar numa worktree isolada para nao interferir no working directory principal.
-Worktrees ficam em `.claude/worktrees/` (ja no .gitignore).
-
-Ao iniciar sessao em feature/fix:
-- Criar ou reutilizar worktree para a branch (ex: `feat/xyz` → `.claude/worktrees/feat-xyz`)
-- Todo o trabalho da sessao acontece nessa worktree
-- Ao finalizar (PR aberto) → limpar worktree
-
-### Subagents e isolamento
-
-Subagents despachados pela sessao seguem estas regras:
-
-| Tipo de subagent | Onde roda | Motivo |
-|---|---|---|
-| **Read-only** (auditoria, validacao, report, explore) | Na worktree da sessao (sem worktree nova) | Ve o codigo em progresso, nao o main. Rapido, sem overhead. |
-| **Write exploratorio** (refactor, spike, prototipagem) | Worktree propria (nova) | Isola mudancas experimentais. Se boas, merge traz de volta. |
-| **task-runner** (execucao de task via context-fresh) | Worktree propria (nova) | Isola cada task. Sessao principal integra apos conclusao. |
-
-**Regra simples:** subagent read-only → roda na worktree da sessao. Subagent que edita codigo (refactor, task-runner) → worktree nova propria.
-
-> **Importante:** subagents read-only NAO rodam no working directory principal (main). Eles rodam NA WORKTREE DA SESSAO para ver o estado atual do trabalho em andamento.
-
-> **Context-fresh:** quando a sessao principal despacha tasks via skill context-fresh, cada `task-runner` roda numa worktree isolada. Tasks paralelas (`[P]`) rodam em worktrees separadas simultaneamente. A sessao principal orquestra e integra os resultados.
+**Regra de isolamento para subagents:**
+- **Read-only** (auditoria, explore, report) → roda na worktree da sessao (ve o codigo em progresso)
+- **Write** (task-runner, refactor-agent) → worktree propria (isola mudancas, sessao principal integra)
 
 ## Contexto de negócio
 

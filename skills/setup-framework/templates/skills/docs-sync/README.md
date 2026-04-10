@@ -111,36 +111,13 @@ echo "Rotas reais:"
 grep "router\.\(get\|post\|put\|delete\)" {routes}/*.js | wc -l
 ```
 
-## Contagens a manter sincronizadas
+## Contagens (opcional)
 
-<!-- Exemplo concreto — adaptar ou remover -->
-<!-- Contagens para projeto Node.js + PostgreSQL:
-- Testes: 142 (`grep -rc "test(\|it(" tests/ --include="*.test.js" | awk -F: '{s+=$2} END {print s}'`)
-- Suites: 12 (`ls tests/*.test.js | wc -l`)
-- Tabelas: 15 (`grep -c "CREATE TABLE" database/schema.sql`)
-- Endpoints: 34 (`grep -rc "router\.\(get\|post\|put\|delete\|patch\)" src/routes/ --include="*.js" | awk -F: '{s+=$2} END {print s}'`)
-- Migrations: 23 (`ls database/migrations/*.js | wc -l`)
-
-Exemplo de secao no CLAUDE.md que deve bater:
-  ## Metricas do projeto
-  - **142 testes** em 12 suites (jest)
-  - **34 endpoints** REST
-  - **15 tabelas** no schema PostgreSQL
-
-Quando adicionar teste: rodar contagem, atualizar numero no CLAUDE.md.
--->
-
-{Adaptar: contagens que devem bater entre codigo e docs:}
-
-- Testes: {N} ({comando para verificar})
-- Suites: {N} ({comando})
-- Tabelas no schema: {N}
-- Endpoints: {N}
-- {outras contagens relevantes}
+{Adaptar: se o projeto mantém contagens no CLAUDE.md (testes, endpoints, tabelas), sincronizar aqui. Opcional — contagens podem ser consultadas sob demanda via verify.sh ou comandos diretos. Remover esta seção se não mantém contagens no CLAUDE.md.}
 
 ## Checklist
 
-- [ ] `CLAUDE.md` atualizado se mudou regra, convenção ou contagem de testes
+- [ ] `CLAUDE.md` atualizado se mudou regra ou convenção
 - [ ] Docs técnicos atualizados conforme a matriz de impacto acima
 - [ ] Docs user-facing atualizados se feature é visível ao usuário
 - [ ] Links e referências cruzadas verificados

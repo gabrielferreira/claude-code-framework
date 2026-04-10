@@ -11,3 +11,6 @@
 - [ ] spec-creator instrui o Claude a escrever RFs em EARS
 
 **Restrições:** DF4 é o gate — não implementar até avaliar em uso real.
+
+**Descartado em:** 2026-04-10
+**Motivo:** Overhead acadêmico. Claude entende linguagem natural — formato EARS não agrega valor mensurável.
