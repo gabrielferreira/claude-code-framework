@@ -19,7 +19,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| SA3 | **Agent `debugger`**: coleta contexto de falha automaticamente e produz diagnóstico estruturado | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | — | Análise GSD |
 | SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | 🟡 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 3h | — | Análise GSD |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
@@ -65,6 +64,7 @@
 | OP2 | **Remover arquivos dead-weight da distribuição**: `CLAUDE.template.md`, `SPECS_INDEX.template.md`, `MIGRATION_TEMPLATE.md` e migrations históricas removidos dos templates; update distribui só migrations do gap atual | pendente release — 2026-04-09 |
 | AU1 | **Stuck detection**: loop detection no task-runner com diagnóstico estruturado | pendente release — 2026-04-09 |
 | SA2 | **Agent `plan-checker`**: valida cobertura do execution-plan contra RFs e critérios da spec | pendente release — 2026-04-09 |
+| SA3 | **Agent `debugger`**: coleta contexto de falha e produz diagnóstico estruturado com hipóteses ranqueadas | pendente release — 2026-04-10 |
 | SA1 | **Skill `/map-codebase`**: análise paralela de stack, arquitetura, convenções e concerns — 4 dimensões, confidence level, alimenta PROJECT_CONTEXT.md | pendente release — 2026-04-09 |
 | CE5 | **Refinar critérios de classificação "Pequeno"**: substituir `<30min` por critérios estruturais (`sem nova abstração, sem mudança de schema`) em spec-creator, spec-driven, execution-plan, prd-creator, CLAUDE.template.md e docs | v2.25.0 — 2026-04-09 |
 | TQ1 | **Repo de teste automatizado**: `scripts/test-setup.sh` simula setup em repo fake (39 checks) + CI job | v2.25.0 — 2026-04-09 |
@@ -133,7 +133,6 @@ Podem ser implementados em qualquer ordem, em paralelo com waves anteriores.
 
 | ID | Nota |
 |----|------|
-| **SA3** | Agent debugger |
 | **SA4** | `/discuss` — modo conversacional |
 
 ### Wave 5 — Distribuição e escala (quando houver demanda)

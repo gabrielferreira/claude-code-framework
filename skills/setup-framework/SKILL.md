@@ -1301,6 +1301,8 @@ Os SKILL.md de `/spec` e `/backlog-update` ja suportam Notion nativamente — ba
 | `product-review.md` | sonnet | Revisao PRD vs implementacao | Se PRD opt-in (Bloco 2b). Senao, nao instalar |
 | `task-runner.md` | sonnet | Executa tasks individuais com contexto limpo | Se projeto usa sub-agents (skill context-fresh). Senao, nao instalar |
 | `stuck-detector.md` | sonnet | Diagnostica loops de retry — invocado por context-fresh | Se projeto usa sub-agents (skill context-fresh). Senao, nao instalar |
+| `plan-checker.md` | sonnet | Valida cobertura spec→plano de execução | Sempre |
+| `debugger.md` | sonnet | Diagnóstico estruturado de falhas com hipóteses ranqueadas | Sempre |
 
 **Fluxo:**
 1. Instalar automaticamente os agents marcados "Sempre"
@@ -1551,7 +1553,7 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 
 #### Categoria 2 — Agents
 
-Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector]`:
+Para cada agent em `[security-audit, spec-validator, coverage-check, backlog-report, code-review, component-audit, seo-audit, product-review, refactor-agent, test-generator, dx-audit, performance-audit, infra-audit, task-runner, plan-checker, stuck-detector, debugger]`:
 
 1. **Arquivo existe** em `.claude/agents/{nome}.md`? → 🔴 se nao
 2. **Frontmatter completo?** Campos: `description`, `model`, `worktree`, `model-rationale` → 🟠 por campo faltante

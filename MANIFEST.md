@@ -36,6 +36,7 @@ Agents podem ter customização de projeto: `{Adaptar:}` preenchidos pelo setup 
 | `.claude/agents/task-runner.md` | `agents/task-runner.md` | structural |
 | `.claude/agents/plan-checker.md` | `agents/plan-checker.md` | structural |
 | `.claude/agents/stuck-detector.md` | `agents/stuck-detector.md` | structural |
+| `.claude/agents/debugger.md` | `agents/debugger.md` | structural |
 
 ### Skills (structural)
 
