@@ -94,6 +94,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 | `docs/WORKFLOW_DIAGRAM.md` | `docs/WORKFLOW_DIAGRAM.md` | structural |
 | `docs/PROTECT_BACKLOG_HOOK.md` | `docs/PROTECT_BACKLOG_HOOK.md` | structural |
 | `docs/VERIFY_HOOK.md` | `docs/VERIFY_HOOK.md` | structural |
+| `docs/SKILLS_GUIDE.md` | `docs/SKILLS_GUIDE.md` | structural |
 
 ### Scripts (manual)
 
