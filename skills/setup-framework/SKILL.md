@@ -1545,6 +1545,7 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 | `scripts/reports-index.js` | 🟡 medio |
 | `docs/README.md` | 🟡 medio |
 | `docs/GIT_CONVENTIONS.md` | ⚪ info |
+| `docs/SKILLS_GUIDE.md` | ⚪ info |
 | `.claude/prds/PRD_TEMPLATE.md` | ⚪ info (so se PRD opt-in) |
 | `.claude/prds/PRDS_INDEX.md` | ⚪ info (so se PRD opt-in) |
 
