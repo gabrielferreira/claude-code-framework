@@ -1,5 +1,10 @@
-<!-- framework-tag: v2.33.0 framework-file: skills/resume/README.md -->
-# Skill: Resume — {NOME_DO_PROJETO}
+---
+name: resume
+description: Retomada estruturada apos crash, timeout ou context limit via STATE.md e execution-plan
+user_invocable: true
+---
+<!-- framework-tag: v2.33.0 framework-file: skills/resume/SKILL.md -->
+# /resume — Retomada estruturada
 
 > Use esta skill ao iniciar sessão nova após crash, timeout ou context limit.
 > Reconstrói contexto a partir do STATE.md e execution-plan sem inventar estado.
