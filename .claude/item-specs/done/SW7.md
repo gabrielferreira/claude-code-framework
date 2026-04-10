@@ -5,8 +5,8 @@
 **Abordagem:** não criar arquivo separado (constitution file). Adicionar seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md existente. Documentar na skill spec-creator que essa seção deve ser consultada antes de propor mudanças.
 
 **Critérios de aceitação:**
-- [ ] `PROJECT_CONTEXT.md` (source + template) tem seção `## Restrições inegociáveis` com exemplos
-- [ ] spec-creator instrui a consultar essa seção antes de criar spec
-- [ ] update-framework oferece a seção para projetos existentes via structural merge
+- [x] `PROJECT_CONTEXT.md` (source + template) tem seção `## Restrições inegociáveis` com exemplos
+- [x] spec-creator instrui a consultar essa seção antes de criar spec
+- [x] update-framework oferece a seção para projetos existentes via structural merge
 
 **Restrições:** separar em arquivo próprio só se crescer demais (DF6 já removido — decisão tomada).
