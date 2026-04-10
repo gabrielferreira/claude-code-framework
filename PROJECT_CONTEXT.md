@@ -163,6 +163,24 @@
 
 ---
 
+## Restrições inegociáveis
+
+> Decisões arquiteturais e padrões fixos que não estão abertos a discussão.
+> Toda spec e execution-plan deve respeitar estas restrições.
+
+{Adaptar — exemplos de restrições comuns:}
+
+- **Stack de banco:** PostgreSQL — sem ORM alternativo, sem SQLite em produção
+- **Autenticação:** JWT via middleware `auth` — sem sessão em memória, sem cookie sem httpOnly
+- **API:** REST com JSON — sem GraphQL, sem gRPC neste projeto
+- **Infra:** Kubernetes — sem deploy direto em VMs ou Heroku
+- **Cobertura mínima:** 80% em funções de negócio — não negociável por prazo
+- {adicionar restrições do projeto}
+
+**Como usar:** ao criar spec ou execution-plan, verificar se a proposta respeita estas restrições. Se conflitar, escalar antes de prosseguir — não contornar silenciosamente.
+
+---
+
 ## O que este projeto NÃO faz
 
 {Adaptar: o que esta fora do escopo — evita sugestoes inuteis do LLM.}
