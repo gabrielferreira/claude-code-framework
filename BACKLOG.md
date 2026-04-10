@@ -8,7 +8,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| DF13 | **Discovery Routing (pré-spec classification)**: antes de criar spec, classificar work incoming em buckets (quick-task, spec única, multi-spec decomposition, brownfield) e rotear para o fluxo correto — evitar overhead de spec completa para tasks triviais | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 3h | CE5 ✅ | cc-sdd + GitHub Spec Kit |
 
 ### Fase 2 — Autonomia & Automação
 
@@ -57,6 +56,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| DF13 | **Discovery Routing + `/quick`**: triagem pré-spec (quick task / spec única / multi-spec) + slash command `/quick` para fast-path sem spec | v2.36.0 — 2026-04-10 |
 | AU4 | **Crash recovery / skill `/resume`**: retomada estruturada após crash/timeout via STATE.md + slash command + lógica de rename no update | v2.34.0 — 2026-04-10 |
 | TQ5 | **Seções obrigatórias nas 16 skills distribuídas** (hard fail no validate-structure.sh) | v2.31.0 — 2026-04-10 |
 | SW7 | **Seção `## Restrições inegociáveis` no PROJECT_CONTEXT.md** | v2.31.0 — 2026-04-10 |
@@ -109,7 +109,6 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 |-------|-----|---------------------|
 | 1 | **MR1** | Seção `## Monorepo` no CLAUDE.template.md — bloqueador de uso real em monorepos. Fonte de verdade para MR2–MR4. |
 | 2 | **MR2** | Setup detecta monorepo — preenche seção MR1 automaticamente. Sem isso, dev precisa preencher à mão. Deps: MR1. |
-| 3 | **DF13** | Discovery Routing — classifica work incoming antes de criar spec. Deps: CE5 ✅. É 🔺 Fluxo — muda como specs são iniciadas. |
 | 4 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
