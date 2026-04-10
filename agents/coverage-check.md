@@ -18,7 +18,13 @@ worktree: false
 
 ## Input
 
-- Resultado de coverage (`npm run test:cov`, `npx vitest run --coverage`, etc.)
+- Resultado de coverage — comando por linguagem:
+  - JS/TS → `npm run test:cov`, `npx vitest run --coverage`
+  - Python → `pytest --cov={src}/ --cov-report=term-missing`
+  - Go → `go test ./... -coverprofile=coverage.out && go tool cover -html=coverage.out`
+  - C# → `dotnet test --collect:"XPlat Code Coverage"` (requer coverlet)
+  - Dart → `dart test --coverage=coverage && dart pub global run coverage:format_coverage --lcov -i coverage`
+  - Rust → `cargo llvm-cov` ou `cargo tarpaulin --out Html`
 - Escopo opcional: arquivo específico, diretório, ou `full` (todo o projeto)
 - Targets de coverage do projeto (se definidos no CLAUDE.md ou skill testing)
 
@@ -33,7 +39,7 @@ Comparar cada arquivo com o target definido no projeto:
 
 ### 2. Arquivos sem teste
 
-Identificar arquivos de código (.js, .jsx, .ts, .tsx, .py, .go) que:
+Identificar arquivos de código (.js, .jsx, .ts, .tsx, .py, .go, .cs, .dart, .rs) que:
 - Não têm arquivo de teste correspondente
 - Não são importados por nenhum arquivo de teste
 - Não estão explicitamente excluídos do coverage (com justificativa)
@@ -54,7 +60,7 @@ Para cada função com 0% coverage:
 
 ### 5. Exclusões justificadas
 
-Verificar `/* c8 ignore */`, `/* istanbul ignore */`, `// coverage:ignore`:
+Verificar exclusões de coverage por linguagem — `/* c8 ignore */` / `/* istanbul ignore */` (JS/TS), `# pragma: no cover` (Python), `//nolint:...` (Go), `#[cfg(not(test))]` (Rust), `// coverage:ignore` (Dart), `[ExcludeFromCodeCoverage]` (C#):
 - Cada exclusão tem justificativa em comentário?
 - A justificativa faz sentido? (ex: "plataforma não suporta" ok, "difícil testar" não ok)
 

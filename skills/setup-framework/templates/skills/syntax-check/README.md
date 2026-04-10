@@ -22,11 +22,27 @@ done
 
 # Frontend (build check)
 cd {frontend} && {build command} 2>&1 | grep -E "error|✓ built"
+
+# Go
+go vet ./...
+
+# Rust
+cargo check 2>&1 | grep -E "^error"
+# Linting idiomático (warnings como erros):
+cargo clippy -- -D warnings
+
+# Dart
+dart analyze {lib}/ {test}/
+# Formatação — diff indica arquivo fora do padrão:
+dart format --output=none --set-exit-if-changed .
+
+# C# (.NET)
+dotnet build --no-restore 2>&1 | grep -E "error CS|warning CS"
 ```
 
 Se qualquer arquivo falhar, **não commitar**.
 
-{Adaptar para a stack do projeto: `tsc --noEmit` para TypeScript, `python -m py_compile` para Python, `go vet` para Go, etc.}
+{Adaptar para a stack do projeto: `tsc --noEmit` para TypeScript, `python -m py_compile` para Python, `go vet` para Go, `cargo check` para Rust, `dart analyze` para Dart, `dotnet build` para C#.}
 
 ### 2. Padrões suspeitos a buscar
 
@@ -46,11 +62,26 @@ grep -rn 'TODO\|FIXME\|HACK\|XXX' {src}/ --include="*.{ext}" | grep -v node_modu
 # debugger/breakpoint statements
 grep -rn 'debugger' {src}/ --include="*.{ext}"
 
-# test.only/describe.only (bloqueia CI)
+# test.only/describe.only (bloqueia CI) — JS/TS
 grep -rn 'test\.only\|describe\.only\|it\.only' {tests}/ --include="*.{ext}"
 
-# test.skip sem justificativa
+# test.skip sem justificativa — JS/TS
 grep -rn 'test\.skip\|describe\.skip\|it\.skip' {tests}/ --include="*.{ext}"
+
+# Debug esquecido — Rust (println!/dbg!/todo!/unimplemented!)
+grep -rn 'dbg!\|println!\|eprintln!\|todo!\|unimplemented!' {src}/ --include="*.rs" | grep -v '#\[allow'
+# Teste ignorado sem comentário — Rust
+grep -rn '#\[ignore\]' {tests}/ --include="*.rs"
+
+# Debug esquecido — Dart (print/debugPrint)
+grep -rn '^\s*print(\|^\s*debugPrint(' {lib}/ --include="*.dart"
+# Teste pulado sem justificativa — Dart
+grep -rn 'skip:' {test}/ --include="*.dart" | grep -v '//'
+
+# Debug esquecido — C# (Console.Write/Debug.WriteLine)
+grep -rn 'Console\.Write\|Debug\.WriteLine\|System\.Diagnostics\.Debug' {src}/ --include="*.cs" | grep -v '// DEBUG\|// intentional'
+# Teste pulado sem justificativa — C#
+grep -rn '\[Fact(Skip' {tests}/ --include="*.cs" | grep -v '//'
 ```
 
 ### 3. Module system consistency

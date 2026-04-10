@@ -29,7 +29,13 @@ worktree: true
 - Relatorio do coverage-check agent (findings ou lista de gaps)
 - Lista de funcoes ou modulos sem teste
 - Path de arquivo especifico para gerar testes
-- Stack de testes do projeto (detectar automaticamente ou ler CLAUDE.md)
+- Stack de testes do projeto (detectar automaticamente ou ler CLAUDE.md):
+  - JS/TS → Jest, Vitest, Mocha; mock: jest.mock / sinon
+  - Python → pytest, unittest; mock: unittest.mock, pytest-mock
+  - Go → testing, httptest; mock: interfaces + structs manuais
+  - C# → xUnit, NUnit, MSTest; mock: Moq, NSubstitute
+  - Dart → test package, flutter_test; mock: Mockito (Dart), @GenerateMocks
+  - Rust → cargo test, tokio::test; mock: mockall (#[automock])
 
 ## O que gerar
 
@@ -130,7 +136,7 @@ describe('ModuleName', () => {
 
 - Gerar testes na worktree isolada (worktree: true)
 - Seguir patterns da skill testing (ler `.claude/skills/testing/README.md` antes de gerar)
-- Detectar framework de teste do projeto (jest, vitest, mocha, pytest, etc.) automaticamente
+- Detectar framework de teste do projeto automaticamente: jest/vitest/mocha (JS/TS), pytest (Python), xUnit/NUnit (C#), cargo test (Rust), dart:test (Dart), testing/httptest (Go)
 - Marcar assertions com `// TODO: verificar valor esperado` quando nao tem certeza do comportamento
 - NUNCA gerar mocks de banco em projetos que exigem testes de integracao
 - Rodar testes gerados e reportar quais passam/falham no relatorio
