@@ -171,6 +171,7 @@ Quando várias skills se aplicam na mesma tarefa:
 | 14 | `task-runner.md` | sonnet | Despachado pela skill context-fresh para executar tasks individuais | ⛔ Sim (se sub-agents) |
 | 15 | `plan-checker.md` | sonnet | Após gerar execution-plan, antes de implementar — valida cobertura spec→plano | Recomendado |
 | 16 | `stuck-detector.md` | sonnet | Invocado por context-fresh quando loop de retry detectado — diagnostica causa raiz | ⛔ Sim (se sub-agents) |
+| 17 | `debugger.md` | sonnet | Falha durante implementação — diagnóstico estruturado com hipóteses ranqueadas | Recomendado |
 
 **Regra:** Agents sao para auditoria e report — NAO para implementacao direta. Se o agent encontrou problemas, criar spec ou item no backlog para corrigir. Nunca aplicar fixes diretamente a partir do report do agent sem passar pelo fluxo spec-driven.
 
