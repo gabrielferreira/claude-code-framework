@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.33.0 framework-file: docs/SKILLS_GUIDE.md -->
+<!-- framework-tag: v2.34.0 framework-file: docs/SKILLS_GUIDE.md -->
 # Skills Guide — Catálogo de skills
 
 > Referência descritiva de todas as skills do framework: o que cada uma faz, quando usar e o que produz.

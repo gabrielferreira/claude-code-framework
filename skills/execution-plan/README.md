@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.33.0 framework-file: skills/execution-plan/README.md -->
+<!-- framework-tag: v2.34.0 framework-file: skills/execution-plan/README.md -->
 
 # Execution Plan — Plano de execução obrigatório
 
