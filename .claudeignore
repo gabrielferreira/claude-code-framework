@@ -1,0 +1,106 @@
+# ============================================================
+# .claudeignore - Arquivos ignorados pelo Claude Code
+# ============================================================
+# Gerado automaticamente - ajuste conforme necessidade do repo
+
+# ---- Secrets & Environment ----
+.env
+.env.*
+.env.local
+.env.development
+.env.staging
+.env.production
+!.env.example
+!.env.sample
+
+# ---- Chaves & Certificados ----
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.crt
+*.cer
+*.der
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+*.gpg
+*.asc
+
+# ---- AWS ----
+.aws/
+aws-credentials
+*.aws-credentials
+credentials.csv
+
+# ---- GCP ----
+*-service-account*.json
+gcloud-credentials.json
+application_default_credentials.json
+
+# ---- Azure ----
+.azure/
+azure-credentials
+
+# ---- Docker secrets ----
+docker-compose.override.yml
+.docker/config.json
+
+# ---- CI/CD Secrets ----
+.github/secrets/
+.gitlab-ci-secrets*
+*.tfvars
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
+
+# ---- Database ----
+*.sql.gz
+*.dump
+*.sqlite
+*.sqlite3
+*.db
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Dependencies (ruído, não risco) ----
+node_modules/
+vendor/
+.gradle/
+.m2/
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ---- Build artifacts ----
+dist/
+build/
+out/
+.next/
+target/
+
+# ---- IDE & OS ----
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ---- Misc sensitive ----
+*.bak
+*.backup
+*secret*
+*credential*
+*password*
+!*secret*.md
+!*secret*.ts
+!*secret*.js
+
