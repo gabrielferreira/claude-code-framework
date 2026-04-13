@@ -104,3 +104,12 @@ Thumbs.db
 !*secret*.ts
 !*secret*.js
 
+
+# ---- Padrões específicos da stack (node) ----
+.npm/
+.yarn/
+.pnp.*
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.eslintcache
