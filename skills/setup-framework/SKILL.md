@@ -1008,10 +1008,17 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.md` como base:
 
 ### 3.4b SPECS_INDEX_ARCHIVE.md
 
-Criar `SPECS_INDEX_ARCHIVE.md` na raiz usando `${FRAMEWORK_PATH}/SPECS_INDEX_ARCHIVE.md` como base:
+Se `SPECS_INDEX_ARCHIVE.md` ja existe: pular (nao sobrescrever — conteudo do projeto).
+
+Se nao existe: criar usando `${FRAMEWORK_PATH}/SPECS_INDEX_ARCHIVE.md` como base:
 - Substituir `{NOME_DO_PROJETO}` pelo nome do projeto
-- Arquivo comeca vazio (so headers de tabela) — entries sao movidas do SPECS_INDEX.md ao concluir/descontinuar specs
 - Se **modelo externo (incluindo Notion):** criar igualmente — serve como historico local de specs concluidas
+
+**Migracao em re-run:** se o projeto ja tem `SPECS_INDEX.md` com entries concluidas/descontinuadas:
+- Escanear `SPECS_INDEX.md` procurando linhas com status `concluída` ou `descontinuada`
+- Se encontrar: informar "Detectei {N} specs concluidas/descontinuadas no SPECS_INDEX.md. Quer mover para SPECS_INDEX_ARCHIVE.md?"
+- Se sim: mover entries (preservando formato e colunas) para a secao correspondente (Concluidas ou Descontinuadas)
+- Se nao: prosseguir sem mover — migracao progressiva acontecera naturalmente ao concluir novas specs
 
 ### 3.5 Specs e backlog
 

@@ -113,7 +113,10 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
-(Vazia — todos os itens foram concluídos ou movidos.)
+| Ordem | ID | Motivo |
+|-------|-----|--------|
+| 2 | **MR5** | Docs por sub-projeto — evita carregar contexto de tudo na raiz. Deps: MR1 ✅, MR2 ✅. |
+| 3 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
 
 ### Wave 3 — Skills/agents novos (independentes)
 
