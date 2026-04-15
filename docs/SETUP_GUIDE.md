@@ -437,6 +437,7 @@ Perguntas:
 Resultado:
   20 arquivos criados
   CLAUDE.md L0 (raiz) com convencoes globais
+    Secao "## Monorepo" preenchida com tabela de sub-projetos, distribuicao e convencoes de camada
   CLAUDE.md L2 criado em apps/web, apps/api, packages/shared, packages/ui
   verify.sh raiz (orquestrador) + verify.sh por sub-projeto
   reports.sh + backlog-report.cjs + reports-index.js
@@ -471,6 +472,7 @@ Perguntas:
 
 Resultado:
   CLAUDE.md L0 criado na raiz (convencoes globais extraidas do apps/api)
+    Secao "## Monorepo" preenchida com tabela de sub-projetos e convencoes de camada
   apps/api/CLAUDE.md adaptado para L2 (removidas secoes globais, mantidas regras do modulo)
   apps/web/CLAUDE.md L2 criado (Next.js detectado)
   packages/shared/CLAUDE.md L2 criado
@@ -725,7 +727,7 @@ Sim. O SPECS_INDEX.md e o CLAUDE.md podem ser editados manualmente para trocar d
 
 ### Como funciona em monorepo?
 
-O wizard detecta indicadores de monorepo, confirma com o usuario, e pede que indique quais sub-diretorios sao projetos. Apos confirmacao, cria CLAUDE.md L0 na raiz (convencoes globais) e CLAUDE.md L2 em cada sub-projeto (stack, comandos, testes). Tambem detecta sub-projetos que ja tinham framework (ex: repo solo migrado) e oferece promover para L2. Ver exemplos acima.
+O wizard detecta indicadores de monorepo, confirma com o usuario, e pede que indique quais sub-diretorios sao projetos. Apos confirmacao, cria CLAUDE.md L0 na raiz (convencoes globais) e CLAUDE.md L2 em cada sub-projeto (stack, comandos, testes). O L0 inclui a secao `## Monorepo` preenchida com a tabela de sub-projetos, distribuicao de framework e convencoes de camada — esta secao e a fonte de verdade que outras skills consultam para saber o contexto do monorepo. Tambem detecta sub-projetos que ja tinham framework (ex: repo solo migrado) e oferece promover para L2. Ver exemplos acima.
 
 ### O que sao "skills customizadas sugeridas"?
 

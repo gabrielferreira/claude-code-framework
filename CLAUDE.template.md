@@ -361,3 +361,30 @@ Cada sessao de trabalho roda numa worktree isolada (`.claude/worktrees/`) para n
 - **{Planos/preços}:** {resumo}
 - **{Limites}:** {quotas, rate limits, etc.}
 - **{Regras de domínio}:** {regras fiscais, compliance, etc.}
+
+## Monorepo
+
+{Adaptar se aplicável. Remover esta seção inteira se single-repo.}
+
+### Estrutura
+
+| Sub-projeto | Path | Stack | Responsabilidade |
+|---|---|---|---|
+| Backend API | `backend/` | Go, PostgreSQL | APIs REST, regras de negócio |
+| Frontend Web | `frontend/` | React, TypeScript | Interface web, SPA |
+| Shared Libs | `packages/shared/` | TypeScript | Tipos e utilitários compartilhados |
+
+### Distribuição de framework
+
+- **Skills:** {na raiz / por sub-projeto / misto — ex: spec-driven e definition-of-done na raiz, logging e testing por sub-projeto}
+- **Agents:** {na raiz / por sub-projeto — ex: security-audit na raiz, component-audit no frontend}
+- **Specs/Backlog:** {unificado na raiz / distribuído por sub-projeto / Notion}
+- **verify.sh:** {por sub-projeto / orquestrador na raiz + por sub-projeto}
+
+### Convenções de camada
+
+- **L0 (raiz):** {o que vive na raiz — commits, segurança global, mapa de skills universais}
+- **L2 (sub-projeto):** {o que é específico — stack, comandos, testes, coverage, skills com exemplos de código}
+- **L3+ (sub-domínio):** {se aplicável — ex: `backend/src/payments/` com CLAUDE.md para regras de compliance de pagamentos}
+
+> Níveis abaixo de L2 são opcionais. Usar quando um sub-domínio tem regras suficientemente distintas (compliance, segurança, integração com terceiros) que justifiquem CLAUDE.md próprio. Na dúvida, manter em L2.
