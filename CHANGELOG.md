@@ -7,6 +7,16 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.41.0] — 2026-04-15
+
+### Alterado
+
+- **CLAUDE.template.md — linguagem comportamental inspirada em Karpathy Guidelines:** nova regra "Não assumir. Não esconder confusão." nas regras de operação. Princípios "Simplicidade primeiro" e "Mudanças cirúrgicas" com testes de sanidade na seção Regras de código. "Execução orientada por critérios verificáveis" na decomposição. Linguagem mais direta nas regras de delegação.
+
+### Referência
+
+- **Karpathy Guidelines** registrado em `references/ECOSYSTEM.md` como referência do ecossistema.
+
 ## [2.40.0] — 2026-04-15
 
 ### Adicionado

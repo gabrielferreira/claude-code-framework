@@ -1,6 +1,6 @@
 {
   "name": "claude-code-framework",
-  "version": "2.40.0",
+  "version": "2.41.0",
   "description": "Harness engineering framework para Claude Code — specs, skills, agents e orquestracao",
   "repository": "https://github.com/gabrielferreira/claude-code-framework",
   "author": "Gabriel Ferreira",
