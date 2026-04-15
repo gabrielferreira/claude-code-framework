@@ -7,6 +7,15 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.39.0] — 2026-04-15
+
+### Adicionado
+
+- **Seção `## Monorepo` no CLAUDE.template.md (MR1):** fonte de verdade declarativa para projetos monorepo. 3 subsections: `### Estrutura` (tabela de sub-projetos), `### Distribuição de framework` (skills, agents, specs, verify.sh), `### Convenções de camada` (L0/L2/L3+). Seção opcional — single-repo não a usa.
+- **Referências no setup-framework:** seção `## Monorepo` definida como output target canônico, com breadcrumbs para MR2-MR4.
+- **Referências no update-framework:** detecção de seção ausente/incompleta em monorepos existentes, fallback para SETUP_REPORT.md.
+- **Docs atualizados:** SETUP_GUIDE (exemplos de monorepo mostram seção no output), SPEC_DRIVEN_GUIDE (fonte de verdade para specs em monorepos), WORKFLOW_DIAGRAM (artefato no bloco de setup).
+
 ## [2.38.0] — 2026-04-10
 
 ### Adicionado

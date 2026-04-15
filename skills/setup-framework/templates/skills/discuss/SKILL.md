@@ -3,7 +3,7 @@ name: discuss
 description: Modo conversacional estruturado — scout + gray areas + spec gerada ao final
 user_invocable: true
 ---
-<!-- framework-tag: v2.38.0 framework-file: skills/discuss/SKILL.md -->
+<!-- framework-tag: v2.39.0 framework-file: skills/discuss/SKILL.md -->
 
 # /discuss — Discussão estruturada antes da spec
 
