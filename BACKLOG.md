@@ -30,9 +30,8 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: fonte de verdade de sub-projetos para skills com awareness de monorepo | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 2h | — | Discussão 2026-04-09 |
-| MR2 | **Setup-framework detecta monorepo**: confirmação + mapeamento de sub-projetos + preenchimento da seção MR1 | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | MR1 | Discussão 2026-04-09 |
-| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: cria spec no sub-projeto correto (repo) ou preenche `Sub-projeto` (Notion) | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 6h | MR1, MR2 | Discussão 2026-04-09 |
+| MR2 | **Setup-framework detecta monorepo**: confirmação + mapeamento de sub-projetos + preenchimento da seção MR1 | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | MR1 ✅ | Discussão 2026-04-09 |
+| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: cria spec no sub-projeto correto (repo) ou preenche `Sub-projeto` (Notion) | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 6h | MR1 ✅, MR2 | Discussão 2026-04-09 |
 | MR4 | **Backlog-update com awareness monorepo (dual-mode)**: agrupa por sub-projeto no backlog.md ou propriedade Notion | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | MR2, MR3 | Discussão 2026-04-09 |
 | MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
@@ -54,6 +53,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: fonte de verdade declarativa para monorepos (Estrutura, Distribuição, Convenções de camada L0/L2/L3+) | v2.39.0 — 2026-04-15 |
 | DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | v2.38.0 — 2026-04-10 |
 | SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | v2.37.0 — 2026-04-10 |
 | DF13 | **Discovery Routing + `/quick`**: triagem pré-spec (quick task / spec única / multi-spec) + slash command `/quick` para fast-path sem spec | v2.36.0 — 2026-04-10 |
@@ -107,8 +107,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo da prioridade |
 |-------|-----|---------------------|
-| 1 | **MR1** | Seção `## Monorepo` no CLAUDE.template.md — bloqueador de uso real em monorepos. Fonte de verdade para MR2–MR4. |
-| 2 | **MR2** | Setup detecta monorepo — preenche seção MR1 automaticamente. Sem isso, dev precisa preencher à mão. Deps: MR1. |
+| 1 | **MR2** | Setup detecta monorepo — preenche seção MR1 automaticamente. Sem isso, dev precisa preencher à mão. Deps: MR1 ✅. |
 | 4 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
