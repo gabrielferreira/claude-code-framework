@@ -55,3 +55,4 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | map-codebase (`/map-codebase`) | Ao iniciar sessao em projeto desconhecido ou apos longa ausencia — mapear stack, arquitetura, convencoes e concerns antes de planejar |
 | debugger (agent) | Ao diagnosticar falha durante implementacao — coleta contexto e produz hipoteses ranqueadas |
 | pr (`/pr`) | Ao abrir Pull Request — preenche template com contexto de spec + diff e abre via `gh pr create` |
+| onboarding (`/onboarding`) | Dev novo no projeto ou retomando apos longa ausencia — gera guia contextualizado com fluxo, comandos, skills e convencoes deste projeto especifico |
