@@ -85,12 +85,24 @@ Antes de qualquer coisa:
 
 5. **Detectar cenario de monorepo com sub-projetos:**
 
-   Escanear sub-diretorios (1 nivel de profundidade) procurando sinais de projetos com framework ja configurado ou projetos novos sem framework:
+   Escanear sub-diretorios (ate 2 niveis de profundidade) procurando sinais de projetos com framework ja configurado ou projetos novos sem framework:
+
+   **Niveis de scan:**
+   - Nivel 1: `*/package.json`, `*/go.mod`, `*/pyproject.toml`, `*/Cargo.toml`, `*/.claude/`
+   - Nivel 2: `*/*/package.json`, `*/*/go.mod`, `*/*/pyproject.toml`, `*/*/Cargo.toml`, `*/*/.claude/`
+   - **Excluir sempre:** `node_modules/`, `vendor/`, `.git/`, `dist/`, `build/`, `__pycache__/`, `.next/`, `.nuxt/`
+   - O sub-projeto detectado e o diretorio que contem o manifesto, nao o pai. Ex: `apps/web/package.json` → sub-projeto e `apps/web/`, nao `apps/`
+
+   **Git submodules:**
+   - Se `.gitmodules` existe na raiz: parsear para extrair paths de submodules
+   - Sub-diretorios listados em `.gitmodules` sao marcados como **git submodule (repo externo)**
+   - **Nunca configurar framework automaticamente dentro de submodule** — perguntar ao dev (ver regra abaixo)
 
    | Sinal | Classificacao |
    |---|---|
    | Sub-dir com `.claude/` + `CLAUDE.md` | **Sub-projeto com framework** (ja configurado) |
    | Sub-dir com `package.json` ou `go.mod` ou `pyproject.toml` mas SEM `.claude/` | **Sub-projeto novo** (precisa de configuracao) |
+   | Sub-dir listado em `.gitmodules` | **Git submodule** (repo externo — ver regra abaixo) |
    | Sub-dir sem nenhum dos anteriores | Ignorar (nao e projeto) |
 
    **Cenarios possíveis:**
@@ -354,9 +366,14 @@ O usuario pode corrigir em ambos os casos. Se corrigir, pedir que indique quais 
    > ```
    > {dir1}/ — {stack} — {com/sem framework} — tipo: {frontend/backend/lib}
    > {dir2}/ — {stack} — {com/sem framework} — tipo: {backend}
-   > {dir3}/ — {stack} — {com/sem framework} — tipo: {lib}
+   > {dir3}/ — {stack} — ⚠️ git submodule — tipo: {lib}
    > ```
    > "Isso esta correto? Quer ajustar algo antes de prosseguir?"
+
+   **Se houver git submodules no mapa**, perguntar individualmente:
+   > "⚠️ {dir}/ e um git submodule (repo externo). Quer inclui-lo como sub-projeto do monorepo (setup cria L2 dentro) ou trata-lo como dependencia externa (ignorar)?"
+   - Se **incluir**: avisar que mudancas no submodule precisam ser commitadas no repo do submodule separadamente. Continuar com o fluxo normal de setup L2.
+   - Se **ignorar**: excluir do mapa de sub-projetos, nao gerar nenhum artefato dentro dele.
 
 4. **So avancar para geracao (Fase 3) apos confirmacao do mapa.** Qualquer ajuste do usuario atualiza o mapa e re-apresenta.
 
@@ -366,6 +383,8 @@ O usuario pode corrigir em ambos os casos. Se corrigir, pedir que indique quais 
 |---|---|
 | `.claude/` + `CLAUDE.md` | Sub-projeto com framework (ja configurado) |
 | Arquivo de projeto (package.json, go.mod, etc.) sem `.claude/` | Sub-projeto novo (precisa de configuracao) |
+| Listado em `.gitmodules` + usuario confirmou inclusao | Sub-projeto submodule (tratar como L2, avisar sobre commits separados) |
+| Listado em `.gitmodules` + usuario ignorou | Dependencia externa (nao gerar artefatos) |
 
 Seguir cenarios B/C/D da Fase 0 step 5 conforme classificacao.
 
@@ -778,6 +797,7 @@ Quando o CLAUDE.md ja existe (merge ou pular), verificar se as seguintes secoes 
 | Estrutura | Sempre | Todas |
 | Context budget | Sempre | Todas |
 | Specs e Requisitos | Sempre (varia por modelo) | spec-creator, backlog-update |
+| Monorepo | Se confirmado monorepo na Fase 1.2 | spec-creator, backlog-update, discuss, update-framework |
 | Integracao Notion (specs) | Se Notion no Bloco 2 | spec-creator, backlog-update |
 
 **Fluxo de auditoria:**
@@ -879,6 +899,38 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
 - Secao "Estrutura" → estrutura real do projeto detectada
 - Secao "Contexto de negocio" → baseado no dominio do Bloco 1
 - Secao "Context budget" → manter tabela por modelo (Opus/Sonnet/Haiku com variantes de context window). Alertar o usuario que os valores mudam entre versoes dos modelos
+- Secao "Monorepo" — **condicional** (so se confirmado monorepo na Fase 1.2):
+  - Preencher `### Estrutura` com tabela de sub-projetos (path, stack, responsabilidade — dados confirmados na Fase 1.2)
+  - Preencher `### Distribuicao de framework` com decisao do usuario sobre skills, agents, specs, verify.sh (dados do Bloco 4)
+  - Preencher `### Convencoes de camada` com o que e L0, L2 e L3+ neste monorepo
+  - **Se single-repo:** remover a secao inteira do template (nao deixar placeholders `{Adaptar}`)
+  - Exemplo de output preenchido:
+
+    ```markdown
+    ## Monorepo
+
+    ### Estrutura
+
+    | Sub-projeto | Path | Stack | Responsabilidade |
+    |---|---|---|---|
+    | Auth API | `services/auth/` | Go, PostgreSQL | Autenticacao e autorizacao |
+    | Web App | `apps/web/` | React, TypeScript | Interface web principal |
+    | Shared | `packages/shared/` | TypeScript | Tipos e utilitarios compartilhados |
+
+    ### Distribuicao de framework
+
+    - **Skills:** por sub-projeto — `services/auth/.claude/skills/` e `apps/web/.claude/skills/`
+    - **Agents:** na raiz — `.claude/agents/` (security-audit, spec-validator)
+    - **Specs/Backlog:** centralizados na raiz — `.claude/specs/`
+    - **verify.sh:** por sub-projeto + orquestrador na raiz
+
+    ### Convencoes de camada
+
+    - **L0 (raiz):** commits, seguranca global, mapa de skills, estrutura do monorepo
+    - **L2 (sub-projeto):** stack, comandos, testes, coverage, regras especificas
+    - **L3+ (sub-dominio):** nao aplicavel neste projeto
+    ```
+
 - Item 8 "Validacao pre-implementacao" → manter como esta no template (validar arquivos mencionados na spec antes de codificar)
 - **Modelo spec-driven** → configurar conforme Bloco 2:
   - Se **repo**: manter secao "Specs e Requisitos" padrao
