@@ -30,8 +30,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: cria spec no sub-projeto correto (repo) ou preenche `Sub-projeto` (Notion) | 🔴 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 6h | MR1 ✅, MR2 ✅ | Discussão 2026-04-09 |
-| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: agrupa por sub-projeto no backlog.md ou propriedade Notion | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | MR2 ✅, MR3 | Discussão 2026-04-09 |
 | MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 | MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
@@ -52,6 +50,8 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | pendente release |
+| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: Passo 0d detecta sub-projeto, respeita distribuição, coluna Sub-projeto no SPECS_INDEX, property Notion, variante monorepo no template | pendente release |
 | MR2 | **Setup-framework detecta monorepo**: bullet Fase 3.2, auditoria, scan 2 níveis, git submodules — gap-closing sobre MR1 | pendente release |
 | MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: fonte de verdade declarativa para monorepos (Estrutura, Distribuição, Convenções de camada L0/L2/L3+) | v2.39.0 — 2026-04-15 |
 | DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | v2.38.0 — 2026-04-10 |
@@ -107,15 +107,13 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo da prioridade |
 |-------|-----|---------------------|
-| 1 | **MR3** | Spec-creator detecta sub-projeto afetado — sem isso, spec sempre vai pra raiz mesmo em monorepo. Deps: MR1 ✅, MR2 ✅. |
-| 2 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
+| 1 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|
 | 3 | **MO9** | Light Edition — muda setup, update, MANIFEST, cria upgrade skill e templates-light/. Sem deps mas é 🔺 Fluxo (muda como projetos são criados). |
-| 4 | **MR4** | Backlog-update agrupa por sub-projeto — deps: MR2 ✅, MR3. |
 | 8 | **SW9** | SPECS_INDEX ativo — muda estrutura do índice. Deps: SW2 ✅. Sem isso, índice cresce ilimitado em projetos grandes. |
 
 ### Wave 3 — Skills/agents novos (independentes)
@@ -154,6 +152,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 | DF14 | **Tagged Task Lists (parallel feature tracks)**: sistema de tags que organiza tasks em contextos isolados por feature/branch/milestone, com IDs independentes por tag — permite trabalho paralelo em múltiplas tracks sem conflito de state | Quando times reportarem dificuldade de gerenciar múltiplas specs em andamento simultâneo ou quando STATE.md ficar confuso com múltiplos trabalhos paralelos | Implementar como extensão do STATE.md: seção "Tracks ativos" com tag + spec ativa + task atual por track. Cada wave do execution-plan pode ser uma track | Taskmaster AI |
 | MO3 | **Skill `/milestone`**: agrupar specs em milestones com tracking de progresso e release notes automáticas | Quando projetos reportarem dificuldade de rastrear o que vai pra uma entrega específica (10+ specs no ciclo) | Não implementar agora: backlog.md já serve para agrupamento informal; precisa definir como milestones funcionam em Notion mode (propriedade? database separada?) antes de implementar | Análise GSD |
 | SW10 | **Campos customizados por projeto em specs**: tabela `### Campos customizados` no CLAUDE.md onde o projeto declara campos extras — `/spec` e `/backlog-update` preenchem automaticamente | Quando projetos reportarem que `{Adaptar:}` é insuficiente | `{Adaptar:}` no setup já cobre a maioria dos casos. Campos customizados adicionam superfície de configuração. | worktree pensive-colden |
+| DF15 | **Fallback de centralização para specs em submodules**: quando specs são distribuídas e o sub-projeto é git submodule, oferecer criar spec na raiz em vez de dentro do submodule (evita commit em repo separado). Hoje o Passo 0d avisa mas não oferece alternativa — o dev pode escolher "root" manualmente | Quando times reportarem friction com specs em submodules ou quando MR4 for implementado e o mesmo pattern se aplicar ao backlog | Oferecer choice: "dentro do submodule" vs "na raiz (fora do padrão distribuído)" — não implementar antes de ter feedback real | MR3 |
 | MO6 | **Distribuição em outros editores (Cursor, Copilot, Windsurf)**: adaptar instalação e ativação do framework para editores que não são Claude Code — cada editor tem seu mecanismo próprio (`.cursorrules`, `.github/copilot-instructions.md`, `.windsurfrules`) e não suporta features específicas do Claude Code (`@` imports, frontmatter de agents, CLAUDE.md automático no contexto) | Quando houver demanda real de usuários nesses editores — hoje o framework foi projetado especificamente para Claude Code | Antes de implementar: (1) mapear quais features do framework dependem exclusivamente do Claude Code vs quais são portáveis; (2) definir o que seria "suporte parcial" (só skills markdown) vs "suporte completo" (agents, setup, update); (3) avaliar se vale manter dois modos ou criar um fork separado — risco de diluir o foco e aumentar a superfície de manutenção | cc-sdd + OpenSpec |
 
 ---

@@ -46,11 +46,41 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
 - **Se sim:** modo Notion — ler e atualizar specs direto no Notion via MCP
 - **Se não:** modo repo — usar backlog.md local
 
+### Passo 0a — Detectar monorepo e sub-projeto
+
+1. Ler `CLAUDE.md` da raiz — procurar secao `## Monorepo`
+2. **Se secao ausente ou vazia** → single-repo. Guardar `SUB_PROJECT = null`. Prosseguir sem perguntas.
+3. **Se presente:**
+   a. Ler `### Estrutura` → extrair tabela de sub-projetos (path, stack, responsabilidade)
+   b. Ler `### Distribuicao de framework` → extrair modelo de backlog:
+      - "centralizados na raiz" ou "unificado" → `BACKLOG_DISTRIBUTION = "centralized"` (backlog.md unico com subsecoes)
+      - "distribuidos por sub-projeto" → `BACKLOG_DISTRIBUTION = "distributed"` (cada sub-projeto tem seu backlog.md)
+      - Notion mode → `BACKLOG_DISTRIBUTION = "notion"` (property Sub-projeto na database)
+   c. **Para acoes `add` e `update`:** perguntar ao usuario:
+      > "Qual sub-projeto este item afeta?"
+      > - {sub-projeto 1} ({path} — {stack})
+      > - {sub-projeto 2} ({path} — {stack})
+      > - root (cross-cutting / infraestrutura)
+   d. **Para acao `done`:** inferir sub-projeto a partir do item encontrado (header `> Sub-projeto:` na spec ou subsecao do backlog). Se ambiguo, perguntar.
+   e. Guardar `SUB_PROJECT` = resposta do usuario
+   f. **Se sub-projeto selecionado e git submodule** (verificar na tabela `### Estrutura`) e `BACKLOG_DISTRIBUTION = "distributed"`:
+      - Avisar: "⚠️ Este sub-projeto e um git submodule. O backlog sera atualizado dentro dele — lembre de commitar no repo do submodule separadamente."
+
+**Regras:**
+- Single-repo: zero mudanca visivel (backward compatible)
+- Nunca assumir sub-projeto — perguntar em `add`/`update`, inferir em `done`
+
 ---
 
 ### Modo Repo (backlog local)
 
-**Passo 0 — Bootstrap check:** Se `.claude/specs/backlog.md` não existe, criar com estrutura padrão:
+**Passo 0 — Bootstrap check:**
+
+**Determinar path do backlog:**
+- Se `BACKLOG_DISTRIBUTION = "distributed"` e `SUB_PROJECT != null` (nao "root"): `BACKLOG_PATH = {SUB_PROJECT}/.claude/specs/backlog.md`
+- Caso contrario (centralized, single-repo, ou root): `BACKLOG_PATH = .claude/specs/backlog.md`
+
+Se `{BACKLOG_PATH}` nao existe, criar com estrutura padrao:
 ```markdown
 # Backlog — {NOME_DO_PROJETO}
 
@@ -91,14 +121,19 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
    - **Dependências:** IDs ou `—`
    - **Origem:** Sessão | Backlog | Auditoria | Incidente | Feedback | PRD | Externo (default: `Sessão`)
    - **Spec:** nome do arquivo se existir, ou `—`
-3. Ler `.claude/specs/backlog.md`
-4. Inserir nova linha na seção da fase correta, ordenado por severidade (🔴 > 🟠 > 🟡 > ⚪)
+3. Ler `{BACKLOG_PATH}`
+4. **Se monorepo centralizado (SUB_PROJECT != null e BACKLOG_DISTRIBUTION = "centralized"):**
+   - Procurar subsecao `### {SUB_PROJECT}` dentro de `## Pendentes`
+   - Se nao existe: criar a subsecao com header de tabela
+   - Inserir nova linha na subsecao do sub-projeto, ordenado por severidade
+   **Se single-repo ou distributed:**
+   - Inserir nova linha na secao da fase correta, ordenado por severidade (🔴 > 🟠 > 🟡 > ⚪)
 5. Atualizar `Última atualização` no header
 
 #### Ação: `done`
 
-1. Ler `.claude/specs/backlog.md`
-2. Encontrar o item com o ID informado na tabela Pendentes
+1. Ler `{BACKLOG_PATH}` (determinado no bootstrap)
+2. Encontrar o item com o ID informado na tabela Pendentes (se monorepo centralizado, procurar em todas as subsecoes de sub-projeto)
 3. Se não encontrar, avisar e abortar
 4. Remover a linha da tabela Pendentes
 5. Adicionar na tabela Concluídos (topo, mais recente primeiro):
@@ -120,9 +155,10 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
 
 #### Ação: `update`
 
-1. Ler `.claude/specs/backlog.md`
-2. Encontrar o item com o ID informado
+1. Ler `{BACKLOG_PATH}`
+2. Encontrar o item com o ID informado (se monorepo centralizado, procurar em todas as subsecoes)
 3. Perguntar quais campos alterar
+   - **Se monorepo:** incluir opcao "Mover para outro sub-projeto" — move a linha entre subsecoes
 4. Aplicar mantendo ordem por severidade
 5. Atualizar `Última atualização`
 
@@ -146,6 +182,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, o backlog �
 
 1. Perguntar ao usuário:
    - Título, Fase, Severidade, Impacto, Tipo, Camadas, Complexidade, Estimativa
+   - **Se monorepo (SUB_PROJECT != null):** incluir Sub-projeto (ja coletado no Passo 0a)
    - Nota: Dependências, Origem e Spec não se aplicam no Notion — esses campos são gerenciados via properties da database
 2. **Criar página no Notion** usando `notion-create-pages`:
    ```
@@ -163,10 +200,13 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, o backlog �
        "Estimativa": "{estimativa}",
        "Projeto": "{nome do projeto}",
        "Spec detail": "sem spec"
+       // Se monorepo (SUB_PROJECT != null):
+       // "Sub-projeto": "{SUB_PROJECT}"
      }
    }]
    ```
    Nota: **não usar template** no `add` do backlog — templates são usados apenas pelo `/spec` quando a spec vai ser detalhada.
+   **Se monorepo e property "Sub-projeto" nao existe na database:** avisar "A database nao tem property 'Sub-projeto'. Recomendo adicionar para filtrar itens por sub-projeto."
 3. Informar URL da página criada
 
 #### Ação: `done`
