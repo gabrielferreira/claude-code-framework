@@ -30,7 +30,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: agrupa por sub-projeto no backlog.md ou propriedade Notion | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | MR2 ✅, MR3 ✅ | Discussão 2026-04-09 |
 | MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 | MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
@@ -51,6 +50,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | pendente release |
 | MR3 | **Spec-creator com escopo monorepo (dual-mode)**: Passo 0d detecta sub-projeto, respeita distribuição, coluna Sub-projeto no SPECS_INDEX, property Notion, variante monorepo no template | pendente release |
 | MR2 | **Setup-framework detecta monorepo**: bullet Fase 3.2, auditoria, scan 2 níveis, git submodules — gap-closing sobre MR1 | pendente release |
 | MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: fonte de verdade declarativa para monorepos (Estrutura, Distribuição, Convenções de camada L0/L2/L3+) | v2.39.0 — 2026-04-15 |
@@ -107,8 +107,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo da prioridade |
 |-------|-----|---------------------|
-| 1 | **MR4** | Backlog-update agrupa por sub-projeto — deps: MR2 ✅, MR3 ✅. Ultimo item da cadeia monorepo. |
-| 2 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
+| 1 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
