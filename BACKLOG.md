@@ -31,6 +31,7 @@
 | MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 | MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
+| MR5 | **Docs por sub-projeto em monorepo**: setup gera docs relevantes em cada sub-projeto (`backend/docs/`, `frontend/docs/`), CLAUDE.md L0 mapeia "para saber sobre X, consulte `X/docs/`" — evita carregar contexto de tudo na raiz | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 3h | MR1 ✅, MR2 ✅ | Sessão 2026-04-15 |
 
 ### Operações do framework
 
@@ -41,6 +42,7 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
+| TQ6 | **Revisão ortográfica e de acentuação**: varrer todos os arquivos distribuídos (skills, agents, docs, templates) corrigindo erros ortográficos, acentuação faltante e inconsistências de idioma (pt-BR) | 🟡 | 👤 Usuário | ⬜ Bastidor | 🏠 Framework + 📦 Projeto | ✅ Aditivo | Docs | 2h | — | Sessão 2026-04-15 |
 
 ---
 
