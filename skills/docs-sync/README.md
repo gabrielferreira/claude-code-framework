@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.39.0 framework-file: skills/docs-sync/README.md -->
+<!-- framework-tag: v2.40.0 framework-file: skills/docs-sync/README.md -->
 # Skill: Docs Sync — {NOME_DO_PROJETO}
 
 > Use esta skill ao finalizar qualquer entrega para garantir que a documentação

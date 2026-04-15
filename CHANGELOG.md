@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.40.0] — 2026-04-15
+
+### Adicionado
+
+- **Skill `/onboarding`:** slash command que gera guia contextualizado do fluxo de trabalho para devs novos no projeto. Lê CLAUDE.md, PROJECT_CONTEXT.md, SETUP_REPORT.md e SKILLS_MAP para montar output com comandos reais, skills instaladas, agents disponíveis e fluxo adaptado ao que foi configurado. Output no chat (não cria arquivo).
+
 ## [2.39.0] — 2026-04-15
 
 ### Adicionado
