@@ -92,7 +92,8 @@ Este perfil e usado na Fase 1 e 3 para filtrar o que oferecer.
 ### 0.5 Detectar monorepo
 
 1. **Verificar se é monorepo:** procurar `.claude/SETUP_REPORT.md` e ler campo "Tipo"
-2. **Se monorepo:** escanear sub-diretórios:
+2. **Se monorepo:** verificar se CLAUDE.md raiz contém `## Monorepo`. Se ausente, a Fase 3.2 (structural merge) oferecerá automaticamente a seção do template. Se presente mas incompleta (ex: sem `### Convenções de camada`), sinalizar como content patch na Fase 3.2b.
+3. **Escanear sub-diretórios:**
    - Tem `.claude/` com headers `framework-tag` → sub-projeto com framework (verificar versão)
    - Tem indicador de projeto (`package.json`, `go.mod`, etc.) mas SEM `.claude/` → sub-projeto novo
    - Nenhum dos dois → não é sub-projeto, ignorar
@@ -501,6 +502,8 @@ Apos aplicar TODOS os merges structural (Fase 3.2), rodar esta verificacao autom
 ## Fase 4 — Monorepo (se aplicável)
 
 Se detectou sub-projetos na Fase 0:
+
+Ao atualizar sub-projetos, consultar `## Monorepo` do CLAUDE.md L0 como fonte de verdade para paths e stacks. Se a seção não existir, inferir do SETUP_REPORT.md (fallback).
 
 1. **Para cada sub-projeto desatualizado:**
    - Rodar Fases 1-3 no contexto do sub-projeto

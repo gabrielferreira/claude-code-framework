@@ -51,7 +51,7 @@ Wizard interativo que implanta o framework num repositório existente.
 │  │  • Localizar templates do framework                           │
 │  │  • Validar que está na raiz do repo (.git/)                   │
 │  │  • Detectar re-run vs primeira vez                            │
-│  │  • Detectar monorepo                                          │
+│  │  • Detectar monorepo (preencher ## Monorepo no CLAUDE.md L0)   │
 │  ▼                                                               │
 │  Fase 1 ─ Análise do repositório                                 │
 │  │  • Detectar stack (backend, frontend, fullstack)              │

@@ -823,6 +823,8 @@ A implementação pode ser também um script bash, Make target, ou GitHub Action
 
 ### Specs em monorepos
 
+A seção `## Monorepo` no CLAUDE.md L0 é a fonte de verdade sobre sub-projetos, paths, stacks e distribuição de framework. Skills que operam com specs consultam essa seção para saber o contexto do monorepo.
+
 Em monorepos, a decisão principal é: **specs centralizadas na raiz ou distribuídas por sub-projeto?**
 
 | Modelo | Quando usar | Como funciona |

@@ -119,10 +119,20 @@ Antes de qualquer coisa:
    **Regras para monorepo:**
    - L0 (raiz): convencoes globais (commits, seguranca universal, estrutura do monorepo, mapa de skills)
    - L2 (sub-projeto): stack, comandos, testes, coverage, regras especificas
+   - L3+ (sub-dominio): opcional — usar quando um sub-dominio tem regras suficientemente distintas (compliance, seguranca, integracao com terceiros) que justifiquem CLAUDE.md proprio
    - Specs: perguntar se unificadas na raiz ou distribuidas por sub-projeto
    - verify.sh: por sub-projeto (cada um com checks da sua stack). Orquestrador na raiz e **opcional** — so faz sentido se o time quer rodar tudo junto no CI
    - reports.sh: mesmo modelo — por sub-projeto, orquestrador na raiz opcional
    - hooks: por sub-projeto quando relevante (ver secao 3.7)
+
+   **Secao `## Monorepo` no CLAUDE.md L0 — fonte de verdade:**
+
+   Ao confirmar monorepo, preencher a secao `## Monorepo` no CLAUDE.md L0 com os dados confirmados pelo usuario:
+   - `### Estrutura`: tabela com sub-projetos detectados (path, stack, responsabilidade)
+   - `### Distribuicao de framework`: decisao do usuario sobre onde vivem skills, agents, specs
+   - `### Convencoes de camada`: o que e L0 vs L2 vs L3+ neste monorepo
+
+   Esta secao e a **fonte de verdade** que outras skills (spec-creator, backlog-update, discuss) consultam para saber o contexto do monorepo. Nao duplicar essa informacao — referenciar a secao.
 
    **Arquivos com mesmo nome em sub-projetos diferentes:**
 
@@ -273,6 +283,8 @@ Indicadores usados como **sugestao** (nunca como conclusao final):
 | `packages/`, `apps/`, `modules/` com multiplos package.json/go.mod/etc. | Monorepo |
 | Nenhum dos anteriores | Single repo |
 
+> Se confirmado monorepo → secao `## Monorepo` no CLAUDE.md L0 sera preenchida com a tabela de sub-projetos. Se single-repo → secao removida do template.
+
 **Tipo de projeto:**
 
 | Indicador | Sugere |
@@ -313,7 +325,7 @@ O usuario pode corrigir em ambos os casos. Se corrigir, pedir que indique quais 
 - Nao perguntar sobre sub-projetos
 - Prosseguir direto para Fase 2 (questionario)
 - Na Fase 3, gerar arquivos na raiz (sem hierarquia L0/L2)
-- Na Fase 5, omitir secao "Monorepo" do relatorio
+- Na Fase 5, a secao `## Monorepo` nao existe no CLAUDE.md (removida do template durante setup). Nenhuma skill deve falhar por ausencia — todas usam fallback para raiz
 
 **Apos confirmacao, se monorepo — mapear sub-projetos:**
 
