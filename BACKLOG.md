@@ -50,9 +50,9 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | pendente release |
-| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: Passo 0d detecta sub-projeto, respeita distribuição, coluna Sub-projeto no SPECS_INDEX, property Notion, variante monorepo no template | pendente release |
-| MR2 | **Setup-framework detecta monorepo**: bullet Fase 3.2, auditoria, scan 2 níveis, git submodules — gap-closing sobre MR1 | pendente release |
+| MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | v2.42.0 — 2026-04-15 |
+| MR3 | **Spec-creator com escopo monorepo (dual-mode)**: Passo 0d detecta sub-projeto, respeita distribuição, coluna Sub-projeto no SPECS_INDEX, property Notion, variante monorepo no template | v2.42.0 — 2026-04-15 |
+| MR2 | **Setup-framework detecta monorepo**: bullet Fase 3.2, auditoria, scan 2 níveis, git submodules — gap-closing sobre MR1 | v2.42.0 — 2026-04-15 |
 | MR1 | **Seção `## Monorepo` no CLAUDE.template.md**: fonte de verdade declarativa para monorepos (Estrutura, Distribuição, Convenções de camada L0/L2/L3+) | v2.39.0 — 2026-04-15 |
 | DL1 | **Skill `/pr`**: preenche PR template com spec + diff e abre via `gh pr create`; distribui `.github/pull_request_template.md` via setup-framework | v2.38.0 — 2026-04-10 |
 | SA4 | **Skill `/discuss`**: scout + gray areas + spec gerada ao final — passo anterior ao `/spec` | v2.37.0 — 2026-04-10 |

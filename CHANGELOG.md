@@ -7,6 +7,14 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.42.0] — 2026-04-15
+
+### Adicionado
+
+- **Setup-framework — detecção completa de monorepo (MR2):** bullet explícito na Fase 3.2 para preencher `## Monorepo` com exemplo de output, entrada condicional na tabela de auditoria de seções obrigatórias, scan ampliado para 2 níveis de profundidade, detecção de `.gitmodules` e tratamento de git submodules.
+- **Spec-creator — awareness monorepo (MR3):** novo Passo 0d detecta `## Monorepo`, pergunta sub-projeto afetado, respeita modelo de distribuição (centralizado/distribuído/Notion). Bootstrap, path, header e SPECS_INDEX ajustados condicionalmente. Variante monorepo no SPECS_INDEX.template.md. Aviso para git submodules.
+- **Backlog-update — awareness monorepo (MR4):** novo Passo 0a com mesmo pattern do MR3. Centralizado: subsecções por sub-projeto em Pendentes. Distribuído: opera no backlog.md do sub-projeto. Notion: property Sub-projeto. Opção de mover item entre sub-projetos.
+
 ## [2.41.0] — 2026-04-15
 
 ### Alterado

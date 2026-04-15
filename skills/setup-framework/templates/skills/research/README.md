@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.41.0 framework-file: skills/research/README.md -->
+<!-- framework-tag: v2.42.0 framework-file: skills/research/README.md -->
 # Skill: Research — Investigação estruturada antes do planning
 
 > Protocolo para investigar o codebase antes de planejar e implementar.
