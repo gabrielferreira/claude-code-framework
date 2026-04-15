@@ -10,7 +10,6 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 |----|---------|------|------|
 | SW1 | [SW1.md](SW1.md) | Fase 3b | Wave 1 |
 | SW9 | [SW9.md](SW9.md) | Fase 3b | Wave 2 |
-| MR3 | [MR3.md](MR3.md) | Fase 4 | Wave 2 |
 | MR4 | [MR4.md](MR4.md) | Fase 4 | Wave 2 |
 | MO4 | [MO4.md](MO4.md) | Fase 4 | Wave 4 |
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 4 |
@@ -20,6 +19,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
+| MR3 | [done/MR3.md](done/MR3.md) | pendente release |
 | MR2 | [done/MR2.md](done/MR2.md) | pendente release |
 | MR1 | [done/MR1.md](done/MR1.md) | v2.39.0 |
 | DL1 | [done/DL1.md](done/DL1.md) | v2.38.0 |
