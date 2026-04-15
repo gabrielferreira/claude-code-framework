@@ -23,12 +23,13 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 1. **Spec-driven obrigatorio.** Antes de implementar → classificar o trabalho seguindo `.claude/skills/spec-driven/README.md`. **Quick task** (typo, bump, ajuste de mensagem/config, fix trivial sem lógica de negócio nova) → implementar direto, sem spec. **Spec única** → consultar specs existentes (via `SPECS_INDEX.md` ou Notion), criar se não existe. **Iniciativa maior** (2+ specs) → `/prd` antes. A complexidade determina o nível de detalhe (spec light para Pequeno, spec completa para Médio+).
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar (ver mapeamento na secao "Skills" abaixo). Nao codificar primeiro e validar depois.
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
-4. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
-5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Em andamento" para saber a fase atual e o que falta. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual e proximos passos.
+4. **Nao assumir. Nao esconder confusao.** Se o pedido tem multiplas interpretacoes, apresentar — nao escolher silenciosamente. Se algo nao esta claro, parar e perguntar. Se existe abordagem mais simples, dizer. Pushback e esperado quando justificado.
+5. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
+6. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Em andamento" para saber a fase atual e o que falta. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual e proximos passos.
 
 ## Mindset por domínio
 
-Adotar a postura de especialista sênior do domínio em que estiver trabalhando. Não ser generalista — pensar, questionar e entregar como quem faz aquilo há anos.
+Adotar a postura de especialista sênior do domínio em que estiver trabalhando. Nao ser generalista — pensar, questionar e entregar como quem faz aquilo ha anos. Surfacear tradeoffs, nao esconder confusao, pushback quando justificado.
 
 **Backend ({stack backend}):**
 {Adaptar: mindset do engenheiro backend senior. Race conditions, transacoes, idempotencia, pool management, error handling, logs estruturados...}
@@ -100,12 +101,30 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 
 ## Regras de código
 
+**Simplicidade primeiro.** Mínimo de código que resolve o problema. Nada especulativo.
+
+- Sem features alem do que foi pedido.
+- Sem abstracoes para codigo de uso unico. Tres linhas similares sao melhores que uma abstracao prematura.
+- Sem "flexibilidade" ou "configurabilidade" que ninguem pediu.
+- Sem error handling para cenarios impossiveis.
+- Se escreveu 200 linhas e podia ser 50, reescrever.
+
+**O teste:** "Um engenheiro senior diria que isto esta complicado demais?" Se sim, simplificar.
+
+**Mudancas cirurgicas.** Tocar so no que precisa. Limpar so a propria sujeira.
+
+- Nao "melhorar" codigo adjacente, comentarios ou formatacao.
+- Nao refatorar coisas que nao estao quebradas.
+- Seguir o estilo existente, mesmo que faria diferente.
+- Se notar dead code nao relacionado, mencionar — nao deletar.
+- Cada linha alterada deve rastrear diretamente ao pedido do usuario.
+
 {Adaptar: regras especificas da stack e do projeto. Exemplos:}
 
 1. **Testes passando = pré-requisito.** Zero falhas antes de qualquer entrega.
 2. **Error handling explícito.** Erros específicos, nunca genéricos.
 3. **Análise de índices.** Query com WHERE/JOIN/ORDER BY em coluna não-PK -> avaliar índice.
-4. **`verify.sh` é obrigatório.** (ver regra 4 em "Regras de operação")
+4. **`verify.sh` é obrigatório.** (ver regra 5 em "Regras de operação")
 {Adaptar: regras da stack — asyncHandler, transactions, validacao de params, etc.}
 
 ## Skills — ler ANTES de codificar
@@ -191,6 +210,13 @@ Antes de começar a implementar, verificar: **quantos itens do backlog estão no
 
 ### Decomposicao e planejamento dentro de um item (obrigatorio para medio+)
 
+**Execucao orientada por criterios verificaveis.** Transformar tarefas em objetivos verificaveis antes de implementar:
+- "Adicionar validacao" → "Escrever testes para inputs invalidos, depois fazer passarem"
+- "Corrigir o bug" → "Escrever teste que reproduz, depois fazer passar"
+- "Refatorar X" → "Garantir que testes passam antes e depois"
+
+Criterios fortes permitem loop autonomo. Criterios vagos ("fazer funcionar") exigem clarificacao constante.
+
 Antes de executar qualquer item Medio+ (3+ arquivos ou 1h+), **criar execution-plan e salvar em `.claude/specs/{id}-plan.md`** usando a skill **execution-plan** (`.claude/skills/execution-plan/README.md`). Se o arquivo `{id}-plan.md` nao existe no disco, **NAO iniciar implementacao.** Plano na conversa ou mental nao conta — o artefato precisa ser verificavel.
 
 Fluxo da sessao principal:
@@ -212,9 +238,9 @@ Excecoes:
 
 ### Regras de delegação
 
-- **Nunca delegar decisão.** Sub-agents executam e reportam ambiguidades — quem decide é a sessão principal.
+- **Nunca delegar decisão.** Sub-agents executam e reportam ambiguidades — quem decide é a sessão principal. Ambiguidade surfaceada > ambiguidade resolvida silenciosamente.
 - **Nunca delegar integração.** A sessão principal garante que as partes se encaixam.
-- **Briefing completo.** Ao delegar: arquivos exatos, linhas, o que mudar, o que NÃO mudar.
+- **Briefing completo.** Ao delegar: arquivos exatos, linhas, o que mudar, o que NÃO mudar. Sub-agent sem contexto suficiente vai assumir — e assumptions erradas custam retrabalho.
 - **Plano escrito ANTES de sub-agents.** Plano mental não conta — usar execution-plan skill para itens médios+.
 - **Backlog e specs:** só a sessão principal usa `/backlog-update` e `/spec`.
 
