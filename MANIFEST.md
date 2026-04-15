@@ -69,6 +69,7 @@ Skills têm `{placeholders}` substituídos por valores do projeto. Atualização
 | `.claude/skills/resume/SKILL.md` | `skills/resume/SKILL.md` | structural |
 | `.claude/skills/discuss/SKILL.md` | `skills/discuss/SKILL.md` | structural |
 | `.claude/skills/pr/SKILL.md` | `skills/pr/SKILL.md` | structural |
+| `.claude/skills/onboarding/SKILL.md` | `skills/onboarding/SKILL.md` | structural |
 
 ### Docs (structural)
 
