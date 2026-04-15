@@ -24,7 +24,7 @@ Usadas como referência no BACKLOG.md para identificar ideias a absorver.
 | **OpenSpec** | [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) | ~37k | Brownfield iteration | Delta markers (ADDED/MODIFIED/REMOVED), state machine (proposal→apply→archive) |
 | **cc-sdd** | [gotalab/cc-sdd](https://github.com/gotalab/cc-sdd) | ~3k | Kiro-style workflow (community) | EARS format, Mermaid, validation gates, 13 idiomas |
 | **Taskmaster AI** | [eyaltoledano/claude-task-master](https://github.com/eyaltoledano/claude-task-master) | ~25k | Task decomposition | PRD→task graph, dependency-aware, complexity scores |
-| **Karpathy Guidelines** | [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) | ~42k | Behavioral guidelines (CLAUDE.md) | 4 princípios anti-LLM-pitfalls: Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution. Excelentes anti-patterns com exemplos (EXAMPLES.md). Linguagem concisa e impactante — absorvida no CLAUDE.template.md v2.41.0 |
+| **Karpathy Guidelines** | [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills) | ~42k | Behavioral guidelines (CLAUDE.md) | 4 princípios anti-LLM-pitfalls: Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution. Excelentes anti-patterns com exemplos (EXAMPLES.md). Linguagem concisa e impactante — princípios absorvidos no CLAUDE.template.md |
 
 ## Análise comparativa (2026-04-03)
 
