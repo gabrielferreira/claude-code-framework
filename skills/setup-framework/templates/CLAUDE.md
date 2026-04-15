@@ -142,7 +142,7 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
 | 27 | Vai abrir Pull Request? | `/pr` — preenche PR com contexto de spec + diff, abre via `gh pr create` | Recomendado |
 | 28 | Dev novo no projeto ou retomando após longa ausência? | `/onboarding` — guia contextualizado do fluxo de trabalho deste projeto | Recomendado |
-{28+. Skills específicas do domínio do projeto}
+{29+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 

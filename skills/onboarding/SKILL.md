@@ -110,9 +110,8 @@ O Claude lê o CLAUDE.md automaticamente ao iniciar. Para retomar trabalho:
 Pipeline recomendado (ajustar conforme tamanho):
 
 {Extrair do SKILLS_MAP — listar só skills instaladas. Exemplo:}
-```
-spec-driven → research (se Grande) → execution-plan → {skills de domínio} → testing → definition-of-done → pr
-```
+
+`spec-driven → research (se Grande) → execution-plan → {skills de domínio} → testing → definition-of-done → pr`
 
 **Skills de domínio disponíveis neste projeto:**
 
