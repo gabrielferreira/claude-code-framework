@@ -1006,6 +1006,13 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.md` como base:
   - Preencher regras de acesso com a ferramenta escolhida no Bloco 2
   - Adicionar instrucao: "Specs completas vivem em {ferramenta}. Este indice serve como ponte."
 
+### 3.4b SPECS_INDEX_ARCHIVE.md
+
+Criar `SPECS_INDEX_ARCHIVE.md` na raiz usando `${FRAMEWORK_PATH}/SPECS_INDEX_ARCHIVE.md` como base:
+- Substituir `{NOME_DO_PROJETO}` pelo nome do projeto
+- Arquivo comeca vazio (so headers de tabela) — entries sao movidas do SPECS_INDEX.md ao concluir/descontinuar specs
+- Se **modelo externo (incluindo Notion):** criar igualmente — serve como historico local de specs concluidas
+
 ### 3.5 Specs e backlog
 
 - Se **modelo repo ou hibrido:**
@@ -1627,6 +1634,7 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 |---|---|---|---|
 | `CLAUDE.md` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `SPECS_INDEX.md` | 🔴 critico | 🔴 critico (ponte local→Notion) | 🔴 critico |
+| `SPECS_INDEX_ARCHIVE.md` | 🟡 medio | 🟡 medio | 🟡 medio |
 | `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
 | `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
 | `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |

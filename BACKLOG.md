@@ -23,8 +23,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF em specs de alteração | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 4h | — | OpenSpec |
-| SW9 | **SPECS_INDEX ativo**: specs ativas no INDEX, concluídas movem para `SPECS_INDEX_ARCHIVE.md` | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 3h | SW2 ✅ | Discussão 2026-04-09 |
 
 ### Fase 4 — Melhorias orgânicas
 
@@ -50,6 +48,8 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | pendente release |
+| SW9 | **SPECS_INDEX ativo + archive**: SPECS_INDEX só ativas, SPECS_INDEX_ARCHIVE para concluídas/descontinuadas, migração automática no update | pendente release |
 | MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | v2.42.0 — 2026-04-15 |
 | MR3 | **Spec-creator com escopo monorepo (dual-mode)**: Passo 0d detecta sub-projeto, respeita distribuição, coluna Sub-projeto no SPECS_INDEX, property Notion, variante monorepo no template | v2.42.0 — 2026-04-15 |
 | MR2 | **Setup-framework detecta monorepo**: bullet Fase 3.2, auditoria, scan 2 níveis, git submodules — gap-closing sobre MR1 | v2.42.0 — 2026-04-15 |
@@ -107,14 +107,11 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo da prioridade |
 |-------|-----|---------------------|
-| 1 | **SW1** | Delta markers — muda TEMPLATE.md. Impacta como specs são escritas daqui pra frente. |
+| 1 | **MO9** | Light Edition — muda setup, update, MANIFEST, cria upgrade skill e templates-light/. Sem deps mas é 🔺 Fluxo (muda como projetos são criados). |
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
-| Ordem | ID | Motivo |
-|-------|-----|--------|
-| 3 | **MO9** | Light Edition — muda setup, update, MANIFEST, cria upgrade skill e templates-light/. Sem deps mas é 🔺 Fluxo (muda como projetos são criados). |
-| 8 | **SW9** | SPECS_INDEX ativo — muda estrutura do índice. Deps: SW2 ✅. Sem isso, índice cresce ilimitado em projetos grandes. |
+(Vazia — todos os itens foram concluídos ou movidos.)
 
 ### Wave 3 — Skills/agents novos (independentes)
 

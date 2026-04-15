@@ -737,6 +737,7 @@ Verificar que todos os arquivos obrigatorios e opcionais existem no projeto:
 |---|---|---|---|
 | `CLAUDE.md` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `SPECS_INDEX.md` | 🔴 critico | 🔴 critico (ponte local→Notion) | 🔴 critico |
+| `SPECS_INDEX_ARCHIVE.md` | 🟡 medio | 🟡 medio | 🟡 medio |
 | `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
 | `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
 | `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |
@@ -827,6 +828,8 @@ Verificar presenca de cada H2 esperada:
 2. **Referencias dangling** — paths na secao Skills/Agents do CLAUDE.md que nao existem no disco. 🟠 cada
 3. **Scripts sem permissao de execucao** (`verify.sh`, `reports.sh`). 🟡 cada
 4. **SPECS_INDEX.md vazio** (sem nenhuma spec registrada). ⚪ info
+4b. **SPECS_INDEX_ARCHIVE.md ausente.** Se nao existe: informar "Novo arquivo do framework: `SPECS_INDEX_ARCHIVE.md` separa specs ativas de concluidas, reduzindo contexto consumido. Quer criar com template vazio?" Se sim, criar usando o template do framework. 🟡
+4c. **Specs concluidas/descontinuadas no SPECS_INDEX.md.** Se `SPECS_INDEX_ARCHIVE.md` existe (ou acabou de ser criado): escanear `SPECS_INDEX.md` procurando entries com status `concluida` ou `descontinuada`. Se encontrar: informar "Detectei {N} specs com status concluida/descontinuada no SPECS_INDEX.md. Quer mover para SPECS_INDEX_ARCHIVE.md?" Se sim, mover as entries (preservando formato) e confirmar quantas foram movidas. ⚪ info
 5. **Secao "Agents" no CLAUDE.md lista agent que nao existe** em `.claude/agents/`. 🟠 cada
 6. **`.gitignore` sem entradas do framework** — verificar se `.claude/worktrees/` e `.claude/.update-backup/` estao no `.gitignore`. 🟠 se `.claude/worktrees/` falta (worktrees podem ser committed acidentalmente), 🟡 se `.claude/.update-backup/` falta. Se entradas faltam: sugerir adicionar e pedir confirmacao ao usuario.
 

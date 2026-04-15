@@ -135,7 +135,9 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - Se `SPECS_INDEX.md` nao existe (sempre na raiz) → criar com estrutura minima (header + secao vazia do dominio)
    - Se `.claude/specs/backlog.md` nao existe (sempre na raiz, mesmo em distributed) → criar com estrutura padrao (4 secoes vazias: Pendentes, Concluidos, Decisoes futuras, Notas)
 
-1. **Validar ID:** verificar se já existe em `SPECS_INDEX.md`. Se sim, avisar.
+1. **Validar ID:** verificar se ja existe em `SPECS_INDEX.md` (specs ativas). Se nao encontrar, verificar tambem em `SPECS_INDEX_ARCHIVE.md` (historico), se o arquivo existir.
+   - Se existe no ativo: avisar "ID ja existe como spec ativa"
+   - Se existe no archive: avisar "ID ja foi usado em spec concluida/descontinuada. Usar outro ID ou reutilizar conscientemente?"
 1b. **Classificar complexidade:** antes de criar a spec, avaliar o tamanho. Toda mudança cria spec — a complexidade determina o nível de detalhe:
    - **Pequeno** (≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova): criar spec light — preencher apenas Contexto (2 frases) e Critério de aceitação mínimo.
    - **Médio** (<10 tasks, escopo claro): criar spec breve — preencher Contexto, Requisitos Funcionais e Critérios de aceitação. Demais seções opcionais.
@@ -159,6 +161,16 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
      - Se sim: adicionar `> PRD pai: {PRD-ID}` no header da spec, logo abaixo do Status. Atualizar o `PRDS_INDEX.md` adicionando o ID desta spec na coluna "Specs vinculadas" do PRD. Se o PRD for local (`.claude/prds/{id}.md`), atualizar tambem a tabela "Como resolver" ou "Decisoes tomadas" no PRD
      - Se nao: prosseguir sem PRD
    - **Se o projeto NAO usa PRDs:** pular este passo silenciosamente (nao perguntar)
+4c. **Classificar RFs como delta (se brownfield):**
+   Apos coletar os Requisitos Funcionais, verificar se a feature modifica codigo existente:
+   - Perguntar: "Esta feature altera codigo existente ou e 100% nova (greenfield)?"
+     - **Brownfield** (altera existente) → orientar a classificar cada RF:
+       - `[ADDED]` — cria algo que nao existe
+       - `[MODIFIED]` — altera algo existente. Pedir arquivo afetado (ex: `→ afeta: services/user.ts:45`)
+       - `[REMOVED]` — remove algo existente. Pedir arquivo afetado
+     - **Greenfield** (100% nova) → prosseguir sem marcadores
+   - Marcadores sao opcionais — nao bloquear se o dev nao quiser usar. Specs sem marcadores continuam funcionando.
+   - Se `--from` foi usado e a fonte tem contexto de arquivos afetados, sugerir marcadores automaticamente.
 5. **Registrar no SPECS_INDEX.md:**
    - Identificar o domínio correto
    - Adicionar linha com status `rascunho` e coluna Fonte (ID externo se `--from` foi usado, `—` caso contrario)
@@ -254,6 +266,8 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
    > **REGRA:** Nunca criar a página no Notion com body vazio ou só com placeholders do template.
    > O template do Notion fornece a estrutura, mas o conteúdo DEVE ser preenchido pela skill.
    > Se o usuário não tiver todas as informações, preencher o que tem e marcar seções pendentes com `{A DETALHAR}`.
+
+4b. **Classificar RFs como delta (se brownfield):** mesmo fluxo do modo repo (Passo 4c acima). Perguntar se altera codigo existente, orientar marcadores `[ADDED]`/`[MODIFIED]`/`[REMOVED]` nos RFs do body. Marcadores sao opcionais.
 
 5. **Criar página no Notion** usando `notion-create-pages`:
    ```

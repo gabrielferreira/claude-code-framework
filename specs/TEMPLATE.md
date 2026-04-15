@@ -26,9 +26,17 @@ Por que essa mudança é necessária? Qual problema resolve ou qual oportunidade
 Lista numerada dos requisitos. IDs permitem rastreabilidade bidirecional entre código e spec.
 Ao implementar, referenciar o ID no código: `// Implements RF-001 from {ID}`
 
-- RF-001: ...
-- RF-002: ...
-- RF-003: ...
+**Marcadores delta** (usar quando a spec altera codigo existente — brownfield):
+- `[ADDED]` — funcionalidade nova (criar)
+- `[MODIFIED]` — alterar codigo existente (localizar antes de editar). Referenciar arquivo afetado.
+- `[REMOVED]` — remover funcionalidade (verificar impacto antes de deletar)
+
+Specs greenfield puras (tudo novo) nao precisam de marcadores.
+
+- [ADDED] RF-001: novo endpoint POST /users/invite
+- [MODIFIED] RF-002: expandir UserService.create() para aceitar campo `invited_by` → afeta: `services/user.ts:45`
+- [REMOVED] RF-003: remover endpoint legado GET /users/legacy
+- RF-004: validar email no signup (sem marcador = greenfield ou contexto claro)
 
 ## Escopo
 
