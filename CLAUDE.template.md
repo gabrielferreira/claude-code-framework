@@ -141,7 +141,8 @@ Esta é uma das regras mais importantes do projeto. Testes são escritos **ANTES
 | 25 | Vai iniciar trabalho em projeto desconhecido ou após longa ausência? | `/map-codebase` — mapeamento de stack, arquitetura e convencoes | Recomendado |
 | 26 | Sessão caiu no meio de uma task (crash/timeout/context limit)? | `/resume` — retomada estruturada via STATE.md e execution-plan | ⛔ Sempre |
 | 27 | Vai abrir Pull Request? | `/pr` — preenche PR com contexto de spec + diff, abre via `gh pr create` | Recomendado |
-{27+. Skills específicas do domínio do projeto}
+| 28 | Dev novo no projeto ou retomando após longa ausência? | `/onboarding` — guia contextualizado do fluxo de trabalho deste projeto | Recomendado |
+{29+. Skills específicas do domínio do projeto}
 
 ### Ordem de precedência
 

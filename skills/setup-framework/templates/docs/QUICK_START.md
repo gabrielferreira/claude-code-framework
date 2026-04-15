@@ -71,6 +71,7 @@ Pronto — esse e o ciclo basico. Repita para cada entrega.
 
 ## Proximos passos
 
+- **`/onboarding`** — guia contextualizado de como trabalhar neste projeto (comandos, skills, fluxo adaptado ao que foi configurado)
 - **[Guia de Setup](SETUP_GUIDE.md)** — detalhes de cada opcao de instalacao e configuracao avancada
 - **[Guia Spec-Driven](SPEC_DRIVEN_GUIDE.md)** — fluxo completo de specs, backlog e verificacao
 
