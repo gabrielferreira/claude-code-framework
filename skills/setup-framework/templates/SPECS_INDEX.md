@@ -81,6 +81,30 @@
 ---
 
 <!-- ====================================================================
+     VARIANTE: MONOREPO (com coluna Sub-projeto)
+     Se o projeto é monorepo, adicionar coluna "Sub-projeto" entre Owner
+     e Fonte em todas as tabelas de domínio. O `/spec` faz isso
+     automaticamente ao detectar `## Monorepo` no CLAUDE.md.
+     ==================================================================== -->
+
+<!--
+## {Domínio — ex: Core} (monorepo)
+
+| ID | Spec | Status | Owner | Sub-projeto | Fonte | Resumo |
+|---|---|---|---|---|---|---|
+| {AUTH1} | `.claude/specs/{auth-login.md}` | `concluída` | {opcional} | backend | — | {Login e autenticação} |
+| {AUTH2} | `backend/.claude/specs/{auth-roles.md}` | `em andamento` | {opcional} | backend | `PROJ-123` | {Sistema de roles} |
+| {PAY1} | `.claude/specs/{checkout.md}` | `rascunho` | {opcional} | frontend | — | {Checkout flow} |
+| {INFRA1} | `.claude/specs/{ci-pipeline.md}` | `aprovada` | {opcional} | root | — | {Pipeline de CI} |
+
+> **Sub-projeto:** indica qual sub-projeto do monorepo é responsável pela spec.
+> Usar `root` para specs de infraestrutura, CI, ou cross-cutting.
+> O path da spec depende do modelo de distribuição:
+> - Centralizado: `.claude/specs/{id}.md` (todas na raiz)
+> - Distribuído: `{subproject}/.claude/specs/{id}.md` (cada sub-projeto tem as suas)
+-->
+
+<!-- ====================================================================
      VARIANTE: SPECS EM FERRAMENTA EXTERNA (Notion, Confluence, Linear)
      Se as specs ficam numa ferramenta externa acessada via MCP,
      substitua as tabelas de domínio acima por esta variante.

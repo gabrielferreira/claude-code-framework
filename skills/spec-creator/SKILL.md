@@ -92,16 +92,48 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - **Título ausente:** usar o título extraído da fonte como default. Confirmar com o usuário.
    Isso permite `/spec --from {url}` sem informar ID nem título manualmente.
 
+### Passo 0d — Detectar monorepo e sub-projeto
+
+1. Ler `CLAUDE.md` da raiz — procurar secao `## Monorepo`
+2. **Se secao ausente ou vazia** → single-repo. Guardar `SUB_PROJECT = null` e prosseguir. Nenhuma pergunta adicional.
+3. **Se presente:**
+   a. Ler `### Estrutura` → extrair tabela de sub-projetos (path, stack, responsabilidade)
+   b. Ler `### Distribuicao de framework` → extrair modelo de specs:
+      - Contém "centralizados na raiz" ou "unificado" → `SPEC_DISTRIBUTION = "centralized"`
+      - Contém "distribuídos por sub-projeto" → `SPEC_DISTRIBUTION = "distributed"`
+      - Notion mode (detectado no Passo 0) → `SPEC_DISTRIBUTION = "notion"`
+   c. Perguntar ao usuario:
+      > "Este spec afeta qual sub-projeto?"
+      > - {sub-projeto 1} ({path} — {stack})
+      > - {sub-projeto 2} ({path} — {stack})
+      > - root (cross-cutting / infraestrutura)
+      Se `--from` tem contexto do sub-projeto (branch name com prefixo, path), sugerir como default.
+   d. Guardar `SUB_PROJECT` = resposta do usuario
+   e. **Se sub-projeto selecionado e git submodule** (verificar na tabela `### Estrutura`):
+      - Se `SPEC_DISTRIBUTION = "distributed"`: avisar "⚠️ Este sub-projeto e um git submodule. A spec sera criada dentro dele — lembre de commitar no repo do submodule separadamente."
+      - Se `SPEC_DISTRIBUTION = "centralized"`: sem impacto (spec fica na raiz)
+
+**Regras:**
+- Nunca assumir sub-projeto — sempre perguntar
+- Se o usuario diz que afeta multiplos sub-projetos: informar "Crie uma spec separada para cada sub-projeto afetado. Specs cross-cutting usam 'root'."
+- Se single-repo (sem `## Monorepo`): nao perguntar nada, prosseguir como antes
+
 ---
 
 ### Modo Repo (specs locais)
 
-0c. **Bootstrap check (modo repo):** verificar que a infraestrutura existe antes de operar:
-   - Se `.claude/specs/` não existe → criar diretório
-   - Se `.claude/specs/done/` não existe → criar diretório
-   - Se `.claude/specs/TEMPLATE.md` não existe → avisar: "Template de spec não encontrado. Rodar `/setup-framework` ou criar manualmente."
-   - Se `SPECS_INDEX.md` não existe → criar com estrutura mínima (header + seção vazia do domínio)
-   - Se `.claude/specs/backlog.md` não existe → criar com estrutura padrão (4 seções vazias: Pendentes, Concluídos, Decisões futuras, Notas)
+0c. **Bootstrap check (modo repo):** verificar que a infraestrutura existe antes de operar.
+
+   **Determinar diretorio base de specs:**
+   - Se `SPEC_DISTRIBUTION = "distributed"` e `SUB_PROJECT != null` (nao "root"): `SPECS_DIR = {SUB_PROJECT}/.claude/specs`
+   - Caso contrario (centralized, single-repo, ou root): `SPECS_DIR = .claude/specs`
+
+   **Verificar:**
+   - Se `{SPECS_DIR}/` nao existe → criar diretorio
+   - Se `{SPECS_DIR}/done/` nao existe → criar diretorio
+   - Se `{SPECS_DIR}/TEMPLATE.md` nao existe → tentar `.claude/specs/TEMPLATE.md` da raiz como fallback. Se tambem nao existe → avisar: "Template de spec nao encontrado. Rodar `/setup-framework` ou criar manualmente."
+   - Se `SPECS_INDEX.md` nao existe (sempre na raiz) → criar com estrutura minima (header + secao vazia do dominio)
+   - Se `.claude/specs/backlog.md` nao existe (sempre na raiz, mesmo em distributed) → criar com estrutura padrao (4 secoes vazias: Pendentes, Concluidos, Decisoes futuras, Notas)
 
 1. **Validar ID:** verificar se já existe em `SPECS_INDEX.md`. Se sim, avisar.
 1b. **Classificar complexidade:** antes de criar a spec, avaliar o tamanho. Toda mudança cria spec — a complexidade determina o nível de detalhe:
@@ -110,7 +142,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - **Grande** (multi-componente, >10 tasks): criar spec completa + oferecer: "Quer criar um design doc também? (recomendado para features grandes)"
    - **Complexo** (ambiguidade, domínio novo, >20 tasks): criar spec completa + criar design doc + sugerir fluxo RPI: "Feature complexa — recomendo pesquisar em sessão separada, planejar, e implementar em sessão limpa."
    Na dúvida, classificar para cima.
-2. **Criar arquivo:** copiar `.claude/specs/TEMPLATE.md` para `.claude/specs/{id-em-kebab-case}.md`
+2. **Criar arquivo:** copiar template para `{SPECS_DIR}/{id-em-kebab-case}.md` (onde `SPECS_DIR` foi determinado no bootstrap 0c)
 3. **Preencher header:**
    - Título: `# {ID} — {Título}`
    - Status: `rascunho`
@@ -119,6 +151,7 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
    - Responsavel: deixar vazio (sera preenchido ao concluir)
    - Data: hoje
    - Concluida em: deixar vazio (sera preenchido ao concluir)
+   - **Se `SUB_PROJECT != null`:** adicionar `> Sub-projeto: {SUB_PROJECT}` no header (apos Fonte, se houver; senao, apos Data)
 4. **Preencher contexto:** se `--from` foi usado, usar dados extraidos da fonte. Caso contrario, perguntar ao usuário ou inferir da conversa
 4b. **Verificar PRD pai (se o projeto usa PRDs):**
    Detectar se o projeto tem PRD habilitado — sinais: existe `.claude/prds/PRD_TEMPLATE.md`, ou `.claude/prds/PRDS_INDEX.md`, ou `.claude/skills/prd-creator/`, ou CLAUDE.md menciona `/prd`.
@@ -129,7 +162,11 @@ Se o usuario passou `--from {referencia}`, resolver a fonte ANTES de criar a spe
 5. **Registrar no SPECS_INDEX.md:**
    - Identificar o domínio correto
    - Adicionar linha com status `rascunho` e coluna Fonte (ID externo se `--from` foi usado, `—` caso contrario)
-   - Formato: `| {ID} | {path ou link Notion} | rascunho | {autor} | {fonte ou —} | {resumo} |`
+   - **Se monorepo (SUB_PROJECT != null):** usar formato com coluna "Sub-projeto":
+     `| {ID} | {path} | rascunho | {autor} | {SUB_PROJECT} | {fonte ou —} | {resumo} |`
+     Se a tabela do dominio ainda nao tem a coluna "Sub-projeto" (projeto recem-convertido para monorepo), adicionar o header `Sub-projeto` entre `Owner` e `Fonte` em todas as tabelas do INDEX.
+   - **Se single-repo:** formato padrao (sem coluna Sub-projeto):
+     `| {ID} | {path ou link Notion} | rascunho | {autor} | {fonte ou —} | {resumo} |`
 6. **Registrar no backlog** (se não existir):
    - Usar `/backlog-update {ID} add` ou adicionar manualmente
 7. **Verificação pós-criação** (OBRIGATÓRIO):
@@ -200,6 +237,7 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
      - Se `--from` tem story points, converter em estimativa legível (ex: 5 SP → `~3 dias`)
      - Formato da pergunta: `Estimativa: **{sugestão}** *(sugestão para {complexidade})* — confirma ou ajusta?`
    - Projeto (nome do repositório atual)
+   - **Sub-projeto** (se `SUB_PROJECT != null`): preencher property "Sub-projeto" com o valor de `SUB_PROJECT`. Se a property nao existe na database do Notion: avisar "A database nao tem property 'Sub-projeto'. Recomendo adicionar para filtrar specs por sub-projeto em monorepos."
    - **Campos adicionais** — para cada campo na tabela "Campos adicionais" do CLAUDE.md (se existir):
      - `Perguntar ao usuario`: perguntar o valor ao usuário. Se o campo for select, apresentar as opções listadas na coluna "Opcoes" da tabela. Se o nome do campo indicar severidade ou estimativa/esforço, aplicar a mesma lógica de sugestão por complexidade acima. Campo obrigatório: bloquear criação até ser preenchido.
      - `auto: url-from`: preencher automaticamente com a URL/key do `--from` (se disponível; senão omitir)
@@ -258,7 +296,10 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
 
 6. **Registrar no SPECS_INDEX.md** (se existir):
    - Adicionar linha com link para a página criada no Notion
-   - Formato: `| {ID} | [Notion]({url}) | rascunho | — | {fonte ou —} | {resumo} |`
+   - **Se monorepo (SUB_PROJECT != null):** formato com coluna Sub-projeto:
+     `| {ID} | [Notion]({url}) | rascunho | — | {SUB_PROJECT} | {fonte ou —} | {resumo} |`
+   - **Se single-repo:** formato padrao:
+     `| {ID} | [Notion]({url}) | rascunho | — | {fonte ou —} | {resumo} |`
 
 7. **Verificação pós-criação** (OBRIGATÓRIO):
    Ler a página criada no Notion via `notion-fetch` e validar **duas dimensões**: properties e conteúdo.
