@@ -50,7 +50,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | pendente release |
+| MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | v2.44.0 — 2026-04-15 |
 | MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | v2.43.0 — 2026-04-15 |
 | SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | v2.43.0 — 2026-04-15 |
 | SW9 | **SPECS_INDEX ativo + archive**: SPECS_INDEX só ativas, SPECS_INDEX_ARCHIVE para concluídas/descontinuadas, migração automática no update | v2.43.0 — 2026-04-15 |

@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.44.0] — 2026-04-15
+
+### Adicionado
+
+- **Deduplicação de artefatos entre camadas em monorepo (MR6):** novo passo E no setup cenário B detecta skills, agents, docs de processo, verify.sh e TEMPLATE.md idênticos entre sub-projetos e sugere promoção para nível superior (L3→L2→L0). Nova Categoria 8 no update faz auditoria periódica. Interseção inteligente (todos idênticos, maioria, par coincidente) e promoção multi-nível. Docs de conteúdo nunca candidatos.
+
 ## [2.43.0] — 2026-04-15
 
 ### Adicionado
