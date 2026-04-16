@@ -31,18 +31,44 @@ Briefing completo da sessao principal, contendo:
 | **Contracts** | Interfaces com outras tasks (ex: "T3 espera que T2 exporte funcao X") |
 | **Skills a seguir** | Skills de dominio referenciadas (testing, security-review, etc.) |
 
+## Git isolation (opt-in)
+
+Se a sessao principal indicar `git_isolation: true` no briefing:
+
+1. **Antes de iniciar:** criar branch isolada a partir do branch atual:
+   ```
+   git checkout -b task/{spec-id}-t{task-index}
+   ```
+   Exemplo: `git checkout -b task/AUTH-001-t1`
+
+2. **Executar a task normalmente** no branch isolado.
+
+3. **Ao concluir:** reportar no output que o trabalho esta no branch `task/{spec-id}-t{task-index}` e incluir diff resumido:
+   ```
+   git diff main..HEAD --stat
+   ```
+   Aguardar confirmacao do dev antes de qualquer merge.
+
+4. **Se task falhar:** instruir o dev que pode descartar com `git branch -D task/{spec-id}-t{task-index}`. Nao tentar recuperar automaticamente.
+
+**Regras de git isolation:**
+- Nunca fazer merge automatico — revisao humana obrigatoria
+- Usar branch simples no mesmo worktree (nao criar worktree separado)
+- Se `git_isolation` nao estiver no briefing: comportamento padrao (sem branch isolada)
+
 ## O que fazer
 
 1. **Ler o briefing** — confirmar que o escopo esta claro. Se ambiguo → reportar e parar.
-2. **Ler APENAS os arquivos listados** no briefing (seções "Arquivos a ler" e "Arquivos a modificar").
-3. **Ler skills referenciadas** no briefing antes de implementar.
-4. **Implementar seguindo TDD** se o projeto usa (ciclo red→green→refactor):
+2. **Se git_isolation: true** — criar branch isolada (ver secao acima).
+3. **Ler APENAS os arquivos listados** no briefing (seções "Arquivos a ler" e "Arquivos a modificar").
+4. **Ler skills referenciadas** no briefing antes de implementar.
+5. **Implementar seguindo TDD** se o projeto usa (ciclo red→green→refactor):
    - Escrever testes baseados nos completion criteria
    - Implementar o minimo para passar
    - Refatorar se necessario
    Se o projeto nao usa TDD: implementar e criar testes junto.
-5. **Verificar cada completion criterion** — confirmar no codigo, nao de memoria.
-6. **Reportar resultado.**
+6. **Verificar cada completion criterion** — confirmar no codigo, nao de memoria.
+7. **Reportar resultado.**
 
 ## Output
 
@@ -70,6 +96,9 @@ Relatorio estruturado ao final da execucao:
 
 ### Ambiguidades encontradas
 {Lista de pontos ambiguos que a sessao principal precisa decidir, ou "Nenhuma"}
+
+### Git isolation
+{Se git_isolation ativo: branch `task/{spec-id}-t{index}`, diff stat, aguardando review. Se nao: N/A}
 
 ### Itens fora do escopo descobertos
 {Bugs, melhorias ou ideias encontrados durante a implementacao que NAO fazem parte desta task — para STATE.md "Ideias adiadas"}
