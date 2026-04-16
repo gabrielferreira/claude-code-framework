@@ -8,7 +8,6 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
-| PF7 | [PF7.md](PF7.md) | Fase 5 | Wave 1 |
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 3 |
 | OP3 | [OP3.md](OP3.md) | Operações | Wave 2 |
 
@@ -16,6 +15,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
+| PF7 | [done/PF7.md](done/PF7.md) | v2.49.0 — 2026-04-16 |
 | PF1 | [done/PF1.md](done/PF1.md) | v2.47.0 — 2026-04-16 |
 | PF2 | [done/PF2.md](done/PF2.md) | v2.47.0 — 2026-04-16 |
 | PF3 | [done/PF3.md](done/PF3.md) | v2.47.0 — 2026-04-16 |
