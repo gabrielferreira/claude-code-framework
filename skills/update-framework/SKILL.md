@@ -739,10 +739,10 @@ Após salvar:
 Se `scripts/verify.sh` ou `scripts/check.sh` existir no projeto:
 
 ```bash
-HOOK_OK=$(jq -e '.hooks.PostToolUse // empty' .claude/settings.local.json 2>/dev/null)
+HOOK_OK=$(jq -e '.hooks.PostToolUse // empty' .claude/settings.json 2>/dev/null)
 ```
 
-- **Hook ausente ou settings.local.json não existe:** adicionar ao UPDATE_REPORT.md:
+- **Hook ausente ou settings.json não existe:** adicionar ao UPDATE_REPORT.md:
   ```
   💡 Hook pós-commit não configurado. Economiza tokens após cada git commit — ver docs/VERIFY_HOOK.md
   ```
