@@ -10,7 +10,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 |----|---------|------|------|
 | PF7 | [PF7.md](PF7.md) | Fase 5 | Wave 1 |
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 3 |
-| TQ7 | [TQ7.md](TQ7.md) | Testes | Wave 2 |
+| OP3 | [OP3.md](OP3.md) | Operações | Wave 2 |
 
 ## Concluídos
 
