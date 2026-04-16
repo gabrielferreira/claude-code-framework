@@ -128,6 +128,63 @@ Antes de qualquer coisa:
    **D. Sub-projeto com framework parcial (tem .claude/ mas incompleto):**
    - Tratar como re-run: complementar o que falta sem sobrescrever o que existe.
 
+   **E. Deduplicação de artefatos entre sub-projetos (após mapear todos os sub-projetos):**
+
+   Após completar o mapeamento de todos os sub-projetos (cenarios A-D), executar deteccao de duplicatas. **Guard:** so executar se M ≥ 2 sub-projetos mapeados.
+
+   **Artefatos cobertos:**
+   - Skills: `{sub-projeto}/.claude/skills/**/*.md`
+   - Agents: `{sub-projeto}/.claude/agents/*.md`
+   - Docs de processo APENAS: `GIT_CONVENTIONS.md`, `WORKFLOW_DIAGRAM.md`, `SKILLS_MAP.md` (docs de conteudo como ARCHITECTURE, ACCESS_CONTROL, SECURITY_AUDIT sao especificos por natureza — NUNCA promover)
+   - `{sub-projeto}/scripts/verify.sh`
+   - `{sub-projeto}/specs/TEMPLATE.md` ou `{sub-projeto}/.claude/specs/TEMPLATE.md`
+
+   **Passo E.1 — Coletar e normalizar:**
+   Para cada sub-projeto, listar os artefatos acima. Normalizar conteudo antes de comparar:
+   - Remover linhas `<!-- framework-tag: ... -->`
+   - Substituir nomes do sub-projeto por placeholder `{SUB_PROJECT}` (ex: "backend" → "{SUB_PROJECT}")
+   - Ignorar whitespace trailing
+
+   **Passo E.2 — Comparar entre pares:**
+   Para cada artefato com mesmo nome relativo (ex: `skills/logging/README.md`), comparar conteudo normalizado entre todos os sub-projetos que o tem.
+
+   **Passo E.3 — Calcular intersecao e sugerir:**
+   Sendo N = sub-projetos com versao identica, M = total de sub-projetos:
+
+   | Cenario | Condicao | Acao |
+   |---|---|---|
+   | Todos identicos | N = M (M ≥ 2) | Sugerir promover para o nivel que agrega todos (geralmente L0) |
+   | Maioria identica | N > M/2 (M ≥ 3) | Sugerir promover para L0 + manter override nos diferentes |
+   | Par coincidente | N = 2 e M > 3 | Informar sem sugerir promocao (pode ser coincidencia) |
+
+   Exemplo de mensagem (todos identicos):
+   > "As skills `logging`, `code-quality` e `testing` sao identicas em todos os {M} sub-projetos. Mover para `.claude/skills/` na raiz e remover dos sub-projetos?"
+
+   Exemplo de mensagem (maioria):
+   > "A skill `logging` e identica em {N} de {M} sub-projetos ({listar}). Mover para `.claude/skills/` na raiz? Os sub-projetos {listar diferentes} manteriam sua versao propria como override."
+
+   **Passo E.4 — Verificar redundancia com nivel superior:**
+   Se L0 (raiz) ja tem a mesma skill/agent/doc E um sub-projeto tem copia identica:
+   > "A skill `logging` em `backend/.claude/skills/` e identica a da raiz. Remover a copia do sub-projeto? (ja herda da raiz)"
+
+   **Passo E.5 — Promocao multi-nivel:**
+   Se o monorepo tem L3+ (sub-dominios), a promocao pode pular niveis:
+   - L3 skill identica em 2 sub-dominios do mesmo L2 → promover para L2
+   - L2 skill identica em 3+ sub-projetos → promover para L0
+   - L3 skill identica em sub-dominios de sub-projetos diferentes → promover direto para L0
+
+   Regra: promover para o nivel mais alto que agrega todos os sub-projetos com versao identica.
+
+   **Passo E.6 — Aplicar ou registrar:**
+   - Se o dev aceitar: mover arquivo para o nivel superior, remover dos sub-projetos com versao identica, atualizar CLAUDE.md de cada nivel afetado (tabelas de skills/agents), registrar no SETUP_REPORT.md
+   - Se o dev recusar: registrar como ⚪ info no SETUP_REPORT.md, nao insistir
+
+   **Regras da deduplicacao:**
+   - Nunca promover automaticamente — sempre perguntar
+   - Docs de conteudo (ARCHITECTURE, ACCESS_CONTROL, SECURITY_AUDIT) NUNCA sao candidatos
+   - CLAUDE.md L2, CODE_PATTERNS, backlog.md, specs individuais NUNCA sao candidatos
+   - Single-repo: skip completo (sem sub-projetos)
+
    **Regras para monorepo:**
    - L0 (raiz): convencoes globais (commits, seguranca universal, estrutura do monorepo, mapa de skills)
    - L2 (sub-projeto): stack, comandos, testes, coverage, regras especificas
@@ -1973,6 +2030,70 @@ Verificar que o path referenciado existe. Se nao existe, avisar: "Skill {path} l
 ##### 7.5 Skills que referenciam agents removidos
 
 Verificar que definition-of-done nao referencia agents que o projeto nao possui (ex: `security-audit` removido mas DoD ainda menciona).
+
+#### Categoria 8 — Deduplicacao de artefatos entre sub-projetos
+
+> Severidade: ⚪ info (sugestao, nunca obrigatorio)
+> So executa se `## Monorepo` existe no CLAUDE.md E tem ≥ 2 sub-projetos em `### Estrutura`.
+> Single-repo: skip completo.
+
+Escanear artefatos em todos os sub-projetos e detectar duplicatas para sugerir consolidacao.
+
+##### 8.1 Listar e comparar artefatos
+
+Para cada sub-projeto listado em `### Estrutura`, coletar:
+- Skills: `{sub-projeto}/.claude/skills/**/*.md`
+- Agents: `{sub-projeto}/.claude/agents/*.md`
+- Docs de processo: `{sub-projeto}/docs/GIT_CONVENTIONS.md`, `WORKFLOW_DIAGRAM.md`, `SKILLS_MAP.md`
+- `{sub-projeto}/scripts/verify.sh`
+- `{sub-projeto}/specs/TEMPLATE.md` ou `{sub-projeto}/.claude/specs/TEMPLATE.md`
+
+Normalizar conteudo antes de comparar:
+- Remover linhas `<!-- framework-tag: ... -->`
+- Substituir nomes do sub-projeto por placeholder `{SUB_PROJECT}`
+- Ignorar whitespace trailing
+
+##### 8.2 Detectar duplicatas
+
+Para cada artefato com mesmo nome relativo, comparar conteudo normalizado:
+
+| Cenario | Condicao | Acao |
+|---|---|---|
+| Todos identicos | N = M (M ≥ 2) | ⚪ Sugerir promover para L0 |
+| Maioria identica | N > M/2 (M ≥ 3) | ⚪ Sugerir promover para L0 + override nos diferentes |
+| Par coincidente | N = 2 e M > 3 | ⚪ Informar sem sugerir promocao |
+
+##### 8.3 Detectar redundancia com nivel superior
+
+Se L0 (raiz) ja tem skill/agent/doc E um sub-projeto tem copia identica:
+> "⚪ `backend/.claude/skills/logging/` e identica a skill na raiz. Pode remover do sub-projeto — ja herda da raiz."
+
+##### 8.4 Promocao multi-nivel
+
+Se o monorepo tem L3+ (sub-dominios), a promocao pode pular niveis:
+- L3 skill identica em 2 sub-dominios do mesmo L2 → promover para L2
+- L2 skill identica em 3+ sub-projetos → promover para L0
+- L3 skill identica em sub-dominios de sub-projetos diferentes → promover direto para L0
+
+Regra: promover para o nivel mais alto que agrega todos os sub-projetos com versao identica.
+
+##### 8.5 Output
+
+Registrar como ⚪ info no SETUP_REPORT:
+```
+⚪ Deduplicacao: {N} artefatos identicos entre sub-projetos detectados
+  - `logging/README.md`: identico em backend/, frontend/, api/ → candidato a L0
+  - `testing/README.md`: identico em backend/, api/ (2/4) → informativo
+  - `backend/.claude/skills/code-quality/`: identico ao L0 → redundante (ja herda)
+```
+
+Se o dev quiser aplicar: mover para nivel superior, remover copias dos sub-projetos, atualizar CLAUDE.md de cada nivel afetado.
+
+**Regras:**
+- Nunca promover automaticamente — sempre sugerir e aguardar confirmacao
+- Se o dev recusar: registrar como info, nao insistir
+- Docs de conteudo (ARCHITECTURE, ACCESS_CONTROL, SECURITY_AUDIT) NUNCA sao candidatos
+- CLAUDE.md L2, CODE_PATTERNS, backlog.md, specs individuais NUNCA sao candidatos
 
 #### Formato do output no SETUP_REPORT.md
 

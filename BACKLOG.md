@@ -31,7 +31,7 @@
 | MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 | MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
-| MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: detectar skills, agents, docs, verify.sh e TEMPLATE.md idênticos entre sub-projetos e sugerir mover para nível superior (L3→L2→L0). Funciona no setup (ao detectar sub-projeto com framework pré-existente) e no update (auditoria periódica). Interseção inteligente: se 3 de 4 sub-projetos têm a mesma skill, sugerir promover para L0 e manter override só no 4º | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 6h | MR1 ✅, MR2 ✅ | Sessão 2026-04-15 |
+
 
 ### Operações do framework
 
@@ -50,6 +50,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | pendente release |
 | MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | v2.43.0 — 2026-04-15 |
 | SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | v2.43.0 — 2026-04-15 |
 | SW9 | **SPECS_INDEX ativo + archive**: SPECS_INDEX só ativas, SPECS_INDEX_ARCHIVE para concluídas/descontinuadas, migração automática no update | v2.43.0 — 2026-04-15 |
@@ -116,8 +117,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|
-| 2 | **MR6** | Promoção de artefatos duplicados entre camadas — reduz duplicação e divergência silenciosa. Deps: MR1 ✅, MR2 ✅. |
-| 3 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
+| 2 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
 
 ### Wave 3 — Skills/agents novos (independentes)
 

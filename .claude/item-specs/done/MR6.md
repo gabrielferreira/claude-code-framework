@@ -60,15 +60,15 @@ Auditoria periódica:
 
 ### Critérios de aceitação
 
-- [ ] Setup cenário B detecta skills/agents idênticos entre sub-projetos e sugere promoção
-- [ ] Update Categoria 7 escaneia e reporta duplicatas
-- [ ] Interseção inteligente: maioria idêntica → sugerir L0 + override no diferente
-- [ ] Promoção multi-nível funciona (L3→L0 se justificado)
-- [ ] Artefato já existente no L0 = sugestão de remover do L2
-- [ ] Docs cobertos (não só skills/agents)
-- [ ] verify.sh e TEMPLATE.md cobertos
-- [ ] Nunca promover automaticamente — sempre perguntar
-- [ ] Single-repo: zero mudança (skip)
+- [x] Setup cenário B detecta skills/agents idênticos entre sub-projetos e sugere promoção
+- [x] Update Categoria 8 escaneia e reporta duplicatas
+- [x] Interseção inteligente: maioria idêntica → sugerir L0 + override no diferente
+- [x] Promoção multi-nível funciona (L3→L0 se justificado)
+- [x] Artefato já existente no L0 = sugestão de remover do L2
+- [x] Docs cobertos (não só skills/agents)
+- [x] verify.sh e TEMPLATE.md cobertos
+- [x] Nunca promover automaticamente — sempre perguntar
+- [x] Single-repo: zero mudança (skip)
 
 ### Restrições
 
