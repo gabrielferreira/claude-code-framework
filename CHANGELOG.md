@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.45.0] — 2026-04-15
+
+### Adicionado
+
+- **Git isolation por task (MO4):** task-runner cria branch isolada `task/{spec-id}-t{index}` antes de cada task (opt-in via `git_isolation: true` no briefing). Diff resumido ao concluir, merge só com confirmação humana. context-fresh pergunta no início da sessão.
+
 ## [2.44.0] — 2026-04-15
 
 ### Adicionado
