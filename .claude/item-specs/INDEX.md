@@ -16,9 +16,9 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
-| MR5 | [done/MR5.md](done/MR5.md) | pendente release |
-| SW1 | [done/SW1.md](done/SW1.md) | pendente release |
-| SW9 | [done/SW9.md](done/SW9.md) | pendente release |
+| MR5 | [done/MR5.md](done/MR5.md) | v2.43.0 — 2026-04-15 |
+| SW1 | [done/SW1.md](done/SW1.md) | v2.43.0 — 2026-04-15 |
+| SW9 | [done/SW9.md](done/SW9.md) | v2.43.0 — 2026-04-15 |
 | MR4 | [done/MR4.md](done/MR4.md) | v2.42.0 — 2026-04-15 |
 | MR3 | [done/MR3.md](done/MR3.md) | v2.42.0 — 2026-04-15 |
 | MR2 | [done/MR2.md](done/MR2.md) | v2.42.0 — 2026-04-15 |
