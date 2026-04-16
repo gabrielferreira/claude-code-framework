@@ -62,9 +62,9 @@ Se diferente → prosseguir para Fase 1.
 ### 0.4 Detectar modo do framework (light/full)
 
 Ordem de prioridade:
-1. Ler `> Modo:` em `.claude/SETUP_REPORT.md` — fonte primaria
-2. Grep `<!-- framework-mode:` em `CLAUDE.md` — fallback
-3. Heuristica: contar arquivos instalados vs MANIFEST. Se < 50% dos arquivos full existem → assume light.
+1. Ler `> Modo:` em `.claude/SETUP_REPORT.md` — extrair `light` ou `full` da linha que comeca com `> Modo:`
+2. Grep `<!-- framework-mode: light -->` em `CLAUDE.md` (linha 2) — se encontrado, modo = `light`. Se nao encontrado, modo = `full` (CLAUDE.md full nao tem este marker)
+3. Heuristica: contar arquivos instalados vs MANIFEST. Se < 50% dos arquivos tier=`full` existem → assume `light`. Senao → `full`.
 
 Guardar como `FRAMEWORK_MODE` (`light` ou `full`).
 
@@ -254,9 +254,19 @@ Ações disponíveis:
 
 > **REGRA ABSOLUTA DA FASE 3:** Arquivos `structural` NUNCA sao substituidos por cp/copia direta do source. O merge structural e um algoritmo de ADICAO de secoes novas, nao de substituicao de conteudo. Se o arquivo do projeto tem conteudo customizado (libs reais, patterns reais, branches reais, exemplos adaptados), esse conteudo e INTOCAVEL. Copiar o source por cima de um arquivo structural customizado e um bug critico — equivale a destruir trabalho do usuario.
 
-### 3.0 Filtro por modo spec (ANTES de aplicar qualquer arquivo)
+### 3.0 Filtros pre-aplicacao (ANTES de aplicar qualquer arquivo)
 
 **Esta fase e OBRIGATORIA e deve ser executada ANTES de qualquer outra sub-fase (3.1, 3.2, etc.).**
+
+#### Passo 0 — Resolucao de templates por modo framework
+
+Se `FRAMEWORK_MODE=light` (detectado na Fase 0.4):
+- Para cada arquivo `structural` que precisa de merge: buscar template em `${FRAMEWORK_PATH}/../templates-light/{path}` primeiro. Se nao existe, usar `${FRAMEWORK_PATH}/{path}`.
+- Isso garante que o merge usa o template correto (ex: CLAUDE.md light, spec-driven light) em vez de adicionar secoes full-only ao projeto light.
+- Arquivos tier=`full` que nao existem no projeto: **skip silencioso** (ja filtrado na Fase 0.4).
+- Arquivos tier=`full` que existem no projeto: atualizar normalmente usando template full (`${FRAMEWORK_PATH}/{path}`).
+
+Se `FRAMEWORK_MODE=full`: usar apenas `${FRAMEWORK_PATH}/{path}` (comportamento atual).
 
 #### Passo 1 — Detectar modo spec
 

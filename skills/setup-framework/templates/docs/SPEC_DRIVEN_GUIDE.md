@@ -1128,6 +1128,13 @@ Quais specs esta spec depende, o que usa de cada uma, e qual seção consultar.
 ## Requisitos Funcionais
 Lista numerada (RF-001, RF-002...) dos requisitos.
 
+**Marcadores delta (brownfield):** quando a spec altera codigo existente, cada RF pode ser classificado com marcadores que indicam o tipo de mudanca:
+- `[ADDED]` — funcionalidade nova (criar do zero)
+- `[MODIFIED]` — alterar codigo existente (localizar antes de editar, referenciar arquivo afetado)
+- `[REMOVED]` — remover funcionalidade (listar impactos antes de deletar)
+
+Specs greenfield puras (tudo novo) nao precisam de marcadores. O `/spec` pergunta se a feature e brownfield e orienta a classificacao.
+
 ## Escopo
 O que está dentro desta spec (checkboxes verificáveis).
 

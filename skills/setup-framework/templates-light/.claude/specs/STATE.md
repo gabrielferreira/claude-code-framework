@@ -1,3 +1,4 @@
+<!-- framework-mode: light -->
 # Estado atual
 
 ## Em andamento
