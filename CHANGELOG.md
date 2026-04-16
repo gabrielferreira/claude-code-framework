@@ -7,6 +7,19 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.49.2] — 2026-04-16
+
+### Corrigido
+
+- **`validate-structure.sh` no macOS:** força locale UTF-8 (`en_US.UTF-8` ou `C.UTF-8`) no topo do script para que o BSD grep interprete `Ã` em "NÃO" como um caractere único. Sob locale `C`, 23 skills eram reportadas como faltando a seção "Quando NÃO usar" mesmo tendo-a — falso negativo que quebrava validação local pré-commit.
+- **`validate-tags.sh` ignora `.claude/worktrees/` e `.git/`:** validação falhava em 500+ arquivos quando havia worktrees de sessões antigas com tags de versões anteriores. Worktrees são diretórios temporários de desenvolvimento, não devem entrar na validação de tags.
+
+### Interno (dev do framework)
+
+- **TQ10 — item-specs retroativas:** reconstruídas `DF13.md` (Discovery Routing + `/quick`, v2.36.0) e `TQ5.md` (seções obrigatórias nas skills, v2.31.0) em `.claude/item-specs/done/` a partir de CHANGELOG + git log + estado atual. `INDEX.md` fecha os 2 orphans.
+- **OP4 — `scripts/release.sh`:** automatiza bump mecânico de release (VERSION + plugin.json + marketplace.json, sed de framework-tags excluindo `migrations/`, sincronia de templates, `check-sync.sh`, scaffold de migration). Commit/tag/push continuam manuais. `CLAUDE.md` (seção "Versionamento e release") prefere o script; passos manuais viram fallback. Não é distribuído para projetos.
+- **Anti-padrões de auditoria:** `.claude/AUDIT_ANTIPATTERNS.md` registra os falsos positivos da auditoria de 2026-04-16 + teste obrigatório do "segundo arquivo" antes de reportar qualquer achado. Seção `## Auditorias` no `CLAUDE.md` aponta pro doc.
+
 ## [2.49.1] — 2026-04-16
 
 ### Corrigido
