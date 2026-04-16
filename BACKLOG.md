@@ -47,7 +47,7 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | TQ6 | **Revisão ortográfica e de acentuação**: varrer todos os arquivos distribuídos (skills, agents, docs, templates) corrigindo erros ortográficos, acentuação faltante e inconsistências de idioma (pt-BR) | 🟡 | 👤 Usuário | ⬜ Bastidor | 🏠 Framework + 📦 Projeto | ✅ Aditivo | Docs | 2h | — | Sessão 2026-04-15 |
-| TQ7 | **Unificar templates-light em versão condicional**: 4 skills (spec-driven, spec-creator, backlog-update, definition-of-done) existem em versão light (templates-light/) e full (templates/) separadas. Avaliar migrar para arquivo único com lógica condicional por modo, eliminando risco de divergência silenciosa | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | MO9 | Sessão 2026-04-15 |
+| OP3 | **Unificar templates-light em versão condicional**: 4 skills (spec-driven, spec-creator, backlog-update, definition-of-done) existem em versão light (templates-light/) e full (templates/) separadas. Avaliar migrar para arquivo único com lógica condicional por modo, eliminando risco de divergência silenciosa | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | MO9 | Sessão 2026-04-15 |
 
 ---
 
@@ -111,6 +111,8 @@ Itens que foram avaliados e descartados conscientemente — mantidos aqui para e
 | SW3 | ~~**EARS format para requirements**: formato Event-Action-Result-State para RFs mecanicamente verificáveis~~ | 2026-04-10 | Overhead acadêmico. Claude entende linguagem natural — formato EARS não agrega valor mensurável. |
 | OP1 | ~~**Monitoramento do ecossistema**: GitHub Action semanal que detecta novos releases e registra `🔔` no ECOSYSTEM.md~~ | 2026-04-10 | Framework-internal sem valor para usuários. GitHub Action para detectar releases de concorrentes é overhead de manutenção sem retorno. |
 | DF4 | ~~**Decisão sobre adotar EARS para requirements**~~ | 2026-04-10 | Decisão sobre adotar EARS — descartada junto com SW3. |
+| SW6 | ~~**Arquivar specs concluídas em subdiretório separado** (`.claude/specs/archive/`)~~ | 2026-04-16 | Já implementado — `.claude/specs/done/` (setup) + `SPECS_INDEX_ARCHIVE.md` (SW9 v2.43.0) cobrem 100% do escopo. |
+| DF5 | ~~**Spec state machine rígida (OpenSpec) ou flexível (atual)**~~ | 2026-04-16 | Decisão tomada no SW2 (v2.24.0) — gates rígidos por instrução (PARAR e completar) sem enforcement de CI. Meio-termo já implementado. |
 
 ---
 
@@ -129,7 +131,7 @@ Ordem recomendada para os itens pendentes, agrupada por impacto e interdependên
 | Ordem | ID | Motivo |
 |-------|-----|--------|
 | 1 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
-| 2 | **TQ7** | Unificar templates-light em condicional — elimina divergência. Deps: MO9 ✅. |
+| 2 | **OP3** | Unificar templates-light em condicional — elimina divergência. Deps: MO9 ✅. |
 
 ### Wave 3 — Distribuição e escala (quando houver demanda)
 
@@ -148,11 +150,9 @@ Ordem recomendada para os itens pendentes, agrupada por impacto e interdependên
 | DF1 | Adotar Pi SDK como runtime (como GSD v2) ou manter pure-markdown | ⚠️ Gatilho atingido (CE1-CE3 ✅) — avaliar limitações em uso real agora | Começar pure-markdown; migrar para SDK só se necessário | Análise GSD |
 | DF2 | Manter compatibilidade apenas com Claude Code ou expandir multi-runtime | Quando houver demanda real de usuários usando OpenCode/Gemini | Focar em Claude Code; abstrair só se demanda justificar | MO1 |
 | DF3 | Integrar com GSD como layer complementar ou competir | ⚠️ Gatilho atingido (CE1-CE3 ✅) — medir se orquestração própria é suficiente em uso real agora | Evoluir independente; documentar como coexistir | Análise GSD |
-| DF5 | Spec state machine rígida (OpenSpec) ou flexível (atual) | Quando projetos reportarem specs pulando etapas | Começar com validação soft (warning) antes de gate hard (block) | OpenSpec |
 | AU2 | Implementar cost tracking (tokens/custo por task) — e se sim, via mecanismo manual ou hook, e onde armazenar | Quando Claude Code expor metadados de uso nativamente (token count por chamada via hook ou API) | Não implementar agora: log persistente cresce indefinidamente sem política de rotação; escrita manual pelo Claude é imprecisa; aguardar suporte nativo | Análise GSD |
 | SW4 | Substituir diagrama ASCII no DESIGN_TEMPLATE.md por Mermaid (sequence, component, ER) | Quando renderers Mermaid forem ubíquos (Notion nativo, editores locais) ou quando projetos reportarem ASCII insuficiente para comunicar designs complexos | Não implementar agora: ASCII já funciona e o Claude produz correto; Mermaid cria dependência de renderer e o Claude às vezes gera sintaxe inválida; DESIGN_TEMPLATE.md já tem "Diagrama de fluxo" | cc-sdd |
 | SW8 | Automatizar geração de task graph a partir de PRD aprovado — dado um PRD, gerar automaticamente specs decompostas com estimativas de complexidade e grafo de dependências (similar ao Taskmaster AI com tasks.json) | Quando o fluxo PRD → spec → execution-plan manual se mostrar lento em projetos com PRDs grandes (5+ specs) ou quando houver demanda explícita de times que usam PRD como artefato central | Fluxo atual (PRD → spec manual → execution-plan) é suficiente — a decomposição manual força o dev a pensar nas dependências, o que tem valor. Automação faz sentido só se a escala justificar | Taskmaster AI |
-| SW6 | Arquivar specs concluídas em subdiretório separado (`.claude/specs/archive/`) para manter a pasta principal limpa | Quando projetos reportarem dificuldade de navegar em `.claude/specs/` com muitos arquivos (10+ specs acumuladas) | Não implementar agora: SW2 ✅ já cobre o estado "concluída"; Notion mode não se beneficia (filtro nativo); valor só aparece em projetos grandes | OpenSpec |
 | DF7 | **Drift Detection (spec↔código)**: detectar quando o código divergiu da spec após a implementação — similar ao `/speckit.sync` do GitHub Spec Kit (bidirecional: code changes atualizam spec e vice-versa) | Quando spec-validator reportar falsos negativos frequentes (spec aprovada mas código já evoluiu além dela) ou quando projetos reportarem specs desatualizadas como dor | Avaliar primeiro como extensão do agent `spec-validator` existente: adicionar check de drift baseado em `git log` e diff do código relevante vs spec, com aprovação humana para qualquer sync | GitHub Spec Kit + AWS Kiro |
 | DF8 | **Steering Files com MCP Pointers (antes de implementar SW7)**: em vez de constitution estático, steering files apontam para fontes externas via MCP (ADRs, READMEs, wikis) — agents seguem os pointers e sempre leem a versão atual da fonte | Avaliar antes de implementar SW7 — se pointers MCP forem adotados, a implementação de SW7 muda significativamente | Se MCP estiver bem integrado no projeto (ex: Notion), pointers fazem sentido. Se não, constitution estático (SW7 atual) é suficiente. Decidir por projeto, não framework | AWS Kiro + GitHub Spec Kit |
 | DF9 | **Spec Syntax Validation em CI**: comando/check que valida estrutura obrigatória das specs (seções, delta markers bem formados) antes de merge — similar ao `openspec validate --strict` | Quando times reportarem specs mal estruturadas chegando em review ou quando SW1 (delta markers) for implementado e precisar de enforcement | Implementar como extensão do `verify.sh` ou job de CI separado. Custo baixo se specs já seguem template — valor alto em times distribuídos | OpenSpec + cc-sdd |

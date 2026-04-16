@@ -164,6 +164,13 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | `SPECS_INDEX_ARCHIVE.template.md` | Fonte do template de SPECS_INDEX_ARCHIVE — distribuido para projetos como `SPECS_INDEX_ARCHIVE.md` |
 | `migrations/MIGRATION_TEMPLATE.md` | Template para criar migrations — apenas para devs do framework, nao distribuido |
 | `migrations/v{X}-to-v{Y}.md` | Gerados por release — distribuidos seletivamente pelo update (gap da versao atual) |
+| `skills/setup-framework/MONOREPO_DETAILS.md` | Auxiliar: conteúdo condicional de monorepo extraído do SKILL.md (PF7) |
+| `skills/setup-framework/NOTION_DETAILS.md` | Auxiliar: conteúdo condicional de Notion extraído do SKILL.md (PF7) |
+| `skills/setup-framework/AUDIT_DETAILS.md` | Auxiliar: auditoria de completude extraída do SKILL.md (PF7) |
+| `skills/setup-framework/EXAMPLES.md` | Auxiliar: exemplos longos de output extraídos do SKILL.md (PF7) |
+| `skills/update-framework/STRUCTURAL_MERGE_DETAILS.md` | Auxiliar: receita de merge structural extraída do SKILL.md (PF7) |
+| `skills/update-framework/NOTION_UPDATE_DETAILS.md` | Auxiliar: conteúdo condicional de Notion extraído do SKILL.md (PF7) |
+| `skills/update-framework/AUDIT_DETAILS.md` | Auxiliar: auditoria de completude extraída do SKILL.md (PF7) |
 
 ### Projeto-específicos (skip)
 
