@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.46.2 framework-file: skills/spec-driven/README.md -->
+<!-- framework-tag: v2.47.0 framework-file: skills/spec-driven/README.md -->
 # Skill: Spec-Driven Development — {NOME_DO_PROJETO}
 
 > **OBRIGATÓRIA:** Ler ANTES de implementar qualquer feature, bug fix ou refatoração.

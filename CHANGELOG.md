@@ -7,6 +7,17 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.47.0] — 2026-04-16
+
+### Adicionado
+
+- **Performance: defaults inteligentes (PF1):** Fase 1 gera DETECTION_SUMMARY, Fase 1.8 apresenta tudo detectado e pede confirmação. "Sim" pula Fase 2 inteira (~15 min economizados).
+- **Performance: perguntas agrupadas (PF2):** Fase 2 usa 5 AskUserQuestion com options/multiSelect em vez de 20-30 chamadas texto livre.
+- **Performance: CODE_PATTERNS paralelo (PF3):** instrução explícita para ler 10-15 arquivos representativos em paralelo no setup e update.
+- **Performance: geração batch (PF4):** templates copiados em batch via bash, placeholders substituídos via sed global, skills customizadas em paralelo.
+- **Performance: structural merge otimizado (PF5):** receita mecânica em 5 passos com short-circuit (tag igual = skip, ~80% economia em update típico).
+- **Performance: auditoria seletiva (PF6):** guards explícitos nas categorias 6-8 (skip se não aplicável).
+
 ## [2.46.2] — 2026-04-16
 
 ### Corrigido

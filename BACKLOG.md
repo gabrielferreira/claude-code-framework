@@ -55,12 +55,12 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| PF1 | **Defaults inteligentes**: DETECTION_SUMMARY + confirmação rápida, pula Fase 2 se "Sim" | pendente release |
-| PF2 | **Perguntas agrupadas**: 5 AskUserQuestion com options/multiSelect em vez de 20-30 texto livre | pendente release |
-| PF3 | **CODE_PATTERNS paralelo**: leitura de 10-15 arquivos em paralelo | pendente release |
-| PF4 | **Geração batch**: copiar templates + sed global + skills em paralelo | pendente release |
-| PF5 | **Structural merge otimizado**: receita mecânica com short-circuit | pendente release |
-| PF6 | **Auditoria seletiva**: guards nas categorias 6-8 | pendente release |
+| PF1 | **Defaults inteligentes**: DETECTION_SUMMARY + confirmação rápida, pula Fase 2 se "Sim" | v2.47.0 — 2026-04-16 |
+| PF2 | **Perguntas agrupadas**: 5 AskUserQuestion com options/multiSelect em vez de 20-30 texto livre | v2.47.0 — 2026-04-16 |
+| PF3 | **CODE_PATTERNS paralelo**: leitura de 10-15 arquivos em paralelo | v2.47.0 — 2026-04-16 |
+| PF4 | **Geração batch**: copiar templates + sed global + skills em paralelo | v2.47.0 — 2026-04-16 |
+| PF5 | **Structural merge otimizado**: receita mecânica com short-circuit | v2.47.0 — 2026-04-16 |
+| PF6 | **Auditoria seletiva**: guards nas categorias 6-8 | v2.47.0 — 2026-04-16 |
 | MO9 | **Framework Light Edition**: modo light (~31 arquivos) vs full (~86), setup rápido (3-4 perguntas), MANIFEST com coluna Tier, templates-light/, /upgrade-framework, check-sync.sh estendido | v2.46.0 — 2026-04-15 |
 | MO4 | **Git isolation por task**: branch `task/{spec-id}-t{index}` no task-runner, opt-in via briefing, merge com confirmação humana | v2.45.0 — 2026-04-15 |
 | MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | v2.44.0 — 2026-04-15 |
