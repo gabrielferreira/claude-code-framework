@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.46.1 framework-file: PRDS_INDEX.template.md -->
+<!-- framework-tag: v2.46.2 framework-file: PRDS_INDEX.template.md -->
 # PRDS_INDEX — {NOME_DO_PROJETO}
 
 > Índice de todos os PRDs (Product Requirements Documents) do projeto.
