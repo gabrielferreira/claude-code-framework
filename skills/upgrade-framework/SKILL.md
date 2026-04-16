@@ -3,7 +3,7 @@ name: upgrade-framework
 description: Converte projeto de modo light para modo full do claude-code-framework
 user_invocable: true
 ---
-<!-- framework-tag: v2.46.2 framework-file: skills/upgrade-framework/SKILL.md -->
+<!-- framework-tag: v2.47.0 framework-file: skills/upgrade-framework/SKILL.md -->
 
 # /upgrade-framework — Upgrade light → full
 
