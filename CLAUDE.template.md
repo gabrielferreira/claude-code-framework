@@ -289,8 +289,10 @@ Aplicar a skill **Definition of Done** (`.claude/skills/definition-of-done/READM
 
 1. **Testes passando** — `{comando testes}` zero falhas
 2. **Coverage** — `{comando coverage}` {X}% nos módulos críticos
-3. **verify.sh** — `bash scripts/verify.sh` zero ❌ (ver regra 4)
+3. **verify.sh** — `bash scripts/verify.sh` zero ❌ — **EXECUTAR DE FATO (Bash tool), nao apenas mencionar. Se nao rodou, o commit e invalido.**
 4. **Spec verificada** — cada critério de aceitação confirmado no código, 1 por 1
+
+**REGRA ABSOLUTA:** os gates acima devem ser EXECUTADOS (tool calls reais), nao apenas declarados. "Rodei verify.sh" sem ter chamado Bash e violacao. Na duvida, rodar de novo.
 
 Detalhes completos (verificação de spec, status parcial, docs, regras novas) → ver skill Definition of Done.
 
