@@ -56,3 +56,4 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | debugger (agent) | Ao diagnosticar falha durante implementacao — coleta contexto e produz hipoteses ranqueadas |
 | pr (`/pr`) | Ao abrir Pull Request — preenche template com contexto de spec + diff e abre via `gh pr create` |
 | onboarding (`/onboarding`) | Dev novo no projeto ou retomando apos longa ausencia — gera guia contextualizado com fluxo, comandos, skills e convencoes deste projeto especifico |
+| upgrade-framework (`/upgrade-framework`) | Ao migrar projeto de modo light para full — instala arquivos faltantes aditivamente, enriquece CLAUDE.md/TEMPLATE.md/backlog, preserva customizacoes |
