@@ -7,6 +7,27 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.46.2] — 2026-04-16
+
+### Corrigido
+
+- **Update-framework usa templates-light para merge:** projetos light agora recebem merge structural do template correto (light) em vez do full, evitando adição de seções full-only.
+- **Upgrade transformação light→full:** CLAUDE.md agora é transformado (preserva dados, gera full) em vez de merge aditivo que não expandia seções condensadas.
+- **marketplace.json versão stale:** sincronizado com VERSION (estava em 2.18.0). Processo de release e check-sync.sh agora validam marketplace.json.
+- **CONCEPTUAL_MAP links quebrados:** display text corrigido para paths reais.
+- **MIGRATION_GUIDE skill inexistente:** referência a `syntax-check` removida.
+- **check-sync.sh:** valida marker `framework-mode: light` em templates-light/ e versão de plugin.json/marketplace.json contra VERSION.
+- **SKILLS_MAP:** `/upgrade-framework` adicionado.
+- **SETUP_GUIDE:** nova seção light vs full com tabela comparativa.
+- **SPEC_DRIVEN_GUIDE:** delta markers (brownfield) documentados.
+- **Setup re-run:** detecção de modo antes da pergunta (não re-pergunta).
+- **Setup conditional skills:** critérios algorítmicos de detecção documentados (DB, frontend, frontend público).
+- **Update 0.4:** grep pattern exato para detecção de modo documentado.
+- **WORKFLOW_DIAGRAM:** escolha light/full na Fase 0.
+- **MANIFEST Renames:** coluna Tier adicionada.
+- **templates-light framework-file:** prefixo `light:` para evitar falso positivo no check-sync.
+- **templates-light markers:** `framework-mode: light` adicionado em STATE.md, backlog.md, TEMPLATE.md.
+
 ## [2.46.1] — 2026-04-15
 
 ### Corrigido
