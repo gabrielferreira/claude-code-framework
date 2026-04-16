@@ -1,4 +1,5 @@
 <!-- framework-tag: v2.49.0 framework-file: docs/README.md -->
+<!-- framework-mode: light -->
 # {NOME_DO_PROJETO} — Índice de Documentação
 
 > Para setup e execução do projeto, veja o [`README.md`](../README.md) na raiz.
