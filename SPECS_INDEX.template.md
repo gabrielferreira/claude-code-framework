@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.0 framework-file: SPECS_INDEX.template.md -->
+<!-- framework-tag: v2.49.1 framework-file: SPECS_INDEX.template.md -->
 # SPECS_INDEX — {NOME_DO_PROJETO}
 
 > Indice de specs **ativas** do projeto. Consultar ANTES de implementar qualquer item.

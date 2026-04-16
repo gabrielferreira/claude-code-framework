@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.49.1] — 2026-04-16
+
+### Corrigido
+
+- **CI: marcador framework-mode: light faltando** no `templates-light/docs/README.md` — check-sync falhava após atualização de docs.
+
 ## [2.49.0] — 2026-04-16
 
 ### Melhorado

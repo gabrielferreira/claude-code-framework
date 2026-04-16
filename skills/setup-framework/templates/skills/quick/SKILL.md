@@ -3,7 +3,7 @@ name: quick
 description: Quick task — implementação direta sem spec para correções triviais
 user_invocable: true
 ---
-<!-- framework-tag: v2.49.0 framework-file: skills/quick/SKILL.md -->
+<!-- framework-tag: v2.49.1 framework-file: skills/quick/SKILL.md -->
 
 # /quick — Quick Task (fast-path)
 

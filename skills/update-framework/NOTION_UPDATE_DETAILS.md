@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.0 framework-file: skills/update-framework/NOTION_UPDATE_DETAILS.md -->
+<!-- framework-tag: v2.49.1 framework-file: skills/update-framework/NOTION_UPDATE_DETAILS.md -->
 # Notion Update Details — update-framework
 
 > Detalhes de integracao Notion no update: filtros pre-aplicacao (Passos 1-4) + Fase 4b completa.
