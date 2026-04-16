@@ -29,7 +29,6 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
-| MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
 
 
 ### Operações do framework
@@ -50,6 +49,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MO9 | **Framework Light Edition**: modo light (~31 arquivos) vs full (~86), setup rápido (3-4 perguntas), MANIFEST com coluna Tier, templates-light/, /upgrade-framework, check-sync.sh estendido | pendente release |
 | MO4 | **Git isolation por task**: branch `task/{spec-id}-t{index}` no task-runner, opt-in via briefing, merge com confirmação humana | v2.45.0 — 2026-04-15 |
 | MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | v2.44.0 — 2026-04-15 |
 | MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | v2.43.0 — 2026-04-15 |
@@ -108,18 +108,14 @@ Ordem recomendada para os itens pendentes, agrupada por impacto e interdependên
 
 ### Wave 1 — Itens que mudam fluxo/template/spec (fazer primeiro)
 
-Estes alteram artefatos que outros itens consomem. Implementar antes evita retrabalho.
-
-| Ordem | ID | Motivo da prioridade |
-|-------|-----|---------------------|
-| 1 | **MO9** | Light Edition — muda setup, update, MANIFEST, cria upgrade skill e templates-light/. Sem deps mas é 🔺 Fluxo (muda como projetos são criados). |
+(Vazia — todos os itens foram concluídos.)
 
 ### Wave 2 — Itens que mudam template mas são isolados
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|
-| 2 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
-| 3 | **TQ7** | Unificar templates-light em condicional — elimina divergência. Deps: MO9. |
+| 1 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
+| 2 | **TQ7** | Unificar templates-light em condicional — elimina divergência. Deps: MO9 ✅. |
 
 ### Wave 3 — Skills/agents novos (independentes)
 
