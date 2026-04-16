@@ -28,7 +28,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 | MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
 
@@ -50,6 +49,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MO4 | **Git isolation por task**: branch `task/{spec-id}-t{index}` no task-runner, opt-in via briefing, merge com confirmação humana | pendente release |
 | MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | v2.44.0 — 2026-04-15 |
 | MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | v2.43.0 — 2026-04-15 |
 | SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | v2.43.0 — 2026-04-15 |
@@ -128,7 +128,6 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 | ID | Nota |
 |----|------|
 | **MO8** | NPX installer (maior impacto em adoção) |
-| **MO4** | Git isolation (worktree por task) |
 
 > **Princípio:** Wave 1 primeiro porque muda artefatos que tudo consome. Waves 3-4 podem rodar em paralelo conforme demanda.
 
