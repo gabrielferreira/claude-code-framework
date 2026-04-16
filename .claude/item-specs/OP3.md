@@ -1,4 +1,4 @@
-# TQ7 — Unificar templates-light em versão condicional
+# OP3 — Unificar templates-light em versão condicional
 
 **Contexto:** MO9 (Light Edition) cria `templates-light/` com 4 skills simplificadas (spec-driven, spec-creator, backlog-update, definition-of-done) que são versões alternativas das mesmas skills em `templates/`. Manter dois conjuntos separados cria risco de divergência silenciosa — quando a versão full é atualizada, a versão light pode ficar desatualizada sem ninguém perceber. É o mesmo problema que MR6 resolve para sub-projetos, mas agora dentro do próprio framework.
 
