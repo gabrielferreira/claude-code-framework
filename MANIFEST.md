@@ -151,6 +151,7 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | Path no framework | Propósito |
 |---|---|
 | `scripts/install-skills.sh` | Instala skills no ~/.claude/skills/ |
+| `scripts/release.sh` | Automatiza o bump mecânico de release (VERSION, plugin.json, marketplace.json, framework-tags, migration scaffold, check-sync). Commit/tag/push continuam manuais. |
 | `VERSION` | Versão atual do framework (semver) |
 | `.gitignore` | Git ignore do repo do framework |
 | `CHANGELOG.md` | Historico de versoes do framework |
