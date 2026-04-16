@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Matching de padrão de falha com categorias pré-definidas — heurística estruturada, não julgamento profundo
 worktree: false
 ---
-<!-- framework-tag: v2.46.0 framework-file: agents/stuck-detector.md -->
+<!-- framework-tag: v2.46.1 framework-file: agents/stuck-detector.md -->
 # Agent: Stuck Detector
 
 > Sub-agente de diagnóstico invocado quando a sessão principal detecta um loop de retry sem progresso. Analisa o histórico de tentativas, identifica a causa raiz e propõe caminhos de resolução concretos. Não implementa — apenas diagnostica.
