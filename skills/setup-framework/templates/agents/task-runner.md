@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Implementacao estruturada seguindo briefing com criterios claros — nao requer raciocinio profundo
 worktree: true
 ---
-<!-- framework-tag: v2.49.1 framework-file: agents/task-runner.md -->
+<!-- framework-tag: v2.49.2 framework-file: agents/task-runner.md -->
 # Agent: Task Runner
 
 > Sub-agente que executa uma unica task de um spec. Recebe briefing focado da sessao principal, implementa, e reporta resultado. Roda em worktree isolada para nao interferir com outras tasks paralelas.
