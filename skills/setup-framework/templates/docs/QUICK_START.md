@@ -77,4 +77,13 @@ Pronto — esse e o ciclo basico. Repita para cada entrega.
 
 ---
 
-*Para atualizar o framework no futuro: `/update-framework`*
+## Atualizacao
+
+Para atualizar o framework no futuro: `/update-framework`
+
+**Importante:** antes de rodar `/update-framework`, atualize a skill para a versao mais recente:
+- **Personal:** re-rodar `./scripts/install-skills.sh` do clone atualizado do framework
+- **Plugin:** o plugin ja usa a versao mais recente automaticamente
+- **Por projeto:** copiar novamente `skills/setup-framework/` e `skills/update-framework/` do clone atualizado
+
+Se a skill local estiver desatualizada, o update pode nao detectar features novas (ex: modo light/full, coluna Tier no MANIFEST).
