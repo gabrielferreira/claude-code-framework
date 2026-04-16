@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.47.0 framework-file: docs/PROTECT_BACKLOG_HOOK.md -->
+<!-- framework-tag: v2.47.1 framework-file: docs/PROTECT_BACKLOG_HOOK.md -->
 # Hook: Protect Backlog
 
 Hook opcional que impede edição direta nos arquivos de backlog e SPECS_INDEX, forçando o uso dos slash commands `/backlog-update` e `/spec`.
