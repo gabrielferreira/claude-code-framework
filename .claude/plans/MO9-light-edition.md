@@ -160,7 +160,7 @@ Versao minima — apenas TODOs entre sessoes:
 
 **Full-only (11):** backlog-report, component-audit, seo-audit, product-review, refactor-agent, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector, debugger.
 
-### 3.5 Skills (core tier) — 8 skills
+### 3.5 Skills (core tier) — 11 skills
 
 | Skill | Tipo | Motivo |
 |---|---|---|
