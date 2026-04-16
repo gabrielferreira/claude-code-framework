@@ -69,6 +69,15 @@ Exemplos:
    ```
    Se nao autenticado → abortar: "Nao autenticado no GitHub CLI. Rodar `gh auth login`."
 
+6. **Detectar PR draft existente na branch atual:**
+   ```bash
+   gh pr view --json state,number,title,url 2>/dev/null
+   ```
+   - Se retornar PR com `state: "OPEN"` → PR ja existe. Guardar como `EXISTING_PR`.
+     - Se e draft: informar "PR draft #N ja existe. Vou atualizar o titulo e corpo e marcar como ready."
+     - Se nao e draft: informar "PR #N ja existe. Quer atualizar o corpo? (sim/nao)"
+   - Se nenhum PR → `EXISTING_PR = null`, seguir fluxo normal.
+
 ---
 
 ### Passo 1 — Coletar diff e commits
@@ -223,14 +232,26 @@ Se o usuario escolher editar (2 ou 3):
 
 ---
 
-### Passo 7 — Criar o PR
+### Passo 7 — Criar ou atualizar o PR
 
 1. **Push da branch** (se ainda nao foi feito):
    ```bash
    git push -u origin $(git branch --show-current)
    ```
 
-2. **Criar PR via gh:**
+2. **Se `EXISTING_PR` existe (PR draft ou aberto):**
+   ```bash
+   # Atualizar titulo e corpo
+   gh pr edit {EXISTING_PR.number} --title "{titulo}" --body "$(cat <<'EOF'
+   {corpo}
+   EOF
+   )"
+   # Se era draft, marcar como ready for review
+   gh pr ready {EXISTING_PR.number}
+   ```
+   Informar: "PR #{number} atualizado e marcado como ready: {url}"
+
+3. **Se `EXISTING_PR` nao existe (PR novo):**
    ```bash
    gh pr create --title "{titulo}" --base {base} --body "$(cat <<'EOF'
    {corpo}
@@ -238,14 +259,7 @@ Se o usuario escolher editar (2 ou 3):
    )"
    ```
    Se `--draft` → adicionar flag `--draft`
-
-3. **Informar resultado:**
-   ```
-   PR criado: {url}
-   Titulo: {titulo}
-   Base: {base} ← {branch}
-   Status: {aberto|draft}
-   ```
+   Informar: "PR criado: {url}"
 
 ---
 
