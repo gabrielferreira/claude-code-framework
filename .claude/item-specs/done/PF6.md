@@ -28,12 +28,12 @@
 | Mirrors | Sync |
 
 **Critérios de aceitação:**
-- [ ] Cada categoria tem guard documentado no início
-- [ ] Guard avaliado ANTES de rodar a categoria (não depois)
-- [ ] Skip produz nota "⚪ Cat. N: não aplicável ({motivo})" no report
-- [ ] Categorias 1-5 NUNCA skip (são essenciais)
-- [ ] Setup e update usam os MESMOS guards (idênticos)
-- [ ] Zero perda de detecção — guards só eliminam checks impossíveis de produzir findings
+- [x] Cada categoria tem guard documentado no início
+- [x] Guard avaliado ANTES de rodar a categoria (não depois)
+- [x] Skip produz nota "⚪ Cat. N: não aplicável ({motivo})" no report
+- [x] Categorias 1-5 NUNCA skip (são essenciais)
+- [x] Setup e update usam os MESMOS guards (idênticos)
+- [x] Zero perda de detecção — guards só eliminam checks impossíveis de produzir findings
 
 **Restrições:**
 - Guards são conservadores — na dúvida, rodar a categoria

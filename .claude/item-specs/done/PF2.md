@@ -103,13 +103,13 @@
 | Mirror | Sync |
 
 **Critérios de aceitação:**
-- [ ] Fase 2 usa no máximo 4 AskUserQuestion (não 20-30)
-- [ ] Cada AskUserQuestion usa `options` com label/description (não texto livre)
-- [ ] Bloco 3 e 4 usam `multiSelect: true`
-- [ ] Defaults da PF1 (DETECTION_SUMMARY) pré-preenchem as opções
-- [ ] Modo light pula Blocos 3-4
-- [ ] "Outro" em qualquer opção permite texto livre como fallback
-- [ ] Zero funcionalidade perdida — todas as informações coletadas hoje continuam sendo coletadas
+- [x] Fase 2 usa no máximo 4 AskUserQuestion (não 20-30)
+- [x] Cada AskUserQuestion usa `options` com label/description (não texto livre)
+- [x] Bloco 3 e 4 usam `multiSelect: true`
+- [x] Defaults da PF1 (DETECTION_SUMMARY) pré-preenchem as opções
+- [x] Modo light pula Blocos 3-4
+- [x] "Outro" em qualquer opção permite texto livre como fallback
+- [x] Zero funcionalidade perdida — todas as informações coletadas hoje continuam sendo coletadas
 
 **Restrições:**
 - AskUserQuestion suporta no máximo 4 questions por chamada e 4 options por question
