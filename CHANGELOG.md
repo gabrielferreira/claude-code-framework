@@ -7,6 +7,15 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.43.0] — 2026-04-15
+
+### Adicionado
+
+- **Delta markers para brownfield (SW1):** marcadores `[ADDED]`/`[MODIFIED]`/`[REMOVED]` por RF no template de spec. Passo 4c no spec-creator pergunta se brownfield e orienta classificação. Instrução delta no spec-driven para localizar código antes de `[MODIFIED]` e listar impactos antes de `[REMOVED]`.
+- **SPECS_INDEX archive (SW9):** novo `SPECS_INDEX_ARCHIVE.md` recebe specs concluídas e descontinuadas. SPECS_INDEX agora só contém specs ativas. Setup cria o archive, update detecta ausência e oferece migração de specs concluídas existentes. spec-creator verifica duplicatas no archive.
+- **Docs por sub-projeto em monorepo (MR5):** nova subsection `### Documentação por sub-projeto` no template `## Monorepo`. Setup gera docs relevantes por sub-projeto (`{subdir}/docs/`) e preenche tabela de referência no CLAUDE.md L0. Update detecta sub-projetos sem docs.
+- **Diretrizes de implementação no CLAUDE.md:** nova seção com princípios de design — 3 cenários obrigatórios (greenfield/re-run/update), dual-mode repo+Notion, monorepo sub-níveis e submodules, backward compatibility, releases via PR.
+
 ## [2.42.0] — 2026-04-15
 
 ### Adicionado
