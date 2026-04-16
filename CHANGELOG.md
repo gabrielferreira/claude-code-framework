@@ -7,6 +7,16 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.47.1] — 2026-04-16
+
+### Corrigido
+
+- **Hook verify.sh robusto:** detecta `--changed` se disponível, não depende de jq (usa printf), valida que o hook funciona após configurar.
+- **Hook em settings.json:** hook agora configurado em `.claude/settings.json` (versionado, compartilhado) em vez de `settings.local.json` (gitignored). Todos os devs recebem o hook automaticamente.
+- **STATE.md resetado ao concluir:** instrução explícita de resetar para estado vazio (sem item ativo) após fechar item.
+- **Checkboxes e status obrigatórios:** pós-implementação exige tool calls reais (Read+Edit+Bash) para marcar checkboxes e transicionar status. "Já fiz" sem tool call = inválido.
+- **verify.sh gate reforçado no CLAUDE.md:** "EXECUTAR DE FATO (Bash tool), não apenas mencionar."
+
 ## [2.47.0] — 2026-04-16
 
 ### Adicionado

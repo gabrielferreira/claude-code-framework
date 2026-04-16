@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.47.0 framework-file: docs/WORKFLOW_DIAGRAM.md -->
+<!-- framework-tag: v2.47.1 framework-file: docs/WORKFLOW_DIAGRAM.md -->
 # Workflow do Claude Code Framework
 
 Diagrama visual de como o framework funciona — do setup inicial ao uso diário e atualizações.
