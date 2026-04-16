@@ -474,11 +474,12 @@ O fluxo completo para itens Grande/Complexo com artefatos que persistem entre se
 2. Claude lê spec-driven → classifica como Grande/Complexo
 3. Fase research: skill research → salva .claude/specs/{id}-research.md
 4. Fase plan: skill execution-plan → salva .claude/specs/{id}-plan.md
-5. STATE.md atualizado: fase plan → exit criteria satisfeito
+5. PR draft aberto com o execution plan como primeiro commit (historico do plano no PR)
+6. STATE.md atualizado: fase plan → exit criteria satisfeito
    ── pausa natural: artefatos existem como arquivos ──
    O usuário pode:
-   a) Revisar e continuar na mesma sessão
-   b) Fechar, revisar depois, abrir sessão nova
+   a) Revisar o PR draft e continuar na mesma sessão
+   b) Fechar, revisar o PR draft depois, abrir sessão nova
    c) Pedir para outro agente validar o plano
 6. Fase execute: sessão nova ou /clear
    → carrega {id}-plan.md + spec + {id}-research.md + STATE.md

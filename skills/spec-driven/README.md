@@ -122,6 +122,14 @@ Toda implementação segue uma sequência de fases com critérios explícitos de
 - Criar execution-plan e salvar em `.claude/specs/{id}-plan.md` (skill execution-plan)
 - Atualizar `STATE.md` com decisões tomadas
 - O plan é artefato descartável — deletado na fase done após verificação
+- **Abrir PR draft** com o execution plan como primeiro commit:
+  ```bash
+  git add .claude/specs/{id}-plan.md .claude/specs/{id}.md
+  git commit -m "plan: {id} — execution plan"
+  git push -u origin {branch}
+  gh pr create --draft --title "feat: {id} — {titulo}" --body "## Execution Plan\n\nVer commits para o plano de implementação."
+  ```
+  O PR draft serve como: (1) histórico do plano, (2) container dos commits de implementação, (3) review incremental. O `/pr` no final atualiza o body e tira do draft.
 
 **Execute (`/clear` ou sessão nova — contexto limpo):**
 - Carregar APENAS: spec + design doc + STATE.md + `{id}-research.md` (se existe) + `{id}-plan.md`
@@ -260,7 +268,8 @@ Specs sem marcadores continuam funcionando — os marcadores sao aditivos.
 5. **Se adicionou regra nova:** adicionar check em `scripts/verify.sh` (secao CHECKS EVOLUTIVOS).
 6. **Resetar STATE.md** — limpar "Em andamento" (nenhum item ativo), "Proximo" com proximo item do backlog (ou vazio), "Notas" limpo de contexto do item concluido. Nenhum trabalho em progresso.
 7. **Rodar verify.sh** — `bash scripts/verify.sh` (Bash). Zero ❌.
-8. **Abrir PR** — nunca push direto para `main`.
+8. **Deletar artefatos de trabalho** — remover `{id}-plan.md` e `{id}-research.md` de `.claude/specs/` (Bash). Commitar a remocao (fica no historico do PR mas nao polui o repo apos merge).
+9. **Finalizar PR** — executar `/pr` (Skill tool). Se PR draft ja existe (aberto na fase Plan): o `/pr` atualiza titulo/corpo com contexto da spec + diff e marca como ready for review. Se nao existe: cria PR novo. Nunca push direto para `main`.
 
 > Se `SPECS_INDEX_ARCHIVE.md` nao existe no projeto, criar com o template do framework antes de mover.
 
