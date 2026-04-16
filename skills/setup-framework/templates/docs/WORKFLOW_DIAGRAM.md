@@ -242,6 +242,8 @@ Agents são read-only: geram relatórios, nunca aplicam fixes diretamente.
   │ infra-audit        │ Deploy, CI/CD, monitoring     │
   │ task-runner         │ Executa task individual       │
   │                    │ (via skill context-fresh)     │
+  │ debugger           │ Diagnóstico estruturado       │
+  │ stuck-detector     │ Detecta loops/bloqueios       │
   └────────────────────┴──────────────────────────────┘
 ```
 

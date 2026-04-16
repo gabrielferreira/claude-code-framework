@@ -31,6 +31,7 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | context-fresh | execution-plan (decomposicao pronta) | spec-driven, definition-of-done. Waves de execucao do execution-plan alimentam o despacho |
 | map-codebase | — | execution-plan (arquitetura informa o plan), spec-creator (escopo e impacto), /discuss (PROJECT_CONTEXT enriquecido torna scout mais preciso) |
 | debugger (agent) | — | stuck-detector (se padrao e loop), spec-creator (spec de correcao) |
+| spec-driven | spec-creator (spec criada antes de dirigir) | research, execution-plan, context-fresh, testing, definition-of-done |
 | pr | definition-of-done (DoD antes de abrir PR) | docs-sync, spec-driven (rastreabilidade spec→PR) |
 
 ## Legenda
@@ -57,3 +58,5 @@ O fluxo comeca com `spec-driven` (que spec implementar). Para itens Grande/Compl
 | pr (`/pr`) | Ao abrir Pull Request — preenche template com contexto de spec + diff e abre via `gh pr create` |
 | onboarding (`/onboarding`) | Dev novo no projeto ou retomando apos longa ausencia — gera guia contextualizado com fluxo, comandos, skills e convencoes deste projeto especifico |
 | upgrade-framework (`/upgrade-framework`) | Ao migrar projeto de modo light para full — instala arquivos faltantes aditivamente, enriquece CLAUDE.md/TEMPLATE.md/backlog, preserva customizacoes |
+| quick (`/quick`) | Atalho para tasks pequenas — pula spec formal, executa direto com checklist minimo |
+| resume (`/resume`) | Retomar trabalho interrompido — le STATE.md e continua de onde parou |
