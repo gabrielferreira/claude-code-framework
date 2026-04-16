@@ -127,15 +127,27 @@ Mostrar brevemente: commits separados por "chega ao usuario" vs "interno", bump 
 
 ### 3. Aplicar o bump
 
+Preferir `scripts/release.sh` — automatiza os passos 1-5 abaixo (VERSION, JSONs, framework-tags excluindo `migrations/`, sincronia de templates e check-sync). Uso:
+
+```bash
+bash scripts/release.sh {major|minor|patch|vX.Y.Z}
+# ou não-interativo:
+bash scripts/release.sh minor --yes
+```
+
+O script NAO faz commit, tag ou push — esses passos continuam manuais (passos 6-8). Se o script falhar, investigar o erro (em geral `check-sync.sh` reportando divergência) antes de seguir.
+
+**Passos manuais equivalentes** (se precisar rodar sem o script, ex: recovery):
+
 1. **VERSION** — atualizar com a nova versao
 2. **plugin.json** — atualizar campo `version`
 3. **marketplace.json** — atualizar campo `version` (mesmo valor)
 4. **plugin.json + marketplace.json templates** — copiar ambos para `skills/setup-framework/templates/.claude-plugin/` (CI valida que ambos tem a mesma versao)
 4. **Framework-tags** — atualizar todos os `<!-- framework-tag: vX.Y.Z -->` nos .md:
    ```bash
-   grep -rl "framework-tag: v" --include="*.md" . | xargs sed -i '' "s/framework-tag: v[0-9]*\.[0-9]*\.[0-9]*/framework-tag: vNOVA/g"
+   grep -rl "framework-tag: v" --include="*.md" . | grep -v "migrations/" | xargs sed -i '' "s/framework-tag: v[0-9]*\.[0-9]*\.[0-9]*/framework-tag: vNOVA/g"
    ```
-5. **Sincronizar templates** — apos atualizar tags, copiar todos os sources afetados para templates (o sed so atualiza sources, nao templates). Rodar `bash scripts/check-sync.sh` para confirmar.
+5. **Sincronizar templates** — apos atualizar tags, rodar `bash scripts/check-sync.sh` para confirmar. O sed acima ja atualiza templates (o grep pega templates/ e templates-light/), mas check-sync valida que nada ficou inconsistente.
 6. **Commit** com mensagem `release: vX.Y.Z`
 7. **Tag** — `git tag vX.Y.Z`
 8. **Push** — perguntar ao usuario antes de `git push && git push --tags`
@@ -208,6 +220,10 @@ Verificar que tudo ficou consistente:
 Apos um plano ser aprovado (ExitPlanMode aceito), salvar em `.claude/plans/{ID}-{descricao}.md` no repo. Exemplo: `.claude/plans/MO9-light-edition.md`.
 
 Planos sao referencia de decisoes de design — nao sao distribuidos para projetos (nao estao no MANIFEST). Servem para que sessoes futuras entendam o raciocinio por tras de implementacoes complexas.
+
+## Auditorias
+
+Ao rodar auditoria de "problemas nao mapeados" no framework (especialmente com agents Explore), ler `.claude/AUDIT_ANTIPATTERNS.md` antes de reportar achados. O arquivo lista falsos positivos ja investigados, com o segundo arquivo que os invalidou — evita repetir as mesmas especulacoes. Se um achado novo sobreviver a revisao, registrar ali o "segundo arquivo" que confirmou.
 
 ## Regras
 
