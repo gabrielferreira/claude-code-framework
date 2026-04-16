@@ -523,7 +523,10 @@ Alem de detectar stack e estrutura, analisar o **codigo-fonte real** do projeto 
 1. Selecionar ~10-15 arquivos de codigo representativos (nao testes, nao vendor/node_modules):
    - Priorizar arquivos em `src/`, `pkg/`, `internal/`, `lib/`, `app/`, `services/`, `routes/`, `controllers/`
    - Pegar arquivos de diferentes diretorios para cobrir variedade
-   - Usar Glob para encontrar, Read para ler os primeiros ~50 linhas (imports + inicializacao)
+   - Usar Glob para encontrar candidatos
+
+   **INSTRUCAO DE PERFORMANCE — PARALELO OBRIGATORIO:**
+   Ler TODOS os arquivos selecionados em UMA UNICA MENSAGEM (multiplas chamadas Read em paralelo, NAO sequenciais). Claude Code processa tool calls em paralelo quando emitidas na mesma mensagem. Maximo: 12 arquivos simultaneos. Para cada arquivo, ler os primeiros ~50 linhas (imports + inicializacao).
 
 2. **Extrair padroes por categoria:**
 
@@ -1876,6 +1879,8 @@ Verificar presenca de cada H2 esperada:
 
 #### Categoria 6 — Relevancia de conteudo
 
+> **Guard:** SKIP se zero skills condicionais instaladas (dba-review, ux-review, seo-performance) E CODE_PATTERNS esta vazio/null. Sem condicionais nem patterns, nao ha o que validar por relevancia. Registrar "⚪ Categoria 6: nao aplicavel (sem skills condicionais nem CODE_PATTERNS)".
+
 Verificar se o conteudo gerado nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (stack, tipo, CODE_PATTERNS da Fase 1.6) para cruzar com o que foi instalado.
 
 > **Regra critica: NUNCA resetar, limpar ou esvaziar um campo/secao.** Ao detectar conteudo inadequado, o fluxo e sempre:
@@ -2081,6 +2086,8 @@ Se "Pular": registrar como pendencias manuais no SETUP_REPORT.md.
 
 #### Categoria 7 — Coerencia de customizacao
 
+> **Guard:** SKIP se e primeiro setup (nao re-run nem update). No primeiro setup nada foi customizado — nao ha remocoes ou adaptacoes para validar. Registrar "⚪ Categoria 7: nao aplicavel (primeiro setup)".
+
 Verificar que remocoes ou customizacoes feitas pelo projeto nao deixam referencias orfas:
 
 ##### 7.1 Se CLAUDE.md nao tem secao "TDD obrigatorio"
@@ -2105,9 +2112,8 @@ Verificar que definition-of-done nao referencia agents que o projeto nao possui 
 
 #### Categoria 8 — Deduplicacao de artefatos entre sub-projetos
 
-> Severidade: ⚪ info (sugestao, nunca obrigatorio)
-> So executa se `## Monorepo` existe no CLAUDE.md E tem ≥ 2 sub-projetos em `### Estrutura`.
-> Single-repo: skip completo.
+> **Guard:** SKIP se `## Monorepo` nao existe no CLAUDE.md OU < 2 sub-projetos em `### Estrutura`. Registrar "⚪ Categoria 8: nao aplicavel (single-repo)".
+> Severidade: ⚪ info (sugestao, nunca obrigatorio).
 
 Escanear artefatos em todos os sub-projetos e detectar duplicatas para sugerir consolidacao.
 
