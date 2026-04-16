@@ -92,9 +92,17 @@ NÃO copiar o spec inteiro — apenas o que o sub-agent precisa para esta task.}
 {Skills de domínio que o sub-agent deve ler ANTES de implementar:}
 - `.claude/skills/testing/README.md`
 - `.claude/skills/security-review/README.md` (se toca em auth/segurança)
+
+### Git isolation
+git_isolation: {true | false}
+{Se true: task-runner cria branch task/{spec-id}-t{index} antes de implementar e aguarda review antes de merge. Se false ou omitido: comportamento padrão sem branch isolada.}
 ```
 
 **Princípio:** cada briefing deve ser auto-contido. O sub-agent não precisa ler a spec completa, o execution-plan, ou o STATE.md. Tudo que ele precisa está no briefing.
+
+**Git isolation:** no início da sessão de implementação, perguntar ao dev:
+> "Quer usar git isolation por task? Cada task roda em branch própria (`task/{spec-id}-t{index}`) e você revisa antes de mergear."
+Se sim: incluir `git_isolation: true` em todos os briefings. Se não: omitir (comportamento padrão).
 
 ### 3. Despachar
 
