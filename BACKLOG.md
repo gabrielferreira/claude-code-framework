@@ -49,9 +49,9 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | pendente release |
-| SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | pendente release |
-| SW9 | **SPECS_INDEX ativo + archive**: SPECS_INDEX só ativas, SPECS_INDEX_ARCHIVE para concluídas/descontinuadas, migração automática no update | pendente release |
+| MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | v2.43.0 — 2026-04-15 |
+| SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | v2.43.0 — 2026-04-15 |
+| SW9 | **SPECS_INDEX ativo + archive**: SPECS_INDEX só ativas, SPECS_INDEX_ARCHIVE para concluídas/descontinuadas, migração automática no update | v2.43.0 — 2026-04-15 |
 | MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | v2.42.0 — 2026-04-15 |
 | MR3 | **Spec-creator com escopo monorepo (dual-mode)**: Passo 0d detecta sub-projeto, respeita distribuição, coluna Sub-projeto no SPECS_INDEX, property Notion, variante monorepo no template | v2.42.0 — 2026-04-15 |
 | MR2 | **Setup-framework detecta monorepo**: bullet Fase 3.2, auditoria, scan 2 níveis, git submodules — gap-closing sobre MR1 | v2.42.0 — 2026-04-15 |
