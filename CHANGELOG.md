@@ -7,6 +7,17 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.49.0] — 2026-04-16
+
+### Melhorado
+
+- **Instrução compacta (PF7):** setup SKILL.md reduzido de 2.495 → 1.238 linhas (-50%), update SKILL.md de 1.257 → 564 linhas (-55%). Conteúdo condicional (monorepo, Notion, auditoria, exemplos) extraído para arquivos auxiliares carregados sob demanda. Zero perda de funcionalidade — todos os cenários (L0/L2/L3+, single-repo, monorepo A-E, Notion, PRD, light/full) preservados nos auxiliares.
+
+### Housekeeping
+
+- Descartados SW6 (já implementado via specs/done + SW9) e DF5 (decisão tomada no SW2)
+- Reclassificado TQ7 como OP3 (Operações — não é teste)
+
 ## [2.48.1] — 2026-04-16
 
 ### Corrigido
