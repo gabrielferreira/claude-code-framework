@@ -8,7 +8,14 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
-| MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 4 |
+| PF1 | [PF1.md](PF1.md) | Fase 5 | Wave 1 |
+| PF2 | [PF2.md](PF2.md) | Fase 5 | Wave 1 |
+| PF3 | [PF3.md](PF3.md) | Fase 5 | Wave 1 |
+| PF4 | [PF4.md](PF4.md) | Fase 5 | Wave 1 |
+| PF5 | [PF5.md](PF5.md) | Fase 5 | Wave 1 |
+| PF6 | [PF6.md](PF6.md) | Fase 5 | Wave 1 |
+| PF7 | [PF7.md](PF7.md) | Fase 5 | Wave 1 |
+| MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 3 |
 | TQ7 | [TQ7.md](TQ7.md) | Testes | Wave 2 |
 
 ## Concluídos

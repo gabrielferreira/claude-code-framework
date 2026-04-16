@@ -31,6 +31,18 @@
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 
 
+### Fase 5 — Performance do setup/update
+
+| ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
+|----|------|------|---------|-----------|---------|---------|------|------|------|--------|
+| PF1 | **Defaults inteligentes**: Fase 1 gera DETECTION_SUMMARY, Fase 2 apresenta tudo detectado e pede confirmação em bloco. Se "Sim": pula questionário inteiro | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Refactor | 4h | — | Análise performance 2026-04-16 |
+| PF2 | **Perguntas agrupadas com opções selecionáveis**: AskUserQuestion com options/multiSelect em 4 blocos temáticos em vez de 20-30 chamadas texto livre | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Refactor | 6h | PF1 | Análise performance 2026-04-16 |
+| PF3 | **CODE_PATTERNS em paralelo**: instruir leitura de 10-15 arquivos representativos em chamadas Read paralelas em vez de sequenciais | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Refactor | 2h | — | Análise performance 2026-04-16 |
+| PF4 | **Geração de arquivos em batch**: copiar templates via bash, substituição global de placeholders via sed, customização CODE_PATTERNS agrupada | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Refactor | 4h | PF1 | Análise performance 2026-04-16 |
+| PF5 | **Structural merge otimizado**: receita mecânica com short-circuit (tag igual = skip), grep de headers, diff de listas, sem análise de conteúdo | 🟠 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Refactor | 6h | — | Análise performance 2026-04-16 |
+| PF6 | **Auditoria seletiva**: guard explícito por categoria (skip se condição não satisfeita), categorias 6-8 condicionais | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Refactor | 2h | — | Análise performance 2026-04-16 |
+| PF7 | **Instrução compacta**: extrair exemplos longos e edge cases para arquivos auxiliares (EXAMPLES.md, MONOREPO_DETAILS.md), SKILL.md de 2.295→~1.200 linhas | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 8h | PF1, PF2 | Análise performance 2026-04-16 |
+
 ### Operações do framework
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
@@ -106,22 +118,26 @@ Itens que foram avaliados e descartados conscientemente — mantidos aqui para e
 
 Ordem recomendada para os itens pendentes, agrupada por impacto e interdependências.
 
-### Wave 1 — Itens que mudam fluxo/template/spec (fazer primeiro)
+### Wave 1 — Performance do setup/update (fazer primeiro)
 
-(Vazia — todos os itens foram concluídos.)
+| Ordem | ID | Motivo |
+|-------|-----|--------|
+| 1 | **PF1** | Defaults inteligentes — base para PF2. Sem deps. |
+| 2 | **PF2** | Perguntas agrupadas — maior impacto (-15 min). Deps: PF1. |
+| 3 | **PF3** | CODE_PATTERNS paralelo — fácil, afeta setup e update. Sem deps. |
+| 4 | **PF6** | Auditoria seletiva — fácil, afeta ambos. Sem deps. |
+| 5 | **PF4** | Geração batch — setup. Deps: PF1. |
+| 6 | **PF5** | Structural merge otimizado — update. Sem deps. |
+| 7 | **PF7** | Instrução compacta — último, requer PF1+PF2 estáveis. |
 
-### Wave 2 — Itens que mudam template mas são isolados
+### Wave 2 — Qualidade e manutenção
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|
 | 1 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
 | 2 | **TQ7** | Unificar templates-light em condicional — elimina divergência. Deps: MO9 ✅. |
 
-### Wave 3 — Skills/agents novos (independentes)
-
-(Vazia — todos os itens foram concluídos ou movidos.)
-
-### Wave 4 — Distribuição e escala (quando houver demanda)
+### Wave 3 — Distribuição e escala (quando houver demanda)
 
 | ID | Nota |
 |----|------|
