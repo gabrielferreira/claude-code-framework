@@ -1,8 +1,9 @@
 <!-- framework-tag: v2.42.0 framework-file: SPECS_INDEX.template.md -->
 # SPECS_INDEX — {NOME_DO_PROJETO}
 
-> Índice de todas as specs do projeto. Consultar ANTES de implementar qualquer item.
-> Ao criar spec nova: adicionar entrada aqui no domínio correto.
+> Indice de specs **ativas** do projeto. Consultar ANTES de implementar qualquer item.
+> Specs concluidas e descontinuadas ficam em `SPECS_INDEX_ARCHIVE.md`.
+> Ao criar spec nova: adicionar entrada aqui no dominio correto.
 
 ## Como usar
 
@@ -133,9 +134,9 @@
 
 ## Manutenção deste índice
 
-- **Nova spec criada:** adicionar linha no domínio correto
-- **Spec concluída:** atualizar status para `concluída`, mover path para `done/`
-- **Spec descontinuada:** atualizar status para `descontinuada`, adicionar nota sobre qual spec a substituiu
+- **Nova spec criada:** adicionar linha no dominio correto
+- **Spec concluida:** **mover entrada para `SPECS_INDEX_ARCHIVE.md`** (secao Concluidas), atualizar path para `done/`
+- **Spec descontinuada:** **mover entrada para `SPECS_INDEX_ARCHIVE.md`** (secao Descontinuadas), adicionar nota sobre qual spec a substituiu
 - **Spec removida:** remover linha
-- **Mudança de domínio:** mover linha para domínio correto
-- **Dependência adicionada:** atualizar tabela "Dependências entre specs" E seção "Dependências" dentro da spec
+- **Mudanca de dominio:** mover linha para dominio correto
+- **Dependencia adicionada:** atualizar tabela "Dependencias entre specs" E secao "Dependencias" dentro da spec

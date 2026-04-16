@@ -225,6 +225,57 @@ Planos sao referencia de decisoes de design — nao sao distribuidos para projet
 6. **Skills devem ter exemplos concretos.** Toda skill deve conter pelo menos 1 exemplo concreto por bloco de codigo, alem dos placeholders `{Adaptar:...}`. Placeholders sozinhos nao sao suficientes — o exemplo concreto serve de referencia para quem customiza no projeto.
 7. **Docs portaveis sincronizados com skills.** Quando editar `skills/prd-creator/SKILL.md` ou `prds/PRD_TEMPLATE.md`, verificar se `docs/PRD_PORTABLE_PROMPT.md` precisa da mesma mudanca. O doc portavel e a versao standalone do workflow da skill — metodologia, classificacao de complexidade, template de saida e regras devem refletir o que a skill faz. Aplicar a mesma logica para futuros docs portaveis de outras skills.
 
+## Diretrizes de implementacao
+
+Diretrizes que se aplicam a **toda** implementacao no framework. Diferente das "Regras" (checks pontuais), estas sao principios de design que guiam decisoes.
+
+### 3 cenarios obrigatorios
+
+Toda feature que cria ou modifica artefatos distribuidos deve funcionar em **3 cenarios**:
+
+1. **Projeto novo** (setup greenfield) — cenario mais simples, tudo e criado do zero
+2. **Re-run do setup** em projeto existente — "complementar o que falta" sem quebrar o que existe. Cenario muito comum em monorepo: sub-repos que ja passaram pelo setup sao incluidos num monorepo novo
+3. **Update-framework** em projeto com versao anterior — detectar ausencia do artefato novo e oferecer criacao/migracao
+
+Para cada artefato novo, perguntar:
+- "E se este arquivo ja existe no projeto? O setup re-run vai pular ou atualizar?"
+- "E se o projeto tem versao antiga sem este artefato? O update oferece?"
+- Se o artefato e `skip` no MANIFEST: nem setup re-run nem update tocam — a migracao precisa ser via skill ou oferta explicita
+
+### Dual-mode obrigatorio (repo + Notion)
+
+Skills que operam em specs ou backlog (`spec-creator`, `backlog-update`, `spec-driven`) existem em dois modos:
+
+- **Repo mode:** arquivos locais (`.claude/specs/`, `backlog.md`, `SPECS_INDEX.md`)
+- **Notion mode:** MCP Notion (database de specs, properties de pagina)
+
+Toda mudanca nessas skills deve funcionar nos dois modos. Se a mudanca cria ou busca artefatos, verificar o comportamento em cada modo. Notion mode usa properties em vez de colunas/headers markdown.
+
+### Monorepo: sub-niveis e submodules
+
+- **Scan de sub-projetos:** ate 2 niveis de profundidade (`apps/web/`, `services/auth/`). Excluir `node_modules/`, `vendor/`, `.git/`, `dist/`, `build/`
+- **Git submodules:** detectar `.gitmodules`, marcar submodules no mapa, **nunca configurar framework automaticamente dentro de submodule** — perguntar ao dev incluir ou ignorar
+- **L3+ (sub-dominios):** setup nao cria automaticamente. Informar no SETUP_REPORT como criar manualmente quando justificado (compliance, seguranca, integracao com terceiros)
+- **Docs por sub-projeto:** cada sub-projeto deve ter seus docs relevantes (`backend/docs/`). CLAUDE.md L0 referencia "para saber sobre X, consulte `X/docs/`" — evita carregar contexto de tudo na raiz
+
+### Backward compatibility
+
+- **Single-repo:** zero mudanca visivel quando features de monorepo sao adicionadas. Se `## Monorepo` nao existe no CLAUDE.md, todas as skills operam como antes
+- **Specs sem marcadores delta:** continuam funcionando — marcadores sao aditivos, nunca obrigatorios
+- **SPECS_INDEX sem archive:** skills criam o archive sob demanda se nao existe. Nenhuma skill falha por ausencia do archive
+
+### Releases via PR
+
+Nunca commitar diretamente na main — incluindo releases. O commit de release (`release: vX.Y.Z`) vai em branch propria e entra via PR, mesmo sendo fast-forward. Isso garante CI e rastreabilidade.
+
+### Migrations nao corrompem code fences
+
+Ao atualizar framework-tags com `sed`, **excluir o diretorio `migrations/`** do grep. Migrations contem exemplos de framework-tags dentro de code fences que nao devem ser alterados:
+
+```bash
+grep -rl "framework-tag: vANTIGA" --include="*.md" . | grep -v "migrations/" | xargs sed -i '' "s/framework-tag: vANTIGA/framework-tag: vNOVA/g"
+```
+
 ## Padrao para criar agents
 
 Ao criar um novo agent, seguir este checklist:
