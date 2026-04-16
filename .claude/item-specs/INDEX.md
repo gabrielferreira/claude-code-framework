@@ -16,12 +16,12 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
-| PF1 | [done/PF1.md](done/PF1.md) | pendente release |
-| PF2 | [done/PF2.md](done/PF2.md) | pendente release |
-| PF3 | [done/PF3.md](done/PF3.md) | pendente release |
-| PF4 | [done/PF4.md](done/PF4.md) | pendente release |
-| PF5 | [done/PF5.md](done/PF5.md) | pendente release |
-| PF6 | [done/PF6.md](done/PF6.md) | pendente release |
+| PF1 | [done/PF1.md](done/PF1.md) | v2.47.0 — 2026-04-16 |
+| PF2 | [done/PF2.md](done/PF2.md) | v2.47.0 — 2026-04-16 |
+| PF3 | [done/PF3.md](done/PF3.md) | v2.47.0 — 2026-04-16 |
+| PF4 | [done/PF4.md](done/PF4.md) | v2.47.0 — 2026-04-16 |
+| PF5 | [done/PF5.md](done/PF5.md) | v2.47.0 — 2026-04-16 |
+| PF6 | [done/PF6.md](done/PF6.md) | v2.47.0 — 2026-04-16 |
 | MO9 | [done/MO9.md](done/MO9.md) | v2.46.0 — 2026-04-15 |
 | MO4 | [done/MO4.md](done/MO4.md) | v2.45.0 — 2026-04-15 |
 | MR6 | [done/MR6.md](done/MR6.md) | v2.44.0 — 2026-04-15 |

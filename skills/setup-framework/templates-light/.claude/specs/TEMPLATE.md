@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.46.2 framework-file: light:specs/TEMPLATE.md -->
+<!-- framework-tag: v2.47.0 framework-file: light:specs/TEMPLATE.md -->
 <!-- framework-mode: light -->
 # {ID} — {Título}
 
