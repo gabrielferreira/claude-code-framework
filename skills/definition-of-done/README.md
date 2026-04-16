@@ -92,7 +92,7 @@ Tudo do checklist universal, mais:
 - [ ] Status da spec transicionou seguindo os gates (não pulou etapas — ver skill spec-driven)
 - [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
 - [ ] Design doc movido junto com spec para `done/` (se aplicável)
-- [ ] **Artefatos de trabalho deletados:** `{id}-research.md` e `{id}-plan.md` removidos de `.claude/specs/`
+- [ ] **Artefatos de trabalho deletados:** `{id}-research.md` e `{id}-plan.md` removidos de `.claude/specs/` — commitar a remoção no PR (fica no histórico mas não polui o repo após merge)
 
 ## Checklists por tipo de entrega
 
