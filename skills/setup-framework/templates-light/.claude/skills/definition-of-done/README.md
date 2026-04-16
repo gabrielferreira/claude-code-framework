@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.45.0 framework-file: skills/definition-of-done/README.md -->
+<!-- framework-tag: v2.46.0 framework-file: skills/definition-of-done/README.md -->
 <!-- framework-mode: light -->
 # Skill: Definition of Done — {NOME_DO_PROJETO}
 

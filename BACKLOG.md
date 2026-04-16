@@ -49,7 +49,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| MO9 | **Framework Light Edition**: modo light (~31 arquivos) vs full (~86), setup rápido (3-4 perguntas), MANIFEST com coluna Tier, templates-light/, /upgrade-framework, check-sync.sh estendido | pendente release |
+| MO9 | **Framework Light Edition**: modo light (~31 arquivos) vs full (~86), setup rápido (3-4 perguntas), MANIFEST com coluna Tier, templates-light/, /upgrade-framework, check-sync.sh estendido | v2.46.0 — 2026-04-15 |
 | MO4 | **Git isolation por task**: branch `task/{spec-id}-t{index}` no task-runner, opt-in via briefing, merge com confirmação humana | v2.45.0 — 2026-04-15 |
 | MR6 | **Promoção de artefatos duplicados entre camadas (monorepo)**: deduplicação no setup (cenário B passo E) e update (Categoria 8), interseção inteligente, promoção multi-nível | v2.44.0 — 2026-04-15 |
 | MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | v2.43.0 — 2026-04-15 |
