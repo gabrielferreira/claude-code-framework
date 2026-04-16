@@ -35,7 +35,6 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
-| PF7 | **Instrução compacta**: extrair exemplos longos e edge cases para arquivos auxiliares (EXAMPLES.md, MONOREPO_DETAILS.md), SKILL.md de 2.295→~1.200 linhas | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 8h | PF1 ✅, PF2 ✅ | Análise performance 2026-04-16 |
 
 ### Operações do framework
 
@@ -55,6 +54,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| PF7 | **Instrução compacta**: setup SKILL.md -50% (2495→1238), update -55% (1257→564), auxiliares condicionais (monorepo, Notion, auditoria, exemplos) | v2.49.0 — 2026-04-16 |
 | PF1 | **Defaults inteligentes**: DETECTION_SUMMARY + confirmação rápida, pula Fase 2 se "Sim" | v2.47.0 — 2026-04-16 |
 | PF2 | **Perguntas agrupadas**: 5 AskUserQuestion com options/multiSelect em vez de 20-30 texto livre | v2.47.0 — 2026-04-16 |
 | PF3 | **CODE_PATTERNS paralelo**: leitura de 10-15 arquivos em paralelo | v2.47.0 — 2026-04-16 |
@@ -120,13 +120,7 @@ Itens que foram avaliados e descartados conscientemente — mantidos aqui para e
 
 Ordem recomendada para os itens pendentes, agrupada por impacto e interdependências.
 
-### Wave 1 — Performance do setup/update
-
-| Ordem | ID | Motivo |
-|-------|-----|--------|
-| 1 | **PF7** | Instrução compacta — último item de performance. Deps: PF1 ✅, PF2 ✅. |
-
-### Wave 2 — Qualidade e manutenção
+### Wave 1 — Qualidade e manutenção
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|

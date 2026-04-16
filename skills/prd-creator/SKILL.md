@@ -3,7 +3,7 @@ name: prd-creator
 description: Cria um novo PRD (Product Requirements Document) a partir do template, registra no SPECS_INDEX e opcionalmente no backlog
 user_invocable: true
 ---
-<!-- framework-tag: v2.48.1 framework-file: skills/prd-creator/SKILL.md -->
+<!-- framework-tag: v2.49.0 framework-file: skills/prd-creator/SKILL.md -->
 
 # /prd — Criar novo PRD
 
