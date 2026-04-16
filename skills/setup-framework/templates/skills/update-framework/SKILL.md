@@ -384,58 +384,52 @@ Para cada rename cuja versão "Desde" > versão instalada no projeto:
 2. **Se projeto já tem o path novo:** skip (já migrado)
 3. **Se nenhum dos dois existe:** tratar como arquivo novo (copiar template na Fase 3.4)
 
-### 3.2 Aplicar structural
+### 3.2 Aplicar structural — receita mecanica
 
-Para cada arquivo `structural`:
+> **REGRA CRITICA:** O merge structural NUNCA substitui conteudo customizado. Secoes existentes no projeto sao INTOCAVEIS. O merge so ADICIONA secoes novas e PERGUNTA sobre removidas.
 
-0. **BACKUP OBRIGATORIO:** copiar arquivo atual para `.claude/.update-backup/{tag}/{path}` ANTES de qualquer alteracao. Se o merge falhar, este backup e a unica forma de restaurar.
-1. **Extrair seções (H2/H3)** do arquivo source e do arquivo instalado
-2. **Comparar listas de seções:**
-   - Seção existe em ambos → manter versão do projeto (customizada)
-   - Seção existe só no source (nova) → adicionar ao projeto, após a seção anterior
-   - Seção existe só no projeto (removida do framework) → avisar, perguntar se remove
-3. **Dentro de seções existentes, verificar mudanças estruturais:**
-   - Sub-seções (H3) novas → adicionar
-   - Referências a arquivos/skills que mudaram de nome → atualizar (ex: `security-review` → `security-audit`)
-4. **Atualizar o header `framework-tag`** para a nova versão
+Para cada arquivo `structural`, seguir esta receita:
 
-#### Algoritmo de merge structural
+#### Passo 0 — Short-circuit
 
-> **REGRA CRITICA:** O merge structural NUNCA substitui conteudo que o usuario ja customizou. Se o usuario preencheu uma secao com dados reais do projeto (nomes de libs, padroes, branches, etc.), esse conteudo e INTOCAVEL. O merge so adiciona secoes novas e remove secoes obsoletas. Se tiver duvida se o conteudo foi customizado, SEMPRE perguntar antes de alterar.
+Comparar framework-tag do projeto com framework-tag do source:
+- Se **iguais** → SKIP (nada mudou neste arquivo). Atualizar tag e seguir pro proximo.
+- Se **diferentes** → continuar com merge.
 
-O merge structural preserva conteudo customizado pelo projeto e apenas adiciona/remove secoes do framework:
+**Economia:** em update tipico, ~80% dos arquivos structural nao mudaram entre versoes — short-circuit evita analise desnecessaria.
 
-1. **Parsear ambos os arquivos** (source e projeto) em secoes H2
-2. **Para cada H2 no source:**
-   - Se a secao existe no projeto → manter versao do projeto (conteudo customizado)
-   - Se a secao NAO existe no projeto → adicionar do source (secao nova do framework)
-3. **Para cada H2 no projeto:**
-   - Se a secao NAO existe no source → avisar usuario (secao removida do framework, pedir confirmacao)
-4. **Subsecoes H3:** mesmo algoritmo recursivamente dentro de cada H2
-5. **Ordem:** manter a ordem do source, inserindo secoes do projeto na posicao correspondente
+#### Passo 1 — Backup
 
-**Edge cases:**
-- Secao renomeada: detectar por similaridade de conteudo (>70% igual = provavel rename). Perguntar ao usuario.
-- Secao vazia no projeto: substituir pelo source (usuario nao customizou).
-- Conflito de ordem: priorizar ordem do source, mover secoes do projeto para posicao correspondente.
+Copiar arquivo atual para `.claude/.update-backup/{tag}/{path}` ANTES de qualquer alteracao.
 
-**Como detectar se o conteudo foi customizado:**
-- Comparar conteudo da secao com o template source. Se >30% das linhas diferem do template → foi customizado → PRESERVAR.
-- Indicadores de customizacao: nomes de libs reais (elogger, GORM, Vitest), paths reais do projeto, branches reais (main, release, sandbox), envs reais, configuracoes especificas.
-- Indicadores de NAO customizado: placeholders genericos ({Jest / Vitest}, {Node.js 20}), exemplos de linguagem errada (JS em projeto Go), valores padrao iguais ao template.
-- **Na duvida: perguntar.** Nunca assumir que conteudo especifico e generico.
+#### Passo 2 — Extrair headers
 
-#### Validacao pos-merge (OBRIGATORIA)
+```
+Usar Grep no source: grep -n "^## \|^### " source.md → lista_source[]
+Usar Grep no projeto: grep -n "^## \|^### " projeto.md → lista_projeto[]
+```
 
-Apos aplicar o merge structural em cada arquivo, executar esta validacao ANTES de passar para o proximo arquivo:
+Emitir ambos os Greps em paralelo (mesma mensagem).
 
-1. **Ler o arquivo resultante** e comparar com o backup (salvo em `.claude/.update-backup/{tag}/`)
-2. **Para cada secao que existia no backup:**
-   - O conteudo customizado foi preservado? Se o backup tinha `elogger` e o resultado tem `console.log` → **MERGE FALHOU**
-   - Se falhou: **reverter para o backup** e avisar: "Merge structural falhou em {arquivo} secao {secao}. Conteudo customizado foi restaurado do backup. Secoes novas do framework NAO foram adicionadas. Revisar manualmente."
-3. **Para cada secao nova (nao existia no backup):**
-   - Verificar se tem placeholders — avisar que precisa customizar
-4. **Registrar no relatorio:** quais secoes foram preservadas, quais foram adicionadas, quais falharam
+#### Passo 3 — Calcular diff de secoes
+
+```
+NOVAS     = headers em lista_source que NAO estao em lista_projeto
+REMOVIDAS = headers em lista_projeto que NAO estao em lista_source
+EXISTENTES = headers em ambas as listas
+```
+
+#### Passo 4 — Aplicar
+
+- **NOVAS:** extrair conteudo da secao do source (desde header ate proximo header de mesmo nivel ou superior) → APPEND ao final do arquivo do projeto, na posicao equivalente. Se a secao nova e H3, inserir dentro do H2 correspondente.
+- **REMOVIDAS:** perguntar ao usuario: "Secao '{nome}' foi removida do framework. Remover do seu projeto? [Sim/Nao]"
+- **EXISTENTES:** NAO TOCAR. Conteudo do projeto e sagrado. Zero analise de conteudo, zero heuristica de customizacao.
+
+#### Passo 5 — Finalizar
+
+1. Atualizar framework-tag na linha 1 para a nova versao
+2. Verificar: todas as secoes que existiam no backup continuam existindo no resultado. Se alguma sumiu → **reverter para backup** e reportar erro.
+3. Registrar no relatorio: secoes adicionadas, secoes removidas (se usuario confirmou), secoes preservadas
 
 ### 3.2b Aplicar content patches (mudancas intra-secao)
 
