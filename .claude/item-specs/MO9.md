@@ -1,8 +1,15 @@
 # MO9 — Framework Light Edition
 
-**Plano:** [.claude/plans/MO9-light-edition.md](../plans/MO9-light-edition.md)
+**Plano:** [.claude/plans/MO9-light-edition.md](../plans/MO9-light-edition.md) (original) + plano atualizado na sessao de implementacao
 
-**Contexto:** o framework distribui ~100 arquivos para projetos (16 agents, 26 skills, 20 docs, 4 scripts). Para projetos pequenos (1-3 devs, domínio único) isso é overhead — setup longo, muitas perguntas, dezenas de arquivos não usados. Internamente, os devs do framework usam uma abordagem simplificada (specs de 4 seções, backlog flat) que funciona bem e serve de referência.
+**Contexto:** o framework distribui ~86 arquivos para projetos (16 agents, 26 skills, 20 docs, 4 scripts). Para projetos pequenos (1-3 devs, domínio único) isso é overhead — setup longo, muitas perguntas, dezenas de arquivos não usados. Internamente, os devs do framework usam uma abordagem simplificada (specs de 4 seções, backlog flat) que funciona bem e serve de referência.
+
+**Mudancas desde o plano original (v2.39.0 → v2.45.0):**
+- MR1-MR6: suporte monorepo completo → light ignora (light = single repo)
+- SW1: delta markers nos RFs → light ignora (specs simplificadas sem RF-IDs)
+- SW9: SPECS_INDEX archive → light usa (funciona standalone, reduz contexto)
+- MO4: git isolation no task-runner → light ignora (sem sub-agent orchestration)
+- DL1: skill `/pr` → adicionada ao core tier (todo projeto faz PRs)
 
 **Abordagem:** criar edição "light" com ~28 arquivos (vs ~100 no full), setup rápido (3-4 perguntas vs 15-20), e path de upgrade limpo para full.
 
@@ -19,7 +26,7 @@ Três eixos de mudança:
 
 **Escopo light:**
 - 5 agents core: security-audit, spec-validator, code-review, coverage-check, test-generator
-- 8 skills core: spec-driven, spec-creator, backlog-update, testing, definition-of-done, code-quality, logging, security-review
+- 9 skills core: spec-driven, spec-creator, backlog-update, testing, definition-of-done, code-quality, logging, security-review, **pr**
 - 4 docs: README, GIT_CONVENTIONS, QUICK_START, SPEC_DRIVEN_GUIDE
 - 1 script: verify.sh
 - Spec template simplificado (6 seções: Contexto, O que fazer, Critérios de aceitação, Restrições, Notas + header mínimo)
