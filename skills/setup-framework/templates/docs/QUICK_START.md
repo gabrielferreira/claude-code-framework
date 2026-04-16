@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.47.0 framework-file: docs/QUICK_START.md -->
+<!-- framework-tag: v2.47.1 framework-file: docs/QUICK_START.md -->
 # Quick Start — claude-code-framework
 
 > Em 5 minutos voce tera: CLAUDE.md configurado, skills de dominio instaladas, agents de auditoria prontos e o harness completo funcionando no seu projeto.

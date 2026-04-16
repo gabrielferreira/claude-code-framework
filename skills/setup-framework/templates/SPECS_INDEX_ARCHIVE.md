@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.47.0 framework-file: SPECS_INDEX_ARCHIVE.template.md -->
+<!-- framework-tag: v2.47.1 framework-file: SPECS_INDEX_ARCHIVE.template.md -->
 # SPECS_INDEX_ARCHIVE — {NOME_DO_PROJETO}
 
 > Arquivo de specs concluidas e descontinuadas. Movidas do SPECS_INDEX.md pelo fluxo spec-driven.
