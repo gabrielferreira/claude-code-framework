@@ -48,12 +48,12 @@ Pronto. Sem regex de conteúdo, sem heurística 30%, sem parse de tabelas.
 | Mirror | Sync |
 
 **Critérios de aceitação:**
-- [ ] Short-circuit funciona: arquivo com mesma tag = skip sem análise
-- [ ] Merge só adiciona seções novas e pergunta sobre removidas
-- [ ] Conteúdo de seções existentes NUNCA é alterado
-- [ ] Framework-tag atualizado no final
-- [ ] Resultado: mesmas seções que antes, mas 10x mais rápido
-- [ ] Edge case: arquivo sem framework-tag (v0.0.0) → tratar como desatualizado, merge completo
+- [x] Short-circuit funciona: arquivo com mesma tag = skip sem análise
+- [x] Merge só adiciona seções novas e pergunta sobre removidas
+- [x] Conteúdo de seções existentes NUNCA é alterado
+- [x] Framework-tag atualizado no final
+- [x] Resultado: mesmas seções que antes, mas 10x mais rápido
+- [x] Edge case: arquivo sem framework-tag (v0.0.0) → tratar como desatualizado, merge completo
 
 **Restrições:**
 - Content patches (mudanças DENTRO de seções existentes) continuam sendo aplicados via migration guide, não pelo merge structural — isso não muda

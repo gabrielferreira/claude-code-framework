@@ -523,7 +523,10 @@ Alem de detectar stack e estrutura, analisar o **codigo-fonte real** do projeto 
 1. Selecionar ~10-15 arquivos de codigo representativos (nao testes, nao vendor/node_modules):
    - Priorizar arquivos em `src/`, `pkg/`, `internal/`, `lib/`, `app/`, `services/`, `routes/`, `controllers/`
    - Pegar arquivos de diferentes diretorios para cobrir variedade
-   - Usar Glob para encontrar, Read para ler os primeiros ~50 linhas (imports + inicializacao)
+   - Usar Glob para encontrar candidatos
+
+   **INSTRUCAO DE PERFORMANCE — PARALELO OBRIGATORIO:**
+   Ler TODOS os arquivos selecionados em UMA UNICA MENSAGEM (multiplas chamadas Read em paralelo, NAO sequenciais). Claude Code processa tool calls em paralelo quando emitidas na mesma mensagem. Maximo: 12 arquivos simultaneos. Para cada arquivo, ler os primeiros ~50 linhas (imports + inicializacao).
 
 2. **Extrair padroes por categoria:**
 
@@ -615,51 +618,123 @@ CODE_PATTERNS = {
 ```
 Os patterns por sub-projeto sao usados na Fase 3 para gerar skills L2 customizadas para cada um.
 
-### 1.7 Apresentar resumo ao usuario
+### 1.7 Apresentar resumo e DETECTION_SUMMARY
 
-Mostrar ao usuario um resumo estruturado do que foi detectado:
+Compilar tudo detectado nas Fases 1.1-1.6 num `DETECTION_SUMMARY` — estrutura interna (nao salva em arquivo) que alimenta defaults da Fase 2. Mostrar ao usuario:
 
 ```
-## Analise do repositorio
+📋 Deteccao automatica — {nome do repo}
 
-**Projeto:** {nome do repo}
-**Stack:** {stacks detectadas}
-**Tipo:** {monorepo | single repo} / {frontend | backend | fullstack}
-**Frameworks:** {lista}
-**Teste:** {ferramentas de teste}
-**CI/CD:** {ferramenta}
-**DB/ORM:** {se detectado}
-**Docker:** {sim/nao}
+  Stack:      {stacks detectadas}
+  Tipo:       {monorepo | single repo} / {frontend | backend | fullstack}
+  DB:         {se detectado, qual}
+  Testes:     {ferramentas de teste}
+  CI/CD:      {ferramenta}
+  Docker:     {sim/nao}
 
-**Comandos detectados:**
-- Dev: {comando}
-- Test: {comando}
-- Build: {comando}
-- Lint: {comando}
-- Migrate: {comando}
+  Comandos detectados:
+    dev:      {comando}
+    test:     {comando}
+    build:    {comando}
+    coverage: {comando}
 
-**Padroes de codigo detectados:**
-- Logging: {lib} — ex: `{formato de chamada}`
-- Erros: {lib} — ex: `{padrao de wrap}`
-- HTTP client: {lib} — ex: `{padrao de chamada}`
-- Validacao: {lib}
-- ORM/DB: {lib}
-- Config: {lib}
+  Padroes de codigo (CODE_PATTERNS):
+    Logging:    {lib} — {formato}
+    Erros:      {lib} — {padrao}
+    HTTP:       {lib}
+    Validacao:  {lib}
+    ORM/DB:     {lib}
+    Config:     {lib}
+
+  Skills condicionais:
+    {✅ dba-review (DB detectado) | ❌ dba-review (sem DB)}
+    {✅ ux-review (frontend detectado) | ❌ ux-review (sem frontend)}
+    {✅ seo-performance (frontend publico) | ❌ seo-performance (sem SSR/SSG)}
+
+  Defaults inferidos:
+    Nome:       {nome do package.json ou diretorio}
+    Modo:       {FRAMEWORK_MODE ja escolhido na Fase 0}
+    Specs:      repo (default)
+    Coverage:   80%
+    PRD:        nao
+    TDD:        sim (default do framework)
 ```
 
-Perguntar: "Esta analise esta correta? Quer corrigir ou adicionar algo antes de continuar?"
+### 1.8 Confirmacao rapida (DETECTION_SUMMARY)
+
+Usar AskUserQuestion com 2 opcoes:
+
+```json
+{
+  "questions": [{
+    "question": "A deteccao acima esta correta?",
+    "header": "Confirmar",
+    "options": [
+      {"label": "Sim, continuar (Recomendado)", "description": "Usar tudo detectado como default — pular questionario"},
+      {"label": "Ajustar", "description": "Abrir questionario para corrigir pontos especificos"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+- **Se "Sim":** `FRAMEWORK_DEFAULTS = DETECTION_SUMMARY`. **PULAR Fase 2 inteira.** Ir direto para Fase 3.
+- **Se "Ajustar":** abrir Fase 2 com defaults pre-preenchidos do DETECTION_SUMMARY.
+
+**Economia:** quando deteccao acerta (maioria dos casos), usuario confirma em 10s e pula 15-30 min de perguntas.
 
 ---
 
-## Fase 2 — Questionario inteligente
+## Fase 2 — Questionario (so executa se usuario escolheu "Ajustar" na Fase 1.8)
 
-Perguntar APENAS o que nao foi auto-detectado. Usar AskUserQuestion quando possivel.
+> **Se usuario confirmou DETECTION_SUMMARY na Fase 1.8 ("Sim"):** PULAR esta fase inteira. FRAMEWORK_DEFAULTS ja esta preenchido.
+> **Se usuario escolheu "Ajustar":** executar os blocos abaixo com defaults pre-preenchidos do DETECTION_SUMMARY.
 
-**Se `FRAMEWORK_MODE=light`:** questionario simplificado — apenas 3-4 perguntas:
+Usar AskUserQuestion com `options` (selecaveis) quando possivel. NAO usar texto livre — preferir opcoes com label/description.
 
-1. **Nome e descricao do projeto** (1 pergunta combinada): nome sugerido + "Descreva em 1-2 frases o que faz"
-2. **Coverage threshold** (default 80%): "Qual percentual minimo de cobertura? (default: 80%)"
-3. **Confirmar skills condicionais detectadas** (se aplicavel): ex: "Detectei banco de dados. Instalar skill dba-review?"
+**Se `FRAMEWORK_MODE=light`:** questionario simplificado — apenas 2 blocos:
+
+Bloco L1 — Identidade (1 AskUserQuestion):
+```json
+{
+  "questions": [
+    {
+      "question": "Nome do projeto?",
+      "header": "Nome",
+      "options": [
+        {"label": "{nome-detectado}", "description": "Detectado do package.json/diretorio"},
+        {"label": "Outro", "description": "Digitar nome diferente"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Coverage threshold?",
+      "header": "Coverage",
+      "options": [
+        {"label": "80% (Recomendado)", "description": "Padrao para a maioria"},
+        {"label": "90%", "description": "Alta criticidade"},
+        {"label": "70%", "description": "Estagio inicial"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+Bloco L2 — Skills condicionais (1 AskUserQuestion, multiSelect, so se alguma detectada):
+```json
+{
+  "questions": [{
+    "question": "Skills condicionais detectadas. Desmarque as que nao quer:",
+    "header": "Skills",
+    "options": [
+      {"label": "dba-review", "description": "DB detectado ({qual})"},
+      {"label": "ux-review", "description": "Frontend detectado ({qual})"}
+    ],
+    "multiSelect": true
+  }]
+}
+```
 
 Pular no light:
 - Modelo de spec-driven (sempre repo, default)
@@ -673,31 +748,64 @@ Pular no light:
 
 Apos o questionario light, pular para Fase 3 diretamente.
 
-**Se `FRAMEWORK_MODE=full`:** questionario completo (comportamento atual):
+**Se `FRAMEWORK_MODE=full`:** questionario completo, mas com defaults pre-preenchidos do DETECTION_SUMMARY. Para cada pergunta: mostrar o valor detectado como opcao recomendada. Usar AskUserQuestion com `options` quando possivel.
 
-### Bloco 1 — Identidade do projeto
+### Bloco F1 — Identidade + modelo (1 AskUserQuestion, ate 4 questions)
 
-1. **Nome do projeto** — sugerir baseado no `package.json` name, nome do diretorio, ou `go.mod` module
-2. **Descricao curta** (1-2 frases): o que o projeto faz, que tipo de dados trata
-3. **Dominio de negocio** — opcoes sugeridas:
-   - SaaS / Plataforma
-   - E-commerce / Marketplace
-   - Fintech / Pagamentos
-   - Healthtech
-   - Edtech
-   - Ferramenta interna / Admin
-   - API / Infraestrutura
-   - Outro (especificar)
+Agrupar identidade e modelo em uma unica chamada:
 
-### Bloco 2 — Modelo de spec-driven
+```json
+{
+  "questions": [
+    {
+      "question": "Nome do projeto?",
+      "header": "Nome",
+      "options": [
+        {"label": "{DETECTION_SUMMARY.nome} (Recomendado)", "description": "Detectado do package.json/diretorio"},
+        {"label": "Outro", "description": "Digitar nome diferente"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Modelo de specs?",
+      "header": "Specs",
+      "options": [
+        {"label": "Repo (Recomendado)", "description": "Specs em .claude/specs/, backlog local"},
+        {"label": "Notion", "description": "Via MCP (requer configuracao previa)"},
+        {"label": "Externo", "description": "Jira/Linear/GitHub Issues"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Dominio do projeto?",
+      "header": "Dominio",
+      "options": [
+        {"label": "SaaS / Plataforma", "description": "Produto web com assinaturas"},
+        {"label": "Fintech / Pagamentos", "description": "Transacoes financeiras, compliance"},
+        {"label": "API / Infraestrutura", "description": "Servicos, integracao, devtools"},
+        {"label": "Outro", "description": "Especificar dominio"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Coverage threshold?",
+      "header": "Coverage",
+      "options": [
+        {"label": "80% (Recomendado)", "description": "Padrao para a maioria dos projetos"},
+        {"label": "90%", "description": "Alta criticidade (fintech, saude)"},
+        {"label": "70%", "description": "Estagio inicial, prototipo"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
 
-Perguntar qual modelo de specs sera usado:
+Apos resposta: se "Descrição" necessaria, perguntar em texto livre: "Descreva o projeto em 1-2 frases."
 
-| Modelo | Descricao |
-|---|---|
-| **Specs no repo** (padrao) | Specs em `.claude/specs/`, backlog.md, SPECS_INDEX.md dentro do repo |
-| **Specs externas** (Jira/Notion/Linear) | Specs vivem na ferramenta externa, repo so referencia |
-| **Hibrido** | Specs tecnicas no repo, specs de produto na ferramenta externa |
+**Se modelo = "Notion" ou "Externo":** continuar com Bloco F2 (detalhes do modelo). Se "Repo": pular Bloco F2.
+
+### Bloco F2 — Detalhes do modelo de specs (so se Notion/Externo)
 
 **Se "Specs externas" ou "Hibrido":**
 - Perguntar qual ferramenta: Jira, Linear, Notion, GitHub Issues, Confluence, outro
@@ -801,80 +909,100 @@ Perguntar: "O time usa analise de causa raiz / PRD antes de criar specs tecnicas
 
 > O PRD_TEMPLATE.md e `structural` — se o time ja tem um formato proprio de causa raiz, pode customizar as secoes. O `/update-framework` preserva customizacoes.
 
-### Bloco 3 — Fases do roadmap
+### Bloco F3 — Skills condicionais + convencoes (1 AskUserQuestion, ate 3 questions)
 
-1. Quantas fases? (sugerir 3 + Testes)
-2. Para cada fase: nome curto, foco (1 frase), severidade padrao
-3. Sugerir exemplo:
-   - F1: MVP / Quick wins
-   - F2: Diferenciacao / Escala
-   - F3: Expansao / Otimizacao
-   - T: Qualidade e infra de testes (paralelo)
+```json
+{
+  "questions": [
+    {
+      "question": "Skills condicionais detectadas. Desmarque as que nao quer:",
+      "header": "Skills",
+      "options": [
+        {"label": "dba-review", "description": "DB detectado ({DETECTION_SUMMARY.db})"},
+        {"label": "ux-review", "description": "Frontend detectado ({DETECTION_SUMMARY.frontend})"},
+        {"label": "seo-performance", "description": "Frontend publico detectado"},
+        {"label": "mock-mode", "description": "Integracoes externas detectadas"}
+      ],
+      "multiSelect": true
+    },
+    {
+      "question": "TDD obrigatorio?",
+      "header": "TDD",
+      "options": [
+        {"label": "Sim (Recomendado)", "description": "Testes ANTES da implementacao — padrao do framework"},
+        {"label": "Nao", "description": "Testes obrigatorios mas sem exigencia de ordem"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "PRD (Product Requirements Document)?",
+      "header": "PRD",
+      "options": [
+        {"label": "Nao (Recomendado)", "description": "Specs bastam para a maioria dos projetos"},
+        {"label": "Sim", "description": "Layer adicional para features grandes com multiplas specs"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
 
-### Bloco 4 — Skills relevantes
+Opcoes condicionais: so mostrar skills cujas condicoes foram detectadas na Fase 1.
 
-Apresentar recomendacao baseada na analise:
-
-**Sempre incluidas (core) — copiar TODAS, sem excecao:**
-- spec-driven ← fluxo de desenvolvimento (README.md de referencia, NAO e slash command)
-- definition-of-done
-- testing
-- code-quality
-- logging
-- docs-sync
-- spec-creator ← slash command `/spec` (cria specs)
-- backlog-update ← slash command `/backlog-update` (atualiza backlog)
+**Skills core (SEMPRE incluidas, sem perguntar):**
+- spec-driven, spec-creator, backlog-update, definition-of-done, testing, code-quality, logging, security-review, docs-sync, pr, quick, resume
 
 > **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
 > - `spec-driven` = processo/metodologia de desenvolvimento (README.md)
 > - `spec-creator` = slash command que cria uma spec nova (SKILL.md)
-> Nao pular nenhuma. Ambas se aplicam independente do modelo de specs (repo, Notion, externo).
 
-**Agents (sempre incluidos):**
-- security-audit
-- spec-validator
-- coverage-check
-- backlog-report
-- code-review
-- component-audit
+**Agents core (SEMPRE incluidos, sem perguntar):**
+- security-audit, spec-validator, coverage-check, code-review, test-generator
 
-**Agents condicionais:**
-- product-review → se PRD opt-in (Bloco 2b)
+**Agents full (incluidos automaticamente em modo full):**
+- backlog-report, component-audit, seo-audit, product-review, refactor-agent, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector, debugger
 
-**Recomendadas por deteccao:**
+### Bloco F4 — Fases do roadmap (1 AskUserQuestion)
 
-| Deteccao | Skill recomendada |
-|---|---|
-| Tem DB/ORM | dba-review |
-| Tem frontend / UI | ux-review |
-| Tem API/endpoints | (agents: security-audit) |
-| Tem integracoes externas | mock-mode |
+```json
+{
+  "questions": [{
+    "question": "Fases do roadmap do backlog?",
+    "header": "Fases",
+    "options": [
+      {"label": "Padrao (Recomendado)", "description": "F1 MVP, F2 Escala, F3 Expansao, T Testes"},
+      {"label": "Customizar", "description": "Definir fases proprias"},
+      {"label": "Sem fases", "description": "Backlog flat sem agrupamento por fase"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
 
-Perguntar: "Quer incluir todas as recomendadas ou selecionar?"
+Se "Customizar": perguntar em texto livre quantas fases e nomes.
+Se "Padrao": usar F1/F2/F3/T.
+Se "Sem fases": backlog simplificado (similar ao light).
 
-### Bloco 5 — Convencoes
+### Bloco F5 — Docs (1 AskUserQuestion, multiSelect)
 
-1. **Coverage minimo global:** sugerir 80%
-2. **Modulos com 100% obrigatorio:** listar candidatos detectados (services/, auth/, payments/, middleware/, etc.) e pedir confirmacao
-3. **Regras de seguranca especificas:** sugerir baseado no dominio
-   - Fintech: PCI-DSS, dados financeiros nunca em logs
-   - Healthtech: HIPAA/LGPD, dados de saude criptografados
-   - E-commerce: anti-fraude, reconciliacao
-   - Geral: OWASP Top 10, LGPD/GDPR
-4. **Pull Request format:** "O projeto tem formato especifico para Pull Requests (ex: `.github/pull_request_template.md`)? Se sim, informar o formato ou path do template. Se nao, o padrao de `docs/GIT_CONVENTIONS.md` sera usado."
+```json
+{
+  "questions": [{
+    "question": "Docs a incluir (alem dos obrigatorios GIT_CONVENTIONS, README, QUICK_START, SPEC_DRIVEN_GUIDE):",
+    "header": "Docs",
+    "options": [
+      {"label": "ARCHITECTURE", "description": "Documentar estrutura do projeto"},
+      {"label": "ACCESS_CONTROL", "description": "Auth, roles, permissoes (detectado: {sim/nao})"},
+      {"label": "SECURITY_AUDIT", "description": "Checklist de seguranca"},
+      {"label": "Todos os extras", "description": "Instalar todos os 16 docs extras"}
+    ],
+    "multiSelect": true
+  }]
+}
+```
 
-### Bloco 6 — Docs
-
-Sugerir templates baseados no projeto:
-
-| Deteccao | Doc recomendado |
-|---|---|
-| Sempre | `docs/GIT_CONVENTIONS.md` |
-| Tem estrutura multi-camada | `docs/ARCHITECTURE.md` |
-| Tem auth/login/roles | `docs/ACCESS_CONTROL.md` |
-| Tem endpoints publicos | Sugerir `docs/API.md` (nao incluido no framework — criar esqueleto) |
-| Seguranca e prioridade | `docs/SECURITY_AUDIT.md` |
-| Sempre | `docs/README.md` (indice) |
+**Total modo full: 5 AskUserQuestion (F1+F2+F3+F4+F5) em vez de 20-30 perguntas texto livre.**
+Se DETECTION_SUMMARY foi confirmado na Fase 1.8: muitos desses ja tem default — so ajustar o que diverge.
 
 ---
 
@@ -901,6 +1029,34 @@ Se o modelo de specs escolhido no Bloco 2 foi **Notion ou externo**, NAO criar o
 - `.claude/specs/STATE.md` — estado vive na ferramenta externa (opcional: criar se o usuario quiser memoria local entre sessoes)
 
 Este filtro se aplica a TODAS as sub-fases (3.1 a 3.6). Nenhuma sub-fase deve criar arquivos excluidos pelo filtro, nem registrar pendencia por eles faltarem.
+
+**INSTRUCAO DE PERFORMANCE — GERACAO EM BATCH:**
+
+A geracao de arquivos deve ser feita em 3 passos batch, nao arquivo por arquivo:
+
+**Passo batch 1 — Copiar templates (1 comando Bash):**
+Copiar TODOS os templates de uma vez para o projeto, respeitando o filtro de tier e modo:
+```bash
+# Criar diretorios necessarios
+mkdir -p .claude/agents .claude/skills .claude/specs/done docs scripts
+
+# Copiar templates filtrados por tier
+# (substituir pelo comando real baseado no MANIFEST filtrado)
+```
+Se `FRAMEWORK_MODE=light`: copiar de `templates-light/` primeiro, fallback `templates/`.
+Se re-run: so copiar arquivos que NAO existem (nao sobrescrever).
+
+**Passo batch 2 — Substituicao global de placeholders (1 comando Bash):**
+```bash
+find .claude/ docs/ scripts/ -name "*.md" -exec sed -i '' "s/{NOME_DO_PROJETO}/${PROJECT_NAME}/g" {} +
+```
+Executar APOS copiar todos os templates. Uma unica passada substitui todos os placeholders.
+
+**Passo batch 3 — Customizacao individual:**
+CLAUDE.md e PROJECT_CONTEXT.md precisam de geracao complexa (muitas secoes condicionais). Skills com CODE_PATTERNS precisam de customizacao especifica. Esses sao gerados individualmente nas sub-fases 3.2, 3.3 e 3.6.
+
+**INSTRUCAO DE PERFORMANCE — SKILLS EM PARALELO:**
+Na sub-fase 3.6, customizar skills com CODE_PATTERNS em PARALELO (multiplas chamadas Edit na mesma mensagem). Cada skill e independente — nao esperar uma terminar para comecar a proxima.
 
 Se arquivo existe: perguntar "Ja existe {arquivo}. Quer fazer merge (preservar existente + adicionar novo), backup + recriar, ou pular?"
 
@@ -1876,6 +2032,8 @@ Verificar presenca de cada H2 esperada:
 
 #### Categoria 6 — Relevancia de conteudo
 
+> **Guard:** SKIP se zero skills condicionais instaladas (dba-review, ux-review, seo-performance) E CODE_PATTERNS esta vazio/null. Sem condicionais nem patterns, nao ha o que validar por relevancia. Registrar "⚪ Categoria 6: nao aplicavel (sem skills condicionais nem CODE_PATTERNS)".
+
 Verificar se o conteudo gerado nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (stack, tipo, CODE_PATTERNS da Fase 1.6) para cruzar com o que foi instalado.
 
 > **Regra critica: NUNCA resetar, limpar ou esvaziar um campo/secao.** Ao detectar conteudo inadequado, o fluxo e sempre:
@@ -2081,6 +2239,8 @@ Se "Pular": registrar como pendencias manuais no SETUP_REPORT.md.
 
 #### Categoria 7 — Coerencia de customizacao
 
+> **Guard:** SKIP se e primeiro setup (nao re-run nem update). No primeiro setup nada foi customizado — nao ha remocoes ou adaptacoes para validar. Registrar "⚪ Categoria 7: nao aplicavel (primeiro setup)".
+
 Verificar que remocoes ou customizacoes feitas pelo projeto nao deixam referencias orfas:
 
 ##### 7.1 Se CLAUDE.md nao tem secao "TDD obrigatorio"
@@ -2105,9 +2265,8 @@ Verificar que definition-of-done nao referencia agents que o projeto nao possui 
 
 #### Categoria 8 — Deduplicacao de artefatos entre sub-projetos
 
-> Severidade: ⚪ info (sugestao, nunca obrigatorio)
-> So executa se `## Monorepo` existe no CLAUDE.md E tem ≥ 2 sub-projetos em `### Estrutura`.
-> Single-repo: skip completo.
+> **Guard:** SKIP se `## Monorepo` nao existe no CLAUDE.md OU < 2 sub-projetos em `### Estrutura`. Registrar "⚪ Categoria 8: nao aplicavel (single-repo)".
+> Severidade: ⚪ info (sugestao, nunca obrigatorio).
 
 Escanear artefatos em todos os sub-projetos e detectar duplicatas para sugerir consolidacao.
 

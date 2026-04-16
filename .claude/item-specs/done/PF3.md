@@ -42,11 +42,11 @@ INSTRUÇÃO DE PERFORMANCE — PARALELO OBRIGATÓRIO:
 | Mirrors | Sync |
 
 **Critérios de aceitação:**
-- [ ] Fase 1.6 do setup instrui leitura paralela explicitamente
-- [ ] Fase 0.6 do update instrui leitura paralela explicitamente
-- [ ] Máximo de 12 arquivos por batch (evitar sobrecarga)
-- [ ] Resultado: mesmo CODE_PATTERNS que antes, só mais rápido
-- [ ] Tempo de leitura: ~30s em vez de ~3-5 min
+- [x] Fase 1.6 do setup instrui leitura paralela explicitamente
+- [x] Fase 0.6 do update instrui leitura paralela explicitamente
+- [x] Máximo de 12 arquivos por batch (evitar sobrecarga)
+- [x] Resultado: mesmo CODE_PATTERNS que antes, só mais rápido
+- [x] Tempo de leitura: ~30s em vez de ~3-5 min
 
 **Restrições:**
 - Não mudar o que é detectado — só como é lido
