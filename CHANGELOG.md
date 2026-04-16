@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.48.1] — 2026-04-16
+
+### Corrigido
+
+- **CI pula migration check em patches:** releases patch (x.y.Z onde Z>0) não exigem migration file. Corrige falha no CI desde v2.47.1 que bloqueava webhook de notificação.
+
 ## [2.48.0] — 2026-04-16
 
 ### Adicionado

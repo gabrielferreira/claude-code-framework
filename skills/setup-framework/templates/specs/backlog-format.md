@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.48.0 framework-file: specs/backlog-format.md -->
+<!-- framework-tag: v2.48.1 framework-file: specs/backlog-format.md -->
 # Formato do Backlog
 
 > Especificação do formato das tabelas de backlog. Aplicar ao editar `.claude/specs/backlog.md`.
