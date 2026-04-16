@@ -750,29 +750,62 @@ Apos o questionario light, pular para Fase 3 diretamente.
 
 **Se `FRAMEWORK_MODE=full`:** questionario completo, mas com defaults pre-preenchidos do DETECTION_SUMMARY. Para cada pergunta: mostrar o valor detectado como opcao recomendada. Usar AskUserQuestion com `options` quando possivel.
 
-### Bloco 1 — Identidade do projeto
+### Bloco F1 — Identidade + modelo (1 AskUserQuestion, ate 4 questions)
 
-1. **Nome do projeto** — usar DETECTION_SUMMARY.nome como default. Oferecer opcao de ajustar.
-2. **Descricao curta** (1-2 frases): o que o projeto faz, que tipo de dados trata
-3. **Dominio de negocio** — opcoes sugeridas:
-   - SaaS / Plataforma
-   - E-commerce / Marketplace
-   - Fintech / Pagamentos
-   - Healthtech
-   - Edtech
-   - Ferramenta interna / Admin
-   - API / Infraestrutura
-   - Outro (especificar)
+Agrupar identidade e modelo em uma unica chamada:
 
-### Bloco 2 — Modelo de spec-driven
+```json
+{
+  "questions": [
+    {
+      "question": "Nome do projeto?",
+      "header": "Nome",
+      "options": [
+        {"label": "{DETECTION_SUMMARY.nome} (Recomendado)", "description": "Detectado do package.json/diretorio"},
+        {"label": "Outro", "description": "Digitar nome diferente"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Modelo de specs?",
+      "header": "Specs",
+      "options": [
+        {"label": "Repo (Recomendado)", "description": "Specs em .claude/specs/, backlog local"},
+        {"label": "Notion", "description": "Via MCP (requer configuracao previa)"},
+        {"label": "Externo", "description": "Jira/Linear/GitHub Issues"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Dominio do projeto?",
+      "header": "Dominio",
+      "options": [
+        {"label": "SaaS / Plataforma", "description": "Produto web com assinaturas"},
+        {"label": "Fintech / Pagamentos", "description": "Transacoes financeiras, compliance"},
+        {"label": "API / Infraestrutura", "description": "Servicos, integracao, devtools"},
+        {"label": "Outro", "description": "Especificar dominio"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Coverage threshold?",
+      "header": "Coverage",
+      "options": [
+        {"label": "80% (Recomendado)", "description": "Padrao para a maioria dos projetos"},
+        {"label": "90%", "description": "Alta criticidade (fintech, saude)"},
+        {"label": "70%", "description": "Estagio inicial, prototipo"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
 
-Perguntar qual modelo de specs sera usado:
+Apos resposta: se "Descrição" necessaria, perguntar em texto livre: "Descreva o projeto em 1-2 frases."
 
-| Modelo | Descricao |
-|---|---|
-| **Specs no repo** (padrao) | Specs em `.claude/specs/`, backlog.md, SPECS_INDEX.md dentro do repo |
-| **Specs externas** (Jira/Notion/Linear) | Specs vivem na ferramenta externa, repo so referencia |
-| **Hibrido** | Specs tecnicas no repo, specs de produto na ferramenta externa |
+**Se modelo = "Notion" ou "Externo":** continuar com Bloco F2 (detalhes do modelo). Se "Repo": pular Bloco F2.
+
+### Bloco F2 — Detalhes do modelo de specs (so se Notion/Externo)
 
 **Se "Specs externas" ou "Hibrido":**
 - Perguntar qual ferramenta: Jira, Linear, Notion, GitHub Issues, Confluence, outro
@@ -876,80 +909,100 @@ Perguntar: "O time usa analise de causa raiz / PRD antes de criar specs tecnicas
 
 > O PRD_TEMPLATE.md e `structural` — se o time ja tem um formato proprio de causa raiz, pode customizar as secoes. O `/update-framework` preserva customizacoes.
 
-### Bloco 3 — Fases do roadmap
+### Bloco F3 — Skills condicionais + convencoes (1 AskUserQuestion, ate 3 questions)
 
-1. Quantas fases? (sugerir 3 + Testes)
-2. Para cada fase: nome curto, foco (1 frase), severidade padrao
-3. Sugerir exemplo:
-   - F1: MVP / Quick wins
-   - F2: Diferenciacao / Escala
-   - F3: Expansao / Otimizacao
-   - T: Qualidade e infra de testes (paralelo)
+```json
+{
+  "questions": [
+    {
+      "question": "Skills condicionais detectadas. Desmarque as que nao quer:",
+      "header": "Skills",
+      "options": [
+        {"label": "dba-review", "description": "DB detectado ({DETECTION_SUMMARY.db})"},
+        {"label": "ux-review", "description": "Frontend detectado ({DETECTION_SUMMARY.frontend})"},
+        {"label": "seo-performance", "description": "Frontend publico detectado"},
+        {"label": "mock-mode", "description": "Integracoes externas detectadas"}
+      ],
+      "multiSelect": true
+    },
+    {
+      "question": "TDD obrigatorio?",
+      "header": "TDD",
+      "options": [
+        {"label": "Sim (Recomendado)", "description": "Testes ANTES da implementacao — padrao do framework"},
+        {"label": "Nao", "description": "Testes obrigatorios mas sem exigencia de ordem"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "PRD (Product Requirements Document)?",
+      "header": "PRD",
+      "options": [
+        {"label": "Nao (Recomendado)", "description": "Specs bastam para a maioria dos projetos"},
+        {"label": "Sim", "description": "Layer adicional para features grandes com multiplas specs"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
 
-### Bloco 4 — Skills relevantes
+Opcoes condicionais: so mostrar skills cujas condicoes foram detectadas na Fase 1.
 
-Apresentar recomendacao baseada na analise:
-
-**Sempre incluidas (core) — copiar TODAS, sem excecao:**
-- spec-driven ← fluxo de desenvolvimento (README.md de referencia, NAO e slash command)
-- definition-of-done
-- testing
-- code-quality
-- logging
-- docs-sync
-- spec-creator ← slash command `/spec` (cria specs)
-- backlog-update ← slash command `/backlog-update` (atualiza backlog)
+**Skills core (SEMPRE incluidas, sem perguntar):**
+- spec-driven, spec-creator, backlog-update, definition-of-done, testing, code-quality, logging, security-review, docs-sync, pr, quick, resume
 
 > **ATENCAO:** `spec-driven` e `spec-creator` sao skills DIFERENTES e ambas obrigatorias:
 > - `spec-driven` = processo/metodologia de desenvolvimento (README.md)
 > - `spec-creator` = slash command que cria uma spec nova (SKILL.md)
-> Nao pular nenhuma. Ambas se aplicam independente do modelo de specs (repo, Notion, externo).
 
-**Agents (sempre incluidos):**
-- security-audit
-- spec-validator
-- coverage-check
-- backlog-report
-- code-review
-- component-audit
+**Agents core (SEMPRE incluidos, sem perguntar):**
+- security-audit, spec-validator, coverage-check, code-review, test-generator
 
-**Agents condicionais:**
-- product-review → se PRD opt-in (Bloco 2b)
+**Agents full (incluidos automaticamente em modo full):**
+- backlog-report, component-audit, seo-audit, product-review, refactor-agent, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector, debugger
 
-**Recomendadas por deteccao:**
+### Bloco F4 — Fases do roadmap (1 AskUserQuestion)
 
-| Deteccao | Skill recomendada |
-|---|---|
-| Tem DB/ORM | dba-review |
-| Tem frontend / UI | ux-review |
-| Tem API/endpoints | (agents: security-audit) |
-| Tem integracoes externas | mock-mode |
+```json
+{
+  "questions": [{
+    "question": "Fases do roadmap do backlog?",
+    "header": "Fases",
+    "options": [
+      {"label": "Padrao (Recomendado)", "description": "F1 MVP, F2 Escala, F3 Expansao, T Testes"},
+      {"label": "Customizar", "description": "Definir fases proprias"},
+      {"label": "Sem fases", "description": "Backlog flat sem agrupamento por fase"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
 
-Perguntar: "Quer incluir todas as recomendadas ou selecionar?"
+Se "Customizar": perguntar em texto livre quantas fases e nomes.
+Se "Padrao": usar F1/F2/F3/T.
+Se "Sem fases": backlog simplificado (similar ao light).
 
-### Bloco 5 — Convencoes
+### Bloco F5 — Docs (1 AskUserQuestion, multiSelect)
 
-1. **Coverage minimo global:** sugerir 80%
-2. **Modulos com 100% obrigatorio:** listar candidatos detectados (services/, auth/, payments/, middleware/, etc.) e pedir confirmacao
-3. **Regras de seguranca especificas:** sugerir baseado no dominio
-   - Fintech: PCI-DSS, dados financeiros nunca em logs
-   - Healthtech: HIPAA/LGPD, dados de saude criptografados
-   - E-commerce: anti-fraude, reconciliacao
-   - Geral: OWASP Top 10, LGPD/GDPR
-4. **Pull Request format:** "O projeto tem formato especifico para Pull Requests (ex: `.github/pull_request_template.md`)? Se sim, informar o formato ou path do template. Se nao, o padrao de `docs/GIT_CONVENTIONS.md` sera usado."
+```json
+{
+  "questions": [{
+    "question": "Docs a incluir (alem dos obrigatorios GIT_CONVENTIONS, README, QUICK_START, SPEC_DRIVEN_GUIDE):",
+    "header": "Docs",
+    "options": [
+      {"label": "ARCHITECTURE", "description": "Documentar estrutura do projeto"},
+      {"label": "ACCESS_CONTROL", "description": "Auth, roles, permissoes (detectado: {sim/nao})"},
+      {"label": "SECURITY_AUDIT", "description": "Checklist de seguranca"},
+      {"label": "Todos os extras", "description": "Instalar todos os 16 docs extras"}
+    ],
+    "multiSelect": true
+  }]
+}
+```
 
-### Bloco 6 — Docs
-
-Sugerir templates baseados no projeto:
-
-| Deteccao | Doc recomendado |
-|---|---|
-| Sempre | `docs/GIT_CONVENTIONS.md` |
-| Tem estrutura multi-camada | `docs/ARCHITECTURE.md` |
-| Tem auth/login/roles | `docs/ACCESS_CONTROL.md` |
-| Tem endpoints publicos | Sugerir `docs/API.md` (nao incluido no framework — criar esqueleto) |
-| Seguranca e prioridade | `docs/SECURITY_AUDIT.md` |
-| Sempre | `docs/README.md` (indice) |
+**Total modo full: 5 AskUserQuestion (F1+F2+F3+F4+F5) em vez de 20-30 perguntas texto livre.**
+Se DETECTION_SUMMARY foi confirmado na Fase 1.8: muitos desses ja tem default — so ajustar o que diverge.
 
 ---
 
