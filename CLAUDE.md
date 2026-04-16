@@ -129,7 +129,8 @@ Mostrar brevemente: commits separados por "chega ao usuario" vs "interno", bump 
 
 1. **VERSION** — atualizar com a nova versao
 2. **plugin.json** — atualizar campo `version`
-3. **plugin.json template** — copiar para `skills/setup-framework/templates/.claude-plugin/plugin.json` (CI valida que ambos tem a mesma versao)
+3. **marketplace.json** — atualizar campo `version` (mesmo valor)
+4. **plugin.json + marketplace.json templates** — copiar ambos para `skills/setup-framework/templates/.claude-plugin/` (CI valida que ambos tem a mesma versao)
 4. **Framework-tags** — atualizar todos os `<!-- framework-tag: vX.Y.Z -->` nos .md:
    ```bash
    grep -rl "framework-tag: v" --include="*.md" . | xargs sed -i '' "s/framework-tag: v[0-9]*\.[0-9]*\.[0-9]*/framework-tag: vNOVA/g"

@@ -79,6 +79,18 @@ check_nonmd_pair() {
 
 check_nonmd_pair ".claude-plugin/plugin.json"          "$TEMPLATES_DIR/.claude-plugin/plugin.json"
 check_nonmd_pair ".claude-plugin/marketplace.json"     "$TEMPLATES_DIR/.claude-plugin/marketplace.json"
+
+# Verify plugin.json and marketplace.json versions match VERSION
+EXPECTED_VERSION=$(cat VERSION 2>/dev/null | tr -d '[:space:]')
+if [ -n "$EXPECTED_VERSION" ]; then
+  for json_file in .claude-plugin/plugin.json .claude-plugin/marketplace.json; do
+    json_version=$(grep -o '"version": *"[^"]*"' "$json_file" 2>/dev/null | grep -o '[0-9][0-9.]*' | head -1)
+    if [ -n "$json_version" ] && [ "$json_version" != "$EXPECTED_VERSION" ]; then
+      echo "VERSION MISMATCH: $json_file has $json_version (expected $EXPECTED_VERSION)"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done
+fi
 check_nonmd_pair "scripts/verify.sh"                   "$TEMPLATES_DIR/scripts/verify.sh"
 check_nonmd_pair "scripts/reports.sh"                  "$TEMPLATES_DIR/scripts/reports.sh"
 check_nonmd_pair "scripts/reports-index.js"            "$TEMPLATES_DIR/scripts/reports-index.js"
