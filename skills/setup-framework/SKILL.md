@@ -83,8 +83,39 @@ Antes de qualquer coisa:
 4. **Verificar se `CLAUDE.md` ja existe:**
    - Se sim: ler conteudo, preservar informacoes uteis para merge posterior
 
-5. **Detectar cenario de monorepo com sub-projetos:**
+5. **Selecionar modo do framework (light/full):**
 
+   Perguntar ao usuario:
+   > "O framework tem dois modos:
+   >
+   > **Light** (~31 arquivos) — specs simples, 5 agents essenciais, 11 skills core, setup em 5 min.
+   > Ideal para projetos pequenos, times de 1-3 devs, comecar rapido.
+   >
+   > **Full** (~86 arquivos) — todas as skills, todos os agents, docs completos, PRDs, reports, monorepo, orchestration.
+   > Ideal para projetos grandes, times maiores, cobertura completa.
+   >
+   > Qual modo? [light/full]"
+
+   Guardar como `FRAMEWORK_MODE` (`light` ou `full`).
+
+   **Se re-run:** verificar se `SETUP_REPORT.md` ja tem `> Modo:`. Se sim, usar o modo existente (nao perguntar novamente). Se o usuario quiser mudar de light para full: recomendar `/upgrade-framework`.
+
+   **Resolucao de templates por modo:**
+   - Se `FRAMEWORK_MODE=light`: buscar template em `${FRAMEWORK_PATH}/../templates-light/{path}` primeiro. Se nao existe, usar `${FRAMEWORK_PATH}/{path}` (arquivo identico ao full).
+   - Se `FRAMEWORK_MODE=full`: buscar apenas em `${FRAMEWORK_PATH}/{path}` (comportamento atual).
+   - **Filtragem por tier:** ler `MANIFEST.md` e para cada arquivo, verificar a coluna Tier:
+     - `core`: instalar em ambos os modos
+     - `full`: instalar apenas se `FRAMEWORK_MODE=full`
+     - `conditional`: instalar se detectado (independente do modo)
+     - `—` (sem tier): skip (conteudo do projeto)
+
+6. **Detectar cenario de monorepo com sub-projetos:**
+
+   **Se `FRAMEWORK_MODE=light`: pular deteccao de monorepo.** Light nao suporta monorepo — se detectado monorepo, informar:
+   > "Detectei sinais de monorepo. O modo light nao suporta monorepo. Recomendo usar modo full. Quer trocar para full?"
+   Se sim: mudar `FRAMEWORK_MODE=full` e continuar. Se nao: continuar como light (single-repo, ignorar sub-projetos).
+
+   **Se `FRAMEWORK_MODE=full`:**
    Escanear sub-diretorios (ate 2 niveis de profundidade) procurando sinais de projetos com framework ja configurado ou projetos novos sem framework:
 
    **Niveis de scan:**
@@ -313,6 +344,8 @@ Antes de qualquer coisa:
 ---
 
 ## Fase 1 — Analise automatica do repositorio
+
+**Se `FRAMEWORK_MODE=light`:** a Fase 1 roda normalmente (deteccao de stack, testes, coverage sao uteis em ambos os modos). A diferenca esta na Fase 2 (questionario) — light pula a maioria das perguntas.
 
 Analisar automaticamente (sem perguntar nada). Usar Glob e Read para detectar:
 
@@ -618,6 +651,26 @@ Perguntar: "Esta analise esta correta? Quer corrigir ou adicionar algo antes de 
 
 Perguntar APENAS o que nao foi auto-detectado. Usar AskUserQuestion quando possivel.
 
+**Se `FRAMEWORK_MODE=light`:** questionario simplificado — apenas 3-4 perguntas:
+
+1. **Nome e descricao do projeto** (1 pergunta combinada): nome sugerido + "Descreva em 1-2 frases o que faz"
+2. **Coverage threshold** (default 80%): "Qual percentual minimo de cobertura? (default: 80%)"
+3. **Confirmar skills condicionais detectadas** (se aplicavel): ex: "Detectei banco de dados. Instalar skill dba-review?"
+
+Pular no light:
+- Modelo de spec-driven (sempre repo, default)
+- PRD opt-in (sempre nao)
+- Fases do roadmap (sem fases — backlog flat)
+- Selecao manual de skills/docs/agents (instala core automaticamente)
+- Notion integration (light e repo-only)
+- Formato de PR (usa default)
+- Dominio de negocio detalhado (inferir do contexto)
+- Monorepo detection (light = single repo)
+
+Apos o questionario light, pular para Fase 3 diretamente.
+
+**Se `FRAMEWORK_MODE=full`:** questionario completo (comportamento atual):
+
 ### Bloco 1 — Identidade do projeto
 
 1. **Nome do projeto** — sugerir baseado no `package.json` name, nome do diretorio, ou `go.mod` module
@@ -827,6 +880,14 @@ Criar arquivos na seguinte ordem. **REGRA: NUNCA sobrescrever arquivo existente 
 
 **REGRA DE VERSAO:** Todo arquivo gerado que contenha `framework-tag` DEVE usar `FRAMEWORK_VERSION` (lido no Passo 0). Ao usar um template como base, **preservar o framework-tag exatamente como esta no template** — nao substituir por `v0.0.0` nem omitir. Se gerar um arquivo que nao veio de template (raro), usar `<!-- framework-tag: v{FRAMEWORK_VERSION} framework-file: {path} -->`.
 
+**FILTRO POR TIER (aplicar ANTES de criar qualquer arquivo):**
+Ler `${FRAMEWORK_PATH}/../MANIFEST.md` (ou `${FRAMEWORK_PATH}/../../MANIFEST.md` se FRAMEWORK_PATH aponta para templates/) e filtrar por `FRAMEWORK_MODE`:
+- Se `FRAMEWORK_MODE=light`: instalar apenas arquivos com tier `core` ou `conditional` (se detectado). **Pular todos os tier `full`** — isso inclui: PRDs, DESIGN_TEMPLATE, backlog-format, reports.sh, reports-index.js, backlog-report.cjs, agents full-only, skills full-only, docs full-only.
+- Se `FRAMEWORK_MODE=full`: instalar todos (comportamento atual).
+- Para cada arquivo, resolver template: se `FRAMEWORK_MODE=light`, buscar em `templates-light/` primeiro, fallback para `templates/`. Se `FRAMEWORK_MODE=full`, buscar apenas em `templates/`.
+
+**Este filtro e o gate principal.** Sub-fases individuais (3.1 a 3.14) NAO precisam checar o modo — o filtro ja excluiu os arquivos full-only antes de chegar nas sub-fases. Se um arquivo nao esta na lista filtrada, a sub-fase nao o processa.
+
 **FILTRO POR MODO SPEC (aplicar ANTES de criar qualquer arquivo):**
 Se o modelo de specs escolhido no Bloco 2 foi **Notion ou externo**, NAO criar os seguintes arquivos em nenhuma circunstancia:
 - `.claude/specs/TEMPLATE.md` — templates vivem na ferramenta externa
@@ -921,7 +982,11 @@ Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, a
 
 ### 3.2 CLAUDE.md
 
-Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
+**Resolucao de template:** se `FRAMEWORK_MODE=light`, usar `templates-light/CLAUDE.md` como base. Se `full`, usar `templates/CLAUDE.md` (comportamento atual).
+
+Se `FRAMEWORK_MODE=light`, o CLAUDE.md gerado deve conter `<!-- framework-mode: light -->` na segunda linha (apos o framework-tag). Isso serve como fallback para deteccao de modo quando SETUP_REPORT.md nao existe.
+
+Preencher com dados coletados:
 
 - `{NOME_DO_PROJETO}` → nome do projeto
 - `{stack backend}` / `{stack frontend}` / `{DB}` → stacks detectadas
@@ -1616,6 +1681,7 @@ Salvar como `.claude/SETUP_REPORT.md`:
 # Relatorio de Setup — {NOME_DO_PROJETO}
 
 > Data: {YYYY-MM-DD}
+> Modo: {FRAMEWORK_MODE}
 > Modelo spec-driven: {modelo escolhido}
 > Stack: {stack detectada}
 
