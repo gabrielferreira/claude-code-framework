@@ -1786,6 +1786,8 @@ Antes da auditoria de completude, verificar que a customizacao da Fase 3.6.1 foi
 
 Apos criar todos os arquivos, rodar uma auditoria automatica para verificar que o setup ficou completo. Adicionar o resultado ao final do SETUP_REPORT.md.
 
+**Filtragem por modo:** se `FRAMEWORK_MODE=light`, a auditoria so verifica arquivos com tier `core` ou `conditional`. Arquivos tier=`full` ausentes nao sao reportados como faltantes — sao esperados. Categorias que dependem de features full-only (ex: Categoria 8 deduplicacao, checks de monorepo) sao automaticamente ignoradas em light (guards de `## Monorepo` e contagem de sub-projetos nao satisfeitos).
+
 #### Categoria 1 — Existencia de arquivos
 
 Verificar que todos os arquivos obrigatorios e opcionais existem no projeto:
