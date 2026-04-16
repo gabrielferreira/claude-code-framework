@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.45.0 framework-file: docs/SKILLS_MAP.md -->
+<!-- framework-tag: v2.46.0 framework-file: docs/SKILLS_MAP.md -->
 # Mapa de dependencias entre skills
 
 > Referencia visual de como as skills do harness se relacionam.
