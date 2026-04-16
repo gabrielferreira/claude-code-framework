@@ -10,6 +10,17 @@ Internamente, nos devs do framework usamos uma abordagem simplificada: specs de 
 
 **Objetivo:** criar uma edicao "light" do framework que entrega o essencial para projetos pequenos, com setup rapido, menos perguntas e um path de upgrade limpo para full quando o projeto crescer.
 
+### O que mudou desde a criacao deste plano (v2.39.0 → v2.45.0)
+
+| Feature | Versao | Impacto no light |
+|---|---|---|
+| MR1-MR6 | v2.39-v2.44 | **Ignora** — light = single repo, monorepo nao suportado |
+| SW1 (delta markers) | v2.43 | **Ignora** — specs light nao tem RF-IDs |
+| SW9 (SPECS_INDEX archive) | v2.43 | **Usa** — funciona standalone, reduz contexto |
+| MO4 (git isolation) | v2.45 | **Ignora** — sem sub-agent orchestration |
+| DL1 (skill /pr) | v2.38 | **Core** — todo projeto faz PRs |
+| MR6 (deduplicacao artefatos) | v2.44 | **Ignora** — so se aplica a monorepo |
+
 ---
 
 ## 1. Indicador de modo: onde armazenar
@@ -25,7 +36,7 @@ Internamente, nos devs do framework usamos uma abordagem simplificada: specs de 
 
 ---
 
-## 2. MANIFEST.md: coluna Tier
+## 2. MANIFEST.md: coluna Tier ✅ (Etapa 1 concluida)
 
 Adicionar coluna `Tier` em todas as tabelas do MANIFEST:
 
@@ -147,7 +158,7 @@ Versao minima — apenas TODOs entre sessoes:
 | `coverage-check` | sonnet | Identifica gaps de cobertura |
 | `test-generator` | sonnet | Gera testes para gaps encontrados |
 
-**Full-only (11):** backlog-report, component-audit, seo-audit, product-review, refactor-agent, dx-audit, performance-audit, infra-audit, task-runner, plan-checker, stuck-detector.
+**Full-only (11):** backlog-report, component-audit, seo-audit, product-review, refactor-agent, dx-audit, performance-audit, infra-audit, task-runner, stuck-detector, debugger.
 
 ### 3.5 Skills (core tier) — 8 skills
 
@@ -161,8 +172,11 @@ Versao minima — apenas TODOs entre sessoes:
 | `code-quality` | README | Padres de codigo e grep patterns |
 | `logging` | README | Padroes de log e error handling |
 | `security-review` | README | Checklist de seguranca pre-commit |
+| `pr` | SKILL.md | /pr — preenche PR com contexto de spec + diff |
+| `quick` | SKILL.md | /quick — fast-path para tarefas triviais sem spec |
+| `resume` | SKILL.md | /resume — retomada estruturada apos crash/timeout |
 
-**Full-only (18):** docs-sync, ux-review, dba-review, mock-mode, seo-performance, syntax-check, golden-tests, api-testing, dependency-audit, performance-profiling, context-fresh, research, execution-plan, bug-investigation, map-codebase, resume, prd-creator.
+**Full-only (14):** docs-sync, mock-mode, golden-tests, api-testing, dependency-audit, context-fresh, research, execution-plan, bug-investigation, map-codebase, prd-creator, discuss, onboarding.
 
 **Conditional (independe do modo):** dba-review (se DB detectado), ux-review (se frontend detectado), seo-performance (se frontend publico).
 
@@ -193,6 +207,9 @@ Apenas `scripts/verify.sh`. Reports (reports.sh, reports-index.js, backlog-repor
 | backlog-format.md | Light backlog e auto-documentado |
 | Bug investigation system | Bugs viram specs no light |
 | Migrations dir | Projetos novos nao tem historico |
+| Delta markers (SW1) | Specs light nao tem RF-IDs |
+| Git isolation (MO4) | Sem sub-agent orchestration |
+| Deduplicacao entre camadas (MR6) | So se aplica a monorepo |
 
 ### 3.9 Inventario final light
 
@@ -217,6 +234,10 @@ SPECS_INDEX.md                               (skip, template identico ao full)
 .claude/skills/code-quality/README.md        (structural, identico)
 .claude/skills/logging/README.md             (structural, identico)
 .claude/skills/security-review/README.md     (structural, identico)
+.claude/skills/pr/SKILL.md                   (structural, identico)
+.claude/skills/quick/SKILL.md                (structural, identico)
+.claude/skills/resume/SKILL.md               (structural, identico)
+SPECS_INDEX_ARCHIVE.md                       (skip, template identico ao full)
 docs/README.md                               (structural, versao light)
 docs/GIT_CONVENTIONS.md                      (structural, identico)
 docs/QUICK_START.md                          (structural, versao light)
@@ -224,10 +245,11 @@ docs/SPEC_DRIVEN_GUIDE.md                    (structural, identico)
 scripts/verify.sh                            (manual, identico)
 .claude-plugin/plugin.json                   (overwrite, identico)
 .claude-plugin/marketplace.json              (overwrite, identico)
+.github/pull_request_template.md             (structural, identico)
 migrations/README.md                         (overwrite, identico)
 ```
 
-**Total: ~28 arquivos** (vs ~100 no full)
+**Total: ~31 arquivos** (vs ~86 no full)
 
 ---
 
@@ -261,6 +283,9 @@ Apos Fase 0 (pre-requisitos), nova pergunta:
 - Selecao de docs (instala core automaticamente)
 - Selecao de agents (instala core automaticamente)
 - Formato de PR, modulos 100%, security rules (defaults opinados)
+- Monorepo detection (light = single repo)
+- Delta markers (specs light sem RF-IDs)
+- Git isolation (sem sub-agent orchestration)
 
 ### 4.3 Geracao
 
@@ -283,6 +308,8 @@ Para cada arquivo no diff entre versoes:
 - Se modo=light E tier=full E arquivo **nao existe** no projeto → **skip silencioso**
 - Se modo=light E tier=full E arquivo **existe** no projeto → **atualizar normalmente** (usuario instalou manualmente ou fez upgrade parcial)
 - Se tier mudou de full→core entre versoes → **oferecer instalacao** ("Novo arquivo core: {path}. Instalar?")
+
+**Nota:** Categoria 8 (deduplicacao de artefatos) e todos os checks monorepo-aware sao automaticamente ignorados em light — o guard `## Monorepo` nao existe no CLAUDE.md light, entao os checks nao executam.
 
 ### 5.3 Report
 
@@ -328,6 +355,9 @@ Novo arquivo: `skills/upgrade-framework/SKILL.md`
 1. PRD opt-in? (sim/nao)
 2. Skills condicionais nao detectadas antes?
 3. Fases do roadmap? (customizar ou defaults)
+4. Monorepo? (MR1-MR6 ativam se sim — detecta sub-projetos, configura L0/L2)
+5. Delta markers nas specs? (SW1 ativa se sim — adiciona marcadores ao template)
+6. Sub-agent orchestration? (MO4 git isolation, context-fresh, task-runner, execution-plan)
 
 **Fase 3 — Instalacao:**
 1. Copiar arquivos full-tier faltantes (respeitando estrategia do MANIFEST)
