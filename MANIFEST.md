@@ -201,7 +201,7 @@ Manifesto do plugin para instalação via `claude plugin`.
 
 ### Skills de gestao do framework (NAO copiadas para o projeto)
 
-`setup-framework` e `update-framework` sao skills de gestao do framework — servem para configurar/atualizar, nao fazem parte do dia a dia do projeto. **NAO devem ser copiadas para `.claude/skills/` do projeto.**
+`setup-framework`, `update-framework` e `upgrade-framework` sao skills de gestao do framework — servem para configurar/atualizar/migrar, nao fazem parte do dia a dia do projeto. **NAO devem ser copiadas para `.claude/skills/` do projeto.**
 
 Ficam disponiveis via:
 - `~/.claude/skills/` (pessoal, via `install-skills.sh`)
