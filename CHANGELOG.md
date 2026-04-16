@@ -7,6 +7,15 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.46.1] — 2026-04-15
+
+### Corrigido
+
+- **validate-tags.sh ignora code fences:** tags dentro de blocos ``` (incluindo indentados) não são mais validados. Elimina falsos positivos em migrations antigas.
+- **Tags corrompidos em migrations v2.29→v2.34:** exemplos de sed dentro de code fences restaurados para versões corretas. Framework-tags reais removidos de migrations históricas (não deveriam ter).
+- **Errata na migration v2.45→v2.46:** nota sobre impacto em projetos que aplicaram migrations manuais corrompidas.
+- **Seção de atualização no QUICK_START.md:** instrui dev a atualizar a skill local antes de rodar `/update-framework`.
+
 ## [2.46.0] — 2026-04-15
 
 ### Adicionado
