@@ -3,7 +3,7 @@ name: spec
 description: Cria uma nova spec a partir do template, atualiza SPECS_INDEX e backlog
 user_invocable: true
 ---
-<!-- framework-tag: v2.49.1 framework-file: light:skills/spec-creator/SKILL.md -->
+<!-- framework-tag: v2.49.2 framework-file: light:skills/spec-creator/SKILL.md -->
 <!-- framework-mode: light -->
 
 # /spec — Criar nova spec

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.1 framework-file: skills/setup-framework/NOTION_DETAILS.md -->
+<!-- framework-tag: v2.49.2 framework-file: skills/setup-framework/NOTION_DETAILS.md -->
 # Notion Details — setup-framework
 
 > Conteudo condicional carregado pelo SKILL.md quando usuario escolhe modelo Notion.

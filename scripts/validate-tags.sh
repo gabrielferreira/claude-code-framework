@@ -34,7 +34,11 @@ while IFS= read -r file; do
     echo "MISMATCH: $file has $TAG (expected $EXPECTED)"
     ERRORS=$((ERRORS + 1))
   fi
-done < <(grep -rl "framework-tag:" --include="*.md" .)
+done < <(
+  grep -rl "framework-tag:" --include="*.md" . \
+    | grep -v "^\./\.claude/worktrees/" \
+    | grep -v "^\./\.git/"
+)
 
 if [ "$ERRORS" -eq 0 ]; then
   echo "All framework-tags are consistent with VERSION ($EXPECTED)"
