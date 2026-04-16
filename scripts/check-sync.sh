@@ -5,6 +5,7 @@
 #   A. framework-file: tag based (.md files)
 #   B. Hardcoded non-md file pairs (.json, .sh, .js, .cjs)
 #   C. MANIFEST.md completeness (template files exist for every MANIFEST entry)
+#   D. templates-light/ consistency (framework-tag versions match templates/)
 #
 # Usage: bash scripts/check-sync.sh
 
@@ -190,6 +191,42 @@ while IFS='|' read -r _lead proj_path template_src _rest; do
 done < <(grep '|' MANIFEST.md 2>/dev/null)
 
 # ─────────────────────────────────────────────────────────────────────────────
+# D. templates-light/ consistency — files should have matching framework-tag
+#    version with their templates/ counterparts (where applicable)
+# ─────────────────────────────────────────────────────────────────────────────
+
+TEMPLATES_LIGHT_DIR="skills/setup-framework/templates-light"
+CHECKED_LIGHT=0
+
+if [ -d "$TEMPLATES_LIGHT_DIR" ]; then
+  while IFS= read -r light_file; do
+    # Extract framework-tag version from light file
+    light_tag=$(grep -o 'framework-tag: v[0-9.]*' "$light_file" 2>/dev/null | head -1 || true)
+
+    if [ -z "$light_tag" ]; then
+      continue
+    fi
+
+    # Find corresponding full template (if exists) to compare tag versions
+    rel_path="${light_file#$TEMPLATES_LIGHT_DIR/}"
+    full_file="$TEMPLATES_DIR/$rel_path"
+
+    if [ -f "$full_file" ]; then
+      full_tag=$(grep -o 'framework-tag: v[0-9.]*' "$full_file" 2>/dev/null | head -1 || true)
+
+      if [ -n "$full_tag" ] && [ "$light_tag" != "$full_tag" ]; then
+        echo "TAG MISMATCH (templates-light): $light_file"
+        echo "  light: $light_tag"
+        echo "  full:  $full_tag"
+        ERRORS=$((ERRORS + 1))
+      fi
+    fi
+
+    CHECKED_LIGHT=$((CHECKED_LIGHT + 1))
+  done < <(find "$TEMPLATES_LIGHT_DIR" -name "*.md" -type f 2>/dev/null)
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Summary
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -197,6 +234,7 @@ echo ""
 echo "Checked $CHECKED source-template pairs (framework-file)"
 echo "Checked $CHECKED_NONMD non-md file pairs"
 echo "Checked $CHECKED_MANIFEST MANIFEST entries"
+echo "Checked $CHECKED_LIGHT templates-light files"
 echo "$ERRORS error(s) found"
 
 if [ "$ERRORS" -gt 0 ]; then
