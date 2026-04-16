@@ -20,6 +20,18 @@
 | [`SETUP_GUIDE.md`](SETUP_GUIDE.md) | Guia de uso do /setup-framework (wizard interativo) | Dev |
 | [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) | Spec-driven development: padrões, context budget, RPI, scope guardrail | Dev |
 | [`CONCEPTUAL_MAP.md`](CONCEPTUAL_MAP.md) | Mapa conceitual: glossario, hierarquia PRD→Spec→Task, fluxograma de decisao | Dev/PM |
+| [`QUICK_START.md`](QUICK_START.md) | Guia rapido: setup, primeiro ciclo spec→implementação→done | Dev |
+| [`SKILLS_MAP.md`](SKILLS_MAP.md) | Mapa visual de skills, agents e dependencias entre eles | Dev |
+| [`SKILLS_GUIDE.md`](SKILLS_GUIDE.md) | Como criar, customizar e manter skills | Dev |
+| [`WORKFLOW_DIAGRAM.md`](WORKFLOW_DIAGRAM.md) | Diagramas de fluxo do framework (setup, spec-driven, update) | Dev |
+| [`SPEC_EXAMPLE.md`](SPEC_EXAMPLE.md) | Exemplo completo de spec preenchida | Dev |
+| [`MIGRATION_GUIDE.md`](MIGRATION_GUIDE.md) | Como atualizar entre versoes do framework | Dev |
+| [`NOTION_INTEGRATION.md`](NOTION_INTEGRATION.md) | Setup e uso de specs no Notion via MCP | Dev |
+| [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) | Problemas comuns e soluções | Dev |
+| [`VERIFY_HOOK.md`](VERIFY_HOOK.md) | Como configurar hook pre-commit com verify.sh | Dev |
+| [`PROTECT_BACKLOG_HOOK.md`](PROTECT_BACKLOG_HOOK.md) | Hook para proteger backlog.md de edicoes acidentais | Dev |
+| [`PRD_PORTABLE_PROMPT.md`](PRD_PORTABLE_PROMPT.md) | Prompt standalone para criar PRDs com qualquer LLM | Dev/PM |
+| [`BUG_INVESTIGATION_PORTABLE_PROMPT.md`](BUG_INVESTIGATION_PORTABLE_PROMPT.md) | Prompt standalone para investigar bugs com qualquer LLM | Dev |
 
 ### Docs adicionais sugeridos (criar conforme necessidade)
 
