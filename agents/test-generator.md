@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: geracao de testes segue patterns conhecidos por tipo de modulo, sem julgamento complexo
 worktree: true
 ---
-<!-- framework-tag: v2.48.0 framework-file: agents/test-generator.md -->
+<!-- framework-tag: v2.48.1 framework-file: agents/test-generator.md -->
 # Agent: Test Generator
 
 > Sub-agente autonomo que gera scaffolding de testes a partir de gaps de coverage.
