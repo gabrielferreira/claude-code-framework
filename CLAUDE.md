@@ -276,6 +276,8 @@ Ao atualizar framework-tags com `sed`, **excluir o diretorio `migrations/`** do 
 grep -rl "framework-tag: vANTIGA" --include="*.md" . | grep -v "migrations/" | xargs sed -i '' "s/framework-tag: vANTIGA/framework-tag: vNOVA/g"
 ```
 
+O `validate-tags.sh` ignora tags dentro de code fences automaticamente (usa awk para detectar blocos ``` e so valida tags `<!-- framework-tag: -->` fora deles). Nao e necessario corrigir tags stale em migrations antigas — o script nao as detecta.
+
 ## Padrao para criar agents
 
 Ao criar um novo agent, seguir este checklist:
