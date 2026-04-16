@@ -43,7 +43,7 @@ claude-code-framework/
 ├── CHANGELOG.md                 ← Histórico de versões
 ├── .claude/
 │   ├── TASK_CHECKLIST.md        ← Checklist de tarefas (não distribuído)
-│   └── settings.local.json      ← Settings locais (gitignored)
+│   └── settings.json      ← Settings do projeto (versionado, compartilhado)
 ├── agents/                      ← Source dos agents (→ templates/agents/)
 ├── skills/
 │   ├── setup-framework/         ← Skill de setup + templates/

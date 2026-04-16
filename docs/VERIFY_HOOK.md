@@ -3,7 +3,7 @@
 
 Hook que roda `scripts/verify.sh` automaticamente após cada `git commit`, sem bloquear a sessão e sem gastar tokens quando passa.
 
-**O setup-framework configura este hook automaticamente** em `.claude/settings.local.json` quando detecta `scripts/verify.sh`. Esta documentação serve para configuração manual ou para entender como funciona.
+**O setup-framework configura este hook automaticamente** em `.claude/settings.json` quando detecta `scripts/verify.sh`. Esta documentação serve para configuração manual ou para entender como funciona.
 
 ## Por que usar
 
@@ -25,15 +25,15 @@ Ao rodar `/setup-framework`:
 
 1. Detecta `scripts/verify.sh` (ou `scripts/check.sh`)
 2. Verifica se `jq` está disponível
-3. Faz merge do hook em `.claude/settings.local.json` (cria o arquivo se não existir)
+3. Faz merge do hook em `.claude/settings.json` (cria o arquivo se não existir)
 4. Valida o JSON resultante
 5. Registra no SETUP_REPORT.md
 
-`.claude/settings.local.json` é gitignored — cada desenvolvedor tem sua configuração local.
+`.claude/settings.json` é versionado no repo — todos os devs compartilham o mesmo hook automaticamente.
 
 ## Configuração manual
 
-Se preferir configurar sem rodar o setup, adicionar em `.claude/settings.local.json`:
+Se preferir configurar sem rodar o setup, adicionar em `.claude/settings.json`:
 
 ```json
 {
@@ -60,7 +60,7 @@ Se preferir configurar sem rodar o setup, adicionar em `.claude/settings.local.j
 ## Verificar
 
 ```bash
-jq -e '.hooks.PostToolUse[0].hooks[0].command' .claude/settings.local.json
+jq -e '.hooks.PostToolUse[0].hooks[0].command' .claude/settings.json
 ```
 
 Deve retornar o comando sem erro.
@@ -77,7 +77,7 @@ git commit -m "test: hook verification"
 
 ## Desativar
 
-Remover o bloco `PostToolUse` de `.claude/settings.local.json` ou apagar o arquivo.
+Remover o bloco `PostToolUse` de `.claude/settings.json` ou apagar o arquivo.
 
 ## Limitações
 
