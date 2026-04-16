@@ -3,7 +3,7 @@ name: onboarding
 description: Guia contextualizado do fluxo de trabalho para devs novos no projeto
 user_invocable: true
 ---
-<!-- framework-tag: v2.49.0 framework-file: skills/onboarding/SKILL.md -->
+<!-- framework-tag: v2.49.1 framework-file: skills/onboarding/SKILL.md -->
 
 # /onboarding — Guia de como trabalhar neste projeto
 

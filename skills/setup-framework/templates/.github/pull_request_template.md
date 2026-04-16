@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.0 framework-file: .github/pull_request_template.md -->
+<!-- framework-tag: v2.49.1 framework-file: .github/pull_request_template.md -->
 
 ## O que muda
 

@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Correlação de erro com contexto de código e STATE.md, ranking de hipóteses por evidência — heurística estruturada com julgamento moderado
 worktree: false
 ---
-<!-- framework-tag: v2.49.0 framework-file: agents/debugger.md -->
+<!-- framework-tag: v2.49.1 framework-file: agents/debugger.md -->
 # Agent: Debugger
 
 > Agente de diagnóstico que, dado um erro ou spec ID, coleta automaticamente o contexto relevante (stack trace, arquivos envolvidos, mudanças recentes, histórico de tentativas) e produz diagnóstico estruturado com causa provável, hipóteses ranqueadas e próximos passos acionáveis. Read-only — diagnostica, não aplica fix.

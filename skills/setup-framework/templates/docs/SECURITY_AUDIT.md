@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.0 framework-file: docs/SECURITY_AUDIT.md -->
+<!-- framework-tag: v2.49.1 framework-file: docs/SECURITY_AUDIT.md -->
 # Auditoria de Segurança — {NOME_DO_PROJETO}
 
 **Data:** {YYYY-MM-DD}
