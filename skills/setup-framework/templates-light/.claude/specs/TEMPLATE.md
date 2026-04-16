@@ -1,4 +1,5 @@
 <!-- framework-tag: v2.46.1 framework-file: light:specs/TEMPLATE.md -->
+<!-- framework-mode: light -->
 # {ID} — {Título}
 
 > Status: rascunho | em andamento | concluída

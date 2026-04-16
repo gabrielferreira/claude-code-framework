@@ -127,7 +127,7 @@ BL-17 | SPEC-003    | pendente     | Grande
 |---|---|
 | Guia completo de spec-driven development | [`SPEC_DRIVEN_GUIDE.md`](SPEC_DRIVEN_GUIDE.md) |
 | Mapa de todas as skills disponiveis | [`SKILLS_MAP.md`](SKILLS_MAP.md) |
-| Template de PRD | [`../prds/PRD_TEMPLATE.md`](../.claude/prds/PRD_TEMPLATE.md) |
-| Template de Spec | [`../specs/TEMPLATE.md`](../.claude/specs/TEMPLATE.md) |
-| Template de Design Doc | [`../specs/DESIGN_TEMPLATE.md`](../.claude/specs/DESIGN_TEMPLATE.md) |
+| Template de PRD | [`.claude/prds/PRD_TEMPLATE.md`](../.claude/prds/PRD_TEMPLATE.md) |
+| Template de Spec | [`.claude/specs/TEMPLATE.md`](../.claude/specs/TEMPLATE.md) |
+| Template de Design Doc | [`.claude/specs/DESIGN_TEMPLATE.md`](../.claude/specs/DESIGN_TEMPLATE.md) |
 | Integracao com Notion | [`NOTION_INTEGRATION.md`](NOTION_INTEGRATION.md) |

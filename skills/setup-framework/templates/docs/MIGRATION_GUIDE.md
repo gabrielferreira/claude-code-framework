@@ -34,7 +34,7 @@ Para ver o que mudaria sem aplicar:
 
 ### v2.4 para v2.5
 
-- **Novas skills:** `security-review`, `seo-performance`, `syntax-check` e `golden-tests` adicionadas ao framework. Sao instaladas automaticamente como `structural`.
+- **Novas skills:** `security-review`, `seo-performance` e `golden-tests` adicionadas ao framework. Sao instaladas automaticamente como `structural`.
 - **Novo agent:** `seo-audit` para analise automatizada de SEO e performance. Instalado como `overwrite`.
 - **Acao necessaria:** nenhuma. O `/update-framework` adiciona os novos arquivos automaticamente.
 
