@@ -50,12 +50,12 @@ PASSO 5 — PROJECT_CONTEXT.md:
 | Mirror | Sync |
 
 **Critérios de aceitação:**
-- [ ] Fase 3 usa no máximo 5 Bash calls + N Write calls (em vez de 30+ Write sequenciais)
-- [ ] Placeholder `{NOME_DO_PROJETO}` substituído via sed global (não por arquivo)
-- [ ] Skills customizadas em paralelo (Read+Edit independentes)
-- [ ] Resultado: mesmos arquivos que antes, mesma qualidade
-- [ ] Modo light: mesma lógica (templates-light/ first, fallback templates/)
-- [ ] Re-run: arquivos existentes não sobrescritos (verificar antes de cp)
+- [x] Fase 3 usa no máximo 5 Bash calls + N Write calls (em vez de 30+ Write sequenciais)
+- [x] Placeholder `{NOME_DO_PROJETO}` substituído via sed global (não por arquivo)
+- [x] Skills customizadas em paralelo (Read+Edit independentes)
+- [x] Resultado: mesmos arquivos que antes, mesma qualidade
+- [x] Modo light: mesma lógica (templates-light/ first, fallback templates/)
+- [x] Re-run: arquivos existentes não sobrescritos (verificar antes de cp)
 
 **Restrições:**
 - CLAUDE.md continua sendo gerado via Write (não via cp+sed — precisa de lógica condicional)

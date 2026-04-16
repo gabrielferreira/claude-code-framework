@@ -56,12 +56,12 @@ Tudo correto? [Sim / Ajustar]
 | Mirror | Sync |
 
 **Critérios de aceitação:**
-- [ ] Fase 1 gera DETECTION_SUMMARY com todos os campos (nome, stack, DB, testes, CI, comandos, tipo, skills condicionais)
-- [ ] Fase 1.8 apresenta resumo formatado e pede confirmação
-- [ ] "Sim" pula Fase 2 inteira — zero perguntas adicionais
-- [ ] "Ajustar" abre Fase 2 com defaults pré-preenchidos
-- [ ] Projetos com detecção ambígua (ex: Go + React sem package.json claro) fazem fallback para perguntas
-- [ ] Re-run: se SETUP_REPORT existe, usar dados dele como DETECTION_SUMMARY base
+- [x] Fase 1 gera DETECTION_SUMMARY com todos os campos (nome, stack, DB, testes, CI, comandos, tipo, skills condicionais)
+- [x] Fase 1.8 apresenta resumo formatado e pede confirmação
+- [x] "Sim" pula Fase 2 inteira — zero perguntas adicionais
+- [x] "Ajustar" abre Fase 2 com defaults pré-preenchidos
+- [x] Projetos com detecção ambígua (ex: Go + React sem package.json claro) fazem fallback para perguntas
+- [x] Re-run: se SETUP_REPORT existe, usar dados dele como DETECTION_SUMMARY base
 
 **Restrições:**
 - Nunca assumir sem confiança alta — se ambíguo, perguntar

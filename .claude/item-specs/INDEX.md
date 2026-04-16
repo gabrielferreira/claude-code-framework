@@ -8,12 +8,6 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
-| PF1 | [PF1.md](PF1.md) | Fase 5 | Wave 1 |
-| PF2 | [PF2.md](PF2.md) | Fase 5 | Wave 1 |
-| PF3 | [PF3.md](PF3.md) | Fase 5 | Wave 1 |
-| PF4 | [PF4.md](PF4.md) | Fase 5 | Wave 1 |
-| PF5 | [PF5.md](PF5.md) | Fase 5 | Wave 1 |
-| PF6 | [PF6.md](PF6.md) | Fase 5 | Wave 1 |
 | PF7 | [PF7.md](PF7.md) | Fase 5 | Wave 1 |
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 3 |
 | TQ7 | [TQ7.md](TQ7.md) | Testes | Wave 2 |
@@ -22,6 +16,12 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
+| PF1 | [done/PF1.md](done/PF1.md) | pendente release |
+| PF2 | [done/PF2.md](done/PF2.md) | pendente release |
+| PF3 | [done/PF3.md](done/PF3.md) | pendente release |
+| PF4 | [done/PF4.md](done/PF4.md) | pendente release |
+| PF5 | [done/PF5.md](done/PF5.md) | pendente release |
+| PF6 | [done/PF6.md](done/PF6.md) | pendente release |
 | MO9 | [done/MO9.md](done/MO9.md) | v2.46.0 — 2026-04-15 |
 | MO4 | [done/MO4.md](done/MO4.md) | v2.45.0 — 2026-04-15 |
 | MR6 | [done/MR6.md](done/MR6.md) | v2.44.0 — 2026-04-15 |
