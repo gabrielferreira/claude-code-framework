@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.43.0 framework-file: skills/mock-mode/README.md -->
+<!-- framework-tag: v2.44.0 framework-file: skills/mock-mode/README.md -->
 # Skill: Mock Mode — {NOME_DO_PROJETO}
 
 > **PROATIVA:** Executar ao adicionar nova integração externa, novo endpoint ou nova feature que depende de serviço externo.
