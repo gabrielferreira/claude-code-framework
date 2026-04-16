@@ -249,13 +249,18 @@ Se a spec tem RFs com marcadores `[ADDED]`/`[MODIFIED]`/`[REMOVED]`, seguir esta
 
 Specs sem marcadores continuam funcionando — os marcadores sao aditivos.
 
-## Pós-implementação
+## Pós-implementação — EXECUTAR TODOS OS PASSOS (tool calls reais)
 
-1. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover arquivo para `done/`. **Mover a entrada do `SPECS_INDEX.md` para `SPECS_INDEX_ARCHIVE.md`** (secao Concluidas), atualizando o path para `done/{id}.md`.
-2. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
-3. **Se spec descontinuada:** atualizar status, **mover entrada para `SPECS_INDEX_ARCHIVE.md`** (secao Descontinuadas).
-4. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
-5. **Abrir PR** — nunca push direto para `main`. Título segue Conventional Commits; descrição inclui link/referência para a spec implementada.
+> **REGRA:** cada passo abaixo deve ser EXECUTADO (Read, Edit, Bash), nao apenas mencionado. Se a spec nao foi aberta e editada, se o STATE.md nao foi resetado, se o verify.sh nao foi rodado — a conclusao e invalida. "Ja fiz" sem tool call = nao fez.
+
+1. **Marcar checkboxes na spec** — abrir a spec (Read), marcar cada `- [ ]` como `- [x]` (Edit), atualizar status para `concluida`, atualizar metadata (Responsavel, Concluida em).
+2. **Mover spec para done/** — `mv .claude/specs/{id}.md .claude/specs/done/` (Bash). **Mover entrada do SPECS_INDEX.md para SPECS_INDEX_ARCHIVE.md** (Edit).
+3. **Se a spec nao foi 100% coberta:** NAO mover para `done/`. Status `parcial`, criar sub-itens no backlog.
+4. **Se spec descontinuada:** atualizar status, mover entrada para SPECS_INDEX_ARCHIVE.md (secao Descontinuadas).
+5. **Se adicionou regra nova:** adicionar check em `scripts/verify.sh` (secao CHECKS EVOLUTIVOS).
+6. **Resetar STATE.md** — limpar "Em andamento" (nenhum item ativo), "Proximo" com proximo item do backlog (ou vazio), "Notas" limpo de contexto do item concluido. Nenhum trabalho em progresso.
+7. **Rodar verify.sh** — `bash scripts/verify.sh` (Bash). Zero ❌.
+8. **Abrir PR** — nunca push direto para `main`.
 
 > Se `SPECS_INDEX_ARCHIVE.md` nao existe no projeto, criar com o template do framework antes de mover.
 
