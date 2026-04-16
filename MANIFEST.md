@@ -152,6 +152,7 @@ Estes scripts existem apenas no repo do framework. NAO são copiados para projet
 | `.claude/item-specs/` | Specs detalhadas de itens do backlog — interno do repo do framework |
 | `CLAUDE.template.md` | Fonte do template de CLAUDE.md — distribuido para projetos como `CLAUDE.md` |
 | `SPECS_INDEX.template.md` | Fonte do template de SPECS_INDEX — distribuido para projetos como `SPECS_INDEX.md` |
+| `SPECS_INDEX_ARCHIVE.template.md` | Fonte do template de SPECS_INDEX_ARCHIVE — distribuido para projetos como `SPECS_INDEX_ARCHIVE.md` |
 | `migrations/MIGRATION_TEMPLATE.md` | Template para criar migrations — apenas para devs do framework, nao distribuido |
 | `migrations/v{X}-to-v{Y}.md` | Gerados por release — distribuidos seletivamente pelo update (gap da versao atual) |
 
@@ -164,6 +165,7 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `CLAUDE.md` | manual (mostrar diff do template, nunca aplicar automaticamente) |
 | `PROJECT_CONTEXT.md` | manual (mostrar diff do template, perguntar) |
 | `SPECS_INDEX.md` | skip |
+| `SPECS_INDEX_ARCHIVE.md` | skip |
 | `.claude/specs/backlog.md` | skip |
 | `.claude/specs/STATE.md` | manual (mostrar diff da estrutura nova, nunca aplicar automaticamente — contém estado do projeto) |
 | `.claude/specs/TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) |

@@ -903,6 +903,7 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
   - Preencher `### Estrutura` com tabela de sub-projetos (path, stack, responsabilidade — dados confirmados na Fase 1.2)
   - Preencher `### Distribuicao de framework` com decisao do usuario sobre skills, agents, specs, verify.sh (dados do Bloco 4)
   - Preencher `### Convencoes de camada` com o que e L0, L2 e L3+ neste monorepo
+  - Preencher `### Documentacao por sub-projeto` com tabela mapeando cada sub-projeto aos seus docs (dados da Fase 3.8)
   - **Se single-repo:** remover a secao inteira do template (nao deixar placeholders `{Adaptar}`)
   - Exemplo de output preenchido:
 
@@ -929,6 +930,16 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
     - **L0 (raiz):** commits, seguranca global, mapa de skills, estrutura do monorepo
     - **L2 (sub-projeto):** stack, comandos, testes, coverage, regras especificas
     - **L3+ (sub-dominio):** nao aplicavel neste projeto
+
+    ### Documentacao por sub-projeto
+
+    | Sub-projeto | Docs | O que contem |
+    |---|---|---|
+    | Auth API | `services/auth/docs/` | Arquitetura, endpoints, auth, migrations |
+    | Web App | `apps/web/docs/` | Componentes, rotas, estado, design system |
+    | Shared | — | Coberto pela raiz |
+
+    **Docs globais** (raiz `docs/`): GIT_CONVENTIONS, SKILLS_MAP, QUICK_START, WORKFLOW_DIAGRAM.
     ```
 
 - Item 8 "Validacao pre-implementacao" → manter como esta no template (validar arquivos mencionados na spec antes de codificar)
@@ -1005,6 +1016,20 @@ Usar `${FRAMEWORK_PATH}/SPECS_INDEX.md` como base:
   - Colunas: `ID | Spec | Status | Owner | Fonte | Resumo` (mesma estrutura, Fonte = External ID)
   - Preencher regras de acesso com a ferramenta escolhida no Bloco 2
   - Adicionar instrucao: "Specs completas vivem em {ferramenta}. Este indice serve como ponte."
+
+### 3.4b SPECS_INDEX_ARCHIVE.md
+
+Se `SPECS_INDEX_ARCHIVE.md` ja existe: pular (nao sobrescrever — conteudo do projeto).
+
+Se nao existe: criar usando `${FRAMEWORK_PATH}/SPECS_INDEX_ARCHIVE.md` como base:
+- Substituir `{NOME_DO_PROJETO}` pelo nome do projeto
+- Se **modelo externo (incluindo Notion):** criar igualmente — serve como historico local de specs concluidas
+
+**Migracao em re-run:** se o projeto ja tem `SPECS_INDEX.md` com entries concluidas/descontinuadas:
+- Escanear `SPECS_INDEX.md` procurando linhas com status `concluída` ou `descontinuada`
+- Se encontrar: informar "Detectei {N} specs concluidas/descontinuadas no SPECS_INDEX.md. Quer mover para SPECS_INDEX_ARCHIVE.md?"
+- Se sim: mover entries (preservando formato e colunas) para a secao correspondente (Concluidas ou Descontinuadas)
+- Se nao: prosseguir sem mover — migracao progressiva acontecera naturalmente ao concluir novas specs
 
 ### 3.5 Specs e backlog
 
@@ -1184,6 +1209,27 @@ Docs podem ser globais (raiz) ou por sub-projeto, dependendo do conteudo:
 | `SECURITY_AUDIT.md` | Raiz `docs/` ou por sub-projeto | Se cada sub-projeto tem superficie de ataque diferente, separar |
 
 Perguntar ao usuario para cada doc: "Este doc se aplica a todos os sub-projetos ou a algum especifico?"
+
+**Docs por sub-projeto — criacao e mapeamento:**
+
+Para cada sub-projeto confirmado no mapeamento (Fase 1.2):
+1. Criar `{subdir}/docs/` se nao existe
+2. Copiar docs relevantes ao sub-projeto (ARCHITECTURE.md para sub-projetos complexos, ACCESS_CONTROL.md onde tem auth, SECURITY_AUDIT.md onde tem superficie de ataque propria)
+3. **Nao duplicar docs globais** (GIT_CONVENTIONS, SKILLS_MAP, QUICK_START) — esses ficam so na raiz
+
+**Preencher `### Documentacao por sub-projeto` no CLAUDE.md L0:**
+
+Na secao `## Monorepo`, preencher a subsecao com tabela mapeando cada sub-projeto aos seus docs:
+
+| Sub-projeto | Docs | O que contem |
+|---|---|---|
+| {sub-projeto 1} | `{path}/docs/` | {resumo do que tem — ex: arquitetura, endpoints, auth} |
+| {sub-projeto 2} | `{path}/docs/` | {resumo} |
+| {sub-projeto sem docs} | — | {coberto pela raiz} |
+
+Sub-projetos simples (shared libs, utils) podem nao ter docs proprios — usar `—` na tabela.
+
+> **Regra de contexto:** esta tabela existe para que o Claude va direto ao docs do sub-projeto relevante em vez de carregar tudo. O L0 nunca deve conter o conteudo dos docs dos sub-projetos — apenas a referencia.
 
 ### 3.8.1 CLAUDE.md por sub-projeto (L2) e niveis mais profundos (L3+)
 
@@ -1627,6 +1673,7 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 |---|---|---|---|
 | `CLAUDE.md` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `SPECS_INDEX.md` | 🔴 critico | 🔴 critico (ponte local→Notion) | 🔴 critico |
+| `SPECS_INDEX_ARCHIVE.md` | 🟡 medio | 🟡 medio | 🟡 medio |
 | `.claude/specs/TEMPLATE.md` | 🔴 critico | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
 | `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
 | `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |

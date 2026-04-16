@@ -238,12 +238,26 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 - `Última atualização` no header sempre reflete a data real.
 - **Decisões futuras ≠ Pendentes.** Item que depende de contexto externo vai para "Decisões futuras".
 
+## Marcadores delta nos RFs
+
+Se a spec tem RFs com marcadores `[ADDED]`/`[MODIFIED]`/`[REMOVED]`, seguir estas regras durante a implementacao:
+
+- `[MODIFIED]` → **localizar o codigo existente primeiro** (Read o arquivo referenciado na spec). Entender o que existe antes de alterar. Nunca reescrever sem ler.
+- `[REMOVED]` → **listar impactos antes de deletar** (Grep por usos do que sera removido). Remover so apos confirmar que nada depende.
+- `[ADDED]` → implementar normalmente (criar novo)
+- Sem marcador → inferir do contexto (comportamento atual, backward compatible)
+
+Specs sem marcadores continuam funcionando — os marcadores sao aditivos.
+
 ## Pós-implementação
 
-1. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover para `done/`.
+1. **Se implementou spec:** marcar checkboxes (`- [x]`), atualizar status para `concluída`, mover arquivo para `done/`. **Mover a entrada do `SPECS_INDEX.md` para `SPECS_INDEX_ARCHIVE.md`** (secao Concluidas), atualizando o path para `done/{id}.md`.
 2. **Se a spec não foi 100% coberta:** NÃO mover para `done/`. Deixar ativa com status `parcial` e criar sub-itens no backlog.
-3. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
-4. **Abrir PR** — nunca push direto para `main`. Título segue Conventional Commits; descrição inclui link/referência para a spec implementada.
+3. **Se spec descontinuada:** atualizar status, **mover entrada para `SPECS_INDEX_ARCHIVE.md`** (secao Descontinuadas).
+4. **Se adicionou regra nova:** adicionar check correspondente em `scripts/verify.sh` (seção CHECKS EVOLUTIVOS).
+5. **Abrir PR** — nunca push direto para `main`. Título segue Conventional Commits; descrição inclui link/referência para a spec implementada.
+
+> Se `SPECS_INDEX_ARCHIVE.md` nao existe no projeto, criar com o template do framework antes de mover.
 
 ## Checklist
 
