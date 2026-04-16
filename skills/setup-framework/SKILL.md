@@ -823,7 +823,7 @@ O framework se integra nativamente com Notion via MCP. O setup nao configura aut
 >
 > **Configuracao do MCP Notion** (referencia para o usuario):
 > ```json
-> // Em ~/.claude/settings.json ou .claude/settings.local.json
+> // Em ~/.claude/settings.json ou .claude/settings.json
 > {
 >   "mcpServers": {
 >     "notion": {
@@ -1758,14 +1758,14 @@ if echo "${CLAUDE_TOOL_INPUT_COMMAND:-}" | grep -q 'git commit'; then FAILS=$(ba
 
 (Nao depende de `jq` — usa `printf` para gerar JSON. Funciona em qualquer sistema.)
 
-**Passo 3 — Escrever `.claude/settings.local.json`:**
+**Passo 3 — Escrever `.claude/settings.json`:**
 
 ```bash
 mkdir -p .claude
 HOOK_CMD='{comando montado no passo 2}'
 ```
 
-- **Nao existe `.claude/settings.local.json`:** criar com Write tool:
+- **Nao existe `.claude/settings.json`:** criar com Write tool:
   ```json
   {
     "hooks": {
@@ -1802,7 +1802,7 @@ echo "Exit code: $?"
 
 **Passo 5 — Registrar:**
 
-- Hook valido: `✅ Hook pos-commit configurado em .claude/settings.local.json (${VERIFY_SCRIPT} ${VERIFY_FLAGS})`
+- Hook valido: `✅ Hook pos-commit configurado em .claude/settings.json (${VERIFY_SCRIPT} ${VERIFY_FLAGS})`
 - Hook com flag `--changed`: adicionar nota `(roda apenas em arquivos alterados)`
 - Hook quebrado: `⚠️ Hook pos-commit configurado mas falhou na validacao. Verificar manualmente.`
 - Script nao encontrado: omitir — nao configurar hook.
