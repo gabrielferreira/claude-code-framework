@@ -59,11 +59,26 @@ Se a tag instalada é igual à tag do source → "Framework está atualizado. Na
 
 Se diferente → prosseguir para Fase 1.
 
-### 0.4 Detectar contexto do projeto
+### 0.4 Detectar modo do framework (light/full)
+
+Ordem de prioridade:
+1. Ler `> Modo:` em `.claude/SETUP_REPORT.md` — fonte primaria
+2. Grep `<!-- framework-mode:` em `CLAUDE.md` — fallback
+3. Heuristica: contar arquivos instalados vs MANIFEST. Se < 50% dos arquivos full existem → assume light.
+
+Guardar como `FRAMEWORK_MODE` (`light` ou `full`).
+
+**Filtragem por tier:**
+- Se `FRAMEWORK_MODE=light` E arquivo tem tier=`full` E arquivo **nao existe** no projeto → **skip silencioso** (nao instalar, nao reportar como faltante)
+- Se `FRAMEWORK_MODE=light` E arquivo tem tier=`full` E arquivo **existe** no projeto → **atualizar normalmente** (usuario instalou manualmente ou fez upgrade parcial)
+- Se tier mudou de `full`→`core` entre versoes → **oferecer instalacao** ("Novo arquivo core: {path}. Instalar?")
+
+### 0.5 Detectar contexto do projeto
 
 Antes de propor qualquer mudanca, entender o que o projeto e e o que ja usa. Isso evita instalar arquivos irrelevantes.
 
 1. **Ler SETUP_REPORT.md** (se existir em `.claude/SETUP_REPORT.md`):
+   - Modo: light ou full
    - Tipo: single repo ou monorepo
    - Stack detectada (backend, frontend, fullstack, etc.)
    - Skills instaladas e motivo
@@ -694,6 +709,14 @@ Salvar em `.claude/UPDATE_REPORT.md` (append, não overwrite):
 
 ### Ignorados
 - backlog.md, STATE.md, PROJECT_CONTEXT.md (conteúdo do projeto)
+
+### Ignorados (modo light)
+{Se FRAMEWORK_MODE=light e houve arquivos full-tier ignorados:}
+- .claude/agents/seo-audit.md — disponível no modo full
+- .claude/skills/prd-creator/SKILL.md — disponível no modo full
+- ... (listar todos os tier=full ignorados)
+
+Para o conjunto completo: `/upgrade-framework`
 ```
 
 Após salvar:
