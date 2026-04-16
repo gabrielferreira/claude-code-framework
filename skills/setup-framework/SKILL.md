@@ -618,51 +618,123 @@ CODE_PATTERNS = {
 ```
 Os patterns por sub-projeto sao usados na Fase 3 para gerar skills L2 customizadas para cada um.
 
-### 1.7 Apresentar resumo ao usuario
+### 1.7 Apresentar resumo e DETECTION_SUMMARY
 
-Mostrar ao usuario um resumo estruturado do que foi detectado:
+Compilar tudo detectado nas Fases 1.1-1.6 num `DETECTION_SUMMARY` — estrutura interna (nao salva em arquivo) que alimenta defaults da Fase 2. Mostrar ao usuario:
 
 ```
-## Analise do repositorio
+📋 Deteccao automatica — {nome do repo}
 
-**Projeto:** {nome do repo}
-**Stack:** {stacks detectadas}
-**Tipo:** {monorepo | single repo} / {frontend | backend | fullstack}
-**Frameworks:** {lista}
-**Teste:** {ferramentas de teste}
-**CI/CD:** {ferramenta}
-**DB/ORM:** {se detectado}
-**Docker:** {sim/nao}
+  Stack:      {stacks detectadas}
+  Tipo:       {monorepo | single repo} / {frontend | backend | fullstack}
+  DB:         {se detectado, qual}
+  Testes:     {ferramentas de teste}
+  CI/CD:      {ferramenta}
+  Docker:     {sim/nao}
 
-**Comandos detectados:**
-- Dev: {comando}
-- Test: {comando}
-- Build: {comando}
-- Lint: {comando}
-- Migrate: {comando}
+  Comandos detectados:
+    dev:      {comando}
+    test:     {comando}
+    build:    {comando}
+    coverage: {comando}
 
-**Padroes de codigo detectados:**
-- Logging: {lib} — ex: `{formato de chamada}`
-- Erros: {lib} — ex: `{padrao de wrap}`
-- HTTP client: {lib} — ex: `{padrao de chamada}`
-- Validacao: {lib}
-- ORM/DB: {lib}
-- Config: {lib}
+  Padroes de codigo (CODE_PATTERNS):
+    Logging:    {lib} — {formato}
+    Erros:      {lib} — {padrao}
+    HTTP:       {lib}
+    Validacao:  {lib}
+    ORM/DB:     {lib}
+    Config:     {lib}
+
+  Skills condicionais:
+    {✅ dba-review (DB detectado) | ❌ dba-review (sem DB)}
+    {✅ ux-review (frontend detectado) | ❌ ux-review (sem frontend)}
+    {✅ seo-performance (frontend publico) | ❌ seo-performance (sem SSR/SSG)}
+
+  Defaults inferidos:
+    Nome:       {nome do package.json ou diretorio}
+    Modo:       {FRAMEWORK_MODE ja escolhido na Fase 0}
+    Specs:      repo (default)
+    Coverage:   80%
+    PRD:        nao
+    TDD:        sim (default do framework)
 ```
 
-Perguntar: "Esta analise esta correta? Quer corrigir ou adicionar algo antes de continuar?"
+### 1.8 Confirmacao rapida (DETECTION_SUMMARY)
+
+Usar AskUserQuestion com 2 opcoes:
+
+```json
+{
+  "questions": [{
+    "question": "A deteccao acima esta correta?",
+    "header": "Confirmar",
+    "options": [
+      {"label": "Sim, continuar (Recomendado)", "description": "Usar tudo detectado como default — pular questionario"},
+      {"label": "Ajustar", "description": "Abrir questionario para corrigir pontos especificos"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+- **Se "Sim":** `FRAMEWORK_DEFAULTS = DETECTION_SUMMARY`. **PULAR Fase 2 inteira.** Ir direto para Fase 3.
+- **Se "Ajustar":** abrir Fase 2 com defaults pre-preenchidos do DETECTION_SUMMARY.
+
+**Economia:** quando deteccao acerta (maioria dos casos), usuario confirma em 10s e pula 15-30 min de perguntas.
 
 ---
 
-## Fase 2 — Questionario inteligente
+## Fase 2 — Questionario (so executa se usuario escolheu "Ajustar" na Fase 1.8)
 
-Perguntar APENAS o que nao foi auto-detectado. Usar AskUserQuestion quando possivel.
+> **Se usuario confirmou DETECTION_SUMMARY na Fase 1.8 ("Sim"):** PULAR esta fase inteira. FRAMEWORK_DEFAULTS ja esta preenchido.
+> **Se usuario escolheu "Ajustar":** executar os blocos abaixo com defaults pre-preenchidos do DETECTION_SUMMARY.
 
-**Se `FRAMEWORK_MODE=light`:** questionario simplificado — apenas 3-4 perguntas:
+Usar AskUserQuestion com `options` (selecaveis) quando possivel. NAO usar texto livre — preferir opcoes com label/description.
 
-1. **Nome e descricao do projeto** (1 pergunta combinada): nome sugerido + "Descreva em 1-2 frases o que faz"
-2. **Coverage threshold** (default 80%): "Qual percentual minimo de cobertura? (default: 80%)"
-3. **Confirmar skills condicionais detectadas** (se aplicavel): ex: "Detectei banco de dados. Instalar skill dba-review?"
+**Se `FRAMEWORK_MODE=light`:** questionario simplificado — apenas 2 blocos:
+
+Bloco L1 — Identidade (1 AskUserQuestion):
+```json
+{
+  "questions": [
+    {
+      "question": "Nome do projeto?",
+      "header": "Nome",
+      "options": [
+        {"label": "{nome-detectado}", "description": "Detectado do package.json/diretorio"},
+        {"label": "Outro", "description": "Digitar nome diferente"}
+      ],
+      "multiSelect": false
+    },
+    {
+      "question": "Coverage threshold?",
+      "header": "Coverage",
+      "options": [
+        {"label": "80% (Recomendado)", "description": "Padrao para a maioria"},
+        {"label": "90%", "description": "Alta criticidade"},
+        {"label": "70%", "description": "Estagio inicial"}
+      ],
+      "multiSelect": false
+    }
+  ]
+}
+```
+
+Bloco L2 — Skills condicionais (1 AskUserQuestion, multiSelect, so se alguma detectada):
+```json
+{
+  "questions": [{
+    "question": "Skills condicionais detectadas. Desmarque as que nao quer:",
+    "header": "Skills",
+    "options": [
+      {"label": "dba-review", "description": "DB detectado ({qual})"},
+      {"label": "ux-review", "description": "Frontend detectado ({qual})"}
+    ],
+    "multiSelect": true
+  }]
+}
+```
 
 Pular no light:
 - Modelo de spec-driven (sempre repo, default)
@@ -676,11 +748,11 @@ Pular no light:
 
 Apos o questionario light, pular para Fase 3 diretamente.
 
-**Se `FRAMEWORK_MODE=full`:** questionario completo (comportamento atual):
+**Se `FRAMEWORK_MODE=full`:** questionario completo, mas com defaults pre-preenchidos do DETECTION_SUMMARY. Para cada pergunta: mostrar o valor detectado como opcao recomendada. Usar AskUserQuestion com `options` quando possivel.
 
 ### Bloco 1 — Identidade do projeto
 
-1. **Nome do projeto** — sugerir baseado no `package.json` name, nome do diretorio, ou `go.mod` module
+1. **Nome do projeto** — usar DETECTION_SUMMARY.nome como default. Oferecer opcao de ajustar.
 2. **Descricao curta** (1-2 frases): o que o projeto faz, que tipo de dados trata
 3. **Dominio de negocio** — opcoes sugeridas:
    - SaaS / Plataforma
