@@ -9,13 +9,13 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 4 |
-| MO9 | [MO9.md](MO9.md) | Fase 4 | Wave 1 |
 | TQ7 | [TQ7.md](TQ7.md) | Testes | Wave 2 |
 
 ## Concluídos
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
+| MO9 | [done/MO9.md](done/MO9.md) | pendente release |
 | MO4 | [done/MO4.md](done/MO4.md) | v2.45.0 — 2026-04-15 |
 | MR6 | [done/MR6.md](done/MR6.md) | v2.44.0 — 2026-04-15 |
 | MR5 | [done/MR5.md](done/MR5.md) | v2.43.0 — 2026-04-15 |

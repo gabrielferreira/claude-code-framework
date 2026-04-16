@@ -51,16 +51,16 @@ Três eixos de mudança:
 | Templates mirror (setup-framework/templates/) | Espelhar todas as mudanças | Sync obrigatório |
 
 **Critérios de aceitação:**
-- [ ] MANIFEST.md tem coluna Tier em todas as tabelas, com classificação core/full/conditional para cada arquivo
-- [ ] `/setup-framework` pergunta modo e gera ~28 arquivos no light (vs ~100 no full)
-- [ ] Setup light faz 3-4 perguntas (vs 15-20 no full)
-- [ ] SETUP_REPORT.md registra `> Modo: light`
-- [ ] `/update-framework` detecta modo light e só atualiza arquivos core/conditional
-- [ ] Update ignora arquivos full-tier que não existem, mas atualiza os que existem (instalados manualmente)
-- [ ] `/upgrade-framework` converte light→full instalando arquivos faltantes aditivamente
-- [ ] Upgrade preserva customizações existentes (nunca sobrescreve)
-- [ ] Setup full (modo=full) funciona identicamente ao comportamento atual (regressão zero)
-- [ ] `check-sync.sh` valida coerência entre templates-light/ e templates/
+- [x] MANIFEST.md tem coluna Tier em todas as tabelas, com classificação core/full/conditional para cada arquivo
+- [x] `/setup-framework` pergunta modo e gera ~31 arquivos no light (vs ~86 no full)
+- [x] Setup light faz 3-4 perguntas (vs 15-20 no full)
+- [x] SETUP_REPORT.md registra `> Modo: light`
+- [x] `/update-framework` detecta modo light e só atualiza arquivos core/conditional
+- [x] Update ignora arquivos full-tier que não existem, mas atualiza os que existem (instalados manualmente)
+- [x] `/upgrade-framework` converte light→full instalando arquivos faltantes aditivamente
+- [x] Upgrade preserva customizações existentes (nunca sobrescreve)
+- [x] Setup full (modo=full) funciona identicamente ao comportamento atual (regressão zero)
+- [x] `check-sync.sh` valida coerência entre templates-light/ e templates/
 - [ ] Sources e templates em sincronia
 
 **Restrições:**
