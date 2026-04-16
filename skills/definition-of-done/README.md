@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.44.0 framework-file: skills/definition-of-done/README.md -->
+<!-- framework-tag: v2.45.0 framework-file: skills/definition-of-done/README.md -->
 # Skill: Definition of Done — {NOME_DO_PROJETO}
 
 > Use esta skill ANTES de finalizar qualquer entrega (feature, bugfix, refactor).

@@ -1,6 +1,6 @@
 {
   "name": "claude-code-framework",
-  "version": "2.44.0",
+  "version": "2.45.0",
   "description": "Harness engineering framework para Claude Code — specs, skills, agents e orquestracao",
   "repository": "https://github.com/estrategiahq/claude-code-framework",
   "author": "Estrategia HQ",

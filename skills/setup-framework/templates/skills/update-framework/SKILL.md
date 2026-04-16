@@ -3,7 +3,7 @@ name: update-framework
 description: Atualiza o claude-code-framework em um repositório que já o utiliza
 user_invocable: true
 ---
-<!-- framework-tag: v2.44.0 framework-file: skills/update-framework/SKILL.md -->
+<!-- framework-tag: v2.45.0 framework-file: skills/update-framework/SKILL.md -->
 
 # /update-framework — Atualização do Claude Code Framework
 
