@@ -42,6 +42,7 @@
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
 | TQ6 | **Revisão ortográfica e de acentuação**: varrer todos os arquivos distribuídos (skills, agents, docs, templates) corrigindo erros ortográficos, acentuação faltante e inconsistências de idioma (pt-BR) | 🟡 | 👤 Usuário | ⬜ Bastidor | 🏠 Framework + 📦 Projeto | ✅ Aditivo | Docs | 2h | — | Sessão 2026-04-15 |
+| TQ7 | **Unificar templates-light em versão condicional**: 4 skills (spec-driven, spec-creator, backlog-update, definition-of-done) existem em versão light (templates-light/) e full (templates/) separadas. Avaliar migrar para arquivo único com lógica condicional por modo, eliminando risco de divergência silenciosa | 🟡 | 🔧 Interno | ⬜ Bastidor | 🏠 Framework | ✅ Aditivo | Refactor | 4h | MO9 | Sessão 2026-04-15 |
 
 ---
 
@@ -118,6 +119,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 | Ordem | ID | Motivo |
 |-------|-----|--------|
 | 2 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
+| 3 | **TQ7** | Unificar templates-light em condicional — elimina divergência. Deps: MO9. |
 
 ### Wave 3 — Skills/agents novos (independentes)
 
