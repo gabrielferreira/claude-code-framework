@@ -1030,6 +1030,34 @@ Se o modelo de specs escolhido no Bloco 2 foi **Notion ou externo**, NAO criar o
 
 Este filtro se aplica a TODAS as sub-fases (3.1 a 3.6). Nenhuma sub-fase deve criar arquivos excluidos pelo filtro, nem registrar pendencia por eles faltarem.
 
+**INSTRUCAO DE PERFORMANCE — GERACAO EM BATCH:**
+
+A geracao de arquivos deve ser feita em 3 passos batch, nao arquivo por arquivo:
+
+**Passo batch 1 — Copiar templates (1 comando Bash):**
+Copiar TODOS os templates de uma vez para o projeto, respeitando o filtro de tier e modo:
+```bash
+# Criar diretorios necessarios
+mkdir -p .claude/agents .claude/skills .claude/specs/done docs scripts
+
+# Copiar templates filtrados por tier
+# (substituir pelo comando real baseado no MANIFEST filtrado)
+```
+Se `FRAMEWORK_MODE=light`: copiar de `templates-light/` primeiro, fallback `templates/`.
+Se re-run: so copiar arquivos que NAO existem (nao sobrescrever).
+
+**Passo batch 2 — Substituicao global de placeholders (1 comando Bash):**
+```bash
+find .claude/ docs/ scripts/ -name "*.md" -exec sed -i '' "s/{NOME_DO_PROJETO}/${PROJECT_NAME}/g" {} +
+```
+Executar APOS copiar todos os templates. Uma unica passada substitui todos os placeholders.
+
+**Passo batch 3 — Customizacao individual:**
+CLAUDE.md e PROJECT_CONTEXT.md precisam de geracao complexa (muitas secoes condicionais). Skills com CODE_PATTERNS precisam de customizacao especifica. Esses sao gerados individualmente nas sub-fases 3.2, 3.3 e 3.6.
+
+**INSTRUCAO DE PERFORMANCE — SKILLS EM PARALELO:**
+Na sub-fase 3.6, customizar skills com CODE_PATTERNS em PARALELO (multiplas chamadas Edit na mesma mensagem). Cada skill e independente — nao esperar uma terminar para comecar a proxima.
+
 Se arquivo existe: perguntar "Ja existe {arquivo}. Quer fazer merge (preservar existente + adicionar novo), backup + recriar, ou pular?"
 
 **Auditoria de secoes obrigatorias no CLAUDE.md existente:**
