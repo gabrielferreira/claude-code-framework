@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.44.0 framework-file: prds/PRD_TEMPLATE.md -->
+<!-- framework-tag: v2.45.0 framework-file: prds/PRD_TEMPLATE.md -->
 # PRD — {ID}: {Titulo}
 
 > Status: `rascunho` | `aprovado` | `em andamento` | `concluido` | `descontinuado`
