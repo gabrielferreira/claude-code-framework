@@ -415,3 +415,17 @@ Cada sessao de trabalho roda numa worktree isolada (`.claude/worktrees/`) para n
 - **L3+ (sub-domínio):** {se aplicável — ex: `backend/src/payments/` com CLAUDE.md para regras de compliance de pagamentos}
 
 > Níveis abaixo de L2 são opcionais. Usar quando um sub-domínio tem regras suficientemente distintas (compliance, segurança, integração com terceiros) que justifiquem CLAUDE.md próprio. Na dúvida, manter em L2.
+
+### Documentação por sub-projeto
+
+Cada sub-projeto mantém seus docs relevantes. Para saber sobre um sub-projeto, consultar diretamente — não carregar contexto de tudo na raiz.
+
+| Sub-projeto | Docs | O que contém |
+|---|---|---|
+| Backend API | `backend/docs/` | Arquitetura, endpoints, auth, migrations |
+| Frontend Web | `frontend/docs/` | Componentes, rotas, estado, design system |
+| {Shared} | — | {Sem docs próprios — coberto pela raiz} |
+
+**Docs globais** (raiz `docs/`): GIT_CONVENTIONS, SKILLS_MAP, QUICK_START, WORKFLOW_DIAGRAM — aplicam-se a todos.
+
+> Regra: ao pesquisar informação sobre um sub-projeto, ir direto em `{sub-projeto}/docs/` antes de ler docs da raiz. Não carregar todos os docs de todos os sub-projetos de uma vez.

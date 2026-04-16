@@ -903,6 +903,7 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
   - Preencher `### Estrutura` com tabela de sub-projetos (path, stack, responsabilidade — dados confirmados na Fase 1.2)
   - Preencher `### Distribuicao de framework` com decisao do usuario sobre skills, agents, specs, verify.sh (dados do Bloco 4)
   - Preencher `### Convencoes de camada` com o que e L0, L2 e L3+ neste monorepo
+  - Preencher `### Documentacao por sub-projeto` com tabela mapeando cada sub-projeto aos seus docs (dados da Fase 3.8)
   - **Se single-repo:** remover a secao inteira do template (nao deixar placeholders `{Adaptar}`)
   - Exemplo de output preenchido:
 
@@ -929,6 +930,16 @@ Usar `${FRAMEWORK_PATH}/CLAUDE.md` como base. Preencher com dados coletados:
     - **L0 (raiz):** commits, seguranca global, mapa de skills, estrutura do monorepo
     - **L2 (sub-projeto):** stack, comandos, testes, coverage, regras especificas
     - **L3+ (sub-dominio):** nao aplicavel neste projeto
+
+    ### Documentacao por sub-projeto
+
+    | Sub-projeto | Docs | O que contem |
+    |---|---|---|
+    | Auth API | `services/auth/docs/` | Arquitetura, endpoints, auth, migrations |
+    | Web App | `apps/web/docs/` | Componentes, rotas, estado, design system |
+    | Shared | — | Coberto pela raiz |
+
+    **Docs globais** (raiz `docs/`): GIT_CONVENTIONS, SKILLS_MAP, QUICK_START, WORKFLOW_DIAGRAM.
     ```
 
 - Item 8 "Validacao pre-implementacao" → manter como esta no template (validar arquivos mencionados na spec antes de codificar)
@@ -1198,6 +1209,27 @@ Docs podem ser globais (raiz) ou por sub-projeto, dependendo do conteudo:
 | `SECURITY_AUDIT.md` | Raiz `docs/` ou por sub-projeto | Se cada sub-projeto tem superficie de ataque diferente, separar |
 
 Perguntar ao usuario para cada doc: "Este doc se aplica a todos os sub-projetos ou a algum especifico?"
+
+**Docs por sub-projeto — criacao e mapeamento:**
+
+Para cada sub-projeto confirmado no mapeamento (Fase 1.2):
+1. Criar `{subdir}/docs/` se nao existe
+2. Copiar docs relevantes ao sub-projeto (ARCHITECTURE.md para sub-projetos complexos, ACCESS_CONTROL.md onde tem auth, SECURITY_AUDIT.md onde tem superficie de ataque propria)
+3. **Nao duplicar docs globais** (GIT_CONVENTIONS, SKILLS_MAP, QUICK_START) — esses ficam so na raiz
+
+**Preencher `### Documentacao por sub-projeto` no CLAUDE.md L0:**
+
+Na secao `## Monorepo`, preencher a subsecao com tabela mapeando cada sub-projeto aos seus docs:
+
+| Sub-projeto | Docs | O que contem |
+|---|---|---|
+| {sub-projeto 1} | `{path}/docs/` | {resumo do que tem — ex: arquitetura, endpoints, auth} |
+| {sub-projeto 2} | `{path}/docs/` | {resumo} |
+| {sub-projeto sem docs} | — | {coberto pela raiz} |
+
+Sub-projetos simples (shared libs, utils) podem nao ter docs proprios — usar `—` na tabela.
+
+> **Regra de contexto:** esta tabela existe para que o Claude va direto ao docs do sub-projeto relevante em vez de carregar tudo. O L0 nunca deve conter o conteudo dos docs dos sub-projetos — apenas a referencia.
 
 ### 3.8.1 CLAUDE.md por sub-projeto (L2) e niveis mais profundos (L3+)
 

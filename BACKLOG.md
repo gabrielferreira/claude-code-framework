@@ -31,7 +31,6 @@
 | MO4 | **Git isolation**: branch isolada por task no task-runner, merge com confirmação humana | 🟡 | 🔧 Interno | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 4h | CE1 ✅ | Análise GSD |
 | MO8 | **NPX installer**: `npx claude-code-framework@latest` como alternativa ao `install-skills.sh` | 🟠 | 👤 Usuário | ⬜ Bastidor | 📦 Projeto | ✅ Aditivo | Feature | 6h | — | GSD + cc-sdd + OpenSpec + Spec Kit |
 | MO9 | **Framework Light Edition**: edição light (~28 arquivos) para projetos pequenos — setup rápido, specs simplificadas, upgrade path para full | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ⚠️ Migrável | Feature | 1sem | — | Discussão 2026-04-10 |
-| MR5 | **Docs por sub-projeto em monorepo**: setup gera docs relevantes em cada sub-projeto (`backend/docs/`, `frontend/docs/`), CLAUDE.md L0 mapeia "para saber sobre X, consulte `X/docs/`" — evita carregar contexto de tudo na raiz | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 3h | MR1 ✅, MR2 ✅ | Sessão 2026-04-15 |
 
 ### Operações do framework
 
@@ -50,6 +49,7 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
+| MR5 | **Docs por sub-projeto em monorepo**: subsection `### Documentação por sub-projeto` no template, setup cria docs por sub-projeto, update detecta ausência | pendente release |
 | SW1 | **Delta markers para brownfield**: marcadores `[ADDED/MODIFIED/REMOVED]` por RF, Passo 4c no spec-creator, instrução delta no spec-driven | pendente release |
 | SW9 | **SPECS_INDEX ativo + archive**: SPECS_INDEX só ativas, SPECS_INDEX_ARCHIVE para concluídas/descontinuadas, migração automática no update | pendente release |
 | MR4 | **Backlog-update com awareness monorepo (dual-mode)**: Passo 0a detecta sub-projeto, subsecções em centralizado, backlog por sub-projeto em distribuído, property Notion, submodule aviso | v2.42.0 — 2026-04-15 |
@@ -115,8 +115,7 @@ Estes alteram artefatos que outros itens consomem. Implementar antes evita retra
 
 | Ordem | ID | Motivo |
 |-------|-----|--------|
-| 2 | **MR5** | Docs por sub-projeto — evita carregar contexto de tudo na raiz. Deps: MR1 ✅, MR2 ✅. |
-| 3 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
+| 2 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
 
 ### Wave 3 — Skills/agents novos (independentes)
 
