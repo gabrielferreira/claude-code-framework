@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.45.0 framework-file: specs/TEMPLATE.md -->
+<!-- framework-tag: v2.46.0 framework-file: specs/TEMPLATE.md -->
 # {ID} — {Título}
 
 > Status: rascunho | em andamento | concluída

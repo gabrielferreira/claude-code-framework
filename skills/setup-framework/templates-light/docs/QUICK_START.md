@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.45.0 framework-file: docs/QUICK_START.md -->
+<!-- framework-tag: v2.46.0 framework-file: docs/QUICK_START.md -->
 <!-- framework-mode: light -->
 # Quick Start — {NOME_DO_PROJETO}
 

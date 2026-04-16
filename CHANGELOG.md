@@ -7,6 +7,12 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.46.0] — 2026-04-15
+
+### Adicionado
+
+- **Framework Light Edition (MO9):** modo dual light/full no setup. MANIFEST.md com coluna Tier (core/full/conditional). Setup pergunta modo, questionário simplificado (3-4 perguntas no light vs 15-20 no full), filtro por tier, templates-light/ (~10 arquivos simplificados). Update detecta modo e filtra por tier (skip silencioso para full-tier ausente). Nova skill `/upgrade-framework` converte light→full aditivamente. check-sync.sh estendido com seção D para validar templates-light/.
+
 ## [2.45.0] — 2026-04-15
 
 ### Adicionado
