@@ -88,7 +88,7 @@ Tudo do checklist universal, mais:
 - [ ] Decisões arquiteturais registradas na spec ou design doc
 - [ ] Todas as tasks do breakdown concluídas e marcadas
 - [ ] Tasks `[P]` integradas e testadas em conjunto (não só isoladamente)
-- [ ] `STATE.md` atualizado: "Em andamento" limpo, próximos passos e notas atualizados
+- [ ] `STATE.md` resetado para estado vazio: seção "Em andamento" sem item ativo, "Próximo" com o próximo item do backlog (ou vazio), "Notas" limpo de contexto do item concluído. O STATE.md deve refletir que **nenhum trabalho está em progresso** — a próxima sessão lê e sabe que pode começar item novo.
 - [ ] Status da spec transicionou seguindo os gates (não pulou etapas — ver skill spec-driven)
 - [ ] Nenhuma mudança fora do escopo da task foi incluída (scope guardrail)
 - [ ] Design doc movido junto com spec para `done/` (se aplicável)
@@ -126,9 +126,14 @@ Os checklists acima (universal + feature grande) cobrem o caso mais complexo. Pa
    - Responsavel: identidade de quem implementou. No modo Notion, usar `notion-get-users` com `user_id: "self"` para property tipo People. No modo repo, tentar `git config user.name`; se disponivel, usar como default e confirmar; senao, perguntar
    - Concluida em: data de hoje
    - No Notion: atualizar as properties "Responsavel" e "Concluida em" via `notion-update-page`
-5. **Validação final:**
-   - Todos checkboxes `[x]` e status `concluída` -> mover para `done/`
-   - Checkboxes `[ ]` restantes -> manter em `specs/` (NÃO mover)
+5. **Validação final — EXECUTAR, NAO PULAR:**
+   - **Abrir a spec agora** (Read tool) e verificar que TODOS os `- [ ]` foram marcados como `- [x]`
+   - **Atualizar status para `concluida`** (Edit tool na spec)
+   - **Mover para `done/`** (Bash: `mv .claude/specs/{id}.md .claude/specs/done/`)
+   - **Mover entrada no SPECS_INDEX** para SPECS_INDEX_ARCHIVE.md
+   - Se checkboxes `[ ]` restantes → manter em `specs/` (NAO mover), status `parcial`
+   
+   > **REGRA:** estes passos devem ser EXECUTADOS (tool calls reais), nao apenas declarados. Se a spec nao foi aberta e editada, a conclusao e invalida.
 
 ### Red flags (parar e corrigir)
 

@@ -1729,42 +1729,83 @@ Todos sao `structural` — agents podem ter conteudo customizado pelo projeto (`
 
 Configurar hook que roda `scripts/verify.sh` em background após cada `git commit`. Zero tokens quando passa; injeta apenas linhas de erro quando falha.
 
-**Detecção do script:**
+**Passo 1 — Detectar script e flags:**
 ```bash
 VERIFY_SCRIPT=""
+VERIFY_FLAGS=""
 if [ -f scripts/verify.sh ]; then VERIFY_SCRIPT="scripts/verify.sh"
 elif [ -f scripts/check.sh ]; then VERIFY_SCRIPT="scripts/check.sh"
 fi
+
+# Detectar se aceita --changed (roda só em arquivos alterados — mais rápido)
+if [ -n "$VERIFY_SCRIPT" ] && grep -q '\-\-changed' "$VERIFY_SCRIPT" 2>/dev/null; then
+  VERIFY_FLAGS="--changed"
+fi
 ```
 
-**Pré-requisito:** `jq` disponível (`command -v jq`).
+**Passo 2 — Montar comando do hook:**
 
-**Se `VERIFY_SCRIPT` encontrado E `jq` disponível:**
+Se `VERIFY_SCRIPT` encontrado:
 
-1. Definir o comando do hook:
-   ```
-   if echo "${CLAUDE_TOOL_INPUT_COMMAND:-}" | grep -q 'git commit'; then FAILS=$(bash {VERIFY_SCRIPT} 2>&1 | grep '❌' | head -20); if [ -n "$FAILS" ]; then echo "$FAILS" | jq -Rs '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":("verify.sh falhou:\n" + .)}}'; exit 2; fi; fi
-   ```
-   (substituir `{VERIFY_SCRIPT}` pelo caminho detectado)
+```
+VERIFY_CMD="bash {VERIFY_SCRIPT} {VERIFY_FLAGS}"
+```
 
-2. Fazer merge em `.claude/settings.local.json`:
-   - **Não existe:** criar o arquivo com o JSON do hook
-   - **Existe, sem `.hooks.PostToolUse`:** usar `jq` para adicionar a chave preservando o conteúdo existente:
-     ```bash
-     jq '.hooks.PostToolUse = [{"matcher":"Bash","hooks":[{"type":"command","command":"{CMD}"}]}]' \
-       .claude/settings.local.json > /tmp/settings.tmp && mv /tmp/settings.tmp .claude/settings.local.json
-     ```
-   - **Existe, já tem `PostToolUse` com matcher `Bash`:** não sobrescrever — informar: "Hook pós-commit já configurado em settings.local.json."
+O comando completo do hook (uma linha):
+```
+if echo "${CLAUDE_TOOL_INPUT_COMMAND:-}" | grep -q 'git commit'; then FAILS=$(bash {VERIFY_SCRIPT} {VERIFY_FLAGS} 2>&1 | grep '❌' | head -20); if [ -n "$FAILS" ]; then printf '{"hookSpecificOutput":{"hookEventName":"PostToolUse","additionalContext":"verify.sh falhou:\\n%s"}}' "$FAILS"; exit 2; fi; fi
+```
 
-3. Validar com `jq -e '.hooks.PostToolUse[0].hooks[0].command' .claude/settings.local.json`
+(Nao depende de `jq` — usa `printf` para gerar JSON. Funciona em qualquer sistema.)
 
-4. Registrar no SETUP_REPORT.md: `✅ Hook pós-commit configurado em .claude/settings.local.json (${VERIFY_SCRIPT})`
+**Passo 3 — Escrever `.claude/settings.local.json`:**
 
-**Se `jq` não disponível:**
-- Registrar no SETUP_REPORT.md: `⚠️ Hook pós-commit não configurado: instale jq (brew install jq) e veja docs/VERIFY_HOOK.md`
+```bash
+mkdir -p .claude
+HOOK_CMD='{comando montado no passo 2}'
+```
 
-**Se nenhum script encontrado:**
-- Omitir — não configurar o hook e não mencionar no relatório.
+- **Nao existe `.claude/settings.local.json`:** criar com Write tool:
+  ```json
+  {
+    "hooks": {
+      "PostToolUse": [
+        {
+          "matcher": "Bash",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "{HOOK_CMD}"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+
+- **Existe, sem `.hooks.PostToolUse`:** ler o JSON, adicionar a chave `hooks.PostToolUse` preservando conteudo existente. Se `jq` disponivel: usar `jq`. Se nao: usar Read + Edit para inserir o bloco manualmente no JSON.
+
+- **Existe, ja tem `PostToolUse` com matcher `Bash`:** nao sobrescrever — informar: "Hook pos-commit ja configurado."
+
+**Passo 4 — Validar que o hook funciona:**
+
+Executar o hook simulado para confirmar que nao tem erro de sintaxe:
+```bash
+# Simular git commit para testar o hook
+CLAUDE_TOOL_INPUT_COMMAND="git commit -m test" bash -c '{HOOK_CMD}' 2>&1
+echo "Exit code: $?"
+```
+
+- Se exit code 0 (verify.sh passou) ou 2 (verify.sh falhou mas hook funcionou): **hook valido** ✅
+- Se exit code 1 ou erro de sintaxe: **hook quebrado** — reportar erro e tentar corrigir (path errado? script sem permissao? flag invalida?)
+
+**Passo 5 — Registrar:**
+
+- Hook valido: `✅ Hook pos-commit configurado em .claude/settings.local.json (${VERIFY_SCRIPT} ${VERIFY_FLAGS})`
+- Hook com flag `--changed`: adicionar nota `(roda apenas em arquivos alterados)`
+- Hook quebrado: `⚠️ Hook pos-commit configurado mas falhou na validacao. Verificar manualmente.`
+- Script nao encontrado: omitir — nao configurar hook.
 
 ### 3.13 Migrations
 
