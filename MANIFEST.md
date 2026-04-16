@@ -119,9 +119,9 @@ Configuracoes do GitHub distribuidas para projetos. Projeto pode customizar cont
 
 Arquivos renomeados entre versões. O update-framework aplica automaticamente: migra customizações do path antigo para o novo via merge structural, depois remove o antigo.
 
-| Desde | Path antigo no projeto | Path novo no projeto | Motivo |
-|-------|----------------------|---------------------|--------|
-| v2.34.0 | `.claude/skills/resume/README.md` | `.claude/skills/resume/SKILL.md` | Convertido para slash command `/resume` |
+| Desde | Path antigo no projeto | Path novo no projeto | Motivo | Tier |
+|-------|----------------------|---------------------|--------|------|
+| v2.34.0 | `.claude/skills/resume/README.md` | `.claude/skills/resume/SKILL.md` | Convertido para slash command `/resume` | core |
 
 ### Scripts (manual)
 
