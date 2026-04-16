@@ -1,3 +1,4 @@
+<!-- framework-mode: light -->
 # Backlog — {NOME_DO_PROJETO}
 
 ## Pendentes

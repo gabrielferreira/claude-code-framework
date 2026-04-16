@@ -189,6 +189,30 @@ Se o projeto ja tem `CLAUDE.md`:
 
 ---
 
+## Modos do framework: light vs full
+
+O setup pergunta o modo logo no inicio. A escolha afeta quais arquivos sao instalados e quantas perguntas sao feitas.
+
+| Aspecto | Light | Full |
+|---|---|---|
+| Arquivos | ~31 | ~86 |
+| Perguntas | 3-4 | 15-20 |
+| Agents | 5 (core) | 16 (todos) |
+| Skills | 11 (core) | 27 (todas) |
+| Docs | 4 | 20 |
+| Specs | Template simplificado (6 secoes) | Template completo (13+ secoes) |
+| Backlog | 3 secoes, 5 colunas | 7 secoes, 11 colunas |
+| PRD | Nao | Opcional |
+| Monorepo | Nao | Sim |
+| Notion | Nao | Opcional |
+| Sub-agents | Nao | Opcional |
+
+**Quando usar light:** projetos pequenos, times de 1-3 devs, comecar rapido. Upgrade para full a qualquer momento via `/upgrade-framework`.
+
+**Quando usar full:** projetos grandes, times maiores, cobertura completa, monorepo, Notion, sub-agent orchestration.
+
+---
+
 ## Modelos de spec-driven
 
 ### Specs no repo (padrao)

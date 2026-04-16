@@ -85,7 +85,9 @@ Antes de qualquer coisa:
 
 5. **Selecionar modo do framework (light/full):**
 
-   Perguntar ao usuario:
+   **Se re-run (`.claude/SETUP_REPORT.md` existe):** verificar se tem `> Modo:`. Se sim, usar o modo existente como `FRAMEWORK_MODE` — **nao perguntar novamente**. Informar: "Modo detectado: {modo}. Para mudar de light para full: `/upgrade-framework`." Pular para o passo 6.
+
+   **Se primeira vez ou SETUP_REPORT sem modo:** perguntar ao usuario:
    > "O framework tem dois modos:
    >
    > **Light** (~31 arquivos) — specs simples, 5 agents essenciais, 11 skills core, setup em 5 min.
@@ -98,15 +100,17 @@ Antes de qualquer coisa:
 
    Guardar como `FRAMEWORK_MODE` (`light` ou `full`).
 
-   **Se re-run:** verificar se `SETUP_REPORT.md` ja tem `> Modo:`. Se sim, usar o modo existente (nao perguntar novamente). Se o usuario quiser mudar de light para full: recomendar `/upgrade-framework`.
-
    **Resolucao de templates por modo:**
    - Se `FRAMEWORK_MODE=light`: buscar template em `${FRAMEWORK_PATH}/../templates-light/{path}` primeiro. Se nao existe, usar `${FRAMEWORK_PATH}/{path}` (arquivo identico ao full).
    - Se `FRAMEWORK_MODE=full`: buscar apenas em `${FRAMEWORK_PATH}/{path}` (comportamento atual).
    - **Filtragem por tier:** ler `MANIFEST.md` e para cada arquivo, verificar a coluna Tier:
      - `core`: instalar em ambos os modos
      - `full`: instalar apenas se `FRAMEWORK_MODE=full`
-     - `conditional`: instalar se detectado (independente do modo)
+     - `conditional`: instalar se condicao satisfeita (independente do modo). Condicoes:
+       - `dba-review`: DB detectado (migrations/, prisma/, knex/, sqlalchemy, sequelize, schema.sql, go.mod com database driver)
+       - `ux-review`: frontend com UI detectado (React, Vue, Angular, Svelte em package.json)
+       - `seo-performance`: frontend publico detectado (pages/, app/ com SSR/SSG, sitemap.xml, next.config, nuxt.config)
+       Perguntar ao usuario: "Detectei {condicao}. Instalar skill {nome}? [Sim/Nao]"
      - `—` (sem tier): skip (conteudo do projeto)
 
 6. **Detectar cenario de monorepo com sub-projetos:**

@@ -224,6 +224,14 @@ if [ -d "$TEMPLATES_LIGHT_DIR" ]; then
 
     CHECKED_LIGHT=$((CHECKED_LIGHT + 1))
   done < <(find "$TEMPLATES_LIGHT_DIR" -name "*.md" -type f 2>/dev/null)
+
+  # Verify ALL light files have framework-mode: light marker (including those without framework-tag)
+  while IFS= read -r light_file; do
+    if ! grep -q "framework-mode: light" "$light_file" 2>/dev/null; then
+      echo "MISSING MARKER (templates-light): $light_file — no 'framework-mode: light'"
+      ERRORS=$((ERRORS + 1))
+    fi
+  done < <(find "$TEMPLATES_LIGHT_DIR" -name "*.md" -type f 2>/dev/null)
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────

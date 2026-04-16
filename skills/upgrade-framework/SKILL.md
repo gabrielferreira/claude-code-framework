@@ -85,11 +85,15 @@ Para cada arquivo tier=`full` que nao existe no projeto:
    - `manual` → mostrar diff, perguntar
    - `skip` → criar com template vazio (backlog-format, DESIGN_TEMPLATE)
 
-2. **Enriquecer CLAUDE.md:**
-   - Adicionar secoes faltantes do template full (Monorepo, Execucao por agents, Worktrees, Modelos para sub-agents) via structural merge
-   - Expandir tabela de Skills com as novas skills instaladas
-   - Expandir tabela de Agents com os novos agents instalados
+2. **Enriquecer CLAUDE.md (transformacao, nao merge simples):**
+   O CLAUDE.md light tem estrutura diferente do full (menos secoes, tabelas menores). O enriquecimento nao e merge aditivo puro — e uma **transformacao**:
+   - **Substituir** o CLAUDE.md light pelo template full como base, **preservando dados customizados** (nome do projeto, stack, comandos, regras de seguranca, mindset preenchido)
+   - Na pratica: ler dados customizados do CLAUDE.md light atual → gerar CLAUDE.md full com esses dados preenchidos + secoes novas com `{Adaptar:}` placeholders
+   - Expandir tabela de Skills: de 11 core para todas as instaladas
+   - Expandir tabela de Agents: de 5 core para todos os instalados
+   - Adicionar secoes full-only: Execucao por agents, Worktrees, Modelos para sub-agents, Context budget
    - Adicionar `## Integracao Notion (specs)` se Notion foi escolhido
+   - Adicionar `## Monorepo` se monorepo foi escolhido na Fase 2
    - Remover `<!-- framework-mode: light -->` (agora e full)
 
 3. **Enriquecer TEMPLATE.md:**
