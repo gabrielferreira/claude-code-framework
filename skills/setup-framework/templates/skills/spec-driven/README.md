@@ -269,7 +269,7 @@ Specs sem marcadores continuam funcionando — os marcadores sao aditivos.
 6. **Resetar STATE.md** — limpar "Em andamento" (nenhum item ativo), "Proximo" com proximo item do backlog (ou vazio), "Notas" limpo de contexto do item concluido. Nenhum trabalho em progresso.
 7. **Rodar verify.sh** — `bash scripts/verify.sh` (Bash). Zero ❌.
 8. **Deletar artefatos de trabalho** — remover `{id}-plan.md` e `{id}-research.md` de `.claude/specs/` (Bash). Commitar a remocao (fica no historico do PR mas nao polui o repo apos merge).
-9. **Finalizar PR** — executar `/pr` (Skill tool). Se PR draft ja existe (aberto na fase Plan): o `/pr` atualiza titulo/corpo com contexto da spec + diff e marca como ready for review. Se nao existe: cria PR novo. Nunca push direto para `main`.
+9. **Sugerir finalizar PR** — perguntar ao dev: "DoD completo. PR draft #{number} esta pronto para review. Quer executar `/pr` para atualizar o body e marcar como ready? [Sim/Nao]". Se sim: executar `/pr`. Se nao: informar que o PR draft continua aberto para o dev finalizar manualmente. Nunca push direto para `main`.
 
 > Se `SPECS_INDEX_ARCHIVE.md` nao existe no projeto, criar com o template do framework antes de mover.
 
