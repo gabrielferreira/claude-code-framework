@@ -9,6 +9,18 @@
 
 set -euo pipefail
 
+# Force a UTF-8 locale so regex metacharacters (e.g., '.') match multibyte
+# characters like 'Ã' in 'NÃO'. Under the C locale, macOS BSD grep treats
+# multibyte chars as separate bytes, causing false negatives on "Quando N.O usar".
+_available_locales=$'\n'"$(locale -a 2>/dev/null || true)"$'\n'
+for _loc in en_US.UTF-8 C.UTF-8; do
+  if [[ "$_available_locales" == *$'\n'"$_loc"$'\n'* ]]; then
+    export LC_ALL="$_loc"
+    break
+  fi
+done
+unset _loc _available_locales
+
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 cd "$REPO_ROOT"

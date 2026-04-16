@@ -15,6 +15,8 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Versão |
 |----|---------|--------|
+| OP4 | [done/OP4.md](done/OP4.md) | pendente release |
+| TQ10 | [done/TQ10.md](done/TQ10.md) | pendente release |
 | PF7 | [done/PF7.md](done/PF7.md) | v2.49.0 — 2026-04-16 |
 | PF1 | [done/PF1.md](done/PF1.md) | v2.47.0 — 2026-04-16 |
 | PF2 | [done/PF2.md](done/PF2.md) | v2.47.0 — 2026-04-16 |
@@ -34,9 +36,9 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | MR1 | [done/MR1.md](done/MR1.md) | v2.39.0 |
 | DL1 | [done/DL1.md](done/DL1.md) | v2.38.0 |
 | SA4 | [done/SA4.md](done/SA4.md) | v2.37.0 |
-| DF13 | — | v2.36.0 |
+| DF13 | [done/DF13.md](done/DF13.md) | v2.36.0 |
 | AU4 | [done/AU4.md](done/AU4.md) | v2.34.0 |
-| TQ5 | — | v2.31.0 |
+| TQ5 | [done/TQ5.md](done/TQ5.md) | v2.31.0 |
 | SW7 | [done/SW7.md](done/SW7.md) | v2.31.0 |
 | SA3 | [done/SA3.md](done/SA3.md) | v2.33.0 |
 | TQ4 | [done/TQ4.md](done/TQ4.md) | v2.30.0 |
