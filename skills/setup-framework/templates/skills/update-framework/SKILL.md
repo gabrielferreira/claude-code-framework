@@ -136,7 +136,12 @@ Sub-projetos:
 
 Alem do perfil de stack/tipo, analisar o **codigo-fonte real** para detectar padroes, libs internas e convencoes do projeto. Isso permite validar se o conteudo existente nas skills/agents/CLAUDE.md ainda faz sentido (Categoria 6 da auditoria).
 
-**Processo:** Mesmo da Fase 1.6 do `/setup-framework` — selecionar ~10-15 arquivos representativos, ler imports e inicializacao, extrair padroes por categoria:
+**Processo:** Mesmo da Fase 1.6 do `/setup-framework` — selecionar ~10-15 arquivos representativos, extrair padroes por categoria.
+
+**INSTRUCAO DE PERFORMANCE — PARALELO OBRIGATORIO:**
+Ler TODOS os arquivos selecionados em UMA UNICA MENSAGEM (multiplas chamadas Read em paralelo, NAO sequenciais). Claude Code processa tool calls em paralelo quando emitidas na mesma mensagem. Maximo: 12 arquivos simultaneos. Para cada arquivo, ler os primeiros ~50 linhas (imports + inicializacao).
+
+Categorias a extrair:
 
 - **Logging:** lib usada (ex: `elogger`, `zap`, `winston`), formato de chamada, se estruturado
 - **Error handling:** lib de erros (ex: lib interna `erros`, `pkg/errors`), padrao de wrap
@@ -869,7 +874,9 @@ Verificar presenca de cada H2 esperada:
 
 ### Categoria 6 — Relevancia de conteudo
 
-Verificar se o conteudo nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (Fase 0.4) e CODE_PATTERNS (Fase 0.6) para cruzar com o que esta instalado.
+> **Guard:** SKIP se zero skills condicionais instaladas (dba-review, ux-review, seo-performance) E CODE_PATTERNS esta vazio/null. Registrar "⚪ Categoria 6: nao aplicavel (sem skills condicionais nem CODE_PATTERNS)".
+
+Verificar se o conteudo nas skills, agents, docs e CLAUDE.md **faz sentido para o projeto real**. Usar o perfil do projeto (Fase 0.5) e CODE_PATTERNS (Fase 0.6) para cruzar com o que esta instalado.
 
 > **Regra critica: NUNCA resetar, limpar ou esvaziar um campo/secao.** Ao detectar conteudo inadequado, o fluxo e sempre:
 > 1. Mostrar o conteudo atual (o que esta errado)
@@ -1097,6 +1104,8 @@ Se "Pular": registrar como pendencias manuais no UPDATE_REPORT.md.
 
 ### Categoria 7 — Coerencia de customizacao
 
+> **Guard:** SKIP se o projeto nunca teve customizacoes (nenhum arquivo structural foi editado pelo usuario — todos identicos ao template). Registrar "⚪ Categoria 7: nao aplicavel (sem customizacoes detectadas)".
+
 Verificar que remocoes ou customizacoes feitas pelo projeto nao deixam referencias orfas:
 
 #### 7.1 Se CLAUDE.md nao tem secao "TDD obrigatorio"
@@ -1121,8 +1130,8 @@ Verificar que definition-of-done nao referencia agents que o projeto nao possui 
 
 ### Categoria 8 — Deduplicacao de artefatos entre sub-projetos
 
-> Severidade: ⚪ info (sugestao, nunca obrigatorio)
-> So executa se `## Monorepo` existe no CLAUDE.md E tem ≥ 2 sub-projetos em `### Estrutura`.
+> **Guard:** SKIP se `## Monorepo` nao existe no CLAUDE.md OU < 2 sub-projetos em `### Estrutura`. Registrar "⚪ Categoria 8: nao aplicavel (single-repo)".
+> Severidade: ⚪ info (sugestao, nunca obrigatorio).
 > Single-repo: skip completo.
 
 Auditoria periodica: escanear artefatos em todos os sub-projetos e detectar duplicatas para sugerir consolidacao.
