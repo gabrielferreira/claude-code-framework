@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Analisa tendencias, velocidade e blockers com heuristicas estruturadas — vai alem de leitura simples.
 worktree: false
 ---
-<!-- framework-tag: v2.43.0 framework-file: agents/backlog-report.md -->
+<!-- framework-tag: v2.44.0 framework-file: agents/backlog-report.md -->
 # Agent: Backlog Report
 
 > Sub-agente autônomo que analisa o backlog e gera relatório consolidado.
