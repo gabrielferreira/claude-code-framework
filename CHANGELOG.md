@@ -7,6 +7,13 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.48.0] — 2026-04-16
+
+### Adicionado
+
+- **PR draft automático com execution plan:** spec-driven fase Plan abre PR draft com o execution plan como primeiro commit. Implementação vai no mesmo PR. Artefatos de trabalho (plan, research) deletados antes de finalizar. `/pr` detecta PR draft existente via `gh pr view`, atualiza body e marca ready for review.
+- **Pós-implementação sugere /pr:** após DoD completo, o spec-driven sugere ao dev executar `/pr` para finalizar o PR draft (confirmação, não automático).
+
 ## [2.47.1] — 2026-04-16
 
 ### Corrigido

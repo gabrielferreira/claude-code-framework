@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.47.1 framework-file: light:docs/README.md -->
+<!-- framework-tag: v2.48.0 framework-file: light:docs/README.md -->
 <!-- framework-mode: light -->
 # Documentação — {NOME_DO_PROJETO}
 
