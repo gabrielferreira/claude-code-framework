@@ -9,7 +9,8 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 4 |
-| MO9 | [MO9.md](MO9.md) | Fase 4 | Wave 2 |
+| MO9 | [MO9.md](MO9.md) | Fase 4 | Wave 1 |
+| TQ7 | [TQ7.md](TQ7.md) | Testes | Wave 2 |
 
 ## Concluídos
 
