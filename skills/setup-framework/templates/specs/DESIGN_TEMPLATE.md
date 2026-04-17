@@ -27,7 +27,7 @@ Novos campos, tabelas, migrations ou mudancas em schema.
 |---|---|---|
 | {Nome} | {O que faz — 1 frase} | `path/to/file` |
 
-## Estrategia de reuso
+## Estratégia de reuso
 
 Modulos, patterns ou codigo existente que devem ser aproveitados. Reuso agressivo economiza tokens e reduz erros.
 

@@ -54,7 +54,7 @@ Para ver o que mudaria sem aplicar:
 
 O `/update-framework` trata cada arquivo conforme sua estrategia no MANIFEST:
 
-| Estrategia | O que acontece | Seus arquivos |
+| Estratégia | O que acontece | Seus arquivos |
 |---|---|---|
 | **overwrite** | Substituido direto. Sem customizacao. | Plugin, migrations |
 | **structural** | Secoes novas adicionadas, removidas se obsoletas. Conteudo customizado preservado. Content patches intra-secao surfaced via migration. | Agents, skills, docs, templates de spec |

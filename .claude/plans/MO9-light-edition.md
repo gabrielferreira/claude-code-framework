@@ -48,7 +48,7 @@ Adicionar coluna `Tier` em todas as tabelas do MANIFEST:
 
 Exemplo:
 ```
-| Path no projeto | Template source | Estrategia | Tier |
+| Path no projeto | Template source | Estratégia | Tier |
 |---|---|---|---|
 | `.claude/agents/code-review.md` | `agents/code-review.md` | structural | core |
 | `.claude/agents/seo-audit.md` | `agents/seo-audit.md` | structural | full |

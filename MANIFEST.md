@@ -111,7 +111,7 @@ Docs têm conteúdo genérico do framework + customizações do projeto.
 
 Configuracoes do GitHub distribuidas para projetos. Projeto pode customizar conteudo dentro das secoes.
 
-| Path no projeto | Template source | Estrategia | Tier |
+| Path no projeto | Template source | Estratégia | Tier |
 |---|---|---|---|
 | `.github/pull_request_template.md` | `.github/pull_request_template.md` | structural | core |
 
