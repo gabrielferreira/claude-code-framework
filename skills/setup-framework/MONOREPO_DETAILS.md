@@ -442,7 +442,7 @@ raiz/
 # CLAUDE.md — Backend (Go)
 
 ## Stack
-Go 1.22, GORM, elogger (github.com/estrategiahq/backend-libs/elogger)
+Go 1.22, GORM, elogger (github.com/your-org/backend-libs/elogger)
 
 ## Comandos
 - Test: `go test ./...`

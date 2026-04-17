@@ -124,7 +124,7 @@ Ler o conteudo das skills instaladas e verificar se os exemplos de codigo corres
 
 ```
 ⚠️ A skill "logging" tem exemplos em JavaScript, mas o projeto usa Go.
-CODE_PATTERNS detectou: elogger (github.com/estrategiahq/backend-libs/elogger)
+CODE_PATTERNS detectou: elogger (github.com/your-org/backend-libs/elogger)
 
 📄 Conteudo atual (trecho):
   | `console.error("[MODULE]", ...)` | Erro que precisa de ação | `console.error("[STRIPE]...` |
@@ -169,7 +169,7 @@ Detectei o padrao: erros.Wrap(err, "contexto") em 8 arquivos.
 
 ✏️ Sugestao — adicionar regras de consistencia ao CLAUDE.md:
   ```
-  - **Logging:** usar `elogger` (github.com/estrategiahq/backend-libs/elogger) — nunca `fmt.Println`, `log.Printf`
+  - **Logging:** usar `elogger` (github.com/your-org/backend-libs/elogger) — nunca `fmt.Println`, `log.Printf`
   - **Erros:** usar `erros.New()` / `erros.Wrap()` (ecommerce/app/src/errors) — nunca `fmt.Errorf()` ou `errors.New()` stdlib
   ```
 

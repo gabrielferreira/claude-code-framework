@@ -69,7 +69,7 @@ claude-code-framework/
 
 ```bash
 # 1. Clonar o repo
-git clone https://github.com/estrategiahq/claude-code-framework.git
+git clone https://github.com/gabrielferreira/claude-code-framework.git
 cd claude-code-framework
 
 # 2. Instalar as skills de gestão no seu Claude Code pessoal

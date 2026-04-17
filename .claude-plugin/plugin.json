@@ -2,10 +2,10 @@
   "name": "claude-code-framework",
   "version": "2.49.2",
   "description": "Harness engineering framework para Claude Code — specs, skills, agents e orquestracao",
-  "repository": "https://github.com/estrategiahq/claude-code-framework",
-  "author": "Estrategia HQ",
+  "repository": "https://github.com/gabrielferreira/claude-code-framework",
+  "author": "Gabriel Ferreira",
   "license": "MIT",
-  "homepage": "https://github.com/estrategiahq/claude-code-framework",
+  "homepage": "https://github.com/gabrielferreira/claude-code-framework",
   "keywords": [
     "specs",
     "skills",

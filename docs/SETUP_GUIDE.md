@@ -44,7 +44,7 @@ A skill fica disponivel apenas neste projeto, com todos os templates embutidos. 
 Usar o script de instalacao que copia todas as skills de uma vez:
 
 ```bash
-git clone git@github.com:estrategiahq/claude-code-framework.git /tmp/claude-code-framework
+git clone git@github.com:gabrielferreira/claude-code-framework.git /tmp/claude-code-framework
 /tmp/claude-code-framework/scripts/install-skills.sh
 ```
 

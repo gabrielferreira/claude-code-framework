@@ -154,7 +154,7 @@ Ler o conteudo das skills instaladas e verificar se os exemplos de codigo corres
 
 ```
 A skill "logging" tem exemplos em JavaScript, mas o projeto usa Go.
-CODE_PATTERNS detectou: elogger (github.com/estrategiahq/backend-libs/elogger)
+CODE_PATTERNS detectou: elogger (github.com/your-org/backend-libs/elogger)
 
 Conteudo atual (trecho):
   | `console.error("[MODULE]", ...)` | Erro que precisa de acao | `console.error("[STRIPE]...` |
@@ -198,7 +198,7 @@ Conteudo atual no CLAUDE.md "Regras de codigo":
   2. **Error handling explicito.** Erros especificos, nunca genericos.
 
 Sugestao — adicionar regras de consistencia ao CLAUDE.md:
-  - **Logging:** usar `elogger` (github.com/estrategiahq/backend-libs/elogger) — nunca `fmt.Println`, `log.Printf`
+  - **Logging:** usar `elogger` (github.com/your-org/backend-libs/elogger) — nunca `fmt.Println`, `log.Printf`
   - **Erros:** usar `erros.New()` / `erros.Wrap()` (ecommerce/app/src/errors) — nunca `fmt.Errorf()` ou `errors.New()` stdlib
 
 Sugestao — adicionar check ao skill "code-quality":

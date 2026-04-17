@@ -5,7 +5,7 @@
 # Uso:
 #   curl -fsSL <url-raw>/scripts/install-skills.sh | bash
 #   # ou
-#   git clone git@github.com:estrategiahq/claude-code-framework.git /tmp/claude-code-framework
+#   git clone git@github.com:gabrielferreira/claude-code-framework.git /tmp/claude-code-framework
 #   /tmp/claude-code-framework/scripts/install-skills.sh
 
 set -euo pipefail
@@ -18,10 +18,10 @@ fi
 
 # Detectar metodo de clone (SSH ou HTTPS)
 if ssh -T git@github.com 2>&1 | grep -q "successfully authenticated"; then
-  REPO_URL="git@github.com:estrategiahq/claude-code-framework.git"
+  REPO_URL="git@github.com:gabrielferreira/claude-code-framework.git"
 else
   echo "SSH nao configurado. Usando HTTPS."
-  REPO_URL="https://github.com/estrategiahq/claude-code-framework.git"
+  REPO_URL="https://github.com/gabrielferreira/claude-code-framework.git"
 fi
 
 # Se rodou via clone local, usar o diretório do script como source

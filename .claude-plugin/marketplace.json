@@ -1,7 +1,7 @@
 {
   "name": "claude-code-framework",
   "owner": {
-    "name": "Estrategia HQ"
+    "name": "Gabriel Ferreira"
   },
   "metadata": {
     "description": "Framework de specs, skills e verificacao para projetos com Claude Code"
@@ -11,7 +11,7 @@
       "name": "claude-code-framework",
       "source": {
         "source": "github",
-        "repo": "estrategiahq/claude-code-framework"
+        "repo": "gabrielferreira/claude-code-framework"
       },
       "description": "Framework completo: skills, agents, docs e templates para projetos com Claude Code",
       "version": "2.49.2"

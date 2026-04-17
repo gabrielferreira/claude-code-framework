@@ -532,7 +532,7 @@ O wizard pergunta qual modo usar. Para migrar de light para full depois: `/upgra
 
 **Instalação pessoal (todas as skills de uma vez):**
 ```bash
-git clone git@github.com:estrategiahq/claude-code-framework.git /tmp/claude-code-framework
+git clone git@github.com:gabrielferreira/claude-code-framework.git /tmp/claude-code-framework
 /tmp/claude-code-framework/scripts/install-skills.sh
 ```
 
