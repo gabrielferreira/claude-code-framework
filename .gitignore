@@ -1,9 +1,10 @@
 node_modules/
 coverage/
+# Env vars — padrão que cobre qualquer variante (.env.local, .env.staging, etc.)
+# Exceto .env.preview: arquivo de conveniência com valores dummy (sem segredos)
 .env
-.env.local
-.env.production
-# NÃO ignorar .env.preview — é arquivo de conveniência com valores dummy (sem segredos)
+.env.*
+!.env.preview
 deploy/.deploy.env
 *.log
 dist/
