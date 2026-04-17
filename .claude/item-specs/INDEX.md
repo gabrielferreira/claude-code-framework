@@ -8,6 +8,7 @@ Ao **concluir** um item: mover para `done/` e atualizar tabela abaixo. Ao **desc
 
 | ID | Arquivo | Fase | Wave |
 |----|---------|------|------|
+| DX01 | [DX01.md](DX01.md) | Fase 3 | Wave 3 |
 | MO8 | [MO8.md](MO8.md) | Fase 4 | Wave 3 |
 | OP3 | [OP3.md](OP3.md) | Operações | Wave 2 |
 

@@ -18,6 +18,7 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
+| DX01 | **Skill `code-documentation` (agnóstica a linguagem e idioma)**: princípios universais (por quê > o quê) + tabela de configuração por projeto (idioma, formato, áreas) + biblioteca `EXAMPLES/<lang>.md` (JSDoc, TSDoc, docstrings Google/NumPy, rustdoc, godoc, Javadoc, PHPDoc). Setup detecta stack/idioma e injeta exemplos relevantes. Cobertura multi-nível (arquivo, classe, função, variável, tipo, bloco, TODO) com políticas ajustáveis. | 🟡 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 8h | — | Revisão 2026-04-16 |
 
 ### Fase 3b — Spec Workflow Avançado (inspirado OpenSpec, cc-sdd, Spec Kit)
 
@@ -133,6 +134,7 @@ Ordem recomendada para os itens pendentes, agrupada por impacto e interdependên
 
 | ID | Nota |
 |----|------|
+| **DX01** | Skill `code-documentation` agnóstica — aditivo, roda em paralelo. Spec completa em `.claude/item-specs/DX01.md`. |
 | **MO8** | NPX installer (maior impacto em adoção) |
 
 > **Princípio:** Wave 1 primeiro porque muda artefatos que tudo consome. Waves 3-4 podem rodar em paralelo conforme demanda.
