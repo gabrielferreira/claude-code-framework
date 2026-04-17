@@ -151,6 +151,12 @@ O script NAO faz commit, tag ou push — esses passos continuam manuais (passos 
 6. **Commit** com mensagem `release: vX.Y.Z`
 7. **Tag** — `git tag vX.Y.Z`
 8. **Push** — perguntar ao usuario antes de `git push && git push --tags`
+9. **GitHub Release** — criar a release no GitHub com as notas do `CHANGELOG.md`:
+   ```bash
+   notes=$(awk -v t="X.Y.Z" 'BEGIN{f=0} /^## \[/{if(f)exit; if(index($0,"[" t "]"))f=1; next} f' CHANGELOG.md)
+   gh release create vX.Y.Z --title vX.Y.Z --latest --notes "$notes"
+   ```
+   Sem esse passo a tag existe mas nao aparece na sidebar "Releases" do GitHub nem em feeds de quem acompanha o repo.
 
 ### 4. Gerar migration
 
