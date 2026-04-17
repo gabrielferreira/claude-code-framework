@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussões gerais e dúvidas de uso
+    url: https://github.com/gabrielferreira/claude-code-framework/discussions
+    about: Para perguntas sobre como usar o framework, ideias exploratórias e discussões antes de virarem issues.
+  - name: 🔒 Reportar vulnerabilidade de segurança
+    url: https://github.com/gabrielferreira/claude-code-framework/security/advisories/new
+    about: Vulnerabilidades devem ir pelo canal privado, não via issue pública. Ver SECURITY.md.
