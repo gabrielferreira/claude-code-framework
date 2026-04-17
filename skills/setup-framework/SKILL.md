@@ -3,7 +3,7 @@ name: setup-framework
 description: Wizard interativo para implantar o claude-code-framework em um repositorio existente
 user_invocable: true
 ---
-<!-- framework-tag: v2.49.2 framework-file: skills/setup-framework/SKILL.md -->
+<!-- framework-tag: v2.49.3 framework-file: skills/setup-framework/SKILL.md -->
 
 # /setup-framework — Setup interativo do Claude Code Framework
 

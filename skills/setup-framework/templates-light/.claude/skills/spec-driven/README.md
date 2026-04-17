@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.2 framework-file: light:skills/spec-driven/README.md -->
+<!-- framework-tag: v2.49.3 framework-file: light:skills/spec-driven/README.md -->
 <!-- framework-mode: light -->
 # Skill: Spec-Driven Development — {NOME_DO_PROJETO}
 

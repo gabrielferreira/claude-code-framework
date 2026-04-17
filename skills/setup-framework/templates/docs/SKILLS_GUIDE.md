@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.2 framework-file: docs/SKILLS_GUIDE.md -->
+<!-- framework-tag: v2.49.3 framework-file: docs/SKILLS_GUIDE.md -->
 # Skills Guide — Catálogo de skills
 
 > Skills formam a camada de *expertise* do harness — checklists por dominio que o Claude Code consulta antes de agir.

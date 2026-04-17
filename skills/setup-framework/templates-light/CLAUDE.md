@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.2 framework-file: light:CLAUDE.template.md -->
+<!-- framework-tag: v2.49.3 framework-file: light:CLAUDE.template.md -->
 <!-- framework-mode: light -->
 # CLAUDE.md — {NOME_DO_PROJETO}
 

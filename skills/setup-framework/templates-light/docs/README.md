@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.2 framework-file: docs/README.md -->
+<!-- framework-tag: v2.49.3 framework-file: docs/README.md -->
 <!-- framework-mode: light -->
 # {NOME_DO_PROJETO} — Índice de Documentação
 
