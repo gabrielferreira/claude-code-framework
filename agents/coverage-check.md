@@ -4,7 +4,7 @@ model: sonnet
 model-rationale: Checklist estruturado comparando metricas de coverage contra targets definidos.
 worktree: false
 ---
-<!-- framework-tag: v2.49.2 framework-file: agents/coverage-check.md -->
+<!-- framework-tag: v2.49.3 framework-file: agents/coverage-check.md -->
 # Agent: Coverage Check
 
 > Sub-agente autônomo que identifica gaps de cobertura de testes e sugere cenários.

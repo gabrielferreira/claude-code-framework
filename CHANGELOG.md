@@ -7,6 +7,22 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.49.3] — 2026-04-17
+
+### Corrigido
+
+- **URLs do repositório** em `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `docs/SETUP_GUIDE.md`, `README.md`, `CONTRIBUTING.md` e `scripts/install-skills.sh` (source + templates sincronizados) agora apontam para `github.com/gabrielferreira/claude-code-framework`. Campos `author`/`owner.name` atualizados para "Gabriel Ferreira".
+- **Ortografia de "Estratégia"** (com acento) em headers de tabela e seções: `MANIFEST.md`, `docs/MIGRATION_GUIDE.md` (source + template), `specs/DESIGN_TEMPLATE.md` (source + template), `.claude/plans/MO9-light-edition.md`.
+- **Exemplos de detecção de lib Go** em auxiliares internos de skills (`AUDIT_DETAILS.md`, `EXAMPLES.md`, `MONOREPO_DETAILS.md`) neutralizados para `github.com/your-org/backend-libs` — placeholder genérico apropriado pra qualquer projeto downstream.
+
+### Interno (dev do framework)
+
+- Criados `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1, em português), `SECURITY.md` (canal privado de relato de vulnerabilidades via GitHub Security Advisory) e `.github/ISSUE_TEMPLATE/` (bug_report, feature_request, config.yml).
+- `scripts/release.sh` agora inclui no output final o comando `gh release create` com extração automática das notas do CHANGELOG — garante que próximas releases saiam com GitHub Release visível desde o início.
+- `CLAUDE.md` passo 9 no fluxo de release descrevendo o mesmo.
+- Branch protection aplicada na `main`: PR review obrigatório, sem force-push, sem delete, status checks strict. Secret scanning + push protection + Discussions habilitados.
+- 70 GitHub Releases retroativas criadas (antes apenas 3 das 73 tags tinham Release associado).
+
 ## [2.49.2] — 2026-04-16
 
 ### Corrigido

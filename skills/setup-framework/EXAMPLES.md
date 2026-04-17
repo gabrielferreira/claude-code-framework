@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.2 framework-file: skills/setup-framework/EXAMPLES.md -->
+<!-- framework-tag: v2.49.3 framework-file: skills/setup-framework/EXAMPLES.md -->
 # Examples — setup-framework
 
 > Exemplos longos de output referenciados pelo SKILL.md.
