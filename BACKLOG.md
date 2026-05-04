@@ -1,6 +1,6 @@
 # Backlog — claude-code-framework
 
-> Última atualização: 2026-04-10 (simplificação: SW3/OP1/DF4 descartados, SW10→DF, DF13→pendente)
+> Última atualização: 2026-05-04 (AU5 adicionado: skill /babysit-pr)
 
 ## Pendentes
 
@@ -13,6 +13,7 @@
 
 | ID | Item | Sev. | Impacto | Superfície | Destino | Compat. | Tipo | Est. | Deps | Origem |
 |----|------|------|---------|-----------|---------|---------|------|------|------|--------|
+| AU5 | **Skill `/babysit-pr`**: após abrir o PR, entra em loop de monitoramento via `gh`: detecta falhas de CI (lê logs, analisa causa, propõe fix com commit), quality gates reprovados, comentários de reviewer (responde com raciocínio ou aplica sugestão diretamente) e status de aprovação. Para quando PR for aprovado+merged ou dev interromper. Configurável por projeto via bloco `## PR Babysitting` no CLAUDE.md: quais checks observar, o que corrigir automaticamente vs escalar para o dev, política de merge automático. | 🟠 | 👤 Usuário | 🔺 Fluxo | 📦 Projeto | ✅ Aditivo | Feature | 16h | — | Sessão 2026-05-04 |
 
 ### Fase 3 — Skills & Agents novos
 
@@ -129,6 +130,12 @@ Ordem recomendada para os itens pendentes, agrupada por impacto e interdependên
 |-------|-----|--------|
 | 1 | **TQ6** | Revisão ortográfica — sem deps, qualidade geral. |
 | 2 | **OP3** | Unificar templates-light em condicional — elimina divergência. Deps: MO9 ✅. |
+
+### Wave 2 — Autonomia de fluxo
+
+| Ordem | ID | Motivo |
+|-------|-----|--------|
+| 1 | **AU5** | Skill `/babysit-pr` — muda significativamente o fluxo pós-PR do dev; independente, sem deps. |
 
 ### Wave 3 — Distribuição e escala (quando houver demanda)
 
