@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.3 framework-file: skills/update-framework/STRUCTURAL_MERGE_DETAILS.md -->
+<!-- framework-tag: v2.50.0 framework-file: skills/update-framework/STRUCTURAL_MERGE_DETAILS.md -->
 # Structural Merge Details — update-framework
 
 > Receita mecanica de merge structural + filtros pre-aplicacao + verificacao pos-aplicacao.

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.3 framework-file: skills/setup-framework/AUDIT_DETAILS.md -->
+<!-- framework-tag: v2.50.0 framework-file: skills/setup-framework/AUDIT_DETAILS.md -->
 # Audit Details — setup-framework
 
 > Conteudo condicional carregado pelo SKILL.md na Fase 5b (auditoria de completude).
