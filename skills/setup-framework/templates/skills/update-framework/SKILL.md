@@ -191,6 +191,19 @@ Para cada arquivo alterado no framework source:
 5. **Verificar se o arquivo foi removido do framework:**
    - Arquivo existe no projeto mas não no framework → sugerir remoção
 
+### 1.2b Verificações de migração de gitignore
+
+Algumas versões antigas commitavam arquivos que hoje são pessoais por dev. Detectar e reportar:
+
+```bash
+# STATE.md trackeado no git (versão antiga — hoje é pessoal, gitignored)
+git ls-files .claude/specs/STATE.md
+```
+
+Se retornar a path, marcar STATE.md como **migração de gitignore pendente**. O update **não executa** `git rm --cached` — isso afeta a working tree de outros devs e precisa de coordenação. Apenas mostra o procedimento na Fase 1.3 (categoria 🔧).
+
+Adicionalmente: verificar se `.gitignore` do projeto contém `.claude/specs/STATE.md`. Se não, marcar como entrada a ser appendada (mesmo passo de append do setup — fica preparado mesmo que o `git rm --cached` ainda não tenha sido feito).
+
 ### 1.3 Gerar relatório de mudanças
 
 Agrupar por ação necessária:
@@ -232,6 +245,19 @@ Estes arquivos não existem mais no framework:
 
 ### ⏭️ Ignorados (skip)
 - SPECS_INDEX.md, backlog.md, STATE.md, PROJECT_CONTEXT.md (conteúdo do projeto)
+
+### 🔧 Migrações de gitignore
+.claude/specs/STATE.md está trackeado no git (versão antiga do framework).
+Hoje STATE.md é pessoal por dev e deve ser gitignored para evitar conflitos de merge em multi-dev.
+
+Ações recomendadas (executar manualmente após coordenar com o time):
+
+  git rm --cached .claude/specs/STATE.md
+  # (entrada no .gitignore será appendada automaticamente pelo update)
+  git add .gitignore
+  git commit -m "chore: untrack STATE.md (agora pessoal por dev)"
+
+Cada dev fará pull, recriará seu STATE.md local (já existe no working tree) e seguirá normalmente.
 ```
 
 ---
@@ -358,6 +384,19 @@ Apos aplicar TODOS os merges structural, comparar cada arquivo resultante com se
 1. Confirmar com o usuario antes de cada remocao
 2. Se o arquivo foi customizado pelo projeto (tem conteudo alem do template), avisar
 3. Deletar o arquivo
+
+### 3.7 Migrações de gitignore
+
+Se a Fase 1.2b detectou entradas faltantes em `.gitignore`, append-las (sem sobrescrever):
+
+```bash
+# Para cada entrada faltante (ex: .claude/specs/STATE.md):
+grep -qxF ".claude/specs/STATE.md" .gitignore || echo ".claude/specs/STATE.md" >> .gitignore
+```
+
+Se STATE.md estava trackeado no git (Fase 1.2b reportou):
+- **NÃO executar `git rm --cached` automaticamente.** O arquivo segue trackeado até o usuário rodar o comando manualmente.
+- Apenas confirmar: ".gitignore atualizado com `.claude/specs/STATE.md`. Para remover do tracking, execute os comandos da seção 🔧 do relatório quando estiver coordenado com o time."
 
 ---
 

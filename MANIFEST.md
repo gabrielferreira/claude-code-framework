@@ -184,7 +184,7 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `SPECS_INDEX.md` | skip | core |
 | `SPECS_INDEX_ARCHIVE.md` | skip | core |
 | `.claude/specs/backlog.md` | skip | core |
-| `.claude/specs/STATE.md` | manual (mostrar diff da estrutura nova, nunca aplicar automaticamente — contém estado do projeto) | core |
+| `.claude/specs/STATE.md` | manual + gitignored — pessoal por dev, nunca commitado. Setup cria o arquivo e adiciona ao .gitignore. Update detecta versões antigas com STATE.md trackeado e mostra comandos de migração | core |
 | `.claude/specs/TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) | core |
 | `.claude/specs/DESIGN_TEMPLATE.md` | structural (projeto pode ter adicionado seções custom ao template) | full |
 | `.claude/specs/backlog-format.md` | structural (projeto customiza Fases, Camadas e pode adicionar colunas) | full |
