@@ -23,7 +23,7 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 2. **Skills sao pre-requisito, nao pos-requisito.** Ler a skill correspondente ANTES de comecar a codificar.
 3. **Nao assumir. Nao esconder confusao.** Se algo nao esta claro, parar e perguntar.
 4. **verify.sh antes de commit.** Sem excecoes.
-5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`. Ao encerrar → atualizar STATE.md.
+5. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`. Ao encerrar → atualizar STATE.md. **STATE.md e pessoal por dev (gitignored) — cada dev mantem o seu, nunca commitar.** O mesmo vale para `.claude/plans/`.
 
 ## Mindset por domínio
 

@@ -739,6 +739,8 @@ Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, a
 .claude/projects/
 .claude/plans/
 .claude/.update-backup/
+# Estado pessoal por dev — nunca commitar (evita conflito de merge em multi-dev)
+.claude/specs/STATE.md
 ```
 
 **Procedimento:**

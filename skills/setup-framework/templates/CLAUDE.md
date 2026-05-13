@@ -25,7 +25,7 @@ Toda saída de texto deve ser curta e direta. Verbosidade é custo, não qualida
 3. **Agents para auditoria, nao para implementacao.** Agents devolvem relatorios. Se encontraram problemas → criar item no backlog ou spec. Nunca aplicar fix direto do report sem passar pelo fluxo spec-driven.
 4. **Nao assumir. Nao esconder confusao.** Se o pedido tem multiplas interpretacoes, apresentar — nao escolher silenciosamente. Se algo nao esta claro, parar e perguntar. Se existe abordagem mais simples, dizer. Pushback e esperado quando justificado.
 5. **verify.sh antes de commit.** Sem excecoes. Se falhar, corrigir antes de commitar.
-6. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Em andamento" para saber a fase atual e o que falta. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual e proximos passos.
+6. **STATE.md e memoria entre sessoes.** Ao iniciar sessao → ler `.claude/specs/STATE.md`, especialmente "Em andamento" para saber a fase atual e o que falta. Ao encerrar (ou antes de `/clear`) → atualizar STATE.md com fase atual e proximos passos. **STATE.md e pessoal por dev (gitignored) — cada dev mantem o seu, nunca commitar.** O mesmo vale para `.claude/plans/`: planos da fase Plan (RPI) sao pessoais ao dev que esta implementando, tambem gitignored.
 
 ## Mindset por domínio
 
