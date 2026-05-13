@@ -198,6 +198,14 @@ Nunca tocados pelo update — conteúdo 100% do projeto.
 | `.claude/prds/done/*.md` | skip | — |
 | `.claude/SETUP_REPORT.md` | skip | — |
 
+### Conventions (skip apos criacao)
+
+Arquivos de convencao do projeto. O setup cria com base em wizard de presets; o update detecta ausencia e oferece criar via mesmo wizard. Apos existirem, sao 100% conteudo do projeto — nunca sobrescritos.
+
+| Path no projeto | Template source | Estratégia | Tier |
+|---|---|---|---|
+| `.claude/conventions/estimation.md` | `conventions/estimation.md` | skip (setup cria via wizard; update oferece criar se ausente) | core |
+
 ### Plugin (overwrite)
 
 Manifesto do plugin para instalação via `claude plugin`.

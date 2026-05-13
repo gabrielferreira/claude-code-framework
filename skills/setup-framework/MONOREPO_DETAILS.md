@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: skills/setup-framework/MONOREPO_DETAILS.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/setup-framework/MONOREPO_DETAILS.md -->
 # Monorepo Details — setup-framework
 
 > Conteudo condicional carregado pelo SKILL.md quando monorepo e detectado.

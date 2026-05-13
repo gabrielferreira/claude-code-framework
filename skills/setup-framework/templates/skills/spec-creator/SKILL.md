@@ -3,7 +3,7 @@ name: spec
 description: Cria uma nova spec a partir do template, atualiza SPECS_INDEX e backlog
 user_invocable: true
 ---
-<!-- framework-tag: v2.50.0 framework-file: skills/spec-creator/SKILL.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/spec-creator/SKILL.md -->
 
 # /spec — Criar nova spec
 
@@ -244,14 +244,13 @@ Quando a seção `## Integracao Notion (specs)` existe no CLAUDE.md, as specs s�
      - Pequeno → `baixa` | Médio → `media` | Grande → `alta` | Complexo → `critica`
      - Se `--from` tem prioridade, mapear: Critical→`critica`, High→`alta`, Medium→`media`, Low→`baixa`
      - Formato da pergunta: `Severidade: **{sugestão}** *(sugestão para {complexidade})* — confirma ou ajusta?`
-   - **Estimativa** — obrigatório; sugerir baseado na complexidade e aguardar confirmação (não pode ficar em branco):
-     - Pequeno → `< 4h` | Médio → `1-2 dias` | Grande → `1-2 semanas` | Complexo → `> 2 semanas`
-     - Se `--from` tem story points, converter em estimativa legível (ex: 5 SP → `~3 dias`)
-     - Formato da pergunta: `Estimativa: **{sugestão}** *(sugestão para {complexidade})* — confirma ou ajusta?`
+   - **Estimativa** — obrigatório; ler `.claude/conventions/estimation.md` do projeto e escolher um dos valores válidos baseado em tempo-de-pessoa real (ou outro critério definido pelo time). **Independente da Complexidade.** Se o arquivo não existir, alertar o usuário e bloquear até ser criado.
+     - Se `--from` tem story points, mapear ao valor mais próximo da escala do projeto.
+     - Formato da pergunta: `Estimativa: **{valor}** (escolha um da escala em .claude/conventions/estimation.md) — confirma ou ajusta?`
    - Projeto (nome do repositório atual)
    - **Sub-projeto** (se `SUB_PROJECT != null`): preencher property "Sub-projeto" com o valor de `SUB_PROJECT`. Se a property nao existe na database do Notion: avisar "A database nao tem property 'Sub-projeto'. Recomendo adicionar para filtrar specs por sub-projeto em monorepos."
    - **Campos adicionais** — para cada campo na tabela "Campos adicionais" do CLAUDE.md (se existir):
-     - `Perguntar ao usuario`: perguntar o valor ao usuário. Se o campo for select, apresentar as opções listadas na coluna "Opcoes" da tabela. Se o nome do campo indicar severidade ou estimativa/esforço, aplicar a mesma lógica de sugestão por complexidade acima. Campo obrigatório: bloquear criação até ser preenchido.
+     - `Perguntar ao usuario`: perguntar o valor ao usuário. Se o campo for select, apresentar as opções listadas na coluna "Opcoes" da tabela. Se o nome do campo indicar severidade, aplicar a mesma lógica de sugestão por complexidade acima. Se indicar estimativa/esforço, usar a escala definida em `.claude/conventions/estimation.md` (independente da Complexidade). Campo obrigatório: bloquear criação até ser preenchido.
      - `auto: url-from`: preencher automaticamente com a URL/key do `--from` (se disponível; senão omitir)
      - `auto: projeto`: preencher com o nome do repositório atual
      - `deixar vazio`: não incluir nas properties

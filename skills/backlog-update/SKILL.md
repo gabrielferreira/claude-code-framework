@@ -3,7 +3,7 @@ name: backlog-update
 description: Atualiza o backlog — adiciona, conclui ou edita itens seguindo o padrão do projeto
 user_invocable: true
 ---
-<!-- framework-tag: v2.50.0 framework-file: skills/backlog-update/SKILL.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/backlog-update/SKILL.md -->
 
 # /backlog-update — Atualizar backlog
 
@@ -117,7 +117,7 @@ Se `{BACKLOG_PATH}` nao existe, criar com estrutura padrao:
    - **Tipo:** Feature | Bug | Segurança | Regra de Negócio | Refatoração | Testes | Docs | Análise | Infra
    - **Camadas:** `FE` `BE` `DB` `IA` `DOC` `INF` (múltiplas)
    - **Complexidade:** 🟢 Baixa | 🟡 Média | 🔴 Alta
-   - **Estimativa:** 15min | 30min | 1h | 2h | 4h | 1d | 2d | 1sem
+   - **Estimativa:** valor da escala definida em `.claude/conventions/estimation.md` (escala do projeto — independente de Complexidade). Conferir lá os valores válidos antes de escrever. Se o arquivo não existir, alertar o usuário e bloquear até ser criado.
    - **Dependências:** IDs ou `—`
    - **Origem:** Sessão | Backlog | Auditoria | Incidente | Feedback | PRD | Externo (default: `Sessão`)
    - **Spec:** nome do arquivo se existir, ou `—`

@@ -3,7 +3,7 @@ name: setup-framework
 description: Wizard interativo para implantar o claude-code-framework em um repositorio existente
 user_invocable: true
 ---
-<!-- framework-tag: v2.50.0 framework-file: skills/setup-framework/SKILL.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/setup-framework/SKILL.md -->
 
 # /setup-framework — Setup interativo do Claude Code Framework
 
@@ -608,7 +608,29 @@ Se "Sem fases": backlog simplificado (similar ao light).
 }
 ```
 
-**Total modo full: 5 AskUserQuestion (F1+F2+F3+F4+F5) em vez de 20-30 perguntas texto livre.**
+### Bloco F6 — Escala de Estimativa (1 AskUserQuestion)
+
+Define a escala usada no campo `Estimativa` do backlog e specs. Gera `.claude/conventions/estimation.md` no projeto. A escala e **independente da Complexidade** — Complexidade determina cerimonia, Estimativa e tempo-de-pessoa (ou outro criterio do time).
+
+```json
+{
+  "questions": [{
+    "question": "Qual escala de Estimativa o time vai usar no backlog e nas specs?",
+    "header": "Estimativa",
+    "options": [
+      {"label": "Horas/dias (Recomendado)", "description": "15min, 30min, 1h, 2h, 4h, 1d, 2d, 1sem — granularidade temporal explicita"},
+      {"label": "Fibonacci", "description": "1, 2, 3, 5, 8, 13, 21 — story points classicos"},
+      {"label": "T-shirt", "description": "PP, P, M, G, GG — escala discreta sem unidade temporal"},
+      {"label": "Customizar", "description": "Instalar template vazio e preencher manualmente em .claude/conventions/estimation.md"}
+    ],
+    "multiSelect": false
+  }]
+}
+```
+
+Conteudo gerado em `.claude/conventions/estimation.md` (sub-fase 3.4c) depende da opcao escolhida — ver tabela na sub-fase 3.4c.
+
+**Total modo full: 6 AskUserQuestion (F1+F2+F3+F4+F5+F6) em vez de 20-30 perguntas texto livre.**
 Se DETECTION_SUMMARY foi confirmado na Fase 1.8: muitos desses ja tem default — so ajustar o que diverge.
 
 ---
@@ -835,6 +857,23 @@ Se nao existe: criar usando `${FRAMEWORK_PATH}/SPECS_INDEX_ARCHIVE.md` como base
 - Se encontrar: informar "Detectei {N} specs concluidas/descontinuadas no SPECS_INDEX.md. Quer mover para SPECS_INDEX_ARCHIVE.md?"
 - Se sim: mover entries (preservando formato e colunas) para a secao correspondente (Concluidas ou Descontinuadas)
 - Se nao: prosseguir sem mover — migracao progressiva acontecera naturalmente ao concluir novas specs
+
+### 3.4c .claude/conventions/estimation.md
+
+Gerar `.claude/conventions/estimation.md` no projeto com a escala escolhida no Bloco F6.
+
+**Se ja existe (re-run em projeto que ja tem):** pular sem sobrescrever. Conteudo e propriedade do projeto.
+
+**Se nao existe:** copiar `${FRAMEWORK_PATH}/conventions/estimation.md` como base (template vazio com tabela de exemplo) e substituir a secao `## Valores validos` pela tabela do preset escolhido:
+
+| Preset | Tabela `## Valores validos` |
+|---|---|
+| Horas/dias | `15min`, `30min`, `1h`, `2h`, `4h`, `1d`, `2d`, `1sem` — uma linha por valor com significado em tempo-de-pessoa |
+| Fibonacci | `1`, `2`, `3`, `5`, `8`, `13`, `21` — uma linha por valor; significado fica para o time definir |
+| T-shirt | `PP`, `P`, `M`, `G`, `GG` — uma linha por valor; significado fica para o time definir |
+| Customizar | Manter a tabela de exemplo do template; o usuario preenche depois |
+
+Apos gerar, informar: "Criei `.claude/conventions/estimation.md` com a escala {preset}. Skills `/backlog-update`, `/spec` e `spec-creator` leem esse arquivo. Voce pode editar a qualquer momento para mudar a escala."
 
 ### 3.5 Specs e backlog
 
