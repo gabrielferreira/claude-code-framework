@@ -359,6 +359,7 @@ Informar ao usuário: "Migrations aplicadas: {lista de copiadas}. Migrations rem
    | Skill de produto (prd-creator) | PRD ativo ou usuario aceitar | Perguntar: "Quer ativar PRDs?" |
    | Doc novo | Sempre | Instalar automaticamente (docs sao informativos) |
    | PRD artefatos (template, index) | PRD ativo | So instalar se PRD ativo ou usuario aceitar |
+   | Convencao do projeto (`.claude/conventions/*.md`) | Sempre (skills dependem) | Tratamento especial: **NAO copiar source diretamente** — rodar o wizard de presets do `setup-framework` (sub-fase 3.4c) para gerar com a escala escolhida pelo time. Se usuario pular, instalar template vazio. Apos criado: marca como `skip` no fluxo — nunca sobrescreve em updates futuros. |
 
 2. **Para cada arquivo classificado como "perguntar":**
    - Informar o que e, para que serve, e por que pode nao ser relevante
