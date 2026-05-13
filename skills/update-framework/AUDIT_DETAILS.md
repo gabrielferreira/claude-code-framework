@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.49.3 framework-file: skills/update-framework/AUDIT_DETAILS.md -->
+<!-- framework-tag: v2.50.0 framework-file: skills/update-framework/AUDIT_DETAILS.md -->
 # Audit Details — update-framework
 
 > Auditoria de completude: 8 categorias de verificacao pos-update.

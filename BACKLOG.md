@@ -56,9 +56,9 @@
 
 | ID | Item | Concluído em |
 |----|------|-------------|
-| OP5 | **STATE.md gitignored por padrão (isolamento multi-dev)**: setup adiciona `.claude/specs/STATE.md` ao `.gitignore` distribuído; update detecta versões antigas com STATE.md trackeado e mostra `git rm --cached` sem executar; regra #6 do CLAUDE.template.md explicita que STATE.md e `.claude/plans/` são pessoais por dev. | pendente release |
-| OP4 | **`scripts/release.sh`**: automatiza bump (VERSION + plugin.json + marketplace.json), sed de framework-tags excluindo `migrations/`, sincronia de templates, scaffold de migration e `check-sync.sh`. Commit/tag/push continuam manuais. | pendente release |
-| TQ10 | **Item-specs retroativas DF13 e TQ5**: recriar os 2 orphans em `.claude/item-specs/done/` com base em CHANGELOG + git log + estado atual dos artefatos; atualizar `INDEX.md` com os links. | pendente release |
+| OP5 | **STATE.md gitignored por padrão (isolamento multi-dev)**: setup adiciona `.claude/specs/STATE.md` ao `.gitignore` distribuído; update detecta versões antigas com STATE.md trackeado e mostra `git rm --cached` sem executar; regra #6 do CLAUDE.template.md explicita que STATE.md e `.claude/plans/` são pessoais por dev. | v2.50.0 — 2026-05-13 |
+| OP4 | **`scripts/release.sh`**: automatiza bump (VERSION + plugin.json + marketplace.json), sed de framework-tags excluindo `migrations/`, sincronia de templates, scaffold de migration e `check-sync.sh`. Commit/tag/push continuam manuais. | v2.50.0 — 2026-05-13 |
+| TQ10 | **Item-specs retroativas DF13 e TQ5**: recriar os 2 orphans em `.claude/item-specs/done/` com base em CHANGELOG + git log + estado atual dos artefatos; atualizar `INDEX.md` com os links. | v2.50.0 — 2026-05-13 |
 | PF7 | **Instrução compacta**: setup SKILL.md -50% (2495→1238), update -55% (1257→564), auxiliares condicionais (monorepo, Notion, auditoria, exemplos) | v2.49.0 — 2026-04-16 |
 | PF1 | **Defaults inteligentes**: DETECTION_SUMMARY + confirmação rápida, pula Fase 2 se "Sim" | v2.47.0 — 2026-04-16 |
 | PF2 | **Perguntas agrupadas**: 5 AskUserQuestion com options/multiSelect em vez de 20-30 texto livre | v2.47.0 — 2026-04-16 |

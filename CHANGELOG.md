@@ -7,6 +7,19 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.50.0] — 2026-05-13
+
+### Adicionado
+
+- **`.claude/specs/STATE.md` agora é gitignored por padrão** — adicionada entrada no bloco obrigatório do `.gitignore` distribuído pelo `/setup-framework`. STATE.md é memória pessoal de sessão (não status compartilhado do time), e commitá-lo em projetos multi-dev causava conflito de merge garantido e contaminação de contexto (o Claude do dev A podia agir sobre o "Em andamento" do dev B ao iniciar sessão).
+- **`/update-framework` detecta STATE.md trackeado em versões antigas** — nova subseção 1.2b checa `git ls-files .claude/specs/STATE.md`; quando detecta, reporta na categoria 🔧 "Migrações de gitignore" do relatório com os comandos `git rm --cached` para o usuário rodar manualmente (não executa automaticamente para evitar afetar a working tree de outros devs sem coordenação).
+- **`/update-framework` faz append no `.gitignore`** — subseção 3.7 garante que `.claude/specs/STATE.md` é appendado ao `.gitignore` do projeto mesmo quando o `git rm --cached` ainda não foi rodado (preparação segura).
+
+### Mudado
+
+- **Regra #6 do `CLAUDE.md` template** (e mirror em `templates-light/`, regra #5) explicita que STATE.md é pessoal por dev (gitignored) e estende o princípio a `.claude/plans/` (já era gitignored desde versões anteriores, mas a regra não estava documentada).
+- **MANIFEST.md** descreve a nova estratégia de STATE.md como `manual + gitignored — pessoal por dev, nunca commitado`.
+
 ## [2.49.3] — 2026-04-17
 
 ### Corrigido
