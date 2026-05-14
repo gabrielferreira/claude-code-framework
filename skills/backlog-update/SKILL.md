@@ -70,6 +70,22 @@ Verificar se o `CLAUDE.md` do projeto contém a seção `## Integracao Notion (s
 - Single-repo: zero mudanca visivel (backward compatible)
 - Nunca assumir sub-projeto — perguntar em `add`/`update`, inferir em `done`
 
+### Passo 0b — Carregar escala de Estimativa (compartilhado entre modos)
+
+**Quando aplica:** acoes `add` e `update` que toquem o campo Estimativa (em ambos os modos: repo e Notion).
+
+**Quando NAO aplica:** acao `done` (nao mexe em Estimativa).
+
+1. **Localizar o arquivo:** `.claude/conventions/estimation.md`
+   - Single-repo: `.claude/conventions/estimation.md`
+   - Monorepo: usar o da raiz (escala e do projeto, nao de sub-projeto). Se um sub-projeto tiver convencao propria em `{SUB_PROJECT}/.claude/conventions/estimation.md`, dar precedencia a ele.
+2. **Se nao existe:** alertar `"O arquivo .claude/conventions/estimation.md nao existe. Rode /update-framework para criar via wizard, ou crie manualmente."` e **abortar** a acao. Nao prosseguir sem escala definida.
+3. **Ler e parsear:** localizar a secao `## Valores validos`. Extrair valores da primeira coluna da tabela markdown que segue. Ignorar linhas de cabecalho (`| Valor |`, `|---|`) e linhas com texto entre parenteses (`(exemplo)`, `...`).
+4. **Guardar como `ESTIMATION_SCALE`** — lista de strings (ex: `["1", "2", "3", "5", "8", "13", "21"]` ou `["15min", "30min", "1h", "2h", "4h", "1d", "2d", "1sem"]`).
+5. **Se a lista ficou vazia** (so exemplos placeholder): alertar `"O arquivo de convencao ainda tem apenas valores de exemplo. Preencha a tabela em .claude/conventions/estimation.md antes de continuar."` e abortar.
+
+`ESTIMATION_SCALE` e usada nas acoes `add` e `update` para apresentar opcoes via AskUserQuestion e validar o valor escolhido.
+
 ---
 
 ### Modo Repo (backlog local)
@@ -117,7 +133,7 @@ Se `{BACKLOG_PATH}` nao existe, criar com estrutura padrao:
    - **Tipo:** Feature | Bug | Segurança | Regra de Negócio | Refatoração | Testes | Docs | Análise | Infra
    - **Camadas:** `FE` `BE` `DB` `IA` `DOC` `INF` (múltiplas)
    - **Complexidade:** 🟢 Baixa | 🟡 Média | 🔴 Alta
-   - **Estimativa:** valor da escala definida em `.claude/conventions/estimation.md` (escala do projeto — independente de Complexidade). Conferir lá os valores válidos antes de escrever. Se o arquivo não existir, alertar o usuário e bloquear até ser criado.
+   - **Estimativa:** apresentar `ESTIMATION_SCALE` (carregada no Passo 0b) como opcoes via AskUserQuestion. **Validar** que o valor escolhido pertence a `ESTIMATION_SCALE` — se nao bater (ex: usuario respondeu via texto livre), avisar `"'{valor}' nao esta na escala do projeto: {ESTIMATION_SCALE}. Escolha um valor valido."` e reperguntar. Independente de Complexidade.
    - **Dependências:** IDs ou `—`
    - **Origem:** Sessão | Backlog | Auditoria | Incidente | Feedback | PRD | Externo (default: `Sessão`)
    - **Spec:** nome do arquivo se existir, ou `—`
@@ -159,6 +175,7 @@ Se `{BACKLOG_PATH}` nao existe, criar com estrutura padrao:
 2. Encontrar o item com o ID informado (se monorepo centralizado, procurar em todas as subsecoes)
 3. Perguntar quais campos alterar
    - **Se monorepo:** incluir opcao "Mover para outro sub-projeto" — move a linha entre subsecoes
+   - **Se Estimativa entre os campos alterados:** apresentar `ESTIMATION_SCALE` (carregada no Passo 0b) como opcoes e validar o novo valor antes de aplicar. Mesma logica do `add`.
 4. Aplicar mantendo ordem por severidade
 5. Atualizar `Última atualização`
 
