@@ -210,7 +210,7 @@ Adicionalmente: verificar se `.gitignore` do projeto contém as entradas a segui
 - `.claude/specs/*-research.md` — artefatos transientes da skill `research` (descartaveis apos done)
 
 **Entradas adicionais para modo Notion/externo** (detectar via `## Integracao Notion` no CLAUDE.md ou referencia a ferramenta externa):
-- `.claude/specs/*.md` + negacao `!.claude/specs/done/` — em modo Notion/externo, `.claude/specs/` so recebe artefatos transientes; preservar `done/` caso o time queira historico local.
+- `.claude/specs/` — em modo Notion/externo, `.claude/specs/` so recebe artefatos transientes; `done/` e sempre vazio por design (`/backlog-update done` em modo Notion/externo atualiza status na ferramenta externa, sem mover arquivo local). Gitignorar a pasta inteira.
 
 Para cada entrada ausente, **adicionalmente** rodar `git ls-files` para detectar se ja existem arquivos trackeados que matcham o padrao (ex: `git ls-files '.claude/specs/*-plan.md'`). Se sim: reportar na categoria 🔧 do relatorio (`Migrações de gitignore`) com instrucoes de `git rm --cached` — mesma logica do STATE.md, nao executar automaticamente.
 

@@ -771,17 +771,15 @@ Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, a
 
 **Entradas adicionais para modo Notion/externo** (backlog vive fora do repo):
 
-Se o usuario escolheu Notion ou ferramenta externa no Bloco 2, em modo Notion/externo `.claude/specs/` so recebe arquivos transientes (setup nao instala backlog.md, TEMPLATE.md, etc. — ver Fase 3.5). Adicionar:
+Se o usuario escolheu Notion ou ferramenta externa no Bloco 2, em modo Notion/externo `.claude/specs/` so recebe arquivos transientes (setup nao instala backlog.md, TEMPLATE.md, etc. — ver Fase 3.5; e `/backlog-update done` nao move arquivo local — atualiza so o status na ferramenta externa, ver `NOTION_DETAILS.md`). `done/` e sempre vazio por design. Adicionar:
 
 ```
-# Modo Notion/externo: backlog e templates vivem na ferramenta externa.
-# .claude/specs/ recebe apenas artefatos transientes — gitignorar tudo,
-# preservando done/ caso o time queira historico local de specs concluidas.
-.claude/specs/*.md
-!.claude/specs/done/
+# Modo Notion/externo: backlog, templates e specs concluidas vivem na
+# ferramenta externa. `.claude/specs/` so recebe artefatos transientes.
+.claude/specs/
 ```
 
-> Em modo repo, o bloco extra NAO se aplica — `backlog.md`, `TEMPLATE.md`, `backlog-format.md`, `DESIGN_TEMPLATE.md`, `{id}.md` (specs do projeto) e `{id}-design.md` (design docs) sao commitaveis.
+> Em modo repo, o bloco extra NAO se aplica — `backlog.md`, `TEMPLATE.md`, `backlog-format.md`, `DESIGN_TEMPLATE.md`, `done/`, `{id}.md` (specs do projeto) e `{id}-design.md` (design docs) sao commitaveis.
 
 **Procedimento:**
 1. Se `.gitignore` nao existe → criar com as entradas acima (incluindo o bloco Notion/externo se aplicavel)
