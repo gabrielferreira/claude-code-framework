@@ -202,7 +202,17 @@ git ls-files .claude/specs/STATE.md
 
 Se retornar a path, marcar STATE.md como **migração de gitignore pendente**. O update **não executa** `git rm --cached` — isso afeta a working tree de outros devs e precisa de coordenação. Apenas mostra o procedimento na Fase 1.3 (categoria 🔧).
 
-Adicionalmente: verificar se `.gitignore` do projeto contém `.claude/specs/STATE.md`. Se não, marcar como entrada a ser appendada (mesmo passo de append do setup — fica preparado mesmo que o `git rm --cached` ainda não tenha sido feito).
+Adicionalmente: verificar se `.gitignore` do projeto contém as entradas a seguir. Para cada uma ausente, marcar como entrada a ser appendada na Fase 3.7 (mesmo passo de append do setup):
+
+**Entradas obrigatorias (todos os modos):**
+- `.claude/specs/STATE.md` — pessoal por dev (versao antiga commitava)
+- `.claude/specs/*-plan.md` — artefatos transientes da skill `execution-plan` (descartaveis apos done)
+- `.claude/specs/*-research.md` — artefatos transientes da skill `research` (descartaveis apos done)
+
+**Entradas adicionais para modo Notion/externo** (detectar via `## Integracao Notion` no CLAUDE.md ou referencia a ferramenta externa):
+- `.claude/specs/*.md` + negacao `!.claude/specs/done/` — em modo Notion/externo, `.claude/specs/` so recebe artefatos transientes; preservar `done/` caso o time queira historico local.
+
+Para cada entrada ausente, **adicionalmente** rodar `git ls-files` para detectar se ja existem arquivos trackeados que matcham o padrao (ex: `git ls-files '.claude/specs/*-plan.md'`). Se sim: reportar na categoria 🔧 do relatorio (`Migrações de gitignore`) com instrucoes de `git rm --cached` — mesma logica do STATE.md, nao executar automaticamente.
 
 ### 1.3 Gerar relatório de mudanças
 
@@ -395,9 +405,9 @@ Se a Fase 1.2b detectou entradas faltantes em `.gitignore`, append-las (sem sobr
 grep -qxF ".claude/specs/STATE.md" .gitignore || echo ".claude/specs/STATE.md" >> .gitignore
 ```
 
-Se STATE.md estava trackeado no git (Fase 1.2b reportou):
-- **NÃO executar `git rm --cached` automaticamente.** O arquivo segue trackeado até o usuário rodar o comando manualmente.
-- Apenas confirmar: ".gitignore atualizado com `.claude/specs/STATE.md`. Para remover do tracking, execute os comandos da seção 🔧 do relatório quando estiver coordenado com o time."
+Se algum arquivo estava trackeado no git (STATE.md, `*-plan.md`, `*-research.md`, ou `.claude/specs/*.md` em modo Notion):
+- **NÃO executar `git rm --cached` automaticamente.** Os arquivos seguem trackeados até o usuário rodar o comando manualmente — `git rm --cached` afeta a working tree de outros devs e precisa de coordenação.
+- Apenas confirmar: ".gitignore atualizado com {N} entradas. Para remover arquivos do tracking, execute os comandos da seção 🔧 do relatório quando estiver coordenado com o time."
 
 ---
 

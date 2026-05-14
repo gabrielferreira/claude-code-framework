@@ -753,7 +753,7 @@ mkdir -p .claude/prds/done
 
 Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, adicionar.
 
-**Entradas obrigatorias:**
+**Entradas obrigatorias (todos os modos):**
 
 ```
 # Claude Code Framework
@@ -763,10 +763,28 @@ Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, a
 .claude/.update-backup/
 # Estado pessoal por dev — nunca commitar (evita conflito de merge em multi-dev)
 .claude/specs/STATE.md
+# Artefatos transientes de sessao — research/execution-plan sao descartaveis
+# (criados em fase plan, validados em fase done, nunca persistidos no repo)
+.claude/specs/*-plan.md
+.claude/specs/*-research.md
 ```
 
+**Entradas adicionais para modo Notion/externo** (backlog vive fora do repo):
+
+Se o usuario escolheu Notion ou ferramenta externa no Bloco 2, em modo Notion/externo `.claude/specs/` so recebe arquivos transientes (setup nao instala backlog.md, TEMPLATE.md, etc. — ver Fase 3.5). Adicionar:
+
+```
+# Modo Notion/externo: backlog e templates vivem na ferramenta externa.
+# .claude/specs/ recebe apenas artefatos transientes — gitignorar tudo,
+# preservando done/ caso o time queira historico local de specs concluidas.
+.claude/specs/*.md
+!.claude/specs/done/
+```
+
+> Em modo repo, o bloco extra NAO se aplica — `backlog.md`, `TEMPLATE.md`, `backlog-format.md`, `DESIGN_TEMPLATE.md`, `{id}.md` (specs do projeto) e `{id}-design.md` (design docs) sao commitaveis.
+
 **Procedimento:**
-1. Se `.gitignore` nao existe → criar com as entradas acima
+1. Se `.gitignore` nao existe → criar com as entradas acima (incluindo o bloco Notion/externo se aplicavel)
 2. Se existe → verificar cada entrada; adicionar as faltantes ao final
 3. NUNCA sobrescrever o .gitignore existente — apenas append de entradas faltantes
 4. Informar: "Adicionei {N} entradas ao .gitignore para ignorar artefatos do framework."

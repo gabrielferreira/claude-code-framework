@@ -21,9 +21,14 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - **`skills/backlog-update/SKILL.md` e `specs/backlog-format.md`** — campo Estimativa referencia `.claude/conventions/estimation.md` em vez de listar a escala fixa.
 - **Coluna Compl. em `specs/backlog-format.md`** — descrição reescrita sem menções temporais (`1-3h`, `>3h`).
 
+### Migrações de gitignore
+
+- **`.claude/specs/*-plan.md` e `.claude/specs/*-research.md`** (todos os modos): artefatos transientes do execution-plan e research são adicionados ao `.gitignore`. Antes, o fluxo dependia de deleção manual antes do PR (`spec-driven/README.md` passo 8). Agora os arquivos nunca entram no git. `/update-framework` faz append automático e detecta arquivos já trackeados para `git rm --cached` manual coordenado.
+- **`.claude/specs/*.md` exceto `done/`** (modo Notion/externo): em projetos com backlog externo, `.claude/specs/` só recebe arquivos transientes — o setup não instala `backlog.md`, `TEMPLATE.md`, etc. (vivem na ferramenta externa). A pasta inteira é gitignored, preservando `done/` para histórico local opcional.
+
 ### Migração
 
-- Ver `migrations/v2.50.0-to-v2.51.0.md` para o passo a passo de cada content patch e a oferta de criação do arquivo.
+- Ver `migrations/v2.50.0-to-v2.51.0.md` para o passo a passo de cada content patch, a oferta de criação do `estimation.md` e as duas migrações de gitignore (todos os modos + modo Notion/externo).
 
 ## [2.50.0] — 2026-05-13
 
