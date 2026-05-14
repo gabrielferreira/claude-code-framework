@@ -209,8 +209,10 @@ Adicionalmente: verificar se `.gitignore` do projeto contém as entradas a segui
 - `.claude/specs/*-plan.md` — artefatos transientes da skill `execution-plan` (descartaveis apos done)
 - `.claude/specs/*-research.md` — artefatos transientes da skill `research` (descartaveis apos done)
 
-**Entradas adicionais para modo Notion/externo** (detectar via `## Integracao Notion` no CLAUDE.md ou referencia a ferramenta externa):
-- `.claude/specs/` — em modo Notion/externo, `.claude/specs/` so recebe artefatos transientes; `done/` e sempre vazio por design (`/backlog-update done` em modo Notion/externo atualiza status na ferramenta externa, sem mover arquivo local). Gitignorar a pasta inteira.
+**Entradas adicionais para modo Notion/externo PURO**:
+- **Detectar:** o projeto tem `## Integracao Notion` (ou referencia a ferramenta externa) no CLAUDE.md **E** `.claude/specs/backlog.md` NAO existe (sinal de que o setup nao instalou artefatos locais).
+- **Acao:** `.claude/specs/` — em modo Notion/externo puro, `.claude/specs/` so recebe artefatos transientes; `done/` e sempre vazio por design (`/backlog-update done` em modo Notion/externo atualiza status na ferramenta externa, sem mover arquivo local). Gitignorar a pasta inteira.
+- **NAO aplicar em modo hibrido:** se `.claude/specs/backlog.md` existe, o projeto tem specs locais commitaveis (caso comum: Repo + integracao Notion adicional para PRDs ou specs de produto). Bastam as entradas obrigatorias de transientes — nao gitignorar `.claude/specs/` inteira.
 
 Para cada entrada ausente, **adicionalmente** rodar `git ls-files` para detectar se ja existem arquivos trackeados que matcham o padrao (ex: `git ls-files '.claude/specs/*-plan.md'`). Se sim: reportar na categoria 🔧 do relatorio (`Migrações de gitignore`) com instrucoes de `git rm --cached` — mesma logica do STATE.md, nao executar automaticamente.
 

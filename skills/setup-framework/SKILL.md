@@ -769,17 +769,19 @@ Verificar se o `.gitignore` do projeto contem as entradas necessarias. Se nao, a
 .claude/specs/*-research.md
 ```
 
-**Entradas adicionais para modo Notion/externo** (backlog vive fora do repo):
+**Entradas adicionais para modo Notion/externo PURO** (backlog vive fora do repo E nao ha specs locais):
 
-Se o usuario escolheu Notion ou ferramenta externa no Bloco 2, em modo Notion/externo `.claude/specs/` so recebe arquivos transientes (setup nao instala backlog.md, TEMPLATE.md, etc. — ver Fase 3.5; e `/backlog-update done` nao move arquivo local — atualiza so o status na ferramenta externa, ver `NOTION_DETAILS.md`). `done/` e sempre vazio por design. Adicionar:
+**Aplica quando:** o usuario escolheu Notion ou ferramenta externa no Bloco 2 **E** o setup nao instalou nenhum artefato base local em `.claude/specs/` (sinal: `.claude/specs/backlog.md` nao existe apos a Fase 3.5). Nesses modos `.claude/specs/` so recebe arquivos transientes (`/backlog-update done` nao move arquivo local em Notion/externo — atualiza so o status na ferramenta externa, ver `NOTION_DETAILS.md`). `done/` e sempre vazio por design. Adicionar:
 
 ```
-# Modo Notion/externo: backlog, templates e specs concluidas vivem na
-# ferramenta externa. `.claude/specs/` so recebe artefatos transientes.
+# Modo Notion/externo puro: backlog, templates e specs concluidas vivem
+# na ferramenta externa. `.claude/specs/` so recebe artefatos transientes.
 .claude/specs/
 ```
 
-> Em modo repo, o bloco extra NAO se aplica — `backlog.md`, `TEMPLATE.md`, `backlog-format.md`, `DESIGN_TEMPLATE.md`, `done/`, `{id}.md` (specs do projeto) e `{id}-design.md` (design docs) sao commitaveis.
+**NAO aplica em:**
+- **Modo repo:** `backlog.md`, `TEMPLATE.md`, `backlog-format.md`, `DESIGN_TEMPLATE.md`, `done/`, `{id}.md` (specs do projeto) e `{id}-design.md` (design docs) sao commitaveis.
+- **Modo hibrido (Repo + integracao Notion adicional):** se o setup foi rodado em modo "Repo" no Bloco 2 e depois o time adicionou `## Integracao Notion (specs)` ao CLAUDE.md (caso comum: PRDs/specs de produto no Notion + specs tecnicas locais), os artefatos locais existem e precisam ficar versionados. **Heuristica:** se `.claude/specs/backlog.md` existe no projeto, NAO aplicar este bloco extra — bastam as entradas obrigatorias (transientes + STATE.md).
 
 **Procedimento:**
 1. Se `.gitignore` nao existe → criar com as entradas acima (incluindo o bloco Notion/externo se aplicavel)

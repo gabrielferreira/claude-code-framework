@@ -24,7 +24,7 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 ### Migrações de gitignore
 
 - **`.claude/specs/*-plan.md` e `.claude/specs/*-research.md`** (todos os modos): artefatos transientes do execution-plan e research são adicionados ao `.gitignore`. Antes, o fluxo dependia de deleção manual antes do PR (`spec-driven/README.md` passo 8). Agora os arquivos nunca entram no git. `/update-framework` faz append automático e detecta arquivos já trackeados para `git rm --cached` manual coordenado.
-- **`.claude/specs/` inteira** (modo Notion/externo): em projetos com backlog externo, `.claude/specs/` só recebe arquivos transientes — o setup não instala `backlog.md`, `TEMPLATE.md`, etc. (vivem na ferramenta externa) e `/backlog-update done` atualiza status na ferramenta externa sem mover arquivo local. A pasta inteira é gitignored, incluindo `done/` que fica sempre vazio por design.
+- **`.claude/specs/` inteira** (modo Notion/externo **puro**): em projetos com backlog externo e sem `.claude/specs/backlog.md` local, `.claude/specs/` só recebe arquivos transientes — o setup não instala `backlog.md`, `TEMPLATE.md`, etc. (vivem na ferramenta externa) e `/backlog-update done` atualiza status na ferramenta externa sem mover arquivo local. A pasta inteira é gitignored, incluindo `done/` que fica sempre vazio por design. **Não aplica em modo híbrido** (Repo + integração Notion adicional): se `backlog.md` existe localmente, o time tem specs commitáveis e o gitignore extra não é aplicado.
 
 ### Migração
 
