@@ -3,7 +3,7 @@ name: update-framework
 description: Atualiza o claude-code-framework em um repositório que já o utiliza
 user_invocable: true
 ---
-<!-- framework-tag: v2.50.0 framework-file: skills/update-framework/SKILL.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/update-framework/SKILL.md -->
 
 # /update-framework — Atualização do Claude Code Framework
 
@@ -202,7 +202,19 @@ git ls-files .claude/specs/STATE.md
 
 Se retornar a path, marcar STATE.md como **migração de gitignore pendente**. O update **não executa** `git rm --cached` — isso afeta a working tree de outros devs e precisa de coordenação. Apenas mostra o procedimento na Fase 1.3 (categoria 🔧).
 
-Adicionalmente: verificar se `.gitignore` do projeto contém `.claude/specs/STATE.md`. Se não, marcar como entrada a ser appendada (mesmo passo de append do setup — fica preparado mesmo que o `git rm --cached` ainda não tenha sido feito).
+Adicionalmente: verificar se `.gitignore` do projeto contém as entradas a seguir. Para cada uma ausente, marcar como entrada a ser appendada na Fase 3.7 (mesmo passo de append do setup):
+
+**Entradas obrigatorias (todos os modos):**
+- `.claude/specs/STATE.md` — pessoal por dev (versao antiga commitava)
+- `.claude/specs/*-plan.md` — artefatos transientes da skill `execution-plan` (descartaveis apos done)
+- `.claude/specs/*-research.md` — artefatos transientes da skill `research` (descartaveis apos done)
+
+**Entradas adicionais para modo Notion/externo PURO**:
+- **Detectar:** o projeto tem `## Integracao Notion` (ou referencia a ferramenta externa) no CLAUDE.md **E** `.claude/specs/backlog.md` NAO existe (sinal de que o setup nao instalou artefatos locais).
+- **Acao:** `.claude/specs/` — em modo Notion/externo puro, `.claude/specs/` so recebe artefatos transientes; `done/` e sempre vazio por design (`/backlog-update done` em modo Notion/externo atualiza status na ferramenta externa, sem mover arquivo local). Gitignorar a pasta inteira.
+- **NAO aplicar em modo hibrido:** se `.claude/specs/backlog.md` existe, o projeto tem specs locais commitaveis (caso comum: Repo + integracao Notion adicional para PRDs ou specs de produto). Bastam as entradas obrigatorias de transientes — nao gitignorar `.claude/specs/` inteira.
+
+Para cada entrada ausente, **adicionalmente** rodar `git ls-files` para detectar se ja existem arquivos trackeados que matcham o padrao (ex: `git ls-files '.claude/specs/*-plan.md'`). Se sim: reportar na categoria 🔧 do relatorio (`Migrações de gitignore`) com instrucoes de `git rm --cached` — mesma logica do STATE.md, nao executar automaticamente.
 
 ### 1.3 Gerar relatório de mudanças
 
@@ -247,17 +259,35 @@ Estes arquivos não existem mais no framework:
 - SPECS_INDEX.md, backlog.md, STATE.md, PROJECT_CONTEXT.md (conteúdo do projeto)
 
 ### 🔧 Migrações de gitignore
-.claude/specs/STATE.md está trackeado no git (versão antiga do framework).
-Hoje STATE.md é pessoal por dev e deve ser gitignored para evitar conflitos de merge em multi-dev.
+Detectadas {N} entradas trackeadas que hoje deveriam ser gitignored.
+A entrada no .gitignore será appendada automaticamente pelo update; o `git rm --cached`
+exige coordenação com o time (afeta a working tree de outros devs).
 
-Ações recomendadas (executar manualmente após coordenar com o time):
+**STATE.md** (versão antiga commitava — hoje é pessoal por dev):
 
   git rm --cached .claude/specs/STATE.md
-  # (entrada no .gitignore será appendada automaticamente pelo update)
   git add .gitignore
   git commit -m "chore: untrack STATE.md (agora pessoal por dev)"
 
-Cada dev fará pull, recriará seu STATE.md local (já existe no working tree) e seguirá normalmente.
+**Artefatos transientes de execution-plan e research** (descartáveis após done):
+
+  git ls-files '.claude/specs/*-plan.md' '.claude/specs/*-research.md'
+  git rm --cached '.claude/specs/*-plan.md' '.claude/specs/*-research.md'
+  git add .gitignore
+  git commit -m "chore: untrack transient execution-plan/research artifacts"
+
+**Modo Notion/externo PURO** (`.claude/specs/backlog.md` não existe; backlog vive na ferramenta externa):
+
+  # Listar tudo que está trackeado em .claude/specs/
+  git ls-files '.claude/specs/'
+  # Remover do tracking
+  git ls-files '.claude/specs/' | xargs git rm --cached
+  git add .gitignore
+  git commit -m "chore: untrack .claude/specs/ in Notion mode"
+
+> **Em modo híbrido** (Repo + integração Notion adicional, com `backlog.md` local): este bloco NÃO é gerado — só as duas seções acima.
+
+Cada dev fará pull, recriará os arquivos locais conforme necessário, e seguirá normalmente.
 ```
 
 ---
@@ -359,6 +389,7 @@ Informar ao usuário: "Migrations aplicadas: {lista de copiadas}. Migrations rem
    | Skill de produto (prd-creator) | PRD ativo ou usuario aceitar | Perguntar: "Quer ativar PRDs?" |
    | Doc novo | Sempre | Instalar automaticamente (docs sao informativos) |
    | PRD artefatos (template, index) | PRD ativo | So instalar se PRD ativo ou usuario aceitar |
+   | Convencao do projeto (`.claude/conventions/*.md`) | Sempre (skills dependem) | Tratamento especial: **NAO copiar source diretamente** — rodar o wizard de presets do `setup-framework` (sub-fase 3.4c) para gerar com a escala escolhida pelo time. Se usuario pular, instalar template vazio. Apos criado: marca como `skip` no fluxo — nunca sobrescreve em updates futuros. |
 
 2. **Para cada arquivo classificado como "perguntar":**
    - Informar o que e, para que serve, e por que pode nao ser relevante
@@ -389,14 +420,29 @@ Apos aplicar TODOS os merges structural, comparar cada arquivo resultante com se
 
 Se a Fase 1.2b detectou entradas faltantes em `.gitignore`, append-las (sem sobrescrever):
 
+**Entradas obrigatorias (todos os modos):**
+
 ```bash
-# Para cada entrada faltante (ex: .claude/specs/STATE.md):
-grep -qxF ".claude/specs/STATE.md" .gitignore || echo ".claude/specs/STATE.md" >> .gitignore
+for entry in \
+  ".claude/specs/STATE.md" \
+  ".claude/specs/*-plan.md" \
+  ".claude/specs/*-research.md"
+do
+  grep -qxF "$entry" .gitignore || echo "$entry" >> .gitignore
+done
 ```
 
-Se STATE.md estava trackeado no git (Fase 1.2b reportou):
-- **NÃO executar `git rm --cached` automaticamente.** O arquivo segue trackeado até o usuário rodar o comando manualmente.
-- Apenas confirmar: ".gitignore atualizado com `.claude/specs/STATE.md`. Para remover do tracking, execute os comandos da seção 🔧 do relatório quando estiver coordenado com o time."
+**Entrada adicional para modo Notion/externo PURO** (so se Fase 1.2b detectou o cenario — `## Integracao Notion` no CLAUDE.md E `.claude/specs/backlog.md` NAO existe):
+
+```bash
+grep -qxF ".claude/specs/" .gitignore || echo ".claude/specs/" >> .gitignore
+```
+
+**NAO aplicar em modo hibrido** (Repo + integracao Notion com `backlog.md` local). A heuristica da Fase 1.2b ja filtra; aqui apenas append as entradas marcadas.
+
+Se algum arquivo estava trackeado no git (STATE.md, `*-plan.md`, `*-research.md`, ou `.claude/specs/*` em modo Notion puro):
+- **NÃO executar `git rm --cached` automaticamente.** Os arquivos seguem trackeados até o usuário rodar o comando manualmente — `git rm --cached` afeta a working tree de outros devs e precisa de coordenação.
+- Apenas confirmar: ".gitignore atualizado com {N} entradas. Para remover arquivos do tracking, execute os comandos da seção 🔧 do relatório quando estiver coordenado com o time."
 
 ---
 

@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: skills/update-framework/AUDIT_DETAILS.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/update-framework/AUDIT_DETAILS.md -->
 # Audit Details — update-framework
 
 > Auditoria de completude: 8 categorias de verificacao pos-update.
@@ -30,6 +30,7 @@ Verificar que todos os arquivos obrigatorios e opcionais existem no projeto:
 | `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
 | `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `.claude/specs/STATE.md` | 🟠 alto | 🟠 alto (util para memoria entre sessoes) | 🟠 alto |
+| `.claude/conventions/estimation.md` | 🟠 alto | 🟠 alto | 🟠 alto |
 | `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
 
 **Se modo Notion e encontrou arquivos desnecessarios** (`TEMPLATE.md`, `backlog.md`, `DESIGN_TEMPLATE.md`):
@@ -58,6 +59,11 @@ Opcoes:
 **Verificacao adicional para `PROJECT_CONTEXT.md`:** se o arquivo existe, verificar se tem a secao `## Restricoes inegociaveis`. Se nao tiver:
 - Severidade: 🟡 medio
 - Acao: oferecer adicionar a secao via structural merge, com o conteudo padrao do framework (exemplos de restricoes). Se o usuario aceitar, adicionar a secao preservando todo o conteudo existente do arquivo.
+
+**Verificacao adicional para `.claude/conventions/estimation.md`:** se o arquivo nao existe (projeto vindo de v2.50.x ou anterior):
+- Severidade: 🟠 alto (skills `/backlog-update`, `/spec` e `spec-creator` precisam dele para preencher o campo Estimativa)
+- Acao: oferecer criar via mesmo wizard de presets do setup-framework (Horas/dias, Fibonacci, T-shirt, Customizar). Se o usuario escolher um preset, copiar `${FRAMEWORK_PATH}/conventions/estimation.md` como base e substituir a secao `## Valores validos` pela tabela do preset (ver tabela em `skills/setup-framework/SKILL.md` sub-fase 3.4c). Se o usuario pular, instalar o template vazio (com tabela de exemplo placeholder) e informar: "Voce pode editar `.claude/conventions/estimation.md` a qualquer momento para definir a escala do projeto."
+- Apos criado: nunca sobrescrever em updates futuros (estrategia `skip` no MANIFEST).
 
 ### Categoria 2 — Agents
 

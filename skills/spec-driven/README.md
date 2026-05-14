@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: skills/spec-driven/README.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/spec-driven/README.md -->
 # Skill: Spec-Driven Development — {NOME_DO_PROJETO}
 
 > **OBRIGATÓRIA:** Ler ANTES de implementar qualquer feature, bug fix ou refatoração.
@@ -232,11 +232,11 @@ O heurístico: "Se não está nos critérios de aceitação da minha task, não 
 | Emoji | Nível | Referência |
 |---|---|---|
 | ⚪ | Pequeno | ≤3 arquivos, sem nova abstração, sem mudança de schema, sem regra de negócio nova |
-| 🔵 | Médio | <10 tasks, escopo claro, 1-3h |
-| 🟣 | Grande | Multi-componente, >10 tasks, >3h |
+| 🔵 | Médio | <10 tasks, escopo claro |
+| 🟣 | Grande | Multi-componente, >10 tasks |
 | ⬛ | Complexo | Ambiguidade, domínio novo, >20 tasks |
 
-**Estimativa:** `15min` | `30min` | `1h` | `2h` | `4h` | `1d` | `2d` | `1sem`
+**Estimativa:** valores definidos em `.claude/conventions/estimation.md` (escala do projeto — independente de Complexidade). Se o arquivo não existir, alertar o usuário antes de estimar.
 
 ### Regras do backlog
 

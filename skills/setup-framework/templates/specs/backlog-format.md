@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: specs/backlog-format.md -->
+<!-- framework-tag: v2.51.0 framework-file: specs/backlog-format.md -->
 # Formato do Backlog
 
 > Especificação do formato das tabelas de backlog. Aplicar ao editar `.claude/specs/backlog.md`.
@@ -24,8 +24,8 @@ O arquivo tem **4 seções fixas**, nesta ordem:
 | Impacto | Quem é afetado | 👤 Usuário, 🛡️ Segurança, 💰 Negócio, 🔧 Interno |
 | Tipo | Categoria | Feature, Bug, Segurança, Regra de Negócio, Refatoração, Testes, Docs, Análise, Infra |
 | Camadas | Partes da plataforma afetadas | FE, BE, DB, IA, DOC, INF |
-| Compl. | Complexidade | ⚪ Pequeno (≤3 arq, sem nova abstração, sem mudança de schema), 🔵 Médio (1-3h), 🟣 Grande (>3h), ⬛ Complexo |
-| Est. | Estimativa de tempo | 15min, 30min, 1h, 2h, 4h, 1d, 2d, 1sem |
+| Compl. | Complexidade | ⚪ Pequeno (≤3 arq, sem nova abstração, sem mudança de schema), 🔵 Médio (<10 tasks, escopo claro), 🟣 Grande (multi-componente, >10 tasks), ⬛ Complexo (ambiguidade, domínio novo, >20 tasks) |
+| Est. | Estimativa | Valores definidos em `.claude/conventions/estimation.md` (escala do projeto — independente de Complexidade) |
 | Deps | IDs de specs/itens que devem ser concluídos antes | AUTH1, SEC3 |
 | Origem | De onde veio a demanda | {sessão, auditoria, produto, etc.} |
 | Spec | Nível de detalhe da spec | `completa` (pronta), `light` (detalhar antes), `—` (criar antes) |

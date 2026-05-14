@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: docs/SETUP_GUIDE.md -->
+<!-- framework-tag: v2.51.0 framework-file: docs/SETUP_GUIDE.md -->
 # Guia de Setup — /setup-framework
 
 > Como usar o wizard interativo para implantar o claude-code-framework em um repositorio existente.
@@ -583,7 +583,7 @@ cp -r /caminho/do/claude-code-framework/skills/update-framework ~/.claude/skills
 
 Cada arquivo do framework tem um header HTML invisivel:
 ```html
-<!-- framework-tag: v2.50.0 framework-file: skills/testing/README.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/testing/README.md -->
 ```
 
 O `/update-framework` usa esse header para saber:
@@ -834,6 +834,6 @@ Nao e obrigatorio, mas o framework funciona melhor quando as propriedades da dat
 - **Tipo:** Feature, Bug, Seguranca, Regra de Negocio, Refatoracao, Testes, Docs, Analise, Infra
 - **Camadas:** FE, BE, DB, IA, DOC, INF (multi-select)
 - **Impacto:** Usuario, Seguranca, Negocio, Interno
-- **Estimativa:** 15min, 30min, 1h, 2h, 4h, 1d, 2d, 1sem
+- **Estimativa:** valores definidos por projeto em `.claude/conventions/estimation.md` (Fibonacci, T-shirt, horas, etc.). A property `Estimativa` no Notion deve ter as mesmas opcoes (select) que a tabela do arquivo de convencao — se o time mudar a escala, atualizar as opcoes no Notion para bater.
 
 Se a database ja existir com nomes diferentes, o `/spec` e `/backlog-update` tentam mapear pelo nome mais proximo. Propriedades ausentes sao ignoradas.

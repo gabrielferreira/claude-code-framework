@@ -3,7 +3,7 @@ name: pr
 description: Preenche PR template com contexto de spec + diff e abre via gh pr create
 user_invocable: true
 ---
-<!-- framework-tag: v2.50.0 framework-file: skills/pr/SKILL.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/pr/SKILL.md -->
 
 # /pr — Pull Request com contexto de spec
 

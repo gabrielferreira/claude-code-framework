@@ -135,6 +135,7 @@ map_project_path_to_template() {
   case "$proj" in
     .claude/agents/*)     echo "$TEMPLATES_DIR/agents/${proj#.claude/agents/}" ;;
     .claude/skills/*)     echo "$TEMPLATES_DIR/skills/${proj#.claude/skills/}" ;;
+    .claude/conventions/*) echo "$TEMPLATES_DIR/.claude/conventions/${proj#.claude/conventions/}" ;;
     .claude/specs/*)      echo "$TEMPLATES_DIR/specs/${proj#.claude/specs/}" ;;
     .claude/prds/*)       echo "$TEMPLATES_DIR/prds/${proj#.claude/prds/}" ;;
     .claude/bugs/*)       echo "$TEMPLATES_DIR/bugs/${proj#.claude/bugs/}" ;;

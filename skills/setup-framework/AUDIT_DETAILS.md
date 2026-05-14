@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: skills/setup-framework/AUDIT_DETAILS.md -->
+<!-- framework-tag: v2.51.0 framework-file: skills/setup-framework/AUDIT_DETAILS.md -->
 # Audit Details — setup-framework
 
 > Conteudo condicional carregado pelo SKILL.md na Fase 5b (auditoria de completude).
@@ -27,6 +27,7 @@ A severidade depende do modelo de specs escolhido no Bloco 2:
 | `.claude/specs/backlog.md` | 🔴 critico | ⚪ **desnecessario** — backlog e a database do Notion | ⚪ desnecessario |
 | `scripts/verify.sh` | 🔴 critico | 🔴 critico | 🔴 critico |
 | `.claude/specs/STATE.md` | 🟠 alto | 🟠 alto | 🟠 alto |
+| `.claude/conventions/estimation.md` | 🟠 alto | 🟠 alto | 🟠 alto |
 | `.claude/specs/DESIGN_TEMPLATE.md` | 🟡 medio | ⚪ **desnecessario** — templates vivem no Notion | ⚪ desnecessario |
 | `PROJECT_CONTEXT.md` | 🟡 medio |
 | `scripts/reports.sh` | 🟡 medio |

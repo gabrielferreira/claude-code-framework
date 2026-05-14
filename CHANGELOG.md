@@ -7,6 +7,29 @@ Este projeto segue [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ## [Unreleased]
 
+## [2.51.0] — 2026-05-13
+
+### Adicionado
+
+- **`.claude/conventions/estimation.md` — escala de Estimativa por projeto.** Novo arquivo de convenção que define os valores válidos do campo Estimativa no backlog e nas specs. Cada projeto escolhe o formato (Fibonacci, T-shirt P/M/G, horas, story points etc.) — o framework deixa de impor uma escala única. `/setup-framework` agora inclui o Bloco F6 (wizard de 4 presets: Horas/dias, Fibonacci, T-shirt, Customizar) e a sub-fase 3.4c gera o arquivo com o preset escolhido.
+- **`/update-framework` oferece criar `estimation.md` em projetos vindos de v2.50.x.** Auditoria de completude detecta o arquivo ausente (severidade 🟠 alto) e oferece criação via mesmo wizard. Após criado, o arquivo é tratado como `skip` no MANIFEST — nunca sobrescrito em updates futuros.
+
+### Mudado
+
+- **Mapeamento direto Complexidade → Estimativa removido em `spec-creator/SKILL.md`** (modo Notion). Antes: `Pequeno → < 4h | Médio → 1-2 dias | Grande → 1-2 semanas | Complexo → > 2 semanas`. Agora: Estimativa é eixo independente, valor lido da escala definida em `.claude/conventions/estimation.md`. O mapeamento Complexidade → Severidade (`Pequeno → baixa | Médio → media | ...`) **continua intacto**.
+- **`skills/spec-driven/README.md`** — tabela de Complexidade perde os thresholds temporais (`1-3h` no Médio, `>3h` no Grande). Critério vira puramente estrutural (nº de tasks, abstração, schema).
+- **`skills/backlog-update/SKILL.md` e `specs/backlog-format.md`** — campo Estimativa referencia `.claude/conventions/estimation.md` em vez de listar a escala fixa.
+- **Coluna Compl. em `specs/backlog-format.md`** — descrição reescrita sem menções temporais (`1-3h`, `>3h`).
+
+### Migrações de gitignore
+
+- **`.claude/specs/*-plan.md` e `.claude/specs/*-research.md`** (todos os modos): artefatos transientes do execution-plan e research são adicionados ao `.gitignore`. Antes, o fluxo dependia de deleção manual antes do PR (`spec-driven/README.md` passo 8). Agora os arquivos nunca entram no git. `/update-framework` faz append automático e detecta arquivos já trackeados para `git rm --cached` manual coordenado.
+- **`.claude/specs/` inteira** (modo Notion/externo **puro**): em projetos com backlog externo e sem `.claude/specs/backlog.md` local, `.claude/specs/` só recebe arquivos transientes — o setup não instala `backlog.md`, `TEMPLATE.md`, etc. (vivem na ferramenta externa) e `/backlog-update done` atualiza status na ferramenta externa sem mover arquivo local. A pasta inteira é gitignored, incluindo `done/` que fica sempre vazio por design. **Não aplica em modo híbrido** (Repo + integração Notion adicional): se `backlog.md` existe localmente, o time tem specs commitáveis e o gitignore extra não é aplicado.
+
+### Migração
+
+- Ver `migrations/v2.50.0-to-v2.51.0.md` para o passo a passo de cada content patch, a oferta de criação do `estimation.md` e as duas migrações de gitignore (todos os modos + modo Notion/externo).
+
 ## [2.50.0] — 2026-05-13
 
 ### Adicionado

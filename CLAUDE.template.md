@@ -1,4 +1,4 @@
-<!-- framework-tag: v2.50.0 framework-file: CLAUDE.template.md -->
+<!-- framework-tag: v2.51.0 framework-file: CLAUDE.template.md -->
 # CLAUDE.md — {NOME_DO_PROJETO}
 
 ## Output — concisão obrigatória
@@ -73,6 +73,8 @@ Antes de implementar qualquer feature ou corrigir comportamento de negócio → 
 
 Specs: consultar `SPECS_INDEX.md` para localizar. Em modo repo: `.claude/specs/` (ativas) e `.claude/specs/done/` (concluídas). Em modo Notion: specs vivem na database do Notion (ver secao "Integracao Notion" se existir).
 PRDs (se habilitados): `.claude/prds/` (ativos) e `.claude/prds/done/` (concluídos).
+
+**Convenções do projeto:** `.claude/conventions/` contém arquivos que definem padrões locais. Atualmente: `estimation.md` (escala de Estimativa usada no backlog e specs — independente de Complexidade). Skills `/backlog-update`, `/spec` e `spec-creator` leem desses arquivos.
 
 ## ⛔ TDD obrigatório
 
