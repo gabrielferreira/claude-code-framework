@@ -259,17 +259,35 @@ Estes arquivos não existem mais no framework:
 - SPECS_INDEX.md, backlog.md, STATE.md, PROJECT_CONTEXT.md (conteúdo do projeto)
 
 ### 🔧 Migrações de gitignore
-.claude/specs/STATE.md está trackeado no git (versão antiga do framework).
-Hoje STATE.md é pessoal por dev e deve ser gitignored para evitar conflitos de merge em multi-dev.
+Detectadas {N} entradas trackeadas que hoje deveriam ser gitignored.
+A entrada no .gitignore será appendada automaticamente pelo update; o `git rm --cached`
+exige coordenação com o time (afeta a working tree de outros devs).
 
-Ações recomendadas (executar manualmente após coordenar com o time):
+**STATE.md** (versão antiga commitava — hoje é pessoal por dev):
 
   git rm --cached .claude/specs/STATE.md
-  # (entrada no .gitignore será appendada automaticamente pelo update)
   git add .gitignore
   git commit -m "chore: untrack STATE.md (agora pessoal por dev)"
 
-Cada dev fará pull, recriará seu STATE.md local (já existe no working tree) e seguirá normalmente.
+**Artefatos transientes de execution-plan e research** (descartáveis após done):
+
+  git ls-files '.claude/specs/*-plan.md' '.claude/specs/*-research.md'
+  git rm --cached '.claude/specs/*-plan.md' '.claude/specs/*-research.md'
+  git add .gitignore
+  git commit -m "chore: untrack transient execution-plan/research artifacts"
+
+**Modo Notion/externo PURO** (`.claude/specs/backlog.md` não existe; backlog vive na ferramenta externa):
+
+  # Listar tudo que está trackeado em .claude/specs/
+  git ls-files '.claude/specs/'
+  # Remover do tracking
+  git ls-files '.claude/specs/' | xargs git rm --cached
+  git add .gitignore
+  git commit -m "chore: untrack .claude/specs/ in Notion mode"
+
+> **Em modo híbrido** (Repo + integração Notion adicional, com `backlog.md` local): este bloco NÃO é gerado — só as duas seções acima.
+
+Cada dev fará pull, recriará os arquivos locais conforme necessário, e seguirá normalmente.
 ```
 
 ---
@@ -402,12 +420,27 @@ Apos aplicar TODOS os merges structural, comparar cada arquivo resultante com se
 
 Se a Fase 1.2b detectou entradas faltantes em `.gitignore`, append-las (sem sobrescrever):
 
+**Entradas obrigatorias (todos os modos):**
+
 ```bash
-# Para cada entrada faltante (ex: .claude/specs/STATE.md):
-grep -qxF ".claude/specs/STATE.md" .gitignore || echo ".claude/specs/STATE.md" >> .gitignore
+for entry in \
+  ".claude/specs/STATE.md" \
+  ".claude/specs/*-plan.md" \
+  ".claude/specs/*-research.md"
+do
+  grep -qxF "$entry" .gitignore || echo "$entry" >> .gitignore
+done
 ```
 
-Se algum arquivo estava trackeado no git (STATE.md, `*-plan.md`, `*-research.md`, ou `.claude/specs/*.md` em modo Notion):
+**Entrada adicional para modo Notion/externo PURO** (so se Fase 1.2b detectou o cenario — `## Integracao Notion` no CLAUDE.md E `.claude/specs/backlog.md` NAO existe):
+
+```bash
+grep -qxF ".claude/specs/" .gitignore || echo ".claude/specs/" >> .gitignore
+```
+
+**NAO aplicar em modo hibrido** (Repo + integracao Notion com `backlog.md` local). A heuristica da Fase 1.2b ja filtra; aqui apenas append as entradas marcadas.
+
+Se algum arquivo estava trackeado no git (STATE.md, `*-plan.md`, `*-research.md`, ou `.claude/specs/*` em modo Notion puro):
 - **NÃO executar `git rm --cached` automaticamente.** Os arquivos seguem trackeados até o usuário rodar o comando manualmente — `git rm --cached` afeta a working tree de outros devs e precisa de coordenação.
 - Apenas confirmar: ".gitignore atualizado com {N} entradas. Para remover arquivos do tracking, execute os comandos da seção 🔧 do relatório quando estiver coordenado com o time."
 
