@@ -67,6 +67,8 @@ O framework se integra nativamente com Notion via MCP. O setup nao configura aut
    A partir do schema retornado pelo `notion-fetch`, identificar properties que NAO estao na lista padrao do framework:
    > Lista padrao: `Titulo`, `Status`, `Complexidade`, `Tipo`, `Severidade`, `Fase`, `Camadas`, `Impacto`, `Estimativa`, `Dominio`, `Projeto`, `Spec detail`, `Autor`, `Responsavel`, `Concluida em`
 
+   > **Property `Estimativa` (Notion) vs `.claude/conventions/estimation.md` (projeto):** as opcoes (select) da property no Notion devem bater com os valores definidos no arquivo de convencao. Se o time escolher Fibonacci no wizard do `setup-framework` e a property no Notion ainda tiver `15min, 30min, 1h, ...`, `/spec` vai oferecer valores que o Notion nao aceita. Recomendacao: ao definir/mudar a escala, atualizar as opcoes da property no Notion para refletir a tabela do arquivo de convencao.
+
    Para cada propriedade extra encontrada no schema:
    - Apresentar ao usuario: nome, tipo (select, url, text, number, etc.), opcoes disponiveis se select
    - Perguntar: "Este campo deve ser preenchido ao criar specs? Como?"
